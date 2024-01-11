@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.notice;
+package com.preschool.preschoolhome.notice;
 
 import org.apache.ibatis.annotations.Mapper;
 

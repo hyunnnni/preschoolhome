@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.common;
+package com.preschool.preschoolhome.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

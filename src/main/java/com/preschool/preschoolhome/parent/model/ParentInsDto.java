@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.parent.model;
+package com.preschool.preschoolhome.parent.model;
 
 import lombok.Data;
 

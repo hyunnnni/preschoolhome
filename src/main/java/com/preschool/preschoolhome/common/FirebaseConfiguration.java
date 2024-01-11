@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.common;
+package com.preschool.preschoolhome.common;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;

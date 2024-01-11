@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.parent;
+package com.preschool.preschoolhome.parent;
 
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.album;
+package com.preschool.preschoolhome.album;
 
 import org.springframework.stereotype.Service;
 

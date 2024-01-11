@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.teacher;
+package com.preschool.preschoolhome.teacher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

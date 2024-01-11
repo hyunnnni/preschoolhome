@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.common;
+package com.preschool.preschoolhome.common;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

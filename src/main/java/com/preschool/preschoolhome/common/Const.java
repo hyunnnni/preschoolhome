@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.common;
+package com.preschool.preschoolhome.common;
 
 public class Const {
     public static final int NOTICE_COUNT_PER_PAGE = 10;

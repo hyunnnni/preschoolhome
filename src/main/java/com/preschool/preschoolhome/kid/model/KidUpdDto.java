@@ -3,7 +3,8 @@ package com.preschool.preschoolhome.kid.model;
 import lombok.Data;
 
 @Data
-public class KidInsDto {
+public class KidUpdDto {
+    private int ikid;
     private String kidNm;
     private int gender;
     private String profile;

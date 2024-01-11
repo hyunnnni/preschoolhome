@@ -1,4 +1,4 @@
-package com.crayon.crayonshinjjang.album;
+package com.preschool.preschoolhome.album;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
