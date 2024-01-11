@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/parent")
 public class PreschoolController {
-    private PreschoolService service;
+    private final PreschoolService service;
 
 }

@@ -1,8 +1,10 @@
 package com.preschool.preschoolhome.preschool;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class PreschoolService {
-    private PreschoolMapper mapper;
+    private final PreschoolMapper mapper;
 }

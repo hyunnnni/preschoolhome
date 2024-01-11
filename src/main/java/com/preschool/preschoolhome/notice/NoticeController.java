@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/parent")
 public class NoticeController {
-    private NoticeService service;
+    private final NoticeService service;
 
 }

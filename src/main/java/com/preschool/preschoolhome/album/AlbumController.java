@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/kid")
 public class AlbumController {
-    private AlbumService service;
+    private final AlbumService service;
 
 }
