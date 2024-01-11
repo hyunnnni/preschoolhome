@@ -3,7 +3,7 @@ package com.preschool.preschoolhome.kid.model;
 import lombok.Data;
 
 @Data
-public class KidDetailInsDto {
+public class KidDetailUpdDto {
     private int ikid;
     private int irank;
     private int height;
