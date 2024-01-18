@@ -1,7 +1,7 @@
 package com.preschool.preschoolhome.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.greengram.greengram4.common.AppProperties;
+import com.preschool.preschoolhome.common.AppProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
