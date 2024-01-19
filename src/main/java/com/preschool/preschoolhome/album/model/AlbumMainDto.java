@@ -20,7 +20,7 @@ public class AlbumMainDto {
 
 
     public void setPage(int page) {
-        this.startIdx = (page - 1) * rowCount;
         this.rowCount = MAIN_ROW_COUNT;
+        this.startIdx = (page - 1) * rowCount;
     }
 }
