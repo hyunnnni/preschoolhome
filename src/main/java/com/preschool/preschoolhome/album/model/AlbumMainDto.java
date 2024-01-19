@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import static com.preschool.preschooldemo.common.Const.MAIN_ROW_COUNT;
+import static com.preschool.preschoolhome.common.utils.Const.MAIN_ROW_COUNT;
+import static com.preschool.preschoolhome.common.utils.Const.MAIN_ROW_COUNT;
 
 @Data
 public class AlbumMainDto {
