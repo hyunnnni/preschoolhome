@@ -91,7 +91,7 @@
     </select>
     <!--                 알림장 전체 조회 시 해당 알림장의 사진 유/무 체크                  -->
     <select id="selNoticeBoardPicCheck">
-        SELECT inotice_pic
+        SELECT COUNT(inotice_pic)
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
