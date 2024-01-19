@@ -27,8 +27,7 @@ public class SelAllNoticeDto {
     @Schema(title = "해당 원아의 알림장 업로드 년도/ 전체 조회 시 = null")
     private String year;
 
-    @Schema(title = "이 페이지에 접근한 유저(선생님 OR 학부모)의 PK")
-    @Min(value = 1, message = "로그인한 유저를 알 수 없습니다")
+    @Schema(title = "이 페이지에 접근한 유저 학부모의 PK")
     private int loginedIuser;
 
     @JsonIgnore
