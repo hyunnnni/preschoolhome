@@ -2,6 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.notice.NoticeMapper">
+    <insert id="insNotice" useGeneratedKeys="true" keyProperty="inotice">
+        INSERT INTO t_notice_board
+        SET iteacher = #{iteacher}
+        , ikid = #{ikid}
+        , notice_title = #{noticeTitle}
+        , notice_contents = #{noticeContents}
+    </insert>
 
+    <insert id="insNiticePics">
+        INSERT INTO t_notice_pics
+        (inotice, notice_pic)
+        VALUES
+        <foreach collection="pics" item="pic" open="(" separator="),(" close=")">
+            #{inotice}, #{pic}
+        </foreach>
+    </insert>
+
+    <select id="noticeEdit">
+        SELECT inotice, notice_title AS noticeTitle, notice_contents AS noticeContents
+        FROM t_notice_board
+        WHERE inotice = #{inotice}
+        AND ikid = #{ikid}
+    </select>
+
+    <select id="noticeEditPics">
+        SELECT notice_pic
+        FROM t_notice_pics
+        WHERE inotice = #{inotice}
+    </select>
+
+    <delete id="delAllNotice">
+        DELETE b, c
+        FROM t_notice_board a
+        left JOIN t_notice_pics b
+        ON a.inotice = b.inotice
+        right JOIN t_notice_comment c
+        ON a.inotice = c.inotice
+        WHERE a.iteacher = #{iteacher}
+        AND a.inotice = #{inotice}
+    </delete>
+    <delete id="delNotice">
+        DELETE
+        FROM t_notice_board
+        WHERE iteacher = #{iteacher}
+        AND inotice = #{inotice}
+    </delete>
 
 </mapper>

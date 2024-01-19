@@ -2,6 +2,166 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.kid.KidMapper">
+    <select id="kidProfile">
+        SELECT kid_nm as kidNm, iclass, gender, profile, birth
+        , address, memo, emer_nm as emerNm, emer_nb as emerNb
+        FROM t_kid
+        WHERE ikid = #{ikid}
+    </select>
 
+    <select id="kidParent">
+        SELECT a.iparent, a.uid, a.parent_nm as parentNm
+        , a.phone_nb as phoneNb, a.irelation
+        FROM t_parent a
+        JOIN t_parent_kid b
+        ON a.iparent = b.iparent
+        WHERE b.ikid = #{ikid}
+    </select>
 
+    <select id="kidGrowth">
+        SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
+        , b.growth_date as growthDate, b.growth_memo as growthMemo
+        FROM t_body a
+        LEFT JOIN t_growth b
+        ON a.body_quarterly = b.growth_quarterly
+        WHERE a.ikid = #{ikid}
+        and year(body_date) = #{year}
+        and year(growth_date) = #{year}
+    </select>
+
+    <update id="kidCode">
+        UPDATE t_kid
+        SET code = (SELECT SUBSTR(MD5(RAND()),1,10))
+        WHERE ikid = #{ikid}
+    </update>
+
+    <insert id="kidSignup">
+        <selectKey resultType="String" keyProperty="code" order="BEFORE">
+            SELECT SUBSTR(MD5(RAND()),1,10) AS code
+        </selectKey>
+        INSERT t_kid
+        SET kid_nm = #{kidNm}
+        , birth = #{birth}
+        , gender = #{gender}
+        , iclass = #{iclass}
+        , address = #{address}
+        , profile = #{profile}
+        , code = #{code}
+        , emer_nm = #{emerNm}
+        , emer_nb = #{emerNb}
+        , memo = #{memo}
+    </insert>
+
+    <select id="selIkid">
+        SELECT ikid
+        FROM t_kid
+        WHERE code = #{code}
+    </select>
+
+    <insert id="kidGrowthInsDetail">
+        INSERT t_growth
+        <set> ikid = #{ikid}
+        , growth_quarterly = #{growthQuarterly}
+        <if test="growthDate != null">
+            , growth_date = #{growthDate}
+        </if>
+        <if test="growth > 0">
+            , growth = #{growth}
+        </if>
+        <if test="growthMemo != null">
+            , growth_memo = #{growthMemo}
+        </if>
+        </set>
+    </insert>
+    <insert id="kidBodyInsDetail">
+        INSERT t_body
+        <set> ikid = #{ikid}
+        , body_quarterly = #{bodyQuarterly}
+        <if test="bodyDate != null">
+            , body_date = #{bodyDate}
+        </if>
+        <if test="height > 0">
+            , height = #{height}
+        </if>
+        <if test="weight > 0">
+            , weight = #{weight}
+        </if>
+        </set>
+    </insert>
+
+    <update id="kidGrowthUpdDetail">
+        UPDATE t_growth
+        <set>
+        <if test="growth > 0">
+            , growth = #{growth}
+        </if>
+        <if test="growthMemo != null">
+            , growth_memo = #{growthMemo}
+        </if>
+            , growth_quarterly = #{growthQuarterly}
+        </set>
+        WHERE ikid = #{ikid}
+        and growth_date = #{growthDate}
+    </update>
+    <update id="kidBodyUpdDetail">
+        UPDATE t_body
+        <set>
+        <if test="height > 0">
+            height = #{height}
+        </if>
+        <if test="weight > 0">
+            , weight = #{weight}
+        </if>
+            , body_quarterly = #{bodyQuarterly}
+        </set>
+        WHERE ikid = #{ikid}
+        and body_date = #{bodyDate}
+    </update>
+
+    <select id="kidDetailEdit">
+        SELECT kid_nm as kidNm, birth, gender, iclass, address
+        , profile, emer_nm as emerNm, emer_nb as emerNb, memo
+        FROM t_kid
+        WHERE ikid = #{ikid}
+    </select>
+
+    <update id="kidUpdProfile">
+        UPDATE t_kid
+        SET kid_nm = #{kidNm}
+        , birth = #{birth}
+        , gender = #{gender}
+        , iclass = #{iclass}
+        , address = #{address}
+        , profile = #{profile}
+        , emer_nm = #{emerNm}
+        , emer_nb = #{emerNb}
+        , memo = #{memo}
+        WHERE ikid = #{ikid}
+    </update>
+
+    <delete id="allGraduateKid">
+        DELETE b, c, d, e, f, g, h
+        FROM t_kid a
+        left JOIN t_parent_kid b
+        ON a.ikid = b.ikid
+        left JOIN t_growth c
+        ON a.ikid = c.ikid
+        left JOIN t_body d
+        ON a.ikid = d.ikid
+        left JOIN t_grade e
+        ON a.ikid = e.ikid
+        left JOIN t_notice_board f
+        ON a.ikid = f.ikid
+        left JOIN t_notice_pics g
+        ON f.inotice = g.inotice
+        left JOIN t_notice_comment h
+        ON f.inotice = h.inotice
+        WHERE YEAR(CURRENT_DATE) - 13 >= YEAR(a.birth)
+    </delete>
+
+    <delete id="allGraduateDelKid">
+        DELETE
+        FROM t_kid
+        WHERE YEAR(CURRENT_DATE) - 13 >= YEAR(birth)
+    </delete>
 </mapper>
