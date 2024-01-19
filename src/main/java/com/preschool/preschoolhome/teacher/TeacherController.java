@@ -79,7 +79,8 @@ public class TeacherController {
     @Operation(summary = "학부모 정보 관리자가 삭제", description = """
     result 값이<br>
     -4 : 부모님 계정 삭제 실패<br>
-    -2 : 관리자 외 계정으로 접근 시 거부 에러<br>""")
+    -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
+    1 이상 : 삭제 처리된 계정 수""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
