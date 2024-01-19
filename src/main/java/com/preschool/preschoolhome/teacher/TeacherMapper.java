@@ -33,4 +33,11 @@ public interface TeacherMapper {
     //------------------------ 학부모와 원아 연결 끊기 ------------------------
     int delDisconnent(DelDisconnectDto dto);
 
+
+    // 선생님 정보 변경
+    int updTeacher (TeacherPatchDto dto);
+    // 선생님 직급 불러오기
+    Integer selTeacherRank (TeacherDelDto dto);
+    // 선생님 정보 삭제
+    int isDelTeacher (TeacherDelDto dto);
 }

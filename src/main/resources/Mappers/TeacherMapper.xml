@@ -112,4 +112,30 @@
         WHERE iparent = #{iparent} AND ikid = #{ikid}
     </delete>
 
+    <!-- 선생님 정보 수정 -->
+    <update id="updTeacher">
+        UPDATE t_teacher
+        SET teacher_nm = #{teacherNm}
+        , ilevel = #{ilevel}
+        , iclass = #{iclass}
+        , teacher_uid = #{teacherUid}
+        , teacher_upw = #{teacherUpw}
+        , teacher_profile = #{teacherProfile}
+        , teacher_introduce = #{teacherIntroduce}
+        WHERE iteacher = #{iteacher}
+    </update>
+
+
+    <select id="selTeacherRank">
+        SELECT ilevel
+        FROM t_teacher
+        WHERE iteacher = #{iteacher}
+    </select>
+
+    <!-- 선생님 정보 댓글 -->
+    <update id="isDelTeacher">
+        UPDATE t_teacher
+        SET tc_del = #{tcDel}
+        WHERE iteacher = #{iteacher}
+    </update>
 </mapper>

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.security.Provider;
@@ -104,5 +105,25 @@ public class TeacherController {
         return service.delDisconnect(dto);
     }
 
+
+    //-------------------------------- 선생님 정보 수정 --------------------------------
+    @PutMapping
+    @Operation(summary = "선생님 정보 수정", description = """
+            -1 : 하나의 값도 변경되지 않음<br>
+            1 : 성공
+            """)
+    public ResVo putTeacher(@RequestPart MultipartFile pic, @RequestPart TeacherPatchDto dto) {
+        return service.putTeacher(pic, dto);
+    }
+
+    //-------------------------------- 선생님 정보 삭제 --------------------------------
+    @PatchMapping
+    @Operation(summary = "선생님 정보 삭제", description = """
+            -1 : 실패<br>
+            1: 성공
+            """)
+    public ResVo delTeacher(TeacherDelDto dto) {
+        return service.delTeacher(dto);
+    }
 
 }
