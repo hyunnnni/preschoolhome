@@ -16,7 +16,7 @@ public class KidProfileEditVo {
     @Schema(title = "성별")
     private int gender;
     @Schema(title = "입학날짜")
-    private int createdAt;
+    private String createdAt;
     @Schema(title = "재원상태")
     private int state;
     @Schema(title = "사진", type = "String")
