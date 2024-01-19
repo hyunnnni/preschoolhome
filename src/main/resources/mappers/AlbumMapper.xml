@@ -75,6 +75,7 @@
         ON A.ialbum = C.ialbum
         WHERE A.ialbum = #{ialbum}
     </delete>
+
     <delete id="delAlbumAll">
         DELETE FROM t_album WHERE ialbum = #{ialbum}
     </delete>
