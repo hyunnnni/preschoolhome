@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.kid.KidMapper">
+    <!--                  원아 정보 출력                    -->
     <select id="kidProfile">
         SELECT kid_nm as kidNm, iclass, gender, profile, birth
         , address, memo, emer_nm as emerNm, emer_nb as emerNb
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>
-
+    <!--                  원아 정보 출력                    -->
     <select id="kidParent">
         SELECT a.iparent, a.uid, a.parent_nm as parentNm
         , a.phone_nb as phoneNb, a.irelation
@@ -17,7 +18,7 @@
         ON a.iparent = b.iparent
         WHERE b.ikid = #{ikid}
     </select>
-
+    <!--                  원아 정보 출력                    -->
     <select id="kidGrowth">
         SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
         , b.growth_date as growthDate, b.growth_memo as growthMemo
@@ -28,13 +29,13 @@
         and year(body_date) = #{year}
         and year(growth_date) = #{year}
     </select>
-
+    <!--                  원아 코드 수정                    -->
     <update id="kidCode">
         UPDATE t_kid
         SET code = (SELECT SUBSTR(MD5(RAND()),1,10))
         WHERE ikid = #{ikid}
     </update>
-
+    <!--                  원아 등록                         -->
     <insert id="kidSignup">
         <selectKey resultType="String" keyProperty="code" order="BEFORE">
             SELECT SUBSTR(MD5(RAND()),1,10) AS code
@@ -51,13 +52,13 @@
         , emer_nb = #{emerNb}
         , memo = #{memo}
     </insert>
-
+    <!--                  원아 등록                         -->
     <select id="selIkid">
         SELECT ikid
         FROM t_kid
         WHERE code = #{code}
     </select>
-
+    <!--                  원아 발달사항 등록                  -->
     <insert id="kidGrowthInsDetail">
         INSERT t_growth
         <set> ikid = #{ikid}
@@ -73,6 +74,7 @@
         </if>
         </set>
     </insert>
+    <!--                  원아 발달사항 등록                  -->
     <insert id="kidBodyInsDetail">
         INSERT t_body
         <set> ikid = #{ikid}
@@ -88,7 +90,7 @@
         </if>
         </set>
     </insert>
-
+    <!--                  원아 발달사항 수정                  -->
     <update id="kidGrowthUpdDetail">
         UPDATE t_growth
         <set>
@@ -103,6 +105,7 @@
         WHERE ikid = #{ikid}
         and growth_date = #{growthDate}
     </update>
+    <!--                  원아 발달사항 수정                  -->
     <update id="kidBodyUpdDetail">
         UPDATE t_body
         <set>
@@ -117,14 +120,14 @@
         WHERE ikid = #{ikid}
         and body_date = #{bodyDate}
     </update>
-
+    <!--              원아 수정 시 기존 정보 출력              -->
     <select id="kidDetailEdit">
         SELECT kid_nm as kidNm, birth, gender, iclass, address
         , profile, emer_nm as emerNm, emer_nb as emerNb, memo
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>
-
+    <!--                  원아 정보 수정                  -->
     <update id="kidUpdProfile">
         UPDATE t_kid
         SET kid_nm = #{kidNm}
@@ -138,7 +141,7 @@
         , memo = #{memo}
         WHERE ikid = #{ikid}
     </update>
-
+    <!--                  원아 해당년도 졸업                  -->
     <delete id="allGraduateKid">
         DELETE b, c, d, e, f, g, h
         FROM t_kid a
@@ -158,7 +161,7 @@
         ON f.inotice = h.inotice
         WHERE YEAR(CURRENT_DATE) - 13 >= YEAR(a.birth)
     </delete>
-
+    <!--                  원아 해당년도 졸업                  -->
     <delete id="allGraduateDelKid">
         DELETE
         FROM t_kid

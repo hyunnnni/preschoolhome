@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.kid.model.sel;
+package com.preschool.preschoolhome.kid.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
