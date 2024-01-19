@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/kid")
-@Tag(name = "원아", description = "원아 등록 및 수정")
+@Tag(name = "원아", description = "원아 관리")
 public class KidController {
     private final KidService service;
 
@@ -27,7 +27,7 @@ public class KidController {
         return service.kidProfile(year, ikid, irank);
     }
 
-    @Operation(summary = "원아 코드 수정", description = "원아 코드 수정")
+    @Operation(summary = "원아 식별코드 수정", description = "원아 식별코드 수정")
     @PatchMapping("/code")
     public ResVo patchKidCode(int ikid, int ilevel){
         return service.kidCode(ikid, ilevel);
@@ -51,19 +51,22 @@ public class KidController {
         return service.kidUpdDetail(dto);
     }
 
-    @Operation(summary = "원아 수정 기존 정보 조회", description = "원아 수정 기존 정보 조회")
+    @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @GetMapping("/detail/edit/{ikid}")
     public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int irank){
         return service.kidDetailEdit(ikid,irank);
     }
 
-    @Operation(summary = "원아 마이페이지 수정", description = "원아 마이페이지 수정")
+    @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
     @PutMapping
     public ResVo putKidProfile(@RequestPart MultipartFile pic, @RequestPart  KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
 
-    @Operation(summary = "원아 데이터 삭제", description = "졸업 10년 된 원아 데이터 삭제")
+    @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
+    @GetMapping("/edit")
+
+    @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
     @DeleteMapping
     public ResVo delAllGraduateKid(int irank){
         return service.allGraduateKid(irank);
