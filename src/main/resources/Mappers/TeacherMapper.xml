@@ -1,7 +1,115 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.teacher.TeacherMapper">
-
+    <!--                 원아 관리 페이지 조회                   -->
+    <select id="selKidManagement">
+        SELECT ikid, iclass, kid_nm as kidNm, profile
+        from t_kid
+        <if test="kidCheck > 0">
+            where iclass = #{kidCheck}
+        </if>
+        <if test = "0 >= kidCheck">
+            where state = #{kidCheck}
+        </if>
+        LIMIT #{startIdx},#{rowCount}
+    </select>
+    <!--                 원아 재원 상태 / 반 승급 수정                   -->
+    <update id="updKidStateOrClass">
+        UPDATE t_kid
+        SET <if test="kidCheck > 0">
+        iclass = #{kidCheck}
+    </if>
+        <if test = "0 >= kidCheck">
+            state = #{kidCheck}
+        </if>
+        WHERE ikid in (
+        <foreach collection="ikids" item="ikid" separator=",">
+            #{ikid}
+        </foreach>)
+    </update>
+    <!--          원아 재원 상태 졸업으로 변경 시 부모 계정 삭제 처리에 필요한 부모 pk 조회          -->
+    <select id="SelGraduateParentPk">
+        SELECT distinct iparent
+        FROM t_parent_kid
+        where ikid in (
+        <foreach collection="ikids" item="ikid" separator=",">
+            #{ikid}
+        </foreach>)
+        order by iparent
+    </select>
+    <!--         부모와 연결된 모든 원아 조회          -->
+    <select id="SelGraduateKidPk">
+        SELECT ikid
+        FROM t_parent_kid
+        where iparent = #{iparent}
+    </select>
+    <!--          원아 재원 상태 조회          -->
+    <select id="selStateKid">
+        SELECT state
+        FROM t_kid
+        where ikid in (
+        <foreach collection="ikids" item="ikid" separator=",">
+            #{ikid}
+        </foreach>)
+    </select>
+    <!--           원아 졸업 시 부모 계정 삭제 처리             -->
+    <update id="updStateIsDelParent">
+        UPDATE t_parent
+        SET pr_is_del = #{prIsDel}
+        WHERE iparent = #{iparent}
+    </update>
+    <!--           현재 계정이 있는 모든 부모의 정보 조회             -->
+    <select id="selParManagement">
+        SELECT iparent, parent_nm AS parentNm, uid, phone_nb AS phoneNb
+        FROM t_parent
+        where pr_is_del = #{prIsDel}
+        LIMIT #{startIdx}, #{rowCount}
+    </select>
+    <!--           부모 정보 원아 반 별 기준으로 조회             -->
+    <select id="selParManagementClass">
+        SELECT DISTINCT A.iparent, A.parent_nm AS parentNm, A.uid, A.phone_nb AS phoneNb
+        FROM t_parent AS A
+        JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        JOIN t_kid AS C
+        ON B.ikid = C.ikid
+        where A.pr_is_del = #{prIsDel}
+        and C.iclass = #{iclass}
+        LIMIT #{startIdx}, #{rowCount}
+    </select>
+    <!--           해당 부모와 연결이 되어 있는 원아의 이름과 반 조회             -->
+    <select id="selConnectionKid">
+        SELECT B.kid_nm AS kidNm, B.iclass
+        FROM t_parent_kid AS A
+        JOIN t_kid AS B
+        ON A.ikid = B.ikid
+        where A.iparent = #{iparent}
+    </select>
+    <!--           해당 부모와 연결된 원아들과 연결 끊기             -->
+    <delete id="delParDisconnectKid">
+        DELETE
+        FROM t_parent_kid
+        WHERE iparent in (
+        <foreach collection="iparents" item="iparent" separator=",">
+            #{iparent}
+        </foreach>)
+    </delete>
+    <!--           부모 계정 삭제 처리             -->
+    <update id="updIsDelParent">
+        UPDATE t_parent
+        SET pr_is_del = #{prIsDel}
+        WHERE iparent in (
+        <foreach collection="iparents" item="iparent" separator=",">
+            #{iparent}
+        </foreach>)
+    </update>
+    <!--           학부모와 원아 연결 끊기             -->
+    <delete id="delDisconnent">
+        DELETE
+        FROM t_parent_kid
+        WHERE iparent = #{iparent} AND ikid = #{ikid}
+    </delete>
 
 </mapper>
