@@ -33,7 +33,7 @@ public class ParentController {
             "회원가입 전 아이디 중복체크<br>" +
             "성공시 1로 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public ResVo postParentSignup(ParentInsDto dto) {
+    public CodeCorrect postParentSignup(ParentInsDto dto) {
         return service.chekUid(dto);
     }
 

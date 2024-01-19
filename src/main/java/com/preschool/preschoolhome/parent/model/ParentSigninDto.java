@@ -11,7 +11,9 @@ public class ParentSigninDto {
     private int ikid;
     @JsonIgnore
     private int iparent;
+    @Schema(title = "아이디")
     private String uid;
+    @Schema(title = "비밀번호")
     private String upw;
 
 

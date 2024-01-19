@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 @Schema(title = "회원 탈퇴")
 public class ParentDeleteDto {
+    @Schema(title = "부모PK")
     private int iparent;
 }
