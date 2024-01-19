@@ -1,10 +1,14 @@
 package com.preschool.preschoolhome.teacher;
 
+import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
+import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.teacher.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TeacherService {
     private final TeacherMapper mapper;
+    private final MyFileUtils myFileUtils;
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
     public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto){
@@ -148,6 +153,44 @@ public class TeacherService {
         }
 
         return new ResVo(result);
+    }
+
+    // 선생님 정보 수정
+    public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
+        if (dto.getIlevel() < 3) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+        try {
+            String path = "/user/" + dto.getIteacher();
+            myFileUtils.delFolderTrigger(path);
+            String savedFileNm = myFileUtils.transferTo(teacherProfile, path);
+            dto.setTeacherProfile(savedFileNm);
+            int affectedRows = mapper.updTeacher(dto);
+            if (affectedRows > 0) {
+                return new ResVo(Const.SUCCESS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResVo(Const.FAIL);
+    }
+
+    // 선생님 정보 삭제
+    public ResVo delTeacher(TeacherDelDto dto) {
+        if (dto.getIlevel() < 3) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+        try {
+            if (dto.getIlevel() == 3) { // swagger test 시 level 값을 3으로 입력 시 성공
+                int affectedRows = mapper.isDelTeacher(dto);
+                if (affectedRows > 0) {
+                    return new ResVo(Const.SUCCESS);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResVo(Const.FAIL);
     }
 
 
