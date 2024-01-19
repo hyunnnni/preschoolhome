@@ -51,7 +51,7 @@ public class KidService {
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null || dto.getilevel() < 2) {
+                pic == null || dto.getIlevel() < 2) {
             KidInsVo vo1 = new KidInsVo();
             vo1.setIkid(Const.FAIL);
             return vo1;
@@ -71,7 +71,7 @@ public class KidService {
         for (KidDetailInsDto dto : list) {
 
             if (dto.getGrowthDate() != null) {
-                if (dto.getilevel() < 2 || dto.getGrowth() < 1) {
+                if (dto.getIlevel() < 2 || dto.getGrowth() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -85,7 +85,7 @@ public class KidService {
                 mapper.kidGrowthInsDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (dto.getilevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
+                if (dto.getIlevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
@@ -107,7 +107,7 @@ public class KidService {
     ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
         for (KidDetailUpdDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if (dto.getilevel() < 2 || dto.getGrowth() < 1) {
+                if (dto.getIlevel() < 2 || dto.getGrowth() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -121,7 +121,7 @@ public class KidService {
                 mapper.kidGrowthUpdDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (dto.getilevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
+                if (dto.getIlevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
@@ -152,7 +152,7 @@ public class KidService {
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null || dto.getilevel() < 2) {
+                pic == null || dto.getIlevel() < 2) {
             ResVo vo1 = new ResVo(Const.FAIL);
             return vo1;
         }
