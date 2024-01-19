@@ -24,4 +24,6 @@ public class Const {
 
     public static final int ROW_COUNT = 6; // 활동 앨범 상세 페이지
     public static final int MAIN_ROW_COUNT = 3; // 메인페이지 활동 앨범 페이징 값
+
+    public static final int NOTICE_COUNT_PER_PAGE=10; //게시판 갯수 10개 제한
 }
