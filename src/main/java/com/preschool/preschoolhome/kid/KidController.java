@@ -63,7 +63,7 @@ public class KidController {
     }
 
     @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
-    @GetMapping("/edit")
+    @GetMapping("/edit/{ikid}")
     public KidProfileEditVo getKidEdit(@PathVariable int ikid, int ilevel){
         return service.kidEdit(ikid,ilevel);
     }

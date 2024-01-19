@@ -21,8 +21,7 @@
     <!--                  원아 정보 출력                    -->
     <select id="kidGrowth">
         SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
-        , b.growth_date as growthDate, b.growth_memo as growthMemo,
-        ,year(growth_date) as year
+        , b.growth_date as growthDate, b.growth_memo as growthMemo
         FROM t_body a
         LEFT JOIN t_growth b
         ON a.body_quarterly = b.growth_quarterly
@@ -108,8 +107,7 @@
     </update>
     <!--              원아 발달사항 수정 시 기존 정보 출력              -->
     <select id="kidDetailEdit">
-        SELECT kid_nm as kidNm, birth, gender, iclass, address
-        , profile, emer_nm as emerNm, emer_nb as emerNb, memo
+        SELECT kid_nm as kidNm, birth, gender, iclass
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>
@@ -131,7 +129,7 @@
     <!--              원아 수정 시 기존 정보 출력              -->
     <select id="kidEdit">
         SELECT kid_nm as kidNm, birth, gender, iclass
-        , address , profile, state, created_at as createdAt
+        , address , profile, state, date(created_at) as createdAt
         , emer_nm as emerNm, emer_nb as emerNb, memo
         FROM t_kid
         WHERE ikid = #{ikid}

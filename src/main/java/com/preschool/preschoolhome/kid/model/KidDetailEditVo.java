@@ -18,19 +18,10 @@ public class KidDetailEditVo {
     private int iclass;
     @Schema(title = "성별", type = "String")
     private int gender;
-    @Schema(title = "발달사항", type = "List")
-    List<KidGrowth> growths = new ArrayList<>();
-    @Schema(title = "사진", type = "String")
-    private String profile;
     @Schema(title = "출생일", type = "String")
     private String birth;
-    @Schema(title = "주소", type = "String")
-    private String address;
-    @Schema(title = "메모", type = "String")
-    private String memo;
-    @Schema(title = "비상 연락자", type = "String")
-    private String emerNm;
-    @Schema(title = "비상 연락망", type = "String")
-    private String emerNb;
+    @Schema(title = "발달사항", type = "List")
+    List<KidGrowth> growths = new ArrayList<>();
+
 
 }
