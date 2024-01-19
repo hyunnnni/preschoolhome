@@ -9,5 +9,5 @@ public class TeacherRankDto {
     @JsonIgnore
     private int iteacher;
     @Schema(title = "직급 PK")
-    private int irank;
+    private int ilevel;
 }

@@ -105,6 +105,13 @@
         WHERE ikid = #{ikid}
         and growth_date = #{growthDate}
     </update>
+    <!--              원아 발달사항 수정 시 기존 정보 출력              -->
+    <select id="kidDetailEdit">
+        SELECT kid_nm as kidNm, birth, gender, iclass, address
+        , profile, emer_nm as emerNm, emer_nb as emerNb, memo
+        FROM t_kid
+        WHERE ikid = #{ikid}
+    </select>
     <!--                  원아 발달사항 수정                  -->
     <update id="kidBodyUpdDetail">
         UPDATE t_body
@@ -121,9 +128,10 @@
         and body_date = #{bodyDate}
     </update>
     <!--              원아 수정 시 기존 정보 출력              -->
-    <select id="kidDetailEdit">
-        SELECT kid_nm as kidNm, birth, gender, iclass, address
-        , profile, emer_nm as emerNm, emer_nb as emerNb, memo
+    <select id="kidEdit">
+        SELECT kid_nm as kidNm, birth, gender, iclass
+        , address , profile, state, created_at as createdAt
+        , emer_nm as emerNm, emer_nb as emerNb, memo
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>

@@ -28,7 +28,7 @@ public class KidInsDto {
     @Schema(title = "메모")
     private String memo;
     @Schema(title = "등급 pk")
-    private int irank;
+    private int ilevel;
     @Schema(title = "비상 연락자")
     private String emerNm;
     @Schema(title = "비상 연락망")
