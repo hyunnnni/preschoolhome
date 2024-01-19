@@ -8,8 +8,8 @@
         FROM t_album A
         JOIN t_album_pics B
         ON A.ialbum = B.ialbum
-        GROUP BY A.album_title
-        ORDER BY B.album_pic DESC
+        GROUP BY A.ialbum
+        ORDER BY A.ialbum DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>
 
@@ -19,7 +19,7 @@
         FROM t_album A
         JOIN t_album_pics B
         ON A.ialbum = B.ialbum
-        GROUP BY A.album_title
+        GROUP BY A.ialbum
         ORDER BY A.ialbum DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>
