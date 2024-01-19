@@ -5,8 +5,10 @@ import com.preschool.preschoolhome.kid.model.*;
 import com.preschool.preschoolhome.kid.model.KidDetailEditVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,14 +24,17 @@ public class KidController {
 
     @Operation(summary = "원아 마이페이지", description = "원아 해당 년도 마이페이지 조회")
     @GetMapping("/{year}/{ikid}")
-    public KidProfileVo getKidProfile(@PathVariable int year,@PathVariable int ikid, int ilevel){
-        return service.kidProfile(year, ikid, ilevel);
+    public KidProfileVo getKidProfile(@PathVariable int year
+            , @PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요") int ikid
+            , @Range(min = 1,max = 3,message = "권한이 없습니다")int ilevel){
+        return service.kidProfile(year, ikid);
     }
 
     @Operation(summary = "원아 식별코드 수정", description = "원아 식별코드 수정")
-    @PatchMapping("/code")
-    public ResVo patchKidCode(int ikid, int ilevel){
-        return service.kidCode(ikid, ilevel);
+    @PatchMapping("/code/{ikid}")
+    public ResVo patchKidCode(@PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요")int ikid
+            , @Range(min = 2,max = 3,message = "권한이 없습니다") int ilevel){
+        return service.kidCode(ikid);
     }
 
     @Operation(summary = "원아 등록", description = "원아 등록")
