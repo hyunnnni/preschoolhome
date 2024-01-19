@@ -63,8 +63,7 @@ public class KidController {
         return service.kidUpdProfile(pic, dto);
     }
 
-    @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
-    @GetMapping("/edit")
+
 
     @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
     @DeleteMapping
