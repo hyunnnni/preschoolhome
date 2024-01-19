@@ -6,9 +6,6 @@ import com.preschool.preschoolhome.notice.model.NoticeUpdDto;
 import com.preschool.preschoolhome.notice.model.SelAllNoticeDto;
 import com.preschool.preschoolhome.notice.model.SelAllNoticeVo;
 import com.preschool.preschoolhome.notice.model.sel.NoticeUpdSelVo;
-import com.preschool.preschoolhome.notice.model.sel.SelFullNoticeDto;
-import com.preschool.preschoolhome.notice.model.sel.SelFullNoticeVo;
-import com.preschool.preschoolhome.notice.model.sel.SelNoticeVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -71,27 +68,4 @@ public class NoticeController {
         return service.getKidManagement(dto);
 
     }
-
-    //----------------------알림장 게시판 조회-------------------
-
-    @GetMapping("/listall")
-    @Operation(summary = "유치원 전체 소식 불러오기", description = "<strong>게시판 전체불러오기</strong><br><br>" +
-            "게시판 전체보내기<br>" +
-            "성공시 페이지 띄우기<br>" +
-            "실패시 에러메세지송출<br>")
-    public List<SelFullNoticeVo> getAllFullNotice(SelFullNoticeDto dto) {
-        return service.getAllFullNotice(dto);
-    }
-
-    @GetMapping
-    @Operation(summary = "유치원 소식 불러오기", description = "<strong>소식 불러오기</strong><br><br>" +
-            "유치원 소식<br>" +
-            "성공시 페이지 띄우기<br>" +
-            "실패시 에러메세지송출<br>")
-    public SelNoticeVo getNotice(int iFullNotice){
-        return service.getFullNotice(iFullNotice);
-    }
-
-
-
 }

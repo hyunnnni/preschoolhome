@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.notice.model.sel;
+package com.preschool.preschoolhome.fullnotice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.preschool.preschoolhome.common.utils.Const;
