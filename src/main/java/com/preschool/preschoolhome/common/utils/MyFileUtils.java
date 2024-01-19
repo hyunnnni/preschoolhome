@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.common;
+package com.preschool.preschoolhome.common.utils;
 
 
 import lombok.Getter;
@@ -16,7 +16,6 @@ import java.util.UUID;
 public class MyFileUtils {
 
     private final String uploadPrefixPath;
-    //final은 객체 생성할때 초기화 해야됨
 
     public MyFileUtils(@Value("${file.dir}") String uploadPrefixPath) {
         this.uploadPrefixPath = uploadPrefixPath;
@@ -25,10 +24,10 @@ public class MyFileUtils {
     //폴더 만들기
     public String makeFolders(String path) {
         File folder = new File(uploadPrefixPath, path);
-        folder.mkdirs(); //폴더를 만든다
+        folder.mkdirs();
 
         return folder.getAbsolutePath();
-        //절대 주소 (풀네임)
+
     }
 
     //랜덤 파일명 만들기
@@ -60,12 +59,11 @@ public class MyFileUtils {
     public String transferTo(MultipartFile mf, String target) {
         String fileNm = getRandomFileNm(mf);
         String folderPath = makeFolders(target);
-        File saveFile = new File(folderPath, fileNm); //파일 객체를 만들었다고
-        saveFile.exists(); //파일이 무조건 존재하지는 않는다
+        File saveFile = new File(folderPath, fileNm);
+        saveFile.exists();
         try {
-            mf.transferTo(saveFile); //메모리에 있던 내용을 파일로 옮겨줌
-            return fileNm; //랜덤 파일명을 리턴 : db에 저장을 해야되기 때문
-            //return saveFile.getAbsolutePath(); (절대경로)이건 파일 주소 까지 db에 저장
+            mf.transferTo(saveFile);
+            return fileNm;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

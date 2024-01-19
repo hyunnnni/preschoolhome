@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.common;
+package com.preschool.preschoolhome.common.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor //기본생성자
+@NoArgsConstructor
 public class ResVo {
     private int result;
 }

@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.security;
+package com.preschool.preschoolhome.common.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -9,8 +9,8 @@ public class AuthenticationFacade {
 
         return (MyUserDetails)SecurityContextHolder
                 .getContext()
-                .getAuthentication() //토큰값이 넘어옴
-                .getPrincipal(); //오브젝트에서 형변환
+                .getAuthentication()
+                .getPrincipal();
     }
 
     public int getLoginUserPk(){
@@ -20,6 +20,13 @@ public class AuthenticationFacade {
                 : myUserDetails
                 .getMyPrincipal()
                 .getIuser();
-
+    }
+    public int getLevelPk(){
+        MyUserDetails myUserDetails = getLoginUser();
+        return myUserDetails == null
+                ? 0
+                : myUserDetails
+                .getMyPrincipal()
+                .getIlevel();
     }
 }

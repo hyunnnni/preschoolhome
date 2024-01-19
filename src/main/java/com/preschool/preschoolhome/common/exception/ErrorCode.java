@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.exception;
+package com.preschool.preschoolhome.common.exception;
 
 
 import org.springframework.http.HttpStatus;

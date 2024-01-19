@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.common;
+package com.preschool.preschoolhome.common.utils;
 
 public class Const {
     public static final int NOTICE_COUNT_PER_PAGE = 10;

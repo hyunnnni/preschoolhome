@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.security;
+package com.preschool.preschoolhome.common.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

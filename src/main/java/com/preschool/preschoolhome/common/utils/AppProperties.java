@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.common;
+package com.preschool.preschoolhome.common.utils;
 
 import lombok.Getter;
 import lombok.Setter;
