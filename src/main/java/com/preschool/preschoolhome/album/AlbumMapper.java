@@ -16,6 +16,9 @@ public interface AlbumMapper {
     // 활동 앨범 전체 조회
     List<AlbumSelVo> selAllAlbum (AlbumSelDto dto);
 
+    // 메인 활동 앨범
+    List<AlbumMainVo> selMainAlbum (AlbumMainDto dto);
+
     // 활동 앨범 상세 조회 (글)
     List<AlbumDetailSelVo> selDetailAlbum (AlbumDetailSelDto dto);
     // 활동 앨범 상세 조회 (사진)

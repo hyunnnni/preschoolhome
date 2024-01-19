@@ -38,6 +38,16 @@ public class AlbumController {
         return service.getAllAlbum(dto);
     }
 
+
+    //------------------------------------- 활동 앨범 메인화면 조회 -------------------------------------//
+    @Operation(summary = "활동 앨범 메인화면 조회", description = """
+            """)
+    @GetMapping("/main")
+    public List<AlbumMainVo> getMainAlbum(AlbumMainDto dto) {
+        return service.getMainAlbum(dto);
+    }
+
+
     //------------------------------------- 활동 앨범 상세 조회 -------------------------------------//
     @Operation(summary = "활동 앨범 상세 조회", description = """
             """)

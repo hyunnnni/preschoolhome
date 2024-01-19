@@ -29,6 +29,11 @@ public class AlbumService {
         return vo;
     }
 
+    // 활동 앨범 메인화면 조회
+    public List<AlbumMainVo> getMainAlbum(AlbumMainDto dto) {
+        return mapper.selMainAlbum(dto);
+    }
+
 
     // 활동 앨범 상세 조회
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
