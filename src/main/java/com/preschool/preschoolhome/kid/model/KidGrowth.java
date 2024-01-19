@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 @Schema(title = "원아 발달사항")
 public class KidGrowth {
+    @Schema(title = "해당 년도", type = "int")
+    private int year;
     @Schema(title = "키", type = "int")
     private int height;
     @Schema(title = "체중")

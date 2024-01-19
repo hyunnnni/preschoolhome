@@ -138,13 +138,15 @@ public class KidService {
         return new ResVo(Const.SUCCESS);
     }
     //원아 발달사항 수정 시 기존 데이터 조회
-    public KidDetailEditVo kidDetailEdit(int ikid, int ilevel) {
+    public KidDetailEditVo kidDetailEdit(int ikid, int ilevel, int year) {
         KidDetailEditVo vo = new KidDetailEditVo();
         if (ilevel < 2) {
             vo.setResult(Const.FAIL);
             return vo;
         }
         vo = mapper.kidDetailEdit(ikid);
+        List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
+        vo.setGrowths(growths);
         vo.setResult(Const.SUCCESS);
         return vo;
     }

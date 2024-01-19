@@ -52,8 +52,8 @@ public class KidController {
 
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @GetMapping("/detail/edit/{ikid}")
-    public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int ilevel){
-        return service.kidDetailEdit(ikid,ilevel);
+    public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int ilevel, int year){
+        return service.kidDetailEdit(ikid,ilevel,year);
     }
 
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")

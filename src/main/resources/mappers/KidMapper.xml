@@ -21,7 +21,8 @@
     <!--                  원아 정보 출력                    -->
     <select id="kidGrowth">
         SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
-        , b.growth_date as growthDate, b.growth_memo as growthMemo
+        , b.growth_date as growthDate, b.growth_memo as growthMemo,
+        ,year(growth_date) as year
         FROM t_body a
         LEFT JOIN t_growth b
         ON a.body_quarterly = b.growth_quarterly
