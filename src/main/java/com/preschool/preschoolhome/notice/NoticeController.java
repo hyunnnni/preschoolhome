@@ -9,6 +9,7 @@ import com.preschool.preschoolhome.notice.model.sel.NoticeUpdSelVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/notice")
+@Tag(name = "알림장 기능 API", description = "알림장 관련 기능 설정")
 public class NoticeController {
     private final NoticeService service;
 
