@@ -64,6 +64,7 @@
             ( #{ialbum}, #{albumPic} )
         </foreach>
     </insert>
+
     <!-- 활동 앨범 삭제 -->
     <delete id="delAlbumCommentPics">
         DELETE B, C
