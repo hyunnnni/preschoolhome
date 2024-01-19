@@ -2,8 +2,8 @@ package com.preschool.preschoolhome.kid;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.kid.model.*;
-import com.preschool.preschoolhome.kid.model.sel.KidDetailEditVo;
-import com.preschool.preschoolhome.kid.model.sel.KidProfileVo;
+import com.preschool.preschoolhome.kid.model.KidDetailEditVo;
+import com.preschool.preschoolhome.kid.model.KidProfileVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

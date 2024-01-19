@@ -4,10 +4,10 @@ import com.preschool.preschoolhome.kid.model.KidDetailInsDto;
 import com.preschool.preschoolhome.kid.model.KidDetailUpdDto;
 import com.preschool.preschoolhome.kid.model.KidInsDto;
 import com.preschool.preschoolhome.kid.model.KidUpdDto;
-import com.preschool.preschoolhome.kid.model.sel.KidDetailEditVo;
-import com.preschool.preschoolhome.kid.model.sel.KidGrowth;
-import com.preschool.preschoolhome.kid.model.sel.KidParent;
-import com.preschool.preschoolhome.kid.model.sel.KidProfileVo;
+import com.preschool.preschoolhome.kid.model.KidDetailEditVo;
+import com.preschool.preschoolhome.kid.model.KidGrowth;
+import com.preschool.preschoolhome.kid.model.KidParent;
+import com.preschool.preschoolhome.kid.model.KidProfileVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

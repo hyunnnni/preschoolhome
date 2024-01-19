@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.kid.model.sel;
+package com.preschool.preschoolhome.kid.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
