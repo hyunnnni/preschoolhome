@@ -21,4 +21,7 @@ public class Const {
     public static final int FAKE_IS_DEL = 1; //데이터 DELETE인 척 처리 시
     public static final int UPD_STATE_FAIL = -3; // 재원상태/반 수정 실패
     public static final int UPD_IS_DEL_FAIL = -4; // isdel처리 실패
+
+    public static final int ROW_COUNT = 6; // 활동 앨범 상세 페이지
+    public static final int MAIL_ROW_COUNT = 3; // 메인페이지 활동 앨범 페이징 값
 }
