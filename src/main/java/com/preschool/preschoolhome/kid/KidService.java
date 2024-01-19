@@ -24,13 +24,8 @@ public class KidService {
     private final MyFileUtils myFileUtils;
 
     //원아 해당 년도 마이페이지 조회
-    public KidProfileVo kidProfile(int year, int ikid, int ilevel) {
-        KidProfileVo vo = new KidProfileVo();
-        if (ilevel < 2) {
-            vo.setResult(Const.FAIL);
-            return vo;
-        }
-        vo = mapper.kidProfile(ikid);
+    public KidProfileVo kidProfile(int year, int ikid) {
+        KidProfileVo vo = mapper.kidProfile(ikid);
         vo.setResult(Const.SUCCESS);
         List<KidParent> parents = mapper.kidParent(ikid);
         List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
@@ -40,10 +35,7 @@ public class KidService {
     }
 
     //원아 식별코드 수정
-    ResVo kidCode(int ikid, int ilevel){
-        if(ilevel<2){
-            return new ResVo(Const.FAIL);
-        }
+    ResVo kidCode(int ikid){
         mapper.kidCode(ikid);
         return new ResVo(Const.SUCCESS);
     }

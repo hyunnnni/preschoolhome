@@ -19,6 +19,7 @@ public class GlobalExceptionHandler{
         return handleExceptionInternal(CommonErrorCode.INVALID_PARAMETER);
     }
 
+
     //대부분의 에러처리는 서버에러가 터지게 만듬
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception e){
