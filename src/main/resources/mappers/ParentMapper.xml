@@ -51,7 +51,7 @@
         where uid =#{uid}
     </select>
 
-    <insert id="insParent" useGeneratedKeys="true" keyProperty="iprent">
+    <insert id="insParent" useGeneratedKeys="true" keyProperty="iparent">
         insert into t_parent
         set parent_nm = #{parentNm}
         , uid = #{uid}
@@ -86,12 +86,10 @@
         where iparent = #{iparent}
     </update>
 
-
     <update id="updUserFirebaseToken">
         UPDATE t_parent
         SET firebase_token = #{firebaseToken}
         WHERE iparent = #{iparent}
     </update>
-
 
 </mapper>
