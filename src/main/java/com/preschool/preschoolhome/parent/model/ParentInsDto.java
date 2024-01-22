@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Schema(name = "부모 정보 입력", title = "식별코드 인증 후 회원가입")
 public class ParentInsDto {
-    @JsonIgnore
+
     private int ikid;
     @JsonIgnore
     private int iparent;
