@@ -3,11 +3,13 @@ package com.preschool.preschoolhome.parent;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.parent.model.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -24,8 +26,9 @@ public class ParentController {
             "식별코드로 회원가입 전 검증단계<br>" +
             "성공시 원아 정보응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public CodeVo postParentCheck(@RequestBody CodeDto dto) {
-        return service.getMatch(dto);
+    public CodeVo postParentCheck(@RequestParam @Schema(title = "코드") String code) {
+
+        return service.getMatch(code);
     }
 
 

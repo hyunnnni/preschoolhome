@@ -32,10 +32,12 @@ public class ParentService {
     private final AuthenticationFacade authenticationFacade;
 
     //식별코드 매칭
-    public CodeVo getMatch(CodeDto dto) {
+    public CodeVo getMatch(String code) {
+        CodeDto dto = new CodeDto();
+        dto.setCode(code);
         try {
             CodeVo vo = mapper.selCode(dto);
-            if (!dto.getCode().equals(vo.getCode())) {
+            if (!(dto.getCode().equals(vo.getCode()))) {
                 throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
             }
             return vo;
@@ -100,11 +102,11 @@ public class ParentService {
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
 
         int rtCookieMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge();
-        cookieUtils.deleteCookie(res,"rt");
-        cookieUtils.setCookie(res,"rt",rt,rtCookieMaxAge);
+        cookieUtils.deleteCookie(res, "rt");
+        cookieUtils.setCookie(res, "rt", rt, rtCookieMaxAge);
 
         HttpSession session = req.getSession(true);
-        session.setAttribute("loginUserPk",entity.getIparent());
+        session.setAttribute("loginUserPk", entity.getIparent());
 
         pk.setAccessToken(at);
         pk.setResult(Const.SUCCESS);
@@ -146,16 +148,17 @@ public class ParentService {
     public CodeVo postKidCode(CodeDto dto) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         dto.setIparent(loginUserPk);
-        CodeVo vo = new CodeVo();
-        if(dto.getCode()!= vo.getCode()){
+        CodeVo vo = mapper.selCode(dto);
+
+        if (!(dto.getCode().equals(vo.getCode()))) {
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
-        }else {
-        vo = mapper.selCode(dto);
-        ParentKid pk = new ParentKid();
-        pk.setIkid(vo.getIkid());
-        pk.setIparent(dto.getIparent());
-        mapper.insParentKidTable(pk);
-        return vo;}
+        } else {
+            ParentKid pk = new ParentKid();
+            pk.setIkid(vo.getIkid());
+            pk.setIparent(dto.getIparent());
+            mapper.insParentKidTable(pk);
+            return vo;
+        }
     }
 
     //부모 정보 삭제
@@ -164,23 +167,23 @@ public class ParentService {
         dto.setIparent(loginUserPk);
 
         int delete = mapper.delParent(dto);
-        if(delete ==0){
+        if (delete == 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
 
-        }else
+        } else
             return new ResVo(1);
     }
 
-    public ParentKid getRefreshToken(HttpServletRequest req){//at를 다시 만들어줌
-        Cookie cookie = cookieUtils.getCookie(req,"rt");
+    public ParentKid getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
+        Cookie cookie = cookieUtils.getCookie(req, "rt");
         ParentKid vo = new ParentKid();
-        if(cookie == null){
+        if (cookie == null) {
             vo.setResult(Const.FAIL);
             vo.setAccessToken(null);
             return vo;
         }
         String token = cookie.getValue();
-        if(!jwtTokenProvider.isValidateToken(token)){
+        if (!jwtTokenProvider.isValidateToken(token)) {
             vo.setResult(Const.FAIL);
             vo.setAccessToken(null);
             return vo;

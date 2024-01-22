@@ -5,7 +5,7 @@
     <select id="selCode">
         select ikid, kid_nm as kidNm, iclass, code
         from t_kid
-        where code = #{code}
+        where code=#{code}
     </select>
 
     <insert id="insParentKidTable">
@@ -71,7 +71,7 @@
     <update id="putParent">
         update t_parent
         set
-        <if test="parentNm ! = null">
+        <if test="parentNm != null">
             parent_nm = #{parentNm}
         </if>
         <if test="phoneNb != null">
