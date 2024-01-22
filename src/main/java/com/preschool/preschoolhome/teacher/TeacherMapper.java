@@ -1,5 +1,7 @@
 package com.preschool.preschoolhome.teacher;
 
+import com.preschool.preschoolhome.parent.model.ParentEntity;
+import com.preschool.preschoolhome.parent.model.ParentSigninDto;
 import com.preschool.preschoolhome.teacher.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -40,4 +42,6 @@ public interface TeacherMapper {
     Integer selTeacherRank (TeacherDelDto dto);
     // 선생님 정보 삭제
     int isDelTeacher (TeacherDelDto dto);
+
+    TeacherEntity selTeacher(TeacherSigninDto dto); //부모님 로그인 셀렉
 }

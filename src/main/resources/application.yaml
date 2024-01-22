@@ -21,6 +21,7 @@ spring:
     username: root
     password: green502
 
+
 mybatis:
   mapper-locations: mappers/**/*.xml
 
@@ -40,7 +41,7 @@ spring:
     activate:
       on-profile: "prod"
   datasource:
-    url: jdbc:mariadb://192.168.1.144:5224/preschool
+    url: jdbc:mariadb://192.168.0.144:5224/preschool
     username: even_last_4
     password: keystone
 
