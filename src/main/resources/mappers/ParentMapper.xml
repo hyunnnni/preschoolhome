@@ -5,7 +5,7 @@
     <select id="selCode">
         select ikid, kid_nm as kidNm, iclass, code
         from t_kid
-        where code=#{code}
+        where code = #{code}
     </select>
 
     <insert id="insParentKidTable">
@@ -48,7 +48,7 @@
     <select id="checkParentInfo">
         select upw
         from t_parent
-        where uid =#{uid}
+        where uid = #{uid}
     </select>
 
     <insert id="insParent" useGeneratedKeys="true" keyProperty="iparent">
