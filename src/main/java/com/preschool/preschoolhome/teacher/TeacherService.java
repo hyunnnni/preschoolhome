@@ -3,10 +3,16 @@ package com.preschool.preschoolhome.teacher;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
-import com.preschool.preschoolhome.common.utils.MyFileUtils;
-import com.preschool.preschoolhome.common.utils.ResVo;
-import com.preschool.preschoolhome.common.utils.Const;
+import com.preschool.preschoolhome.common.security.JwtTokenProvider;
+import com.preschool.preschoolhome.common.security.MyPrincipal;
+import com.preschool.preschoolhome.common.utils.*;
+import com.preschool.preschoolhome.parent.model.ParentEntity;
+import com.preschool.preschoolhome.parent.model.ParentKid;
+import com.preschool.preschoolhome.parent.model.ParentSigninDto;
 import com.preschool.preschoolhome.teacher.model.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +28,9 @@ public class TeacherService {
     private final TeacherMapper mapper;
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AppProperties appProperties;
+    private final CookieUtils cookieUtils;
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
     public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto){
@@ -207,5 +216,28 @@ public class TeacherService {
         return new ResVo(Const.FAIL);
     }
 
+    public TeacherEntity teacherSignin(HttpServletRequest req, HttpServletResponse res, TeacherSigninDto dto) {
+        TeacherEntity entity = mapper.selTeacher(dto);
 
+        if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getTeacherUpw())) {
+
+        }
+        MyPrincipal myPrincipal = MyPrincipal.builder()
+                .iuser(entity.getIteacher())
+                .ilevel(entity.getIlevel())
+                .build();
+        String at = jwtTokenProvider.generateAccessToken(myPrincipal);
+        String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
+
+        int rtCookieMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge();
+        cookieUtils.deleteCookie(res, "rt");
+        cookieUtils.setCookie(res, "rt", rt, rtCookieMaxAge);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute("loginUserPk", entity.getIteacher());
+
+        entity.setAccessToken(at);
+
+        return entity;
+    }
 }

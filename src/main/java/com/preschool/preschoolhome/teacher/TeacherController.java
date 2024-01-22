@@ -1,11 +1,15 @@
 package com.preschool.preschoolhome.teacher;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.parent.model.ParentKid;
+import com.preschool.preschoolhome.parent.model.ParentSigninDto;
 import com.preschool.preschoolhome.teacher.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -127,4 +131,14 @@ public class TeacherController {
         return service.delTeacher(dto);
     }
 
+    //선생님 로그인
+    @PostMapping("/signin")
+    @Operation(summary = "로그인", description = "<strong>선생님 로그인</strong><br><br>" +
+            "uid와 upw로 로그인<br>" +
+            "성공시 선생님 PK 응답<br>" +
+            "실패시 에러메세지송출 <br>")
+    public TeacherEntity postTeacherSignin(HttpServletRequest req, HttpServletResponse res
+            , @RequestBody TeacherSigninDto dto){
+        return service.teacherSignin(req, res, dto);
+    }
 }

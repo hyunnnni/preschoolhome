@@ -13,6 +13,7 @@ public class TeacherEntity {
     private String tcEmail;
     private String teacherIntroduce;
     private String teacherProfile;
+    private String accessToken;
     private String firebaseToken;
     private String createdAt;
 }
