@@ -48,7 +48,7 @@ public class NoticeService {
         return vo;
 
     }
-    ResVo updNotice(NoticeUpdDto dto){
+    public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto){
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
         if(dto.getIlevel()<2){

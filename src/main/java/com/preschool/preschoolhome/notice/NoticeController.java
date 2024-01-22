@@ -42,8 +42,9 @@ public class NoticeController {
 
     @Operation(summary = "알림장 수정", description = "알림장 수정")
     @PutMapping
-    public ResVo putUpdNotice(@RequestBody NoticeUpdDto dto){
-        return service.updNotice(dto);
+    public ResVo putUpdNotice(@RequestPart List<MultipartFile> pics,
+                              @RequestPart NoticeUpdDto dto){
+        return service.updNotice(pics, dto);
     }
 
     @Operation(summary = "알림장 삭제", description = "알림장 삭제")

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ParentService {
     private final ParentMapper mapper;
-    private final PasswordEncoder passwordEncoder;
+
     private final JwtTokenProvider jwtTokenProvider;
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
@@ -127,7 +127,7 @@ public class ParentService {
         int level = authenticationFacade.getLevelPk();
         dto.setIparent(loginUserPk);
         dto.setIlevel(level);
-        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getEmail() == null
+        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
                 && dto.getUpw() == null) {
             return new ResVo(-1);
             //throw new RestApiException(AuthErrorCode.CHECK_CODE);
