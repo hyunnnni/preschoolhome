@@ -1,11 +1,10 @@
 package com.preschool.preschoolhome.notice;
 
-import com.preschool.preschoolhome.notice.model.NoticeInsDto;
-import com.preschool.preschoolhome.notice.model.NoticePicsInsDto;
-import com.preschool.preschoolhome.notice.model.SelAllNoticeDto;
-import com.preschool.preschoolhome.notice.model.SelAllNoticeVo;
+import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.sel.NoticeUpdSelVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,10 +12,14 @@ import java.util.List;
 public interface NoticeMapper {
     //알림장 등록
     int insNotice(NoticeInsDto dto);
-    int insNiticePics(NoticePicsInsDto dto);
+    int insNoticePics(NoticePicsInsDto dto);
     //알림장 수정 시 내용 조회
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
     List<String> noticeEditPics(int inotice);
+    //알림장 수정
+    int updNotice(NoticeUpdDto dto);
+    int delNoticePics(int inotice);
+
     //알림장 삭제
     int delNotice(int iteacher, int inotice);
     int delAllNotice(int iteacher, int inotice);

@@ -37,10 +37,11 @@ public class NoticeService {
             String saveFileNm = myFileUtils.transferTo(file, target);
             picsDto.getPics().add(saveFileNm);
         }
-        mapper.insNiticePics(picsDto);
+        mapper.insNoticePics(picsDto);
         return new ResVo(Const.SUCCESS);
     }
 
+    //알림장 수정 시 정보 출력
     public NoticeUpdSelVo noticeEdit(int inotice, int ikid){
         NoticeUpdSelVo vo = mapper.noticeEdit(inotice,ikid);
         List<String> pics = mapper.noticeEditPics(inotice);
@@ -48,15 +49,40 @@ public class NoticeService {
         return vo;
 
     }
+
+    //알림장 수정
     public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto){
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
-        if(dto.getIlevel()<2){
-            return null;
+
+        String target = "/notice/"+dto.getInotice();
+
+        if(dto.getIlevel() < 2){
+            return new ResVo(Const.FAIL);
         }
-        return null;
+        int affectedRows = mapper.updNotice(dto);
+        if(affectedRows ==0){
+            return new ResVo(Const.FAIL);
+        }
+
+        int affectedDelRows = mapper.delNoticePics(dto.getInotice());
+        if(affectedDelRows == 0){
+            return new ResVo(Const.FAIL);
+        }
+        NoticePicsInsDto picsDto = new NoticePicsInsDto();
+        picsDto.setInotice(dto.getInotice());
+        for (MultipartFile file: pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getPics().add(saveFileNm);
+        }
+        int affectedPicRows =  mapper.insNoticePics(picsDto);
+        if(affectedPicRows == 0){
+            return new ResVo(Const.FAIL);
+        }
+        return new ResVo(Const.SUCCESS);
     }
 
+    //알림장 삭제
     ResVo delNotice(int iteacher, int inotice){
         int level = authenticationFacade.getLevelPk();
         if(level != 2){
