@@ -16,7 +16,7 @@ public class UpParentDto {
     @Schema(title = "휴대폰번호")
     private String phoneNb;
     @Schema(title = "이메일")
-    private String email;
+    private String prEmail;
     @Schema(title = "비밀번호")
     private String upw;
 

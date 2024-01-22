@@ -53,12 +53,12 @@
 
     <insert id="insParent" useGeneratedKeys="true" keyProperty="iprent">
         insert into t_parent
-        set parent_nm = #{parentNm}, uid = #{uid}, upw = #{upw},
-        phone_nb = #{phoneNb}, irelation = #{irelation} ,email =#{email}
+        set parent_nm = #{parentNm}, uid = #{uid}, upw = #{upw}, ilevel = 1,
+        phone_nb = #{phoneNb}, irelation = #{irelation} ,pr_email = #{prEmail}
     </insert>
 
     <select id="selBeforeInfo">
-        select uid, parent_nm as parentNm, phone_nb as phoneNb, email
+        select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
         from t_parent
         where iparent = #{iparent} and ilevel =#{ilevel}
     </select>
@@ -72,8 +72,8 @@
         <if test="phoneNb != null">
             ,phone_nb =#{phoneNb}
         </if>
-        <if test="email != null">
-            ,pr_email=#{email}
+        <if test="prEmail != null">
+            ,pr_email=#{prEmail}
         </if>
         <if test="upw != null">
             ,upw = #{upw}
