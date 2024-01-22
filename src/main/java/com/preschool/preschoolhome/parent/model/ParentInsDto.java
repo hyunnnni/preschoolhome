@@ -12,7 +12,7 @@ public class ParentInsDto {
     @JsonIgnore
     private int iparent;
     @Schema(title = "이메일")
-    private String email;
+    private String prEmail;
     @Schema(title = "아이와의 관계")
     private int irelation;
     @Schema(title = "아이디 중복체크")

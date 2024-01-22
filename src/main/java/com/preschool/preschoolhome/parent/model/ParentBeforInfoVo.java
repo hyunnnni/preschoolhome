@@ -13,6 +13,6 @@ public class ParentBeforInfoVo {
     @Schema(title = "아이디")
     private String uid;
     @Schema(title = "이메일")
-    private String email;
+    private String prEmail;
 
 }

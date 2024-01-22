@@ -107,7 +107,7 @@ public class ParentService {
         session.setAttribute("loginUserPk",entity.getIparent());
 
         pk.setAccessToken(at);
-
+        pk.setResult(Const.SUCCESS);
         return pk;
     }
 
@@ -127,7 +127,7 @@ public class ParentService {
         int level = authenticationFacade.getLevelPk();
         dto.setIparent(loginUserPk);
         dto.setIlevel(level);
-        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getEmail() == null
+        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
                 && dto.getUpw() == null) {
             return new ResVo(-1);
             //throw new RestApiException(AuthErrorCode.CHECK_CODE);

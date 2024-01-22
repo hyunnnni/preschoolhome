@@ -25,8 +25,8 @@ public class KidController {
     @Operation(summary = "원아 마이페이지", description = "원아 해당 년도 마이페이지 조회")
     @GetMapping("/{year}/{ikid}")
     public KidProfileVo getKidProfile(@PathVariable int year
-            , @PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요") int ikid
-            , @Range(min = 1,max = 3,message = "권한이 없습니다")int ilevel){
+            , @PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid
+            , @Range(min = 1,max = 3, message = "권한이 없습니다")int ilevel){
         return service.kidProfile(year, ikid);
     }
 

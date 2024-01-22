@@ -5,7 +5,7 @@
     <select id="selCode">
         select ikid, kid_nm as kidNm, iclass, code
         from t_kid
-        where code =#{code}
+        where code = #{code}
     </select>
 
     <insert id="insParentKidTable">
@@ -41,8 +41,8 @@
 
     <update id="delParent">
         update t_parent
-        set pr_is_del=1
-        where iparent=#{iparent}
+        set pr_is_del = 1
+        where iparent = #{iparent}
     </update>
 
     <select id="checkParentInfo">
@@ -53,14 +53,19 @@
 
     <insert id="insParent" useGeneratedKeys="true" keyProperty="iprent">
         insert into t_parent
-        set parent_nm = #{parentNm}, uid = #{uid}, upw = #{upw},
-        phone_nb = #{phoneNb}, irelation = #{irelation} ,email =#{email}
+        set parent_nm = #{parentNm}
+        , uid = #{uid}
+        , upw = #{upw}
+        , ilevel = 1
+        , phone_nb = #{phoneNb}
+        , irelation = #{irelation}
+        , pr_email = #{prEmail}
     </insert>
 
     <select id="selBeforeInfo">
-        select uid, parent_nm as parentNm, phone_nb as phoneNb, email
+        select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
         from t_parent
-        where iparent = #{iparent} and ilevel =#{ilevel}
+        where iparent = #{iparent} and ilevel = #{ilevel}
     </select>
 
     <update id="putParent">
@@ -70,10 +75,10 @@
             parent_nm = #{parentNm}
         </if>
         <if test="phoneNb != null">
-            ,phone_nb =#{phoneNb}
+            ,phone_nb = #{phoneNb}
         </if>
-        <if test="email != null">
-            ,pr_email=#{email}
+        <if test="prEmail != null">
+            ,pr_email = #{prEmail}
         </if>
         <if test="upw != null">
             ,upw = #{upw}
@@ -87,8 +92,6 @@
         SET firebase_token = #{firebaseToken}
         WHERE iparent = #{iparent}
     </update>
-
-
 
 
 </mapper>

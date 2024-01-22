@@ -4,10 +4,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KidServiceTest {
+class KidMapperTest {
 
     @Test
     void kidProfile() {
+    }
+
+    @Test
+    void kidGrowth() {
+    }
+
+    @Test
+    void kidParent() {
     }
 
     @Test
@@ -19,11 +27,23 @@ class KidServiceTest {
     }
 
     @Test
-    void kidInsDetail() {
+    void selIkid() {
     }
 
     @Test
-    void kidUpdDetail() {
+    void kidGrowthInsDetail() {
+    }
+
+    @Test
+    void kidBodyInsDetail() {
+    }
+
+    @Test
+    void kidGrowthUpdDetail() {
+    }
+
+    @Test
+    void kidBodyUpdDetail() {
     }
 
     @Test
@@ -40,5 +60,9 @@ class KidServiceTest {
 
     @Test
     void allGraduateKid() {
+    }
+
+    @Test
+    void allGraduateDelKid() {
     }
 }

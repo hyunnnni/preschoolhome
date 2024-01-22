@@ -4,41 +4,41 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class KidServiceTest {
+class KidControllerTest {
 
     @Test
-    void kidProfile() {
+    void getKidProfile() {
     }
 
     @Test
-    void kidCode() {
+    void patchKidCode() {
     }
 
     @Test
-    void kidSignup() {
+    void postKidSignup() {
     }
 
     @Test
-    void kidInsDetail() {
+    void postKidInsDetail() {
     }
 
     @Test
-    void kidUpdDetail() {
+    void putKidUpdDetail() {
     }
 
     @Test
-    void kidDetailEdit() {
+    void getKidDetailEdit() {
     }
 
     @Test
-    void kidUpdProfile() {
+    void putKidProfile() {
     }
 
     @Test
-    void kidEdit() {
+    void getKidEdit() {
     }
 
     @Test
-    void allGraduateKid() {
+    void delAllGraduateKid() {
     }
 }
