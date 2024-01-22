@@ -96,7 +96,13 @@
     <!-- 활동 앨범 댓글 삭제 -->
     <delete id="delAlbumComment">
         DELETE FROM t_album_comment
-        WHERE ialbum = #{ialbum} and ialbum_comment = #{ialbumComment}
+        WHERE ialbum_comment = #{ialbumComment} and
+        <if test="iteacher > 0">
+            iteacher = #{iteacher}
+        </if>
+        <if test="iparent > 0">
+            iparent = #{iparent}
+        </if>
     </delete>
 
 
