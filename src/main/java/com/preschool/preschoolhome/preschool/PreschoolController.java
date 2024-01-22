@@ -6,6 +6,7 @@ import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.preschool.model.KidProfileVo;
 import com.preschool.preschoolhome.preschool.model.TeacherProfileVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/preschool")
+@Tag(name = "유치원 선생님 반 별 원아 불러오기", description = "유치원 현황")
 public class PreschoolController {
     private final PreschoolService service;
     private final AuthenticationFacade authenticationFacade;

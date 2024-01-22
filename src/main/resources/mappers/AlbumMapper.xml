@@ -64,16 +64,18 @@
             ( #{ialbum}, #{albumPic} )
         </foreach>
     </insert>
+
     <!-- 활동 앨범 삭제 -->
     <delete id="delAlbumCommentPics">
         DELETE B, C
         FROM t_album A
-        JOIN t_album_comment B
+        LEFT JOIN t_album_pics B
         ON A.ialbum = B.ialbum
-        JOIN t_album_pics C
+        LEFT JOIN t_album_comment C
         ON A.ialbum = C.ialbum
         WHERE A.ialbum = #{ialbum}
     </delete>
+
     <delete id="delAlbumAll">
         DELETE FROM t_album WHERE ialbum = #{ialbum}
     </delete>
@@ -94,13 +96,7 @@
     <!-- 활동 앨범 댓글 삭제 -->
     <delete id="delAlbumComment">
         DELETE FROM t_album_comment
-        WHERE ialbum = #{ialbum} and ialbum_comment = #{ialbumComment} and
-        <if test="iteacher > 0">
-            iteacher = #{iteacher}
-        </if>
-        <if test="iparent > 0">
-            iparent = #{iparent}
-        </if>
+        WHERE ialbum = #{ialbum} and ialbum_comment = #{ialbumComment}
     </delete>
 
 

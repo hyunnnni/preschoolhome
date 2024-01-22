@@ -19,8 +19,9 @@ public class AlbumSelDto {
     @JsonIgnore
     private int ilevel;
 
+
     public void setPage(int page) {
-        this.startIdx = (page - 1) * rowCount;
         this.rowCount = ROW_COUNT;
+        this.startIdx = (page - 1) * rowCount;
     }
 }
