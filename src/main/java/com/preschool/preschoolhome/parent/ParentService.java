@@ -107,7 +107,7 @@ public class ParentService {
         session.setAttribute("loginUserPk",entity.getIparent());
 
         pk.setAccessToken(at);
-
+        pk.setResult(Const.SUCCESS);
         return pk;
     }
 
