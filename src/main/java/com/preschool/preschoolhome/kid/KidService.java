@@ -33,8 +33,8 @@ public class KidService {
         vo.setResult(Const.SUCCESS);
         List<KidParent> parents = mapper.kidParent(ikid);
         List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
-        vo.setGrowths(growths);
         vo.setParents(parents);
+        vo.setGrowths(growths);
         return vo;
     }
 

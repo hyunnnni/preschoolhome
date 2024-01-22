@@ -16,8 +16,8 @@ spring:
       max-request-size: 15MB
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.0.154:3306/preschool
-#    url: jdbc:mariadb://localhost:3306/preschool
+#    url: jdbc:mariadb://192.168.0.154:3306/preschool
+    url: jdbc:mariadb://localhost:3306/preschool
     username: root
     password: green502
 
