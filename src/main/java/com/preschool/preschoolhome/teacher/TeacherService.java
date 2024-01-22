@@ -219,7 +219,8 @@ public class TeacherService {
     public TeacherEntity teacherSignin(HttpServletRequest req, HttpServletResponse res, TeacherSigninDto dto) {
         TeacherEntity entity = mapper.selTeacher(dto);
 
-        if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getTeacherUpw())) {
+        if (dto.getTeacherUid() != null && dto.getTeacherUpw() != null
+                && dto.getTeacherUpw().equals(entity.getTeacherUpw())) {
 
         }
         MyPrincipal myPrincipal = MyPrincipal.builder()

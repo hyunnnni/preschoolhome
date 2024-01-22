@@ -138,4 +138,15 @@
         SET tc_del = #{tcDel}
         WHERE iteacher = #{iteacher}
     </update>
+
+    <select id="selTeacher">
+        SELECT iteacher, ilevel, iclass, teacher_nm as teacherNm
+        , teacher_uid as teacherUid, teacher_upw as teacherUpw
+        , tc_email as tcEmail, teacher_introduce as teacherIntroduce
+        , teacher_profile as teacherProfile, created_at as createdAt
+        , firebase_token as firebaseToken
+        from t_teacher
+        where teacher_uid = #{teacherUid}
+        and teacher_upw = #{teacherUpw}
+    </select>
 </mapper>

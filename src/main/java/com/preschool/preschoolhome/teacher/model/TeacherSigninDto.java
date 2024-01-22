@@ -10,9 +10,9 @@ public class TeacherSigninDto {
     @JsonIgnore
     private int iteacher;
     @Schema(title = "아이디")
-    private String uid;
+    private String teacherUid;
     @Schema(title = "비밀번호")
-    private String upw;
+    private String teacherUpw;
 
 
 
