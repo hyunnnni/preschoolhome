@@ -10,7 +10,7 @@ public class TeacherPatchDto {
     private int iteacher;
     @Schema(title = "선생님 이름")
     private String teacherNm;
-    @Schema(title = "직급 PK")
+    @JsonIgnore
     private int ilevel;
     @Schema(title = "반 PK")
     private int iclass;

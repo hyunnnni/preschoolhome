@@ -12,7 +12,7 @@ import java.util.List;
 public class DelParentDto {
     @Schema(title = "학부모PK(여러 개 선택가능)")
     private List<Integer> iparents;
-    @Schema(title = "이 페이지에 접근하는 유저의 등급 PK")
+    @JsonIgnore
     private int ilevel;
     @JsonIgnore
     @Schema(title = "삭제 처리")

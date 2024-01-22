@@ -11,7 +11,7 @@ public interface ParentMapper {
 
     int insParent(ParentInsDto dto); //부모회원가입
 
-    ParentSigninDto selParent(ParentSigninDto dto); //부모님 로그인 셀렉
+    ParentEntity selParent(ParentSigninDto dto); //부모님 로그인 셀렉
 
     int insParentKidTable(ParentKid dto); //마이페이지 아이 추가
 
@@ -20,6 +20,8 @@ public interface ParentMapper {
     int putParent(UpParentDto dto);//마이페이지 정보수정
 
     int delParent(ParentDeleteDto dto);
+
+    int updUserFirebaseToken(UserFirebaseTokenPatchDto dto);
 
 
 

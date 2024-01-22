@@ -4,6 +4,8 @@ import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.parent.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +55,9 @@ public class ParentController {
             "uid와 upw로 로그인<br>" +
             "성공시 아이PK, 부모 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public ParentKid postParentSignin(@RequestBody ParentSigninDto dto){
-        return service.parentSignin(dto);
+    public ParentKid postParentSignin(HttpServletRequest req, HttpServletResponse res
+            , @RequestBody ParentSigninDto dto){
+        return service.parentSignin(req, res, dto);
     }
 
     @GetMapping("/edit")
@@ -96,6 +99,15 @@ public class ParentController {
 
     }
 
+    @GetMapping("/refresh-token")
+    public ParentKid getRefreshToken(HttpServletRequest req){
+        return service.getRefreshToken(req);
+    }
+
+    @PatchMapping("/firebase-token")
+    public ResVo patchUserFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
+        return service.patchUserFirebaseToken(dto);
+    }
 }
 
 

@@ -20,7 +20,10 @@
     <!--        where uid = #{uid}-->
     <!--    </select>-->
     <select id="selParent">
-        selet a.uid, a.upw, a.iparent, b.ikid
+        SELECT a.iparent, a.irelation, a.ilevel, a.uid, a.upw
+        , a.parent_nm as parentNm, a.phone_nb as phoneNb
+        , a.created_at as createdAt, a.pr_email as prEmail
+        , a.firebase_token as firebaseToken, b.ikid
         from t_parent a
         join t_parent_kid b
         on a.iparent = b.iparent
@@ -79,7 +82,11 @@
     </update>
 
 
-
+    <update id="updUserFirebaseToken">
+        UPDATE t_parent
+        SET firebase_token = #{firebaseToken}
+        WHERE iparent = #{iparent}
+    </update>
 
 
 

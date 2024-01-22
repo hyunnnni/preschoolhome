@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.notice;
 
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
@@ -19,8 +20,11 @@ import java.util.List;
 public class NoticeService {
     private final NoticeMapper mapper;
     private final MyFileUtils myFileUtils;
+    private final AuthenticationFacade authenticationFacade;
     //알림장 등록
     ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto){
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if(dto.getIlevel()<2){
             return new ResVo(Const.FAIL);
         }
@@ -45,13 +49,17 @@ public class NoticeService {
 
     }
     ResVo updNotice(NoticeUpdDto dto){
-
-
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
+        if(dto.getIlevel()<2){
+            return null;
+        }
         return null;
     }
 
-    ResVo delNotice(int iteacher, int inotice, int ilevel){
-        if(ilevel != 2){
+    ResVo delNotice(int iteacher, int inotice){
+        int level = authenticationFacade.getLevelPk();
+        if(level != 2){
             return new ResVo(Const.FAIL);
         }
         mapper.delAllNotice(iteacher, inotice);

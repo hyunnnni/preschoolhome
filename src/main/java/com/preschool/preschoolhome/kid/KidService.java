@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.kid;
 
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
@@ -22,9 +23,12 @@ import java.util.List;
 public class KidService {
     private final KidMapper mapper;
     private final MyFileUtils myFileUtils;
+    private final AuthenticationFacade authenticationFacade;
 
     //원아 해당 년도 마이페이지 조회
     public KidProfileVo kidProfile(int year, int ikid) {
+        int level = authenticationFacade.getLevelPk();
+
         KidProfileVo vo = mapper.kidProfile(ikid);
         vo.setResult(Const.SUCCESS);
         List<KidParent> parents = mapper.kidParent(ikid);

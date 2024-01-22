@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.fullnotice;
 
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeDto;
 import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeVo;
@@ -17,11 +18,13 @@ import java.util.List;
 public class FullNoticeService {
     private final FullNoticeMapper mapper;
     private final MyFileUtils myFileUtils;
+    private final AuthenticationFacade authenticationFacade;
 
     //-------------------게시판 조회-----------
     //전체게시판 조회
     public List<SelFullNoticeVo> getAllFullNotice(SelFullNoticeDto dto) {
-
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
         if (noticeFix.size() == 0 || noticeFix.size()>3) {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
@@ -47,8 +50,6 @@ public class FullNoticeService {
         SelNoticeVo notice = mapper.getNotice(iFullNotice);
         List<String> pics = mapper.selNoticePic(iFullNotice);
         notice.setPics(pics);
-
-
 
 
         return notice;

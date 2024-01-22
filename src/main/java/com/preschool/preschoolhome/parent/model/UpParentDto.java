@@ -1,14 +1,15 @@
 package com.preschool.preschoolhome.parent.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 @Schema(title = "부모 정보수정")
 public class UpParentDto {
-    @Schema(title = "부모PK")
+    @JsonIgnore
     private int iparent;
-    @Schema(title = "등급PK")
+    @JsonIgnore
     private int ilevel;
     @Schema(title = "부모이름")
     private String parentNm;

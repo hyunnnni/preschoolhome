@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.parent.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -8,7 +9,7 @@ import lombok.Data;
 public class CodeDto {
     @Schema(title = "코드")
     private String code;
-    @Schema(title = "부모 PK")
+    @JsonIgnore
     private int iparent;
 
 }

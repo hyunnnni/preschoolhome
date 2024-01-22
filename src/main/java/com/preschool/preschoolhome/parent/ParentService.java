@@ -1,10 +1,22 @@
 package com.preschool.preschoolhome.parent;
 
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
+import com.preschool.preschoolhome.common.security.JwtTokenProvider;
+import com.preschool.preschoolhome.common.security.MyPrincipal;
+import com.preschool.preschoolhome.common.security.MyUserDetails;
+import com.preschool.preschoolhome.common.utils.AppProperties;
+import com.preschool.preschoolhome.common.utils.Const;
+import com.preschool.preschoolhome.common.utils.CookieUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.common.exception.*;
 import com.preschool.preschoolhome.parent.model.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -13,6 +25,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ParentService {
     private final ParentMapper mapper;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final AppProperties appProperties;
+    private final CookieUtils cookieUtils;
+    private final AuthenticationFacade authenticationFacade;
 
     //식별코드 매칭
     public CodeVo getMatch(CodeDto dto) {
@@ -53,7 +70,6 @@ public class ParentService {
         }
 
         if (dto.getIsValid() == 1) {
-            ResVo vo = new ResVo();
             mapper.insParent(dto);
             ParentKid pk = new ParentKid();
             pk.setIkid(dto.getIkid());
@@ -68,48 +84,68 @@ public class ParentService {
     }
 
     //부모님 로그인
-    public ParentKid parentSignin(ParentSigninDto dto) {
-        ParentSigninDto saveVo = mapper.selParent(dto);
+    public ParentKid parentSignin(HttpServletRequest req, HttpServletResponse res, ParentSigninDto dto) {
+        ParentEntity entity = mapper.selParent(dto);
         ParentKid pk = new ParentKid();
-        if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(saveVo.getUpw())) {
-            pk.setIparent(saveVo.getIparent());
-            pk.setIkid(saveVo.getIkid());
+
+        if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
+            pk.setIparent(entity.getIparent());
+            pk.setIkid(entity.getIkid());
         }
+        MyPrincipal myPrincipal = MyPrincipal.builder()
+                .iuser(entity.getIparent())
+                .ilevel(entity.getIlevel())
+                .build();
+        String at = jwtTokenProvider.generateAccessToken(myPrincipal);
+        String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
+
+        int rtCookieMaxAge = appProperties.getJwt().getRefreshTokenCookieMaxAge();
+        cookieUtils.deleteCookie(res,"rt");
+        cookieUtils.setCookie(res,"rt",rt,rtCookieMaxAge);
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute("loginUserPk",entity.getIparent());
+
+        pk.setAccessToken(at);
+
         return pk;
     }
 
     //원래정보 불러오기
     public ParentBeforInfoVo getParentEdit(ParentBeforinfoDto dto) {
-        ParentBeforinfoDto beforinfoDto = new ParentBeforinfoDto();
-        if(dto.getIparent() != beforinfoDto.getIparent() ){
-            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-        }
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        dto.setIparent(loginUserPk);
+
         ParentBeforInfoVo vo = mapper.selBeforeInfo(dto);
         return vo;
     }
 
 
-    //부모 마이페이지ㅏ 정보수정
+    //부모 마이페이지 정보수정
     public ResVo putParent(UpParentDto dto) {
-
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        dto.setIparent(loginUserPk);
+        dto.setIlevel(level);
         if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getEmail() == null
                 && dto.getUpw() == null) {
             return new ResVo(-1);
             //throw new RestApiException(AuthErrorCode.CHECK_CODE);
         }
+
         int result1 = mapper.putParent(dto);
         if (result1 == 0) {
             return new ResVo(-1);
             //throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-
-
         return new ResVo(1);
 
     }
 
     //마이페이지 원아추가
     public CodeVo postKidCode(CodeDto dto) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        dto.setIparent(loginUserPk);
         CodeVo vo = new CodeVo();
         if(dto.getCode()!= vo.getCode()){
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
@@ -124,12 +160,42 @@ public class ParentService {
 
     //부모 정보 삭제
     public ResVo delParentSelf(ParentDeleteDto dto) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        dto.setIparent(loginUserPk);
+
         int delete = mapper.delParent(dto);
         if(delete ==0){
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
 
         }else
             return new ResVo(1);
+    }
+
+    public ParentKid getRefreshToken(HttpServletRequest req){//at를 다시 만들어줌
+        Cookie cookie = cookieUtils.getCookie(req,"rt");
+        ParentKid vo = new ParentKid();
+        if(cookie == null){
+            vo.setResult(Const.FAIL);
+            vo.setAccessToken(null);
+            return vo;
+        }
+        String token = cookie.getValue();
+        if(!jwtTokenProvider.isValidateToken(token)){
+            vo.setResult(Const.FAIL);
+            vo.setAccessToken(null);
+            return vo;
+        }
+        MyUserDetails myUserDetails = (MyUserDetails) jwtTokenProvider.getUserDetailsFromToken(token);
+        MyPrincipal myPrincipal = myUserDetails.getMyPrincipal();
+        String at = jwtTokenProvider.generateAccessToken(myPrincipal);
+        vo.setResult(Const.SUCCESS);
+        vo.setAccessToken(at);
+        return vo;
+    }
+
+    public ResVo patchUserFirebaseToken(UserFirebaseTokenPatchDto dto) {
+        int affectedRows = mapper.updUserFirebaseToken(dto);
+        return new ResVo(affectedRows);
     }
 }
 

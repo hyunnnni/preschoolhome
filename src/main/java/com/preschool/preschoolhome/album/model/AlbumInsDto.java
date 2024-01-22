@@ -17,7 +17,7 @@ public class AlbumInsDto {
     private String albumContent;
     @JsonIgnore
     private List<MultipartFile> albumPic;
-    //    @JsonIgnore
+    @JsonIgnore
     private int ilevel;
     @JsonIgnore
     private int ialbum;

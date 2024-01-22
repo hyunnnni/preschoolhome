@@ -11,4 +11,8 @@ public class ParentKid {
     private int iparent;
     @Schema(title = "아이PK")
     private int ikid;
+
+    private int result;
+    private String firebaseToken;
+    private String accessToken;
 }

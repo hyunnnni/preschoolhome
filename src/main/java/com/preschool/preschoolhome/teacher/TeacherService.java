@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.teacher;
 
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.common.utils.Const;
@@ -20,9 +21,12 @@ import java.util.List;
 public class TeacherService {
     private final TeacherMapper mapper;
     private final MyFileUtils myFileUtils;
+    private final AuthenticationFacade authenticationFacade;
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
     public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto){
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
         List<SelKidManagementVo> voList = new ArrayList<>();
         SelKidManagementVo vo = new SelKidManagementVo();
@@ -47,6 +51,8 @@ public class TeacherService {
     }
     //-------------------------------- 원아 재원 상태 / 반 승급 수정 --------------------------------
     public ResVo patchKidStateOrClass (UpdKidStateDto dto){
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
         if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
             return new ResVo(Const.NO_PERMISSION);
@@ -54,7 +60,7 @@ public class TeacherService {
 
         int result = mapper.updKidStateOrClass(dto);
         DelStateParentIsProc pDto = new DelStateParentIsProc();
-        int delResult = Const.RESULT;
+        int delResult = Const.RESULT;  ///이거 확인 1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
         if(dto.getKidCheck() == Const.STATE_GRADUATE || dto.getKidCheck() == Const.STATE_DROP_OUT) {
 
@@ -87,6 +93,8 @@ public class TeacherService {
     }
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
     public List<SelParManagementVo> getParentManagement (SelParManagementDto dto){
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         List<SelParManagementVo> voList = new ArrayList<>();
         SelParManagementVo vo = new SelParManagementVo();
 
@@ -121,7 +129,8 @@ public class TeacherService {
 //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
 
     public ResVo delParent(DelParentDto dto){
-
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
             return new ResVo(Const.NO_PERMISSION);
         }
@@ -141,7 +150,8 @@ public class TeacherService {
 //-------------------------------- 학부모와 원아 연결 끊기  --------------------------------
 
     public ResVo delDisconnect(DelDisconnectDto dto){
-
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
             return new ResVo(Const.NO_PERMISSION);
         }
@@ -157,6 +167,8 @@ public class TeacherService {
 
     // 선생님 정보 수정
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getIlevel() < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -177,6 +189,8 @@ public class TeacherService {
 
     // 선생님 정보 삭제
     public ResVo delTeacher(TeacherDelDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getIlevel() < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }

@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.album;
 import com.preschool.preschoolhome.album.model.*;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,12 @@ import static com.preschool.preschoolhome.common.utils.Const.SUCCESS;
 public class AlbumService {
     private final AlbumMapper mapper;
     private final MyFileUtils myFileUtils;
-
+    private final AuthenticationFacade authenticationFacade;
     // 활동 앨범 전체 조회
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
+
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -37,11 +41,12 @@ public class AlbumService {
 
     // 활동 앨범 상세 조회
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         List<AlbumDetailSelVo> list = mapper.selDetailAlbum(dto);
-//        dto.setIlevel(authenticationFacade.getLevelPk());
         for (AlbumDetailSelVo vo : list) {
             List<String> pics = mapper.selPicsAlbum(dto);
             vo.setAlbumPic(pics);
@@ -54,6 +59,8 @@ public class AlbumService {
 
     // 활동앨범 등록
     public ResVo postAlbum(AlbumInsDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -78,6 +85,8 @@ public class AlbumService {
 
     // 활동 앨범 삭제
     public ResVo delAlbum (AlbumDelDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -96,6 +105,10 @@ public class AlbumService {
 
     // 활동 앨범 댓글 등록
     public ResVo postAlbumComment(AlbumCommentInsDto dto) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        dto.setIparent(loginUserPk);
+        dto.setIlevel(level);
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
