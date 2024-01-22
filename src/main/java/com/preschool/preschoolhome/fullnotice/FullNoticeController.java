@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/fullnotice")
+@RequestMapping("/api/full")
 @Tag(name = "유치원 소식 기능 API", description = "유치원 소식 관련 기능 설정")
 public class FullNoticeController {
     private final FullNoticeService service;
