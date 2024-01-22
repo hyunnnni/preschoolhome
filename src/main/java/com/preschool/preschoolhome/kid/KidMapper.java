@@ -15,6 +15,7 @@ public interface KidMapper {
     int kidCode(int ikid);
     //원아등록
     int kidSignup(KidInsDto dto);
+    int kidgrade(KidInsDto dto);
     int selIkid(KidInsDto dto);
     //원아 발달사항 등록
     int kidGrowthInsDetail(KidDetailInsDto dto);

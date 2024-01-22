@@ -57,6 +57,8 @@ public class KidService {
         dto.setProfile(savedPicFileNm);
         mapper.kidSignup(dto);
         int ikid = mapper.selIkid(dto);
+        dto.setIkid(ikid);
+        mapper.kidgrade(dto);
         KidInsVo vo2 = new KidInsVo();
         vo2.setCode(dto.getCode());
         vo2.setIkid(ikid);

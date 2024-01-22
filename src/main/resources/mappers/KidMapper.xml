@@ -9,7 +9,6 @@
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>
-    <!--                  원아 정보 출력                    -->
     <select id="kidParent">
         SELECT a.iparent, a.uid, a.parent_nm as parentNm
         , a.phone_nb as phoneNb, a.irelation
@@ -18,7 +17,6 @@
         ON a.iparent = b.iparent
         WHERE b.ikid = #{ikid}
     </select>
-    <!--                  원아 정보 출력                    -->
     <select id="kidGrowth">
         SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
         , b.growth_date as growthDate, b.growth_memo as growthMemo
@@ -52,7 +50,11 @@
         , emer_nb = #{emerNb}
         , memo = #{memo}
     </insert>
-    <!--                  원아 등록                         -->
+    <insert id="kidgrade">
+        INSERT INTO t_grade
+        SET ikid = #{ikid}
+        , iclass = #{iclass}
+    </insert>
     <select id="selIkid">
         SELECT ikid
         FROM t_kid
@@ -74,7 +76,6 @@
         </if>
         </set>
     </insert>
-    <!--                  원아 발달사항 등록                  -->
     <insert id="kidBodyInsDetail">
         INSERT t_body
         <set> ikid = #{ikid}
@@ -90,6 +91,12 @@
         </if>
         </set>
     </insert>
+    <!--              원아 발달사항 수정 시 기존 정보 출력              -->
+    <select id="kidDetailEdit">
+        SELECT kid_nm as kidNm, birth, gender, iclass
+        FROM t_kid
+        WHERE ikid = #{ikid}
+    </select>
     <!--                  원아 발달사항 수정                  -->
     <update id="kidGrowthUpdDetail">
         UPDATE t_growth
@@ -105,13 +112,6 @@
         WHERE ikid = #{ikid}
         and growth_date = #{growthDate}
     </update>
-    <!--              원아 발달사항 수정 시 기존 정보 출력              -->
-    <select id="kidDetailEdit">
-        SELECT kid_nm as kidNm, birth, gender, iclass
-        FROM t_kid
-        WHERE ikid = #{ikid}
-    </select>
-    <!--                  원아 발달사항 수정                  -->
     <update id="kidBodyUpdDetail">
         UPDATE t_body
         <set>
