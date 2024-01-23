@@ -100,4 +100,58 @@
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
+    <!--                 알림장 상세 조회                  -->
+    <select id="selNoticeDetail">
+        SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents
+        , A.created_at AS createdAt, B.kid_nm AS kidNm, B.iclass
+        FROM t_notice_board AS A
+        JOIN t_kid AS B
+        ON A.ikid = B.ikid
+        WHERE A.inotice = #{inotice}
+    </select>
+    <!--                 알림장 댓글 정보 조회                 -->
+    <select id="selNoticeDetailCom">
+        SELECT inotice_comment AS inoticeComment, notice_comment AS noticeComment,
+        created_at as createdAt, iteacher, iparent
+        FROM t_notice_comment
+        WHERE inotice = #{inotice}
+    </select>
+    <!--                 알림장 작성자 pk로 이름 조회(관리자)                 -->
+    <select id="selNoticeDetailTea">
+        SELECT iteacher AS writerIuser, teacher_nm AS writerName, ilevel
+        FROM t_teacher
+        WHERE iteacher = #{iteacher}
+    </select>
+    <!--                 알림장 작성자 pk로 이름 조회(부모님)                 -->
+    <select id="selNoticeDetailPar">
+        SELECT iparent AS writerIuser, parent_nm AS writerName, ilevel
+        FROM t_parent
+        WHERE iparent = #{iparent}
+    </select>
+    <!--                 알림장 사진 조회                 -->
+    <select id="selNoticeDetailPics">
+        SELECT notice_pic, inotice
+        FROM t_notice_pics
+        WHERE inotice = #{inotice}
+    </select>
+    <!--                 알림장 댓글 등록                 -->
+    <insert id="insNoticeComment">
+        INSERT INTO t_notice_comment
+        SET inotice = #{inotice},
+        notice_comment = #{noticeComment},
+        iteacher = #{iteacher},
+        iparent = #{iparent}
+    </insert>
+    <!--                 알림장 댓글 삭제                 -->
+    <delete id="delNoticeComment">
+        DELETE
+        FROM t_notice_comment
+        WHERE inotice_comment = #{inoticeComment} AND
+        <if test="iteacher > 0">
+            iteacher = #{iteacher}
+        </if>
+        <if test="iparent > 0">
+            iparent = #{iparent}
+        </if>
+    </delete>
 </mapper>
