@@ -114,11 +114,10 @@ public class ParentService {
     }
 
     //원래정보 불러오기
-    public ParentBeforInfoVo getParentEdit(ParentBeforinfoDto dto) {
+    public ParentBeforInfoVo getParentEdit(int ilevel) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        dto.setIparent(loginUserPk);
 
-        ParentBeforInfoVo vo = mapper.selBeforeInfo(dto);
+        ParentBeforInfoVo vo = mapper.selBeforeInfo(ilevel);
         return vo;
     }
 

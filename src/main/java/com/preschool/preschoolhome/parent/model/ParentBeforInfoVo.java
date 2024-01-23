@@ -1,11 +1,14 @@
 package com.preschool.preschoolhome.parent.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 @Schema(title = "Parent수정 전 정보 Select")
 public class ParentBeforInfoVo {
+    @JsonIgnore
+    private int iparent;
     @Schema(title = "부모이름")
     private String parentNm;
     @Schema(title = "휴대폰번호")

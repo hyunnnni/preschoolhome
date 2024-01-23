@@ -38,7 +38,7 @@ public class FullNoticeController {
             "유치원 소식<br>" +
             "성공시 페이지 띄우기<br>" +
             "실패시 에러메세지송출<br>")
-    public SelNoticeVo getNotice(int iFullNotice) {
+    public SelNoticeVo getNotice(@RequestParam @Schema(title = "게시글")int iFullNotice) {
         return service.getFullNotice(iFullNotice);
     }
 

@@ -30,8 +30,8 @@
         where uid = #{uid} and upw = #{upw}
     </select>
     <select id="checkParentsId">
-        SELECT a.uid, a.upw
-        from t_parent a
+        SELECT uid, upw, iparent, ilevel
+        from t_parent
         where uid = #{uid} and upw = #{upw}
     </select>
 

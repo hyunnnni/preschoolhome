@@ -56,7 +56,6 @@ public class FullNoticeService {
         List<String> pics = mapper.selNoticePic(iFullNotice);
         notice.setPics(pics);
 
-
         return notice;
     }
 

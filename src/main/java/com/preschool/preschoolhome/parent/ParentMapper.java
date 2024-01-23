@@ -15,7 +15,7 @@ public interface ParentMapper {
     ParentEntity checkParentsId(ParentSigninDto dto);
     int insParentKidTable(ParentKid dto); //마이페이지 아이 추가
 
-    ParentBeforInfoVo selBeforeInfo(ParentBeforinfoDto dto); //원래정보 불러오기
+    ParentBeforInfoVo selBeforeInfo(int ilevel); //원래정보 불러오기
 
     int putParent(UpParentDto dto);//마이페이지 정보수정
 
