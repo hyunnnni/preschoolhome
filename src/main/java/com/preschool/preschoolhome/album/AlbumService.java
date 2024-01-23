@@ -65,7 +65,7 @@ public class AlbumService {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         int AffectedRows = mapper.insAlbum(dto);
-        String target = "/album/" + dto.getAlbumTitle();
+        String target = "/album/" + dto.getIalbum();
 
         AlbumPicsInsDto pdto = new AlbumPicsInsDto();
         pdto.setIalbum(dto.getIalbum());
@@ -135,5 +135,40 @@ public class AlbumService {
         }
         return new ResVo(FAIL);
     }
+    // 활동 앨범 수정 시 정보 출력
+    public AlbumDeSelVo albumEdit(int iteacher, int ialbum) {
+        AlbumDeSelVo vo = mapper.selAlbumContent(iteacher, ialbum);
+        List<String> pics = mapper.albumEditPics(ialbum);
+        vo.setAlbumPic(pics);
+        return vo;
+    }
 
+    // 활동 앨범 수정
+    public ResVo putAlbum(List<MultipartFile> pics, AlbumUpdDto dto) {
+        if (dto.getIlevel() < 1) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+        String target = "/album/" + dto.getIalbum();
+
+        int updAfftectedRows = mapper.updAlbum(dto);
+        if(updAfftectedRows == 0){
+            return new ResVo(FAIL);
+        }
+        int delPicsAffectedRows = mapper.delAlbumPic(dto);
+        if (delPicsAffectedRows == 0) {
+            return new ResVo(FAIL);
+        }
+
+        AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
+        picsDto.setIalbum(dto.getIalbum());
+        for (MultipartFile file: pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getAlbumPic().add(saveFileNm);
+        }
+        int picsAffectedRows = mapper.insAlbumPic(picsDto);
+        if (picsAffectedRows == 0) {
+            return new ResVo(FAIL);
+        }
+        return new ResVo(SUCCESS);
+    }
 }

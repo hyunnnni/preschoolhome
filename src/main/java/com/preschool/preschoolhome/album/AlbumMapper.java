@@ -26,7 +26,11 @@ public interface AlbumMapper {
     // 활동 앨범 상세 조회 (댓글)
     List<AlbumAllCommentVo> selCommentAlbum (AlbumDetailSelDto dto);
 
-
+    // 활동 앨범 수정
+    AlbumDeSelVo selAlbumContent(int ialbum, int iteacher);
+    List<String> albumEditPics(int ialbum);
+    int updAlbum (AlbumUpdDto dto);
+    int delAlbumPic(AlbumUpdDto dto);
 
     // 활동 앨범 삭제 (사진, 댓글)
     int delAlbumCommentPics (AlbumDelDto dto);

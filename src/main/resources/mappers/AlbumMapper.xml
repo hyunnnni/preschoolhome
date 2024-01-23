@@ -65,15 +65,37 @@
         </foreach>
     </insert>
 
+    <!-- 활동 앨범 글 내용 가져오기-->
+    <select id="selAlbumContent">
+        SELECT album_title AS albumTitle, album_content AS albumContent
+        FROM t_album
+        WHERE ialbum = #{ialbum}
+    </select>
+
     <!-- 활동 앨범 삭제 -->
     <delete id="delAlbumCommentPics">
         DELETE B, C
         FROM t_album A
-        LEFT JOIN t_album_pics B
+        LEFT JOIN t_album_comment B
         ON A.ialbum = B.ialbum
-        LEFT JOIN t_album_comment C
+        LEFT JOIN t_album_pics C
         ON A.ialbum = C.ialbum
         WHERE A.ialbum = #{ialbum}
+        <if test="ilevel == 2">
+            and A.iteacher = #{iteacher}
+        </if>
+    </delete>
+    <!-- 활동 앨범 수정 -->
+    <update id="updAlbum">
+        UPDATE t_album
+        SET album_title = #{albumTitle}
+        , album_content = #{albumContent}
+        WHERE ialbum = #{ialbum}
+    </update>
+    <!-- 활동 앨범 수정(사진) -->
+    <delete id="delAlbumPic">
+        DELETE FROM t_album_pics
+        WHERE ialbum = #{ialbum}
     </delete>
 
     <delete id="delAlbumAll">
