@@ -36,4 +36,81 @@
         ON N.iteacher = T.iteacher
         where ifull_notice =#{iFullNotice}
     </select>
+
+    <!--                 유치원 소식 작성                   -->
+    <insert id="postFullNotice" keyProperty="ifullNotice" useGeneratedKeys="true">
+        INSERT INTO t_full_notice
+        (iteacher, full_title, full_contents, full_notice_fix)
+        VALUES
+        (#{iteacher}, #{fullTitle}, #{fullContents}, #{fullNoticeFix})
+    </insert>
+    <!--                 유치원 소식 사진 작성                   -->
+    <insert id="postFullNoticePics">
+        INSERT INTO t_full_notice_pics
+        (ifull_notice, full_pic)
+        VALUES
+        <foreach collection="fullPic" item="pic" open="(" close=")" separator="),(">
+            #{ifullNotice}, #{pic}
+        </foreach>
+    </insert>
+    <!--                 유치원 소식 작성자 pk 조회                  -->
+    <select id="selFullNoticeWriter">
+        SELECT iteacher
+        FROM t_full_notice
+        WHERE ifull_notice = #{ifullNotice}
+    </select>
+    <!--                 유치원 소식 사진 삭제                  -->
+    <delete id="delFullNoticePics">
+        DELETE
+        FROM t_full_notice_pics
+        WHERE ifull_notice = #{ifullNotice}
+    </delete>
+    <!--                 유치원 소식 삭제                   -->
+    <delete id="delFullNotice">
+        DELETE
+        FROM t_full_notice
+        WHERE ifull_notice = #{ifullNotice}
+    </delete>
+    <!--                 유치원 소식 수정                  -->
+    <update id="putFullNotice">
+        UPDATE t_full_notice
+        SET iteacher = #{iteacher},
+        full_title = #{fullTitle},
+        full_contents = #{fullContents},
+        full_notice_fix = #{fullNoticeFix}
+        WHERE ifull_notice = #{ifullNotice}
+    </update>
+    <!--                 유치원 소식 수정 시 사진 삭제                 -->
+    <delete id="delUpdFullNoticePics">
+        DELETE
+        FROM t_full_notice_pics
+        WHERE ifull_notice = #{ifullNotice}
+    </delete>
+    <!--                 유치원 소식 사진 개수 조회                  -->
+    <select id="selFullNoticePics">
+        SELECT COUNT(ifull_pic)
+        FROM t_full_notice_pics
+        WHERE ifull_notice = #{ifullNotice}
+    </select>
+    <!--                 유치원 소식 상단 고정 기능 조회                  -->
+    <select id="selNoticeFix">
+        SELECT COUNT(full_notice_fix)
+        from t_full_notice
+        WHERE full_notice_fix = 1
+    </select>
+    <!--                 유치원 소식 수정 시 불러오기                  -->
+    <select id="selFullNoticeUpd">
+        SELECT A.full_title AS fullTitle, A.full_contents AS fullContents, A.iteacher AS writer, B.teacher_nm AS writerName,
+        A.created_at AS createdAt, A.full_notice_fix AS fullNoticeFix
+        FROM t_full_notice AS A
+        JOIN t_teacher AS B
+        ON A.iteacher = B.iteacher
+        WHERE A.ifull_notice = #{ifullNotice}
+    </select>
+    <!--                 유치원 소식 수정 시 사진 불러오기                  -->
+    <select id="selFullNoticeUpdPics">
+        SELECT full_pic
+        FROM t_full_notice_pics
+        WHERE ifull_notice = #{ifullNotice}
+    </select>
 </mapper>
