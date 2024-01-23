@@ -12,7 +12,9 @@ public interface ParentMapper {
     int insParent(ParentInsDto dto); //부모회원가입
 
     ParentEntity selParent(ParentSigninDto dto); //부모님 로그인 셀렉
+
     ParentEntity checkParentsId(ParentSigninDto dto);
+
     int insParentKidTable(ParentKid dto); //마이페이지 아이 추가
 
     ParentBeforInfoVo selBeforeInfo(int ilevel); //원래정보 불러오기
