@@ -63,8 +63,7 @@ public class KidService {
     //원아 등록
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
-        if (dto.getIlevel() < 2) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (dto.getKidNm() == null || dto.getBirth() == null ||
