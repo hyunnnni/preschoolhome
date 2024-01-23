@@ -102,7 +102,7 @@ public class ParentService {
         ParentKid pk = new ParentKid();
 
         if (upw == null) {
-            throw new RestApiException(AuthErrorCode.CHECK_UID);
+            throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
 
         } else if (!dto.getUpw().equals(upw)) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
