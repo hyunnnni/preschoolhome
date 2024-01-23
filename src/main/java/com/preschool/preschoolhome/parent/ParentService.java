@@ -87,7 +87,7 @@ public class ParentService {
 
     //부모님 로그인
     public ParentKid parentSignin(HttpServletRequest req, HttpServletResponse res, ParentSigninDto dto) {
-        ParentEntity entity = mapper.selParent(dto);
+        ParentEntity entity = mapper.checkParentsId(dto);
         ParentKid pk = new ParentKid();
 
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {

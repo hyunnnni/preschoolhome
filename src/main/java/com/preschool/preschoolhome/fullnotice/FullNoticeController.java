@@ -4,6 +4,7 @@ import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeDto;
 import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeVo;
 import com.preschool.preschoolhome.fullnotice.model.SelNoticeVo;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,9 @@ public class FullNoticeController {
             "게시판 전체보내기<br>" +
             "성공시 페이지 띄우기<br>" +
             "실패시 에러메세지송출<br>")
-    public List<SelFullNoticeVo> getAllFullNotice(SelFullNoticeDto dto) {
+    public List<SelFullNoticeVo> getAllFullNotice(@RequestParam @Schema(title = "페이지") int page) {
+        SelFullNoticeDto dto = new SelFullNoticeDto();
+        dto.setPage(page);
         return service.getAllFullNotice(dto);
     }
 
@@ -35,10 +38,9 @@ public class FullNoticeController {
             "유치원 소식<br>" +
             "성공시 페이지 띄우기<br>" +
             "실패시 에러메세지송출<br>")
-    public SelNoticeVo getNotice(int iFullNotice){
+    public SelNoticeVo getNotice(int iFullNotice) {
         return service.getFullNotice(iFullNotice);
     }
-
 
 
 }

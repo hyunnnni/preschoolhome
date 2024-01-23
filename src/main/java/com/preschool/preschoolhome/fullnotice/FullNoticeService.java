@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.fullnotice;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeDto;
 import com.preschool.preschoolhome.fullnotice.model.SelFullNoticeVo;
@@ -25,10 +26,14 @@ public class FullNoticeService {
     public List<SelFullNoticeVo> getAllFullNotice(SelFullNoticeDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
+
         List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
         if (noticeFix.size() == 0 || noticeFix.size()>3) {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
         }
+
+        dto.setRow(Const.NOTICE_COUNT_PER_PAGE - noticeFix.size());
+
         //size 0일때 예외처리, 두개값 합쳤을시 10 초과나 미만일시 예외처리
         List<SelFullNoticeVo> noticelist = mapper.getFullNoticelist(dto);
         if (noticelist.size() == 0) {

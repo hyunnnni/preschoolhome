@@ -29,6 +29,11 @@
         on a.iparent = b.iparent
         where uid = #{uid} and upw = #{upw}
     </select>
+    <select id="checkParentsId">
+        SELECT a.uid, a.upw
+        from t_parent a
+        where uid = #{uid} and upw = #{upw}
+    </select>
 
 
     <!--    <update id="upCheckUid">-->

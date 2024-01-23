@@ -33,6 +33,9 @@ fcm:
 
 server:
   port: 8080
+logging:
+  level:
+    -com.preschool.preschoolhome: debug
 
 ---
 spring:
@@ -46,3 +49,7 @@ spring:
 
 file:
   dir: /home/download/
+
+logging:
+  level:
+    -com.preschool.preschoolhome: info
