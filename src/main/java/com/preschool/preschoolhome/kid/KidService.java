@@ -180,12 +180,10 @@ public class KidService {
     //원아 발달사항 수정 시 기존 데이터 조회
     public KidDetailEditVo kidDetailEdit(int ikid, int year) {
         int level = authenticationFacade.getLevelPk();
-        KidDetailEditVo vo = new KidDetailEditVo();
-        if (level < 2) {
-            vo.setResult(Const.FAIL);
-            return vo;
+        if (level < 2 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        vo = mapper.kidDetailEdit(ikid);
+        KidDetailEditVo vo = mapper.kidDetailEdit(ikid);
         List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
         vo.setGrowths(growths);
         vo.setResult(Const.SUCCESS);
@@ -194,12 +192,13 @@ public class KidService {
     //원아 프로필 수정
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
+        if (level < 2 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null || dto.getIlevel() < 2) {
-            ResVo vo1 = new ResVo(Const.FAIL);
-            return vo1;
+                pic == null) {
+            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
         }
         String path = "/kid/" + dto.getIkid();
         myFileUtils.delFolderTrigger(path);
@@ -211,12 +210,10 @@ public class KidService {
     //원아 프로필 수정 시 기존 데이터 조회
     public KidProfileEditVo kidEdit(int ikid){
         int level = authenticationFacade.getLevelPk();
-        KidProfileEditVo vo = new KidProfileEditVo();
-        if (level < 2) {
-            vo.setResult(Const.FAIL);
-            return vo;
+        if (level < 2 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        vo = mapper.kidEdit(ikid);
+        KidProfileEditVo vo = mapper.kidEdit(ikid);
         vo.setResult(Const.SUCCESS);
         return vo;
     }
@@ -224,9 +221,8 @@ public class KidService {
     //졸업한 지 10년 된  원아 전체 삭제
     public ResVo allGraduateKid() {
         int level = authenticationFacade.getLevelPk();
-
-        if (level < 3) {
-            return new ResVo(Const.FAIL);
+        if (level < 3 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         mapper.allGraduateKid();
         mapper.allGraduateDelKid();
