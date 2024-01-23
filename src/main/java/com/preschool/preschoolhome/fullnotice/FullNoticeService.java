@@ -28,7 +28,7 @@ public class FullNoticeService {
         dto.setIlevel(level);
 
         List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
-        if (noticeFix.size() == 0 || noticeFix.size()>3) {
+        if (noticeFix.size() == 0 || noticeFix.size() > 3) {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
         }
 
@@ -42,7 +42,7 @@ public class FullNoticeService {
         List<SelFullNoticeVo> voList = new ArrayList<>();
         voList.addAll(noticeFix);
         voList.addAll(noticelist);
-        if(voList.size()>10){
+        if (voList.size() > 10) {
             throw new RestApiException(AuthErrorCode.OVER_FIX_NOTICE);
         }
 
@@ -52,10 +52,10 @@ public class FullNoticeService {
     //우선 받은값들을 가져와서 사진여러개를 공지사항 안에 넣어줘야함
     //개별게시판 조회
     public SelNoticeVo getFullNotice(int iFullNotice) {
+
         SelNoticeVo notice = mapper.getNotice(iFullNotice);
         List<String> pics = mapper.selNoticePic(iFullNotice);
         notice.setPics(pics);
-
         return notice;
     }
 

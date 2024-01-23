@@ -43,7 +43,7 @@ spring:
     activate:
       on-profile: "prod"
   datasource:
-    url: jdbc:mariadb://192.168.0.144:5224/preschool
+    url: jdbc:mariadb://192.168.0.144:3306/preschool
     username: even_last_4
     password: keystone
 
