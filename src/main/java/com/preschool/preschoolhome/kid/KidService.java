@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.kid;
 
+import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
@@ -31,9 +32,7 @@ public class KidService {
     public KidProfileVo kidProfile(int year, int ikid) {
         int level = authenticationFacade.getLevelPk();
         if (level < 1) {
-            KidProfileVo vo1 = new KidProfileVo();
-            vo1.setResult(Const.FAIL);
-            return vo1;
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         try {
             KidProfileVo vo = mapper.kidProfile(ikid);
@@ -53,8 +52,13 @@ public class KidService {
 
     //원아 식별코드 수정
     ResVo kidCode(int ikid){
-        mapper.kidCode(ikid);
-        return new ResVo(Const.SUCCESS);
+        try {
+            mapper.kidCode(ikid);
+            return new ResVo(Const.SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
     //원아 등록
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
@@ -82,8 +86,8 @@ public class KidService {
     //원아 발달사항 등록
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
         int level = authenticationFacade.getLevelPk();
+        GrowhCheck vo = new GrowhCheck();
         for (KidDetailInsDto dto : list) {
-
             if (dto.getGrowthDate() != null) {
                 if (level < 2 || dto.getGrowth() < 1) {
                     return new ResVo(Const.FAIL);
@@ -95,6 +99,14 @@ public class KidService {
                     case 2: dto.setGrowthQuarterly(2); break;
                     case 3: dto.setGrowthQuarterly(3); break;
                     case 4: dto.setGrowthQuarterly(4); break;
+                }
+                vo.setGrowthQuarterly(dto.getGrowthQuarterly());
+                vo.setIkid(dto.getIkid());
+                vo.setGrowthDate(dto.getGrowthDate());
+                Integer check = mapper.growthCheck(vo);
+                log.info("check:{}", check);
+                if(check != null){
+                    throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
                 mapper.kidGrowthInsDetail(dto);
             }
@@ -109,6 +121,13 @@ public class KidService {
                     case 2: dto.setBodyQuarterly(2); break;
                     case 3: dto.setBodyQuarterly(3); break;
                     case 4: dto.setBodyQuarterly(4); break;
+                }
+                vo.setBodyQuarterly(dto.getBodyQuarterly());
+                vo.setIkid(dto.getIkid());
+                vo.setBodyDate(dto.getBodyDate());
+                Integer check = mapper.bodyCheck(vo);
+                if(check != null){
+                    throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
                 mapper.kidBodyInsDetail(dto);
             }
