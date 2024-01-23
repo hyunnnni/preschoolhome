@@ -5,6 +5,7 @@ import com.preschool.preschoolhome.kid.model.*;
 import com.preschool.preschoolhome.kid.model.KidDetailEditVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ public class KidController {
     private final KidService service;
 
     @Operation(summary = "원아 마이페이지", description = "원아 해당 년도 마이페이지 조회")
+    @Valid
     @GetMapping("/{year}/{ikid}")
     public KidProfileVo getKidProfile(@PathVariable int year
             , @PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid){
@@ -30,8 +32,9 @@ public class KidController {
     }
 
     @Operation(summary = "원아 식별코드 수정", description = "원아 식별코드 수정")
+    @Valid
     @PatchMapping("/code/{ikid}")
-    public ResVo patchKidCode(@PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요")int ikid){
+    public ResVo patchKidCode(@PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요")int ikid){
         return service.kidCode(ikid);
     }
 
