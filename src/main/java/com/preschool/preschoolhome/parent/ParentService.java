@@ -65,7 +65,6 @@ public class ParentService {
         }
         if (checkUid == null) {
             response.setIsValid(1); //회원가입 가능
-            response.setIsValid(1); //회원가입 가능
             response.setMessage("사용가능한 아이디");
         }
         return response;

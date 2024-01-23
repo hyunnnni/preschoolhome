@@ -11,7 +11,7 @@ public class AlbumDetailSelVo {
     @Schema(title = "활동 앨범 글 제목")
     private String albumTitle;
     @Schema(title = "활동 앨범 글 내용")
-    private String albumContent;
+    private String albumContents;
     @Schema(title = "활동 앨범 사진들")
     private List<String> albumPic;
     @Schema(title = "활동 앨범 댓글")

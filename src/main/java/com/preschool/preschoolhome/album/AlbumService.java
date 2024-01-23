@@ -21,6 +21,7 @@ public class AlbumService {
     private final AlbumMapper mapper;
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
+
     // 활동 앨범 전체 조회
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -82,16 +83,18 @@ public class AlbumService {
     }
 
 
-
     // 활동 앨범 삭제
-    public ResVo delAlbum (AlbumDelDto dto) {
+    public ResVo delAlbum(AlbumDelDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
-            mapper.delAlbumCommentPics(dto);
+            int comAffectedRows = mapper.delAlbumCommentPics(dto);
+            if (comAffectedRows > 0){
+                return new ResVo(SUCCESS);
+            }
             int delAffectedRows = mapper.delAlbumAll(dto);
             if (delAffectedRows > 0) {
                 return new ResVo(SUCCESS);
@@ -135,6 +138,7 @@ public class AlbumService {
         }
         return new ResVo(FAIL);
     }
+
     // 활동 앨범 수정 시 정보 출력
     public AlbumDeSelVo albumEdit(int iteacher, int ialbum) {
         AlbumDeSelVo vo = mapper.selAlbumContent(iteacher, ialbum);
@@ -154,7 +158,7 @@ public class AlbumService {
         if(updAfftectedRows == 0){
             return new ResVo(FAIL);
         }
-        int delPicsAffectedRows = mapper.delAlbumPic(dto);
+        int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
         if (delPicsAffectedRows == 0) {
             return new ResVo(FAIL);
         }

@@ -14,7 +14,7 @@ public class AlbumCommentInsDto {
     private String albumComment;
     @Schema(title = "선생님 PK")
     private int iteacher;
-    @JsonIgnore
+    @Schema(title = "부모님 PK")
     private int iparent;
     @JsonIgnore
     private int ilevel;

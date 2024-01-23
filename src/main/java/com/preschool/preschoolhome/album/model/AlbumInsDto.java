@@ -14,7 +14,7 @@ public class AlbumInsDto {
     @Schema(title = "활동 앨범 제목")
     private String albumTitle;
     @Schema(title = "활동 앨범 내용")
-    private String albumContent;
+    private String albumContents;
     @JsonIgnore
     private List<MultipartFile> albumPic;
     @JsonIgnore
