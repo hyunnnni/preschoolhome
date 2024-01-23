@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Slf4j
@@ -38,21 +40,23 @@ public class ParentService {
     public CodeVo getMatch(String code) {
         CodeDto dto = new CodeDto();
         dto.setCode(code);
-        try {
-            CodeVo vo = mapper.selCode(dto);
-            if (!(dto.getCode().equals(vo.getCode()))) {
-                throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
-            }
-            return vo;
-        } catch (Exception e) {
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        CodeVo vo = mapper.selCode(dto);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
         }
+        List<Integer> iparent = mapper.connectParent(vo.getIkid());
+        if (iparent.size() > 2) {
+            throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
+        }
+        return vo;
+
     }
 
     //아이디중복체크
     public CodeCorrect chekUid(ParentInsDto dto) {
         String checkUid = mapper.checkParentInfo(dto.getUid());
         CodeCorrect response = new CodeCorrect();
+
         if (checkUid != null) {
             throw new RestApiException(AuthErrorCode.ALREADY_EXIST_ID);
         }
@@ -73,8 +77,12 @@ public class ParentService {
         if (dto.getIsValid() != 1) {
             throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
         }
+        String checkParent = mapper.checkParentInfo(dto.getUid());
+//        if(checkUid != null){
+//            throw new RestApiException(AuthErrorCode.ALREADY_EXIST_ID);
+//        }
 
-        if (dto.getIsValid() == 1) {
+        if (checkParent == null) {
             mapper.insParent(dto);
             ParentKid pk = new ParentKid();
             pk.setIkid(dto.getIkid());
@@ -127,7 +135,7 @@ public class ParentService {
     //원래정보 불러오기
     public ParentBeforInfoVo getParentEdit(int ilevel) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        if(ilevel != 1){
+        if (ilevel != 1) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         ParentBeforInfoVo vo = mapper.selBeforeInfo(ilevel);
@@ -162,8 +170,12 @@ public class ParentService {
         dto.setIparent(loginUserPk);
         CodeVo vo = mapper.selCode(dto);
 
-        if (!(dto.getCode().equals(vo.getCode()))) {
+        if (dto.getCode() == null) {
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
+        }
+        List<Integer> iparent = mapper.connectParent(vo.getIkid());
+        if (iparent.size() > 2) {
+            throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
         } else {
             ParentKid pk = new ParentKid();
             pk.setIkid(vo.getIkid());
