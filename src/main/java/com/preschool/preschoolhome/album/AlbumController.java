@@ -98,7 +98,7 @@ public class AlbumController {
 
     //------------------------------------- 활동 앨범 수정 시 정보 출력-------------------------------------//
     @Operation(summary = "활동 앨범 수정 시 정보 출력")
-    @GetMapping
+    @GetMapping("/edit")
     public AlbumDeSelVo albumEdit(int iteacher, int ialbum, @Min(value = 1,message = "권한이 없습니다")int ilevel) {
         return service.albumEdit(iteacher, ialbum);
     }
