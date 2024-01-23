@@ -1,13 +1,11 @@
 package com.preschool.preschoolhome.notice;
 
-import com.preschool.preschoolhome.common.exception.AuthErrorCode;
-import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.notice.model.*;
-import com.preschool.preschoolhome.notice.model.sel.NoticeUpdSelVo;
+import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,5 +119,68 @@ public class NoticeService {
         return voList;
     }
 
+    //-------------------------------- 알림장 상세 조회 --------------------------------
+    public SelDetailNoticeVo getDetailNotice(SelDetailNoticeDto dto) {
 
+        SelDetailNoticeVo vo = mapper.selNoticeDetail(dto.getInotice());
+
+        if (vo == null) {
+            SelDetailNoticeVo vo1 = new SelDetailNoticeVo();
+            vo1.setResult(Const.NO_INFORMATION);
+            return vo1;
+        }
+
+        vo.setPics(mapper.selNoticeDetailPics(dto.getInotice()));
+
+        List<SelNoticeComment> comList = mapper.selNoticeDetailCom(dto.getInotice());
+        List<SelNoticeCommentProc> comments = new ArrayList<>();
+
+        if (comList.size() > 0) {
+            for (SelNoticeComment com : comList) {
+                if (com.getIparent() > 0 && com.getIteacher() == 0) {
+                    SelNoticeCommentProc parComment = mapper.selNoticeDetailPar(com.getIparent());
+                    parComment.setInoticeComment(com.getInoticeComment());
+                    parComment.setNoticeComment(com.getNoticeComment());
+                    parComment.setCreatedAt(com.getCreatedAt());
+                    comments.add(parComment);
+                }
+                if (com.getIteacher() > 0 && com.getIparent() == 0) {
+                    SelNoticeCommentProc teaComment = mapper.selNoticeDetailTea(com.getIteacher());
+                    teaComment.setInoticeComment(com.getInoticeComment());
+                    teaComment.setNoticeComment(com.getNoticeComment());
+                    teaComment.setCreatedAt(com.getCreatedAt());
+                    comments.add(teaComment);
+                }
+
+            }
+        }
+        vo.setComments(comments);
+
+        return vo;
+    }
+    //-------------------------------- 알림장 댓글 등록 --------------------------------
+    public ResVo postNoticeComment(InsNoticeCommentDto dto) {
+        int result = mapper.insNoticeComment(dto);
+        if(result == 0){
+            return new ResVo(Const.FAIL);
+        }
+        return new ResVo(result);
+    }
+
+    //-------------------------------- 알림장 댓글 삭제 --------------------------------
+    public ResVo delNoticeComment(DelNoticeCommentDto dto) {
+
+        if((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
+                (dto.getIparent() > 0 && dto.getIteacher() > 0)){
+            return new ResVo(Const.BAD_PARAMETER);
+        }
+
+        int result = mapper.delNoticeComment(dto);
+
+        if(result == 0){
+            return new ResVo(Const.NO_INFORMATION);
+        }
+
+        return new ResVo(result);
+    }
 }

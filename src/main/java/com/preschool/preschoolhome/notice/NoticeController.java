@@ -1,11 +1,7 @@
 package com.preschool.preschoolhome.notice;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
-import com.preschool.preschoolhome.notice.model.NoticeInsDto;
-import com.preschool.preschoolhome.notice.model.NoticeUpdDto;
-import com.preschool.preschoolhome.notice.model.SelAllNoticeDto;
-import com.preschool.preschoolhome.notice.model.SelAllNoticeVo;
-import com.preschool.preschoolhome.notice.model.sel.NoticeUpdSelVo;
+import com.preschool.preschoolhome.notice.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -68,5 +64,56 @@ public class NoticeController {
     public List<SelAllNoticeVo> getAllNotice(@Valid SelAllNoticeDto dto){
         return service.getKidManagement(dto);
 
+    }
+
+    //-------------------------------- 알림장 상세 조회 --------------------------------
+
+    @GetMapping("/detail")
+    @Operation(summary = "유치원 알림장 상세 조회", description = """
+    알림장 상세 조회 로그인 유저에 따라 화면이 조금 다르다<br>
+    result 값이<br>
+    -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
+    0 : 이상 없음<br>""")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "통신 성공"),
+            @ApiResponse(responseCode = "400", description = "요청 오류"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public SelDetailNoticeVo getDetailNotice(@Valid SelDetailNoticeDto dto){
+        return service.getDetailNotice(dto);
+    }
+
+//-------------------------------- 알림장 댓글 등록 --------------------------------
+
+    @PostMapping("/comment")
+    @Operation(summary = "유치원 알림장 댓글 등록", description = """
+    알림장 상세 조회 로그인 유저에 따라 화면이 조금 다르다<br>
+    result 값이<br>
+    -1 : 댓글 작성 실패<br>
+    0 : 댓글 작성 성공<br>""")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "통신 성공"),
+            @ApiResponse(responseCode = "400", description = "요청 오류"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResVo postNoticeComment(@RequestBody @Valid InsNoticeCommentDto dto){
+        return service.postNoticeComment(dto);
+    }
+
+    //-------------------------------- 알림장 댓글 삭제 --------------------------------
+    @DeleteMapping ("/comment")
+    @Operation(summary = "유치원 알림장 댓글 삭제", description = """
+        알림장 상세 조회 로그인 유저에 따라 화면이 조금 다르다<br>
+        result 값이<br>
+        -4 : 댓글 작성자의 pk가 잘못 입력됨<br>
+        -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
+        1 : 삭제 성공<br>""")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "통신 성공"),
+            @ApiResponse(responseCode = "400", description = "요청 오류"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResVo delNoticeComment(@Valid DelNoticeCommentDto dto){
+        return service.delNoticeComment(dto);
     }
 }
