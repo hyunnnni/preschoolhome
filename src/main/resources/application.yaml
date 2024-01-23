@@ -9,7 +9,6 @@ app:
 file:
   dir: D:/download/preschool/
 
-
 spring:
   servlet:
     multipart:
@@ -43,7 +42,7 @@ spring:
     activate:
       on-profile: "prod"
   datasource:
-    url: jdbc:mariadb://192.168.0.144:3306/preschool
+    url: jdbc:mariadb://192.168.0.144:3306/db_even_last_4
     username: even_last_4
     password: keystone
 
