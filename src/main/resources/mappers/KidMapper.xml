@@ -67,14 +67,14 @@
         FROM t_growth
         WHERE growth_quarterly = #{growthQuarterly}
         AND ikid = #{ikid}
-        AND date_format(growth_date, '%Y-%m') = date_format(#{growthDate}, '%Y-%m')
+        AND year(growth_date) = year(#{growthDate})
     </select>
     <select id="bodyCheck">
         SELECT body_quarterly
         FROM t_body
         WHERE body_quarterly = #{bodyQuarterly}
         AND ikid = #{ikid}
-        AND date_format(body_date, '%Y-%m') = date_format(#{bodyDate}, '%Y-%m')
+        AND year(body_date) = year(#{bodyDate})
     </select>
     <insert id="kidGrowthInsDetail">
         INSERT t_growth
