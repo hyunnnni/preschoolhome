@@ -1,5 +1,8 @@
 package com.preschool.preschoolhome.parent;
 
+import com.google.rpc.context.AttributeContext;
+import com.preschool.preschoolhome.common.exception.AuthErrorCode;
+import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.parent.model.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,6 +81,8 @@ public class ParentController {
             "성공시 1 응답<br>" +
             "실패시 -1 <br>")
     public ResVo putParent(@RequestBody UpParentDto dto){
+
+        checkInfo(dto.getParentNm(),dto.getPhoneNb(),dto.getPrEmail(),dto.getUpw());
         return service.putParent(dto);
     }
 
@@ -111,6 +116,27 @@ public class ParentController {
     public ResVo patchUserFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
         return service.patchUserFirebaseToken(dto);
     }
+
+
+
+
+    private void checkInfo(String name, String nb,String Em,String upw) {
+        if (name.isBlank()) {
+            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
+        }
+        if (nb.isBlank()) {
+            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
+        }
+        if (Em.isBlank()) {
+            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
+        }
+        if(upw.isBlank()){
+            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
+        }
+
+    }
+
+
 }
 
 
