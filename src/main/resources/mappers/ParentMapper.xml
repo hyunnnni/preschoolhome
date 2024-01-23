@@ -8,6 +8,12 @@
         where code = #{code}
     </select>
 
+    <select id="connectParent">
+        select iparent
+        from t_parent_kid
+        where ikid = #{ikid}
+    </select>
+
     <insert id="insParentKidTable">
         insert into t_parent_kid
         set ikid = #{ikid}
