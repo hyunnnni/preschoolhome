@@ -1,5 +1,7 @@
 package com.preschool.preschoolhome.parent;
 
+import com.google.api.gax.rpc.ApiException;
+import com.google.rpc.context.AttributeContext;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.security.JwtTokenProvider;
 import com.preschool.preschoolhome.common.security.MyPrincipal;
@@ -30,6 +32,7 @@ public class ParentService {
     private final AppProperties appProperties;
     private final CookieUtils cookieUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final PasswordEncoder passwordEncoder;
 
     //식별코드 매칭
     public CodeVo getMatch(String code) {
@@ -88,7 +91,15 @@ public class ParentService {
     //부모님 로그인
     public ParentKid parentSignin(HttpServletRequest req, HttpServletResponse res, ParentSigninDto dto) {
         ParentEntity entity = mapper.checkParentsId(dto);
+        String upw = mapper.checkParentInfo(dto.getUid());
         ParentKid pk = new ParentKid();
+
+        if (upw == null) {
+            throw new RestApiException(AuthErrorCode.CHECK_UID);
+
+        } else if (!dto.getUpw().equals(upw)) {
+            throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
+        }
 
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
             pk.setIparent(entity.getIparent());
@@ -116,7 +127,9 @@ public class ParentService {
     //원래정보 불러오기
     public ParentBeforInfoVo getParentEdit(int ilevel) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-
+        if(ilevel != 1){
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
         ParentBeforInfoVo vo = mapper.selBeforeInfo(ilevel);
         return vo;
     }
@@ -131,7 +144,7 @@ public class ParentService {
         if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
                 && dto.getUpw() == null) {
             return new ResVo(-1);
-            //throw new RestApiException(AuthErrorCode.CHECK_CODE);
+
         }
 
         int result1 = mapper.putParent(dto);
