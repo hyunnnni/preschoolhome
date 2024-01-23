@@ -25,7 +25,7 @@ public class AlbumController {
             -1: 실패<br> 1: 성공
             """)
     @PostMapping
-    public ResVo postAlbum(@RequestPart List<MultipartFile> pics, @RequestPart AlbumInsDto dto) {
+    public ResVo postAlbum(@RequestPart List<MultipartFile> pics, @RequestPart AlbumInsDto dto){
         dto.setAlbumPic(pics);
         return service.postAlbum(dto);
     }
@@ -45,7 +45,7 @@ public class AlbumController {
     @Operation(summary = "활동 앨범 메인화면 조회", description = """
             """)
     @GetMapping("/main")
-    public List<AlbumMainVo> getMainAlbum(AlbumMainDto dto) {
+    public List<AlbumMainVo> getMainAlbum(AlbumMainDto dto){
         return service.getMainAlbum(dto);
     }
 
@@ -99,7 +99,7 @@ public class AlbumController {
     //------------------------------------- 활동 앨범 수정 시 정보 출력-------------------------------------//
     @Operation(summary = "활동 앨범 수정 시 정보 출력")
     @GetMapping("/edit")
-    public AlbumDeSelVo albumEdit(int iteacher, int ialbum, @Min(value = 1,message = "권한이 없습니다")int ilevel) {
+    public AlbumDeSelVo albumEdit(int iteacher, int ialbum, @Min(value = 1,message = "권한이 없습니다")int ilevel){
         return service.albumEdit(iteacher, ialbum);
     }
 

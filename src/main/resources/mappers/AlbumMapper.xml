@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.album.AlbumMapper">
+
     <!-- 활동 앨범 전체 조회 -->
     <select id="selAllAlbum">
         SELECT A.ialbum, A.album_title AS albumTitle, B.album_pic AS albumPic
@@ -13,20 +14,9 @@
         LIMIT #{startIdx}, #{rowCount}
     </select>
 
-    <!-- 메인 활동 앨범 -->
-    <select id="selMainAlbum">
-        SELECT A.ialbum, A.album_title AS albumTitle, A.album_content AS albumContent, A.created_at AS createdAt, B.album_pic AS albumPic
-        FROM t_album A
-        JOIN t_album_pics B
-        ON A.ialbum = B.ialbum
-        GROUP BY A.ialbum
-        ORDER BY A.ialbum DESC
-        LIMIT #{startIdx}, #{rowCount}
-    </select>
-
     <!-- 활동 앨범 상세 조회 (글)-->
     <select id="selDetailAlbum">
-        SELECT album_title AS albumTitle, album_content AS albumContent, created_at AS createdAt
+        SELECT album_title AS albumTitle, album_contents AS albumContents, created_at AS createdAt
         FROM t_album
         WHERE ialbum = #{ialbum}
     </select>
@@ -52,7 +42,7 @@
         INSERT INTO t_album
         SET iteacher = #{iteacher}
         , album_title = #{albumTitle}
-        , album_content = #{albumContent}
+        , album_contents = #{albumContents}
     </insert>
 
     <!-- 활동 앨범 사진 등록 -->
@@ -67,10 +57,30 @@
 
     <!-- 활동 앨범 글 내용 가져오기-->
     <select id="selAlbumContent">
-        SELECT album_title AS albumTitle, album_content AS albumContent
+        SELECT album_title AS albumTitle, album_contents AS albumContents
         FROM t_album
+        WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+    </select>
+
+    <!-- 활동 앨범 글 삭제 시 사진 조회 -->
+    <select id="albumEditPics">
+        SELECT album_pic AS albumPic
+        FROM t_album_pics
         WHERE ialbum = #{ialbum}
     </select>
+
+    <!-- 활동 앨범 수정 -->
+    <update id="updAlbum">
+        UPDATE t_album
+        SET album_title = #{albumTitle}
+        , album_contents = #{albumContents}
+        WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+    </update>
+    <!-- 활동 앨범 수정(사진) -->
+    <delete id="delAlbumPic">
+        DELETE FROM t_album_pics
+        WHERE ialbum = #{ialbum}
+    </delete>
 
     <!-- 활동 앨범 삭제 -->
     <delete id="delAlbumCommentPics">
@@ -85,21 +95,11 @@
             and A.iteacher = #{iteacher}
         </if>
     </delete>
-    <!-- 활동 앨범 수정 -->
-    <update id="updAlbum">
-        UPDATE t_album
-        SET album_title = #{albumTitle}
-        , album_content = #{albumContent}
-        WHERE ialbum = #{ialbum}
-    </update>
-    <!-- 활동 앨범 수정(사진) -->
-    <delete id="delAlbumPic">
-        DELETE FROM t_album_pics
-        WHERE ialbum = #{ialbum}
-    </delete>
 
+
+    <!-- 활동 앨글 글 삭제 -->
     <delete id="delAlbumAll">
-        DELETE FROM t_album WHERE ialbum = #{ialbum}
+        DELETE FROM t_album WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
     </delete>
 
     <!-- 활동 앨범 댓글 등록 -->
@@ -128,4 +128,19 @@
     </delete>
 
 
+    <!-- 메인 활동 앨범 -->
+    <select id="selMainAlbum">
+        SELECT A.ialbum, A.album_title AS albumTitle, A.album_contents AS albumContents, A.created_at AS createdAt,
+        B.album_pic AS albumPic
+        FROM t_album A
+        JOIN t_album_pics B
+        ON A.ialbum = B.ialbum
+        GROUP BY A.album_title
+        ORDER BY A.ialbum DESC
+        LIMIT #{startIdx}, #{rowCount}
+    </select>
+
 </mapper>
+
+
+
