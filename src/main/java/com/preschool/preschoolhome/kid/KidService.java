@@ -64,13 +64,15 @@ public class KidService {
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
+        if (dto.getIlevel() < 2) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null || dto.getIlevel() < 2) {
-            KidInsVo vo1 = new KidInsVo();
-            vo1.setIkid(Const.FAIL);
-            return vo1;
+                pic == null) {
+            throw new RestApiException(AuthErrorCode.ALL_YOU_NEED_IS_PARAM);
         }
+
         String path = "/kid/profile";
         String savedPicFileNm = myFileUtils.transferTo(pic, path);
         dto.setProfile(savedPicFileNm);
@@ -89,8 +91,11 @@ public class KidService {
         GrowhCheck vo = new GrowhCheck();
         for (KidDetailInsDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if (level < 2 || dto.getGrowth() < 1) {
-                    return new ResVo(Const.FAIL);
+                if (level < 2 ) {
+                    throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+                }
+                if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){
+                    throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
                 switch (growthmonth / 3) {
