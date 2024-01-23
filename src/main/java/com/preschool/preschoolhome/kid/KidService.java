@@ -88,12 +88,12 @@ public class KidService {
     //원아 발달사항 등록
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
         int level = authenticationFacade.getLevelPk();
+        if (level < 2 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
         GrowhCheck vo = new GrowhCheck();
         for (KidDetailInsDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if (level < 2 ) {
-                    throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
-                }
                 if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){
                     throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
@@ -116,8 +116,8 @@ public class KidService {
                 mapper.kidGrowthInsDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (level < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
-                    return new ResVo(Const.FAIL);
+                if (dto.getHeight() < 1 || dto.getWeight() < 1) {
+                    throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
                 switch (bodymonth / 3) {
@@ -136,17 +136,19 @@ public class KidService {
                 }
                 mapper.kidBodyInsDetail(dto);
             }
-            //같은 분기가 들어오지 않는 작업 필요
         }
         return new ResVo(Const.SUCCESS);
     }
     //원아 발달사항 수정
     ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
         int level = authenticationFacade.getLevelPk();
+        if (level < 2 ) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
         for (KidDetailUpdDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if (level < 2 || dto.getGrowth() < 1) {
-                    return new ResVo(Const.FAIL);
+                if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){
+                    throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
                 switch (growthmonth / 3) {
@@ -159,8 +161,8 @@ public class KidService {
                 mapper.kidGrowthUpdDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (level < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
-                    return new ResVo(Const.FAIL);
+                if (dto.getHeight() < 1 || dto.getWeight() < 1) {
+                    throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
                 switch (bodymonth / 3) {
