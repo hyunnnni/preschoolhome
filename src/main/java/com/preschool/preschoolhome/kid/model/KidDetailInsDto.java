@@ -9,8 +9,6 @@ import lombok.Data;
 public class KidDetailInsDto {
     @Schema(title = "원아 pk")
     private int ikid;
-    @Schema(title = "등급 pk")
-    private int ilevel;
     @Schema(title = "키")
     private int height;
     @Schema(title = "체중")

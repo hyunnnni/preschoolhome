@@ -25,15 +25,13 @@ public class KidController {
     @Operation(summary = "원아 마이페이지", description = "원아 해당 년도 마이페이지 조회")
     @GetMapping("/{year}/{ikid}")
     public KidProfileVo getKidProfile(@PathVariable int year
-            , @PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid
-            , @Range(min = 1,max = 3, message = "권한이 없습니다")int ilevel){
+            , @PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid){
         return service.kidProfile(year, ikid);
     }
 
     @Operation(summary = "원아 식별코드 수정", description = "원아 식별코드 수정")
     @PatchMapping("/code/{ikid}")
-    public ResVo patchKidCode(@PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요")int ikid
-            , @Range(min = 2,max = 3,message = "권한이 없습니다") int ilevel){
+    public ResVo patchKidCode(@PathVariable @Min(value = 1,message = "원아정보를 정확히 입력해주세요")int ikid){
         return service.kidCode(ikid);
     }
 
@@ -57,26 +55,26 @@ public class KidController {
 
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @GetMapping("/detail/edit/{ikid}")
-    public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int ilevel, int year){
-        return service.kidDetailEdit(ikid,ilevel,year);
+    public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int year){
+        return service.kidDetailEdit(ikid,year);
     }
 
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
     @PutMapping
-    public ResVo putKidProfile(@RequestPart MultipartFile pic, @RequestPart  KidUpdDto dto){
+    public ResVo putKidProfile(@RequestPart MultipartFile pic, @RequestPart KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
 
     @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
     @GetMapping("/edit/{ikid}")
-    public KidProfileEditVo getKidEdit(@PathVariable int ikid, int ilevel){
-        return service.kidEdit(ikid,ilevel);
+    public KidProfileEditVo getKidEdit(@PathVariable int ikid){
+        return service.kidEdit(ikid);
     }
 
     @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
     @DeleteMapping
-    public ResVo delAllGraduateKid(int ilevel){
-        return service.allGraduateKid(ilevel);
+    public ResVo delAllGraduateKid(){
+        return service.allGraduateKid();
     }
 
 

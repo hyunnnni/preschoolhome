@@ -1,5 +1,7 @@
 package com.preschool.preschoolhome.kid;
 
+import com.preschool.preschoolhome.common.exception.CommonErrorCode;
+import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
@@ -28,14 +30,25 @@ public class KidService {
     //원아 해당 년도 마이페이지 조회
     public KidProfileVo kidProfile(int year, int ikid) {
         int level = authenticationFacade.getLevelPk();
+        if (level < 1) {
+            KidProfileVo vo1 = new KidProfileVo();
+            vo1.setResult(Const.FAIL);
+            return vo1;
+        }
+        try {
+            KidProfileVo vo = mapper.kidProfile(ikid);
+            vo.setResult(Const.SUCCESS);
+            List<KidParent> parents = mapper.kidParent(ikid);
+            List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
+            vo.setParents(parents);
+            vo.setGrowths(growths);
+            return vo;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
 
-        KidProfileVo vo = mapper.kidProfile(ikid);
-        vo.setResult(Const.SUCCESS);
-        List<KidParent> parents = mapper.kidParent(ikid);
-        List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
-        vo.setParents(parents);
-        vo.setGrowths(growths);
-        return vo;
+
     }
 
     //원아 식별코드 수정
@@ -45,6 +58,8 @@ public class KidService {
     }
     //원아 등록
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
                 pic == null || dto.getIlevel() < 2) {
@@ -66,10 +81,11 @@ public class KidService {
     }
     //원아 발달사항 등록
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
+        int level = authenticationFacade.getLevelPk();
         for (KidDetailInsDto dto : list) {
 
             if (dto.getGrowthDate() != null) {
-                if (dto.getIlevel() < 2 || dto.getGrowth() < 1) {
+                if (level < 2 || dto.getGrowth() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -83,7 +99,7 @@ public class KidService {
                 mapper.kidGrowthInsDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (dto.getIlevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
+                if (level < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
@@ -97,15 +113,15 @@ public class KidService {
                 mapper.kidBodyInsDetail(dto);
             }
             //같은 분기가 들어오지 않는 작업 필요
-
         }
         return new ResVo(Const.SUCCESS);
     }
     //원아 발달사항 수정
     ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
+        int level = authenticationFacade.getLevelPk();
         for (KidDetailUpdDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if (dto.getIlevel() < 2 || dto.getGrowth() < 1) {
+                if (level < 2 || dto.getGrowth() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -119,7 +135,7 @@ public class KidService {
                 mapper.kidGrowthUpdDetail(dto);
             }
             if (dto.getBodyDate() != null) {
-                if (dto.getIlevel() < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
+                if (level < 2 || dto.getHeight() < 1 || dto.getWeight() < 1) {
                     return new ResVo(Const.FAIL);
                 }
                 int bodymonth = Integer.parseInt(dto.getBodyDate().substring(5, 7));
@@ -136,9 +152,10 @@ public class KidService {
         return new ResVo(Const.SUCCESS);
     }
     //원아 발달사항 수정 시 기존 데이터 조회
-    public KidDetailEditVo kidDetailEdit(int ikid, int ilevel, int year) {
+    public KidDetailEditVo kidDetailEdit(int ikid, int year) {
+        int level = authenticationFacade.getLevelPk();
         KidDetailEditVo vo = new KidDetailEditVo();
-        if (ilevel < 2) {
+        if (level < 2) {
             vo.setResult(Const.FAIL);
             return vo;
         }
@@ -150,6 +167,8 @@ public class KidService {
     }
     //원아 프로필 수정
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
         if (dto.getKidNm() == null || dto.getBirth() == null ||
                 dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
                 pic == null || dto.getIlevel() < 2) {
@@ -164,9 +183,10 @@ public class KidService {
         return new ResVo(Const.SUCCESS);
     }
     //원아 프로필 수정 시 기존 데이터 조회
-    public KidProfileEditVo kidEdit(int ikid, int ilevel){
+    public KidProfileEditVo kidEdit(int ikid){
+        int level = authenticationFacade.getLevelPk();
         KidProfileEditVo vo = new KidProfileEditVo();
-        if (ilevel < 2) {
+        if (level < 2) {
             vo.setResult(Const.FAIL);
             return vo;
         }
@@ -176,8 +196,10 @@ public class KidService {
     }
 
     //졸업한 지 10년 된  원아 전체 삭제
-    public ResVo allGraduateKid(int ilevel) {
-        if (ilevel < 3) {
+    public ResVo allGraduateKid() {
+        int level = authenticationFacade.getLevelPk();
+
+        if (level < 3) {
             return new ResVo(Const.FAIL);
         }
         mapper.allGraduateKid();
