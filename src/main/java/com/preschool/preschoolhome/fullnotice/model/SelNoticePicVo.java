@@ -12,6 +12,8 @@ import java.util.List;
 public class SelNoticePicVo {
     @JsonIgnore
     private int ilevel;
+    @Schema(title = "유치원 소식 사진")
     private List<String> pics = new ArrayList<>();
+    @Schema(title = "유치원 소식PK")
     private int iFullNotice;
 }

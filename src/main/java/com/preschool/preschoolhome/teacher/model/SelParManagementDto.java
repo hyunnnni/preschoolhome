@@ -12,8 +12,10 @@ public class SelParManagementDto {
     private int page;
     @Schema(title = "조회 시 선택하는 반 전체 조회 시 값 필요없음")
     private int iclass;
+
     @JsonIgnore
     private int ilevel;
+    @Schema(title = "현재 재원중인 원아의 가족 계정만 조회하기 위한 값")
     @JsonIgnore
     private int prIsDel= Const.ZERO;
     @JsonIgnore

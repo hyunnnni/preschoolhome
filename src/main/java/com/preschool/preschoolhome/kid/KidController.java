@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
@@ -46,31 +47,34 @@ public class KidController {
 
     @Operation(summary = "원아 발달사항 등록", description = "원아 발달사항 등록")
     @PostMapping("/detail")
-    public ResVo postKidInsDetail(@RequestBody List<KidDetailInsDto> dto){
+    public ResVo postKidInsDetail(@Valid @RequestBody List<KidDetailInsDto> dto){
         return service.kidInsDetail(dto);
     }
 
     @Operation(summary = "원아 발달사항 수정", description = "원아 발달사항 수정")
     @PutMapping("/detail")
-    public ResVo putKidUpdDetail(@RequestBody List<KidDetailUpdDto> dto){
+    public ResVo putKidUpdDetail(@Valid @RequestBody List<KidDetailUpdDto> dto){
         return service.kidUpdDetail(dto);
     }
 
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
+    @Valid
     @GetMapping("/detail/edit/{ikid}")
-    public KidDetailEditVo getKidDetailEdit(@PathVariable int ikid, int year){
+    public KidDetailEditVo getKidDetailEdit(@PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid
+            ,@Pattern(regexp = "^[12]\\d{3}$", message = "형식에 맞지 않습니다") int year){
         return service.kidDetailEdit(ikid,year);
     }
 
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
     @PutMapping
-    public ResVo putKidProfile(@RequestPart MultipartFile pic, @RequestPart KidUpdDto dto){
+    public ResVo putKidProfile(@RequestPart MultipartFile pic,@Valid @RequestPart KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
 
     @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
+    @Valid
     @GetMapping("/edit/{ikid}")
-    public KidProfileEditVo getKidEdit(@PathVariable int ikid){
+    public KidProfileEditVo getKidEdit(@PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid){
         return service.kidEdit(ikid);
     }
 

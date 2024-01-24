@@ -16,9 +16,9 @@ public interface FullNoticeMapper {
     SelNoticeVo getNotice(int iFullNotice); //notice불러오기
 
     //-------------------------------- 유치원 소식 작성 --------------------------------
-    int postFullNotice(InsFullNoticeDto dto);
+    int insFullNotice(InsFullNoticeDto dto);
     //-------------------------------- 유치원 소식 사진 작성 --------------------------------
-    int postFullNoticePics(InsFullPicsDto dto);
+    int insFullNoticePics(InsFullPicsDto dto);
     //-------------------------------- 유치원 소식 작성자 pk 조회 --------------------------------
     Integer selFullNoticeWriter(int ifullNotice);
     //-------------------------------- 유치원 소식 삭제 --------------------------------

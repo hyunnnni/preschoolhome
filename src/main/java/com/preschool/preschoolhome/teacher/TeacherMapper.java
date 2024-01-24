@@ -46,4 +46,5 @@ public interface TeacherMapper {
     int isDelTeacher (TeacherDelDto dto);
 
     TeacherEntity selTeacher(TeacherSigninDto dto); //부모님 로그인 셀렉
+    String checkTeacherInfo (String uid);
 }

@@ -43,10 +43,7 @@ public class PreschoolController {
             "성공시 선생님 이름, 담당 반, 선생님사진, 소개로 응답<br>" +
             "실패시 에러메세지송출 <br>")
     public List<TeacherProfileVo> getTeacherProfile(){
-        int level = authenticationFacade.getLevelPk();
-        if(level<1){
-            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
-        }
+
         return service.getTeacherProfile();
     }
 }

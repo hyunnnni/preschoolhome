@@ -71,8 +71,8 @@ public class ParentController {
             "수정전 정보가져오기<br>" +
             "성공시 원래 정보 가져오기, 부모 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public ParentBeforInfoVo getParentEdit(@RequestParam @Schema(title = "등급") int ilevel ){
-        return service.getParentEdit(ilevel);
+    public ParentBeforInfoVo getParentEdit(){
+        return service.getParentEdit();
     }
 
     @PutMapping("/putparent")
