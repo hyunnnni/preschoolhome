@@ -53,7 +53,12 @@ public class FullNoticeService {
     //개별게시판 조회
     public SelNoticeVo getFullNotice(int iFullNotice) {
 
+
         SelNoticeVo notice = mapper.getNotice(iFullNotice);
+        if(notice == null){
+            throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
+        }
+
         List<String> pics = mapper.selNoticePic(iFullNotice);
         notice.setPics(pics);
         return notice;
@@ -62,34 +67,34 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 작성 --------------------------------
 
-    public ResVo postFullNotice (InsFullNoticeDto dto){
+    public ResVo postFullNotice(InsFullNoticeDto dto) {
 
         Integer fix = mapper.selNoticeFix(dto.getIfullNotice());
 
-        if (fix >= 3 && dto.getFullNoticeFix() == 1){
+        if (fix >= 3 && dto.getFullNoticeFix() == 1) {
             return new ResVo(Const.FIX_MAX);
         }
 
         int result = mapper.postFullNotice(dto);
         InsFullPicsDto pdto = new InsFullPicsDto();
 
-        if(result == 0){
+        if (result == 0) {
             return new ResVo(Const.FAIL);
         }
-        if(dto.getFullPic()== null){
+        if (dto.getFullPic() == null) {
             return new ResVo(Const.SUCCESS);
         }
         pdto.setIfullNotice(dto.getIfullNotice());
         String target = "/fullnotice/" + dto.getIfullNotice();
 
-        for(MultipartFile file : dto.getFullPic()){
+        for (MultipartFile file : dto.getFullPic()) {
             String saverFileNm = mfu.transferTo(file, target);
             pdto.getFullPic().add(saverFileNm);
         }
 
         int picResult = mapper.postFullNoticePics(pdto);
 
-        if (picResult < 1){
+        if (picResult < 1) {
             return new ResVo(Const.PICS_FAIL);
         }
         return new ResVo(dto.getIfullNotice());
@@ -97,24 +102,24 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 삭제 --------------------------------
 
-    public ResVo delFullNotice(DelFullNoticeDto dto){
+    public ResVo delFullNotice(DelFullNoticeDto dto) {
 
-        if(dto.getIlevel() == 2) {
+        if (dto.getIlevel() == 2) {
             Integer writer = mapper.selFullNoticeWriter(dto.getIfullNotice());
 
-            if (writer == null || writer != dto.getIteacher()){
+            if (writer == null || writer != dto.getIteacher()) {
                 return new ResVo(Const.BAD_PARAMETER);
             }
         }
         int result = mapper.delFullNoticePics(dto);
 
-        if (result == 0){
+        if (result == 0) {
             return new ResVo(Const.PICS_FAIL);
         }
 
         int result1 = mapper.delFullNotice(dto);
 
-        if (result1 == 0){
+        if (result1 == 0) {
             return new ResVo(Const.FAIL);
         }
         return new ResVo(Const.SUCCESS);
@@ -122,11 +127,11 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 수정 --------------------------------
 
-    public ResVo putFullNotice(UpdFullNoticeDto dto){
+    public ResVo putFullNotice(UpdFullNoticeDto dto) {
 
         Integer fix = mapper.selNoticeFix(dto.getIfullNotice());
 
-        if (fix >= 3 && dto.getFullNoticeFix() == 1){
+        if (fix >= 3 && dto.getFullNoticeFix() == 1) {
             return new ResVo(Const.FIX_MAX);
         }
 
@@ -134,29 +139,29 @@ public class FullNoticeService {
         Integer selResult = mapper.selFullNoticePics(dto.getIfullNotice());
         InsFullPicsDto pdto = new InsFullPicsDto();
 
-        if(result == 0){
+        if (result == 0) {
             return new ResVo(Const.FAIL);
         }
-        if(dto.getFullPic() == null){
+        if (dto.getFullPic() == null) {
             return new ResVo(Const.SUCCESS);
         }
-        if (selResult > 0){
+        if (selResult > 0) {
             int delResult = mapper.delUpdFullNoticePics(dto.getIfullNotice());
-            if(delResult == 0){
+            if (delResult == 0) {
                 return new ResVo(Const.PICS_UP_FAIL);
             }
         }
         pdto.setIfullNotice(dto.getIfullNotice());
         String target = "/fullnotice/" + dto.getIfullNotice();
 
-        for(MultipartFile file : dto.getFullPic()){
+        for (MultipartFile file : dto.getFullPic()) {
             String saverFileNm = mfu.transferTo(file, target);
             pdto.getFullPic().add(saverFileNm);
         }
 
         int picResult = mapper.postFullNoticePics(pdto);
 
-        if (picResult < 1){
+        if (picResult < 1) {
             return new ResVo(Const.PICS_FAIL);
         }
         return new ResVo(dto.getIfullNotice());
@@ -164,10 +169,10 @@ public class FullNoticeService {
     }
 //-------------------------------- 유치원 소식 수정 시 불러오기 --------------------------------
 
-    public SelFullNoticeUpdVo getFullNoticeUpd(SelFullNoticeUpdDto dto){
+    public SelFullNoticeUpdVo getFullNoticeUpd(SelFullNoticeUpdDto dto) {
         SelFullNoticeUpdVo vo = mapper.selFullNoticeUpd(dto.getIfullNotice());
 
-        if(vo == null){
+        if (vo == null) {
             SelFullNoticeUpdVo result = new SelFullNoticeUpdVo();
             result.setResult(Const.NO_INFORMATION);
             return result;
@@ -175,7 +180,7 @@ public class FullNoticeService {
 
         List<String> picList = mapper.selFullNoticeUpdPics(dto.getIfullNotice());
 
-        if (picList.size() == 0){
+        if (picList.size() == 0) {
             vo.setResult(Const.ONLY_CONTENTS);
             return vo;
         }
