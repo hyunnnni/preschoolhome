@@ -10,7 +10,4 @@ public class AlbumDelDto {
     private int ialbum;
     @Schema(title = "선생님 PK")
     private int iteacher;
-    @JsonIgnore
-    private int ilevel;
-
 }

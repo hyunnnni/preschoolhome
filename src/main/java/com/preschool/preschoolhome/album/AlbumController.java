@@ -23,7 +23,7 @@ import static com.preschool.preschoolhome.common.utils.Const.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/album")
-@Tag(name = "활동 앨범", description = "")
+@Tag(name = "활동 앨범 API", description = "활동 앨범 관련")
 public class AlbumController {
     private final AlbumService service;
 
@@ -39,8 +39,7 @@ public class AlbumController {
 
 
     //------------------------------------- 활동 앨범 전체 조회 -------------------------------------//
-    @Operation(summary = "활동 앨범 전체 조회", description = """
-            """)
+    @Operation(summary = "활동 앨범 전체 조회")
     @Valid
     @GetMapping("/listall")
     public List<AlbumSelVo> getAllAlbum(@RequestParam
@@ -54,8 +53,7 @@ public class AlbumController {
 
 
     //------------------------------------- 활동 앨범 메인화면 조회 -------------------------------------//
-    @Operation(summary = "활동 앨범 메인화면 조회", description = """
-            """)
+    @Operation(summary = "활동 앨범 메인화면 조회")
     @Valid
     @GetMapping("/main")
     public List<AlbumMainVo> getMainAlbum(@RequestParam
@@ -69,8 +67,7 @@ public class AlbumController {
 
 
     //------------------------------------- 활동 앨범 상세 조회 -------------------------------------//
-    @Operation(summary = "활동 앨범 상세 조회", description = """
-            """)
+    @Operation(summary = "활동 앨범 상세 조회")
     @Valid
     @GetMapping
     public List<AlbumDetailSelVo> getDetailAlbum(@RequestParam
@@ -92,14 +89,9 @@ public class AlbumController {
     public ResVo delAlbum(@RequestParam
                           @Positive(message = "잘못된 값입니다")
                           @Schema(title = "앨범 PK")
-                          int ialbum,
-                          @RequestParam
-                          @Positive(message = "잘못된 값입니다")
-                          @Schema(title = "선생님 PK")
-                          int iteacher) {
+                          int ialbum) {
         AlbumDelDto dto = new AlbumDelDto();
         dto.setIalbum(ialbum);
-        dto.setIteacher(iteacher);
         return service.delAlbum(dto);
     }
 
