@@ -110,7 +110,7 @@ public class FullNoticeController {
     }
 
     //-------------------------------- 유치원 소식 수정 시 불러오기 --------------------------------
-    @GetMapping
+    @GetMapping("/edit")
     @Valid
     @Operation(summary = "유치원 소식 수정 시 불러오기")
     @ApiResponses(value = {
@@ -127,4 +127,5 @@ public class FullNoticeController {
         dto.setIfullNotice(ifullNotice);
         return service.getFullNoticeUpd(dto);
     }
+
 }
