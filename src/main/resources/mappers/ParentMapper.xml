@@ -76,7 +76,7 @@
     <select id="selBeforeInfo">
         select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
         from t_parent
-        where iparent = #{iparent} and ilevel = #{ilevel}
+        where iparent = #{iparent}
     </select>
 
     <update id="putParent">
