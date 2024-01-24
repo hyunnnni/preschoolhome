@@ -21,7 +21,7 @@ public interface ParentMapper {
 
     int insParentKidTable(ParentKid dto); //마이페이지 아이 추가
 
-    ParentBeforInfoVo selBeforeInfo(int ilevel); //원래정보 불러오기
+    ParentBeforInfoVo selBeforeInfo(int iparent); //원래정보 불러오기
 
     int putParent(UpParentDto dto);//마이페이지 정보수정
 
