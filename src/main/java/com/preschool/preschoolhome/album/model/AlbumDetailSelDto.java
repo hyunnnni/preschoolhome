@@ -9,8 +9,7 @@ import java.util.List;
 
 @Data
 public class AlbumDetailSelDto {
-    @JsonIgnore
-    private int ilevel;
+
     @Schema(title = "활동 앨범 PK")
     private int ialbum;
     @JsonIgnore

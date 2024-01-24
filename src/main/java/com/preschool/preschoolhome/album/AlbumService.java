@@ -26,9 +26,8 @@ public class AlbumService {
     // 활동 앨범 전체 조회
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
-        if (dto.getIlevel() < 1) {
+        if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -54,9 +53,8 @@ public class AlbumService {
     // 활동 앨범 상세 조회
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
-        if (dto.getIlevel() < 1) {
+        if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -75,12 +73,11 @@ public class AlbumService {
     }
 
 
-    // 활동앨범 등록
+    // 활동 앨범 등록
     public ResVo postAlbum(AlbumInsDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
         // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
-        if (dto.getIlevel() < 2) {
+        if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -136,9 +133,8 @@ public class AlbumService {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIparent(loginUserPk);
-        dto.setIlevel(level);
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
-        if (dto.getIlevel() < 1) {
+        if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
