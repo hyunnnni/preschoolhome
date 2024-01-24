@@ -46,8 +46,6 @@ public class KidService {
             e.printStackTrace();
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-
-
     }
 
     //원아 식별코드 수정
