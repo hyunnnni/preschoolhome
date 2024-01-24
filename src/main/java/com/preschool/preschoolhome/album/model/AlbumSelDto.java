@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.album.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ public class AlbumSelDto {
     @JsonIgnore
     @Schema(title = "페이징 처리 끝")
     private int rowCount;
-
+    @JsonProperty(value = "대분류")
 
 
     public void setPage(int page) {
