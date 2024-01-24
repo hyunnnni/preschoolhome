@@ -62,6 +62,20 @@
         WHERE code = #{code}
     </select>
     <!--                  원아 발달사항 등록                  -->
+    <select id="growthCheck">
+        SELECT growth_quarterly
+        FROM t_growth
+        WHERE growth_quarterly = #{growthQuarterly}
+        AND ikid = #{ikid}
+        AND year(growth_date) = year(#{growthDate})
+    </select>
+    <select id="bodyCheck">
+        SELECT body_quarterly
+        FROM t_body
+        WHERE body_quarterly = #{bodyQuarterly}
+        AND ikid = #{ikid}
+        AND year(body_date) = year(#{bodyDate})
+    </select>
     <insert id="kidGrowthInsDetail">
         INSERT t_growth
         <set> ikid = #{ikid}

@@ -18,6 +18,8 @@ public interface KidMapper {
     int kidgrade(KidInsDto dto);
     int selIkid(KidInsDto dto);
     //원아 발달사항 등록
+    Integer growthCheck(GrowhCheck dto);
+    Integer bodyCheck(GrowhCheck dto);
     int kidGrowthInsDetail(KidDetailInsDto dto);
     int kidBodyInsDetail(KidDetailInsDto dto);
     //원아 발달사항 수정
