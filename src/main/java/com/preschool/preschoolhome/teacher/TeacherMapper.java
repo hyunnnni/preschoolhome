@@ -39,8 +39,7 @@ public interface TeacherMapper {
     TeacherEditVo selTeacherEdit (int iteacher);
     // 선생님 정보 변경
     int updTeacher (TeacherPatchDto dto);
-    // 선생님 직급 불러오기
-    Integer selTeacherRank (TeacherDelDto dto);
+
     // 선생님 정보 삭제
     int isDelTeacher (TeacherDelDto dto);
 

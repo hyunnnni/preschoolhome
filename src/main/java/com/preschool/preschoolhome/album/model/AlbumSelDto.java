@@ -17,7 +17,6 @@ public class AlbumSelDto {
     @JsonIgnore
     @Schema(title = "페이징 처리 끝")
     private int rowCount;
-    @JsonProperty(value = "대분류")
 
 
     public void setPage(int page) {
