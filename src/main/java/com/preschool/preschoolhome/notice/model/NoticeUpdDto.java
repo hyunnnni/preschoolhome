@@ -13,8 +13,6 @@ public class NoticeUpdDto {
     private int inotice;
     @Schema(title = "선생님 PK")
     private int iteacher;
-    @Schema(title = "등급 PK")
-    private int ilevel;
     @Schema(title = "원아 PK")
     private int ikid;
     @Schema(title = "알림장 제목")

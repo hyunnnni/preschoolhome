@@ -32,7 +32,7 @@ public class NoticeController {
 
     @Operation(summary = "알림장 기존 정보 조회", description = "알림장 수정 시 기존 정보 조회")
     @GetMapping("edit")
-    public NoticeUpdSelVo getNoticeEdit(int inotice, int ikid, @Min(value = 1,message = "권한이 없습니다")int ilevel){
+    public NoticeUpdSelVo getNoticeEdit(int inotice, int ikid){
         return service.noticeEdit(inotice, ikid);
     }
 

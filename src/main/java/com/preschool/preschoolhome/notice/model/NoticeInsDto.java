@@ -13,8 +13,6 @@ public class NoticeInsDto {
     private int inotice;
     @Schema(title = "선생님 PK")
     private int iteacher;
-    @JsonIgnore
-    private int ilevel;
     @Schema(title = "원아 PK")
     private int ikid;
     @Schema(title = "알림장 제목")
