@@ -123,8 +123,7 @@ public class AlbumController {
                                  int iteacher,
                                  @RequestParam
                                  @Schema(title = "선생님 PK")
-                                 int iparent
-    ) {
+                                 int iparent) {
         AlbumDelCommentDto dto = new AlbumDelCommentDto();
         dto.setIalbumComment(ialbumComment);
         dto.setIalbum(ialbum);
