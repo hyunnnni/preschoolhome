@@ -2,20 +2,31 @@ package com.preschool.preschoolhome.album.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
 public class AlbumCommentInsDto {
     @JsonIgnore
     private int ialbumComment;
+
+    @Positive(message = "잘못된 값입니다")
     @Schema(title = "활동 앨범 PK")
     private int ialbum;
+
+    @NotNull(message = "댓글을 입력해주세요")
     @Schema(title = "활동 앨범 댓글")
     private String albumComment;
+
     @Schema(title = "선생님 PK")
+    @PositiveOrZero
     private int iteacher;
+
     @Schema(title = "부모님 PK")
+    @PositiveOrZero
     private int iparent;
-    @JsonIgnore
-    private int ilevel;
+
 }

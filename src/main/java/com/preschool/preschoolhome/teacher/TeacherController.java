@@ -1,6 +1,5 @@
 package com.preschool.preschoolhome.teacher;
 
-import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.parent.model.ParentKid;
 import com.preschool.preschoolhome.parent.model.ParentSigninDto;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
@@ -26,6 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.security.Provider;
 import java.util.List;
 
+import static com.preschool.preschoolhome.common.utils.Const.BOSS;
+import static com.preschool.preschoolhome.common.utils.Const.TEACHER;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/teacher")
@@ -36,26 +37,17 @@ public class TeacherController {
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
     @GetMapping("/kid")
-    @Valid
-    @Operation(summary = "원아 관리 페이지 조회")
+    @Operation(summary = "원아 관리 페이지 조회", description = """
+            리스트 안 result 값이<br>
+            -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
+            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
+            0 : 이상 없음<br>""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public List<SelKidManagementVo> getKidManagement(
-            @RequestParam @Positive(message = "잘못된 값입니다")
-            @NotBlank(message = "잘못된 값입니다")
-            @Schema(title = "페이징 시 필요한 데이터")
-            int page,
-            @RequestParam @Range(min = Const.STATE_DROP_OUT, max = Const.CLASS_GENERAL,
-                    message = "원하는 재원상태 OR 반을 선택해주세요")
-            @NotBlank(message = "잘못된 값입니다")
-            @Schema(title = "조회 시 선택하는 반 전체 조회 시 값 필요없음")
-            int kidCheck) {
-        SelKidManagementDto dto = new SelKidManagementDto();
-        dto.setPage(page);
-        dto.setKidCheck(kidCheck);
+    public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto) {
         return service.getKidManagement(dto);
     }
 
@@ -63,38 +55,32 @@ public class TeacherController {
     @PatchMapping("/stateorclass")
     @Operation(summary = "원아 재원 상태 / 반 승급 수정", description = """
             result 값이<br>
-            -1 : 원아 상태 수정/ 부모님 연결 끊기 실패<br>
+            -4 : 연결 부모님 계정 삭제 처리 실패<br>
+            -3 : 원아 상태 수정 실패<br>
+            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
+            -1 : 원아 상태 수정/ 부모님 연결 계정 삭제 실패<br>
             1 이상 : 수정 성공한 원아의 수""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResVo patchKidStateOrClass(@RequestBody @Valid UpdKidStateDto dto) {
+    public ResVo patchKidStateOrClass(@RequestBody UpdKidStateDto dto) {
         return service.patchKidStateOrClass(dto);
     }
 
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
     @GetMapping("/parent")
-    @Valid
-    @Operation(summary = "학부모 관리 페이지 조회")
+    @Operation(summary = "학부모 관리 페이지 조회", description = """
+            리스트 안 result 값이<br>
+            -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
+            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public List<SelParManagementVo> getParentManagement(
-            @RequestParam @Positive(message = "잘못된 값입니다")
-            @NotBlank(message = "잘못된 값입니다")
-            @Schema(title = "페이징 시 필요한 데이터")
-            int page,
-            @RequestParam @Positive(message = "잘못된 값입니다")
-            @NotBlank(message = "잘못된 값입니다")
-            @Schema(title = "조회 시 선택하는 반 전체 조회 시 값 필요없음")
-            int iclass) {
-        SelParManagementDto dto = new SelParManagementDto();
-        dto.setPage(page);
-        dto.setIclass(iclass);
+    public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
         return service.getParentManagement(dto);
     }
 
@@ -102,48 +88,49 @@ public class TeacherController {
     @PutMapping("/parent")
     @Operation(summary = "학부모 정보 관리자가 삭제", description = """
             result 값이<br>
+            -4 : 부모님 계정 삭제 실패<br>
+            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
             1 이상 : 삭제 처리된 계정 수""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResVo delParent(@RequestBody @Valid DelParentDto dto) {
+    public ResVo delParent(@RequestBody DelParentDto dto) {
         return service.delParent(dto);
     }
 
     //-------------------------------- 학부모와 원아 연결 끊기 --------------------------------
     @DeleteMapping("/Disconnent")
-    @Valid
     @Operation(summary = "학부모와 원아 연결 끊기", description = """
             result 값이<br>
+            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
+            -1 : 연결 끊기 실패<br>
             1 : 연결 끊기 성공""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResVo delDisconnect(@RequestParam@Positive(message="잘못된 값입니다")
-                               @NotBlank(message = "잘못된 값입니다")
-                               @Schema(title = "연결을 끊을 학부모PK")
-                               int iparent,
-                               @RequestParam
-                               @Positive(message = "잘못된 값입니다")
-                               @NotBlank(message = "잘못된 값입니다")
-                               @Schema(title = "연결을 끊을 원아PK")
-                               int ikid) {
-        DelDisconnectDto dto = new DelDisconnectDto();
-        dto.setIparent(iparent);
-        dto.setIkid(ikid);
+    public ResVo delDisconnect(DelDisconnectDto dto) {
         return service.delDisconnect(dto);
     }
 
-    //-------------------------------- 선생님 정보 수정 시 불러오기  --------------------------------
+    //-------------------------------- 선생님 정보 수정 --------------------------------
     @GetMapping("/edit")
+    @Valid
     @Operation(summary = "선생님 정보 수정", description = """
             수정할 선생님 정보 불러오기
             """)
-    public TeacherEditVo selTeacherEdit (int iteacher, int ilevel) {
+    public TeacherEditVo selTeacherEdit(@RequestParam
+                                        @NotBlank(message = "잘못된 값입니다")
+                                        @Schema(title = "선생님 PK")
+                                        int iteacher,
+                                        @RequestParam
+                                        @Range(min = BOSS, message = "접근할 권한이 없습니다")
+                                        @NotBlank(message = "잘못된 값입니다")
+                                        @Schema(title = "이 페이지에 접근하는 유저의 등급 PK")
+                                        int ilevel) {
         return service.selTeacherEdit(iteacher, ilevel);
     }
 
@@ -153,7 +140,7 @@ public class TeacherController {
             -1 : 하나의 값도 변경되지 않음<br>
             1 : 성공
             """)
-    public ResVo putTeacher(@RequestPart MultipartFile pic, @RequestPart TeacherPatchDto dto) {
+    public ResVo putTeacher(@RequestPart MultipartFile pic, @Valid @RequestPart TeacherPatchDto dto) {
         return service.putTeacher(pic, dto);
     }
 
@@ -167,14 +154,14 @@ public class TeacherController {
         return service.delTeacher(dto);
     }
 
-    //-------------------------------- 선생님 로그인 --------------------------------
+    //선생님 로그인
     @PostMapping("/signin")
-    @Operation(summary = "선생님 로그인", description = "<strong>선생님 로그인</strong><br><br>" +
+    @Operation(summary = "로그인", description = "<strong>선생님 로그인</strong><br><br>" +
             "uid와 upw로 로그인<br>" +
             "성공시 선생님 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
     public TeacherEntity postTeacherSignin(HttpServletRequest req, HttpServletResponse res
-            , @RequestBody TeacherSigninDto dto){
+            , @RequestBody TeacherSigninDto dto) {
         return service.teacherSignin(req, res, dto);
     }
 }
