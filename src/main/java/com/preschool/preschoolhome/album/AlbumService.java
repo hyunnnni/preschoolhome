@@ -131,9 +131,9 @@ public class AlbumService {
 
     // 활동 앨범 댓글 등록
     public ResVo postAlbumComment(AlbumCommentInsDto dto) {
-        int loginUserPk = authenticationFacade.getLoginUserPk();
+        int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
-        dto.setIparent(loginUserPk);
+        dto.setIparent(iteacher);
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
@@ -165,7 +165,8 @@ public class AlbumService {
     }
 
     // 활동 앨범 수정 시 정보 출력
-    public AlbumDeSelVo albumEdit(int iteacher, int ialbum) {
+    public AlbumDeSelVo albumEdit(int ialbum) {
+        int iteacher = authenticationFacade.getLoginUserPk();
         try {
             // 수정할 글 내용과 사진들 불러오기
             AlbumDeSelVo vo = mapper.selAlbumContent(iteacher, ialbum);

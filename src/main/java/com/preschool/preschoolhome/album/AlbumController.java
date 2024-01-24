@@ -147,14 +147,11 @@ public class AlbumController {
             """)
     @Valid
     @GetMapping("/edit")
-    public AlbumDeSelVo albumEdit(@RequestParam
-                                  @Schema(title = "선생님 PK")
-                                  int iteacher,
-                                  @RequestParam
+    public AlbumDeSelVo albumEdit(                                  @RequestParam
                                   @Positive(message = "잘못된 값입니다")
                                   @Schema(title = "앨범 PK")
                                   int ialbum) {
-        return service.albumEdit(iteacher, ialbum);
+        return service.albumEdit(ialbum);
     }
 }
 
