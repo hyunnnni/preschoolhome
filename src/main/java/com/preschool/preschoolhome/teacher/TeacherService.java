@@ -95,6 +95,17 @@ public class TeacherService {
                     }
                 }
             }
+
+            if(dto.getKidCheck() >= Const.CLASS_HIBISCUS || dto.getKidCheck() <= Const.CLASS_ROSE){
+                InsKidManagementProc pdto = InsKidManagementProc.builder()
+                        .ikids(dto.getIkids())
+                        .iclass(dto.getKidCheck())
+                        .build();
+                int insResult = mapper.insClass(pdto);
+                if(insResult == 0){
+                    throw new RestApiException(AuthErrorCode.GRADE_FAIL);
+                }
+            }
             if (result > Const.SUCCESS || result > Const.ZERO) {
                 return new ResVo(result);
             }

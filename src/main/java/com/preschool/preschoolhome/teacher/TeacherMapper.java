@@ -1,7 +1,5 @@
 package com.preschool.preschoolhome.teacher;
 
-import com.preschool.preschoolhome.parent.model.ParentEntity;
-import com.preschool.preschoolhome.parent.model.ParentSigninDto;
 import com.preschool.preschoolhome.teacher.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,6 +22,7 @@ public interface TeacherMapper {
     int updStateIsDelParent(DelStateParentIsProc pDto);
     //------------------------ 현재 계정이 있는 모든 부모의 정보 조회  ------------------------
     List<SelParManagementVo> selParManagement(SelParManagementDto dto);
+    int insClass(InsKidManagementProc pdto);
     //------------------------ 부모 정보 원아 반 별 기준으로 조회  ------------------------
     List<SelParManagementVo> selParManagementClass (SelParManagementDto dto);
     //------------------------ 해당 부모와 연결이 되어 있는 원아의 이름과 반 조회 ------------------------
