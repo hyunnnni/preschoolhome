@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.teacher;
 
+import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
@@ -174,6 +175,19 @@ public class TeacherService {
         return new ResVo(result);
     }
 
+    // 선생님 정보 수정 시 불러오기
+    public TeacherEditVo selTeacherEdit (int iteacher, int ilevel) {
+        if (ilevel < 3) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+        try{
+            return mapper.selTeacherEdit(iteacher);
+        } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // 선생님 정보 수정
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -191,7 +205,8 @@ public class TeacherService {
                 return new ResVo(Const.SUCCESS);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // 예외 발생 시 에러 메시지 띄우기
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(Const.FAIL);
     }
@@ -211,7 +226,8 @@ public class TeacherService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // 예외 발생 시 에러 메시지 띄우기
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(Const.FAIL);
     }

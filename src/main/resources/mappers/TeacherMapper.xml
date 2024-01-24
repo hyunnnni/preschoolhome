@@ -112,6 +112,14 @@
         WHERE iparent = #{iparent} AND ikid = #{ikid}
     </delete>
 
+    <!-- 선생님 정보 수정 시 정보 불러오기 -->
+    <select id="selTeacherEdit">
+        SELECT ilevel, iclass, teacher_nm AS teacherNm, teacher_uid AS teacherUid, teacher_upw AS teacherUpw, teacher_introduce AS teacherIntroduce,
+        teacher_profile AS teacherProfile, tc_del AS tcDel, tc_email AS tcEmail
+        FROM t_teacher
+        WHERE iteacher = #{iteacher}
+    </select>
+
     <!-- 선생님 정보 수정 -->
     <update id="updTeacher">
         UPDATE t_teacher
@@ -120,6 +128,7 @@
         , iclass = #{iclass}
         , teacher_uid = #{teacherUid}
         , teacher_upw = #{teacherUpw}
+        , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
         , teacher_introduce = #{teacherIntroduce}
         WHERE iteacher = #{iteacher}

@@ -36,6 +36,8 @@ public interface TeacherMapper {
     int delDisconnent(DelDisconnectDto dto);
 
 
+    // 선생님 정보 변경 전 불러오기
+    TeacherEditVo selTeacherEdit (int iteacher);
     // 선생님 정보 변경
     int updTeacher (TeacherPatchDto dto);
     // 선생님 직급 불러오기
