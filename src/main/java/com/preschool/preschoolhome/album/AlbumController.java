@@ -147,7 +147,7 @@ public class AlbumController {
             """)
     @Valid
     @GetMapping("/edit")
-    public AlbumDeSelVo albumEdit(                                  @RequestParam
+    public AlbumDeSelVo albumEdit(@RequestParam
                                   @Positive(message = "잘못된 값입니다")
                                   @Schema(title = "앨범 PK")
                                   int ialbum) {
