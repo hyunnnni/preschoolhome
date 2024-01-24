@@ -192,8 +192,7 @@ public class TeacherService {
     // 선생님 정보 수정
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
-        if (dto.getIlevel() < 3) {
+        if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -215,7 +214,6 @@ public class TeacherService {
     // 선생님 정보 삭제
     public ResVo delTeacher(TeacherDelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        dto.setIlevel(level);
         if (dto.getIlevel() < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
