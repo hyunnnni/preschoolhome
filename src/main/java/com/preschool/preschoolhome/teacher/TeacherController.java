@@ -116,7 +116,7 @@ public class TeacherController {
         return service.delDisconnect(dto);
     }
 
-    //-------------------------------- 선생님 정보 수정 --------------------------------
+    //-------------------------------- 선생님 정보 수정 불러오기 --------------------------------
     @GetMapping("/edit")
     @Valid
     @Operation(summary = "선생님 정보 수정", description = """
