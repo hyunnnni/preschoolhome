@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.teacher;
 
+import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
@@ -235,10 +236,15 @@ public class TeacherService {
     public TeacherEntity teacherSignin(HttpServletRequest req, HttpServletResponse res, TeacherSigninDto dto) {
         TeacherEntity entity = mapper.selTeacher(dto);
 
-        if (dto.getTeacherUid() != null && dto.getTeacherUpw() != null
-                && dto.getTeacherUpw().equals(entity.getTeacherUpw())) {
+        String upw = mapper.checkTeacherInfo(dto.getTeacherUid());
 
+        if (upw == null) {
+            throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
+
+        } else if (!dto.getTeacherUpw().equals(upw)) {
+            throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
+
         MyPrincipal myPrincipal = MyPrincipal.builder()
                 .iuser(entity.getIteacher())
                 .ilevel(entity.getIlevel())

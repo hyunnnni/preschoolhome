@@ -158,4 +158,9 @@
         where teacher_uid = #{teacherUid}
         and teacher_upw = #{teacherUpw}
     </select>
+    <select id="checkTeacherInfo">
+        select teacher_upw
+        from t_teacher
+        where teacher_uid = #{teacherUid}
+    </select>
 </mapper>
