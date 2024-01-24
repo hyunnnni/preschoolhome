@@ -71,18 +71,22 @@ public class KidService {
                 pic == null) {
             throw new RestApiException(AuthErrorCode.ALL_YOU_NEED_IS_PARAM);
         }
-
-        String path = "/kid/profile";
-        String savedPicFileNm = myFileUtils.transferTo(pic, path);
-        dto.setProfile(savedPicFileNm);
-        mapper.kidSignup(dto);
-        int ikid = mapper.selIkid(dto);
-        dto.setIkid(ikid);
-        mapper.kidgrade(dto);
-        KidInsVo vo2 = new KidInsVo();
-        vo2.setCode(dto.getCode());
-        vo2.setIkid(ikid);
-        return vo2;
+        try {
+            String path = "/kid/profile";
+            String savedPicFileNm = myFileUtils.transferTo(pic, path);
+            dto.setProfile(savedPicFileNm);
+            mapper.kidSignup(dto);
+            int ikid = mapper.selIkid(dto);
+            dto.setIkid(ikid);
+            mapper.kidgrade(dto);
+            KidInsVo vo2 = new KidInsVo();
+            vo2.setCode(dto.getCode());
+            vo2.setIkid(ikid);
+            return vo2;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
     //원아 발달사항 등록
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
@@ -112,7 +116,12 @@ public class KidService {
                 if(check != null){
                     throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
-                mapper.kidGrowthInsDetail(dto);
+                try {
+                    mapper.kidGrowthInsDetail(dto);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                }
             }
             if (dto.getBodyDate() != null) {
                 if (dto.getHeight() < 1 || dto.getWeight() < 1) {
@@ -133,7 +142,12 @@ public class KidService {
                 if(check != null){
                     throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
-                mapper.kidBodyInsDetail(dto);
+                try {
+                    mapper.kidBodyInsDetail(dto);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                }
             }
         }
         return new ResVo(Const.SUCCESS);
@@ -157,7 +171,13 @@ public class KidService {
                     case 3: dto.setGrowthQuarterly(3); break;
                     case 4: dto.setGrowthQuarterly(4); break;
                 }
-                mapper.kidGrowthUpdDetail(dto);
+                try {
+                    mapper.kidGrowthUpdDetail(dto);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                }
+
             }
             if (dto.getBodyDate() != null) {
                 if (dto.getHeight() < 1 || dto.getWeight() < 1) {
@@ -171,7 +191,13 @@ public class KidService {
                     case 3: dto.setBodyQuarterly(3); break;
                     case 4: dto.setBodyQuarterly(4); break;
                 }
-                mapper.kidBodyUpdDetail(dto);
+
+                try {
+                    mapper.kidBodyUpdDetail(dto);
+                } catch (Exception e){
+                    e.printStackTrace();
+                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                }
             }
         }
         return new ResVo(Const.SUCCESS);
@@ -182,11 +208,16 @@ public class KidService {
         if (level < 2 ) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        KidDetailEditVo vo = mapper.kidDetailEdit(ikid);
-        List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
-        vo.setGrowths(growths);
-        vo.setResult(Const.SUCCESS);
-        return vo;
+        try {
+            KidDetailEditVo vo = mapper.kidDetailEdit(ikid);
+            List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
+            vo.setGrowths(growths);
+            vo.setResult(Const.SUCCESS);
+            return vo;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
     //원아 프로필 수정
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
@@ -199,12 +230,17 @@ public class KidService {
                 pic == null) {
             throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
         }
-        String path = "/kid/" + dto.getIkid();
-        myFileUtils.delFolderTrigger(path);
-        String savedPicFileNm = myFileUtils.transferTo(pic, path);
-        dto.setProfile(savedPicFileNm);
-        mapper.kidUpdProfile(dto);
-        return new ResVo(Const.SUCCESS);
+        try {
+            String path = "/kid/" + dto.getIkid();
+            myFileUtils.delFolderTrigger(path);
+            String savedPicFileNm = myFileUtils.transferTo(pic, path);
+            dto.setProfile(savedPicFileNm);
+            mapper.kidUpdProfile(dto);
+            return new ResVo(Const.SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
     //원아 프로필 수정 시 기존 데이터 조회
     public KidProfileEditVo kidEdit(int ikid){
@@ -212,9 +248,14 @@ public class KidService {
         if (level < 2 ) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        KidProfileEditVo vo = mapper.kidEdit(ikid);
-        vo.setResult(Const.SUCCESS);
-        return vo;
+        try {
+            KidProfileEditVo vo = mapper.kidEdit(ikid);
+            vo.setResult(Const.SUCCESS);
+            return vo;
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     //졸업한 지 10년 된  원아 전체 삭제
@@ -223,9 +264,13 @@ public class KidService {
         if (level < 3 ) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        mapper.allGraduateKid();
-        mapper.allGraduateDelKid();
-        return new ResVo(Const.SUCCESS);
+        try {
+            mapper.allGraduateKid();
+            mapper.allGraduateDelKid();
+            return new ResVo(Const.SUCCESS);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
-
 }
