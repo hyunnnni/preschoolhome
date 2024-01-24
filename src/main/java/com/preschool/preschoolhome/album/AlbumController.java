@@ -90,6 +90,7 @@ public class AlbumController {
 
     //------------------------------------- 활동 앨범 수정 -------------------------------------//
     @Operation(summary = "활동 앨범 수정", description = """
+            수정할 글과 사진 수정
             """)
     @PutMapping
     public ResVo putAlbum(@RequestPart List<MultipartFile> pics,  @RequestPart AlbumUpdDto dto) {
@@ -97,7 +98,9 @@ public class AlbumController {
     }
 
     //------------------------------------- 활동 앨범 수정 시 정보 출력-------------------------------------//
-    @Operation(summary = "활동 앨범 수정 시 정보 출력")
+    @Operation(summary = "활동 앨범 수정", description = """
+            수정 시 수정할 글과 사진 정보 출력
+            """)
     @GetMapping("/edit")
     public AlbumDeSelVo albumEdit(int iteacher, int ialbum, @Min(value = 1,message = "권한이 없습니다")int ilevel){
         return service.albumEdit(iteacher, ialbum);

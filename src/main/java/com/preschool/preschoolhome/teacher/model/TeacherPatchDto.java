@@ -18,6 +18,8 @@ public class TeacherPatchDto {
     private String teacherUid;
     @Schema(title = "선생님 PW")
     private String teacherUpw;
+    @Schema(title = "선생님 이메일")
+    private String tcEmail;
     @JsonIgnore
     @Schema(title = "선생님 프로필 사진")
     private String teacherProfile;

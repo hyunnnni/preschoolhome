@@ -110,6 +110,14 @@ public class TeacherController {
         return service.delDisconnect(dto);
     }
 
+    //-------------------------------- 선생님 정보 수정 --------------------------------
+    @GetMapping("/edit")
+    @Operation(summary = "선생님 정보 수정", description = """
+            수정할 선생님 정보 불러오기
+            """)
+    public TeacherEditVo selTeacherEdit (int iteacher, int ilevel) {
+        return service.selTeacherEdit(iteacher, ilevel);
+    }
 
     //-------------------------------- 선생님 정보 수정 --------------------------------
     @PutMapping

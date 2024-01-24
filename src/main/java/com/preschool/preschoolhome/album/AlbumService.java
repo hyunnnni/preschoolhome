@@ -27,7 +27,7 @@ public class AlbumService {
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
-
+        // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -35,6 +35,7 @@ public class AlbumService {
             List<AlbumSelVo> vo = mapper.selAllAlbum(dto);
             return vo;
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
@@ -44,6 +45,7 @@ public class AlbumService {
         try {
             return mapper.selMainAlbum(dto);
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
@@ -53,6 +55,7 @@ public class AlbumService {
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
+        // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -66,6 +69,7 @@ public class AlbumService {
             }
             return list;
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,6 +79,7 @@ public class AlbumService {
     public ResVo postAlbum(AlbumInsDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
+        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -94,6 +99,7 @@ public class AlbumService {
                 return new ResVo(SUCCESS);
             }
         } catch (Exception e){
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(FAIL);
@@ -104,6 +110,7 @@ public class AlbumService {
     public ResVo delAlbum(AlbumDelDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
+        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 삭제 접근 제한
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -117,6 +124,7 @@ public class AlbumService {
                 return new ResVo(SUCCESS);
             }
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(FAIL);
@@ -129,6 +137,7 @@ public class AlbumService {
         int level = authenticationFacade.getLevelPk();
         dto.setIparent(loginUserPk);
         dto.setIlevel(level);
+        // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (dto.getIlevel() < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
@@ -138,6 +147,7 @@ public class AlbumService {
                 return new ResVo(SUCCESS);
             }
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(FAIL);
@@ -151,6 +161,7 @@ public class AlbumService {
                 return new ResVo(SUCCESS);
             }
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(FAIL);
@@ -159,31 +170,36 @@ public class AlbumService {
     // 활동 앨범 수정 시 정보 출력
     public AlbumDeSelVo albumEdit(int iteacher, int ialbum) {
         try {
+            // 수정할 글 내용과 사진들 불러오기
             AlbumDeSelVo vo = mapper.selAlbumContent(iteacher, ialbum);
             List<String> pics = mapper.albumEditPics(ialbum);
             vo.setAlbumPic(pics);
             return vo;
         } catch (Exception e){
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
     // 활동 앨범 수정
     public ResVo putAlbum(List<MultipartFile> pics, AlbumUpdDto dto) {
-        if (dto.getIlevel() < 1) {
+        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 수정 접근 제한
+        if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
             String target = "/album/" + dto.getIalbum();
+            // 글 수정
             int updAfftectedRows = mapper.updAlbum(dto);
             if (updAfftectedRows == 0) {
                 return new ResVo(FAIL);
             }
+            // 사진 삭제
             int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
             if (delPicsAffectedRows == 0) {
                 return new ResVo(FAIL);
             }
-
+            // 사진 등록
             AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
             picsDto.setIalbum(dto.getIalbum());
             for (MultipartFile file : pics) {
@@ -196,6 +212,7 @@ public class AlbumService {
             }
             return new ResVo(SUCCESS);
         } catch (Exception e) {
+            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
