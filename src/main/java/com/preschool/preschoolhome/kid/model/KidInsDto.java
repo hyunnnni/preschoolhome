@@ -33,8 +33,6 @@ public class KidInsDto {
     private String code;
     @Schema(title = "메모")
     private String memo;
-    @JsonIgnore
-    private int ilevel;
     @Schema(title = "비상 연락자")
     private String emerNm;
     @Schema(title = "비상 연락망")
