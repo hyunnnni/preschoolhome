@@ -40,7 +40,7 @@ public class KidController {
 
     @Operation(summary = "원아 등록", description = "원아 등록")
     @PostMapping
-    public KidInsVo postKidSignup(@RequestPart MultipartFile pic, @RequestPart KidInsDto dto){
+    public KidInsVo postKidSignup(@RequestPart MultipartFile pic,@Valid @RequestPart KidInsDto dto){
         return service.kidSignup(pic, dto);
     }
 

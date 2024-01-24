@@ -25,7 +25,8 @@ public class ParentInsDto {
     @Schema(title = "휴대폰번호")
     private String phoneNb;
     @Schema(title = "이메일")
-    @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$")
+    @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$",
+    message = "이메일 양식을 확인해주세요")
     private String prEmail;
     @JsonIgnore
     private String code;
