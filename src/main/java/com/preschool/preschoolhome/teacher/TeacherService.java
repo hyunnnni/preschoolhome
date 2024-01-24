@@ -56,7 +56,7 @@ public class TeacherService {
             return voList;
 
         }catch (Exception e){
-            throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -105,7 +105,7 @@ public class TeacherService {
 
         }catch (Exception e){
 
-            throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
 
         }
     }
@@ -143,7 +143,7 @@ public class TeacherService {
             return voList;
 
         }catch (Exception e){
-            throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -172,7 +172,7 @@ public class TeacherService {
             return new ResVo(isDelResult);
 
         }catch (Exception e){
-            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
     }
@@ -198,7 +198,7 @@ public class TeacherService {
             return new ResVo(result);
 
         }catch (Exception e){
-            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
 
     }

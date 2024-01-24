@@ -27,7 +27,6 @@ public enum AuthErrorCode implements ErrorCode {
     NOT_ENTER_ACCESS(HttpStatus.BAD_REQUEST,"권한이 없습니다"),
     OVER_GROWTH(HttpStatus.NOT_FOUND, "분기당 한번만 등록할 수 있습니다"),
     FAIL(HttpStatus.NOT_ACCEPTABLE,"요청은 정상이나 실패하였습니다"),
-    SUCCESS(HttpStatus.OK,"요청 수행 성공하였습니다"),
     NO_PERMISSION(HttpStatus.UNAUTHORIZED,"관리자 페이지에 접근할 권한이 없습니다"),
     NO_INFORMATION(HttpStatus.NOT_FOUND,"조회되는 정보가 없습니다"),
     UPD_STATE_FAIL(HttpStatus.NOT_FOUND,"재원상태/반 수정 실패"),
