@@ -169,7 +169,7 @@ public class TeacherController {
 
     //-------------------------------- 선생님 로그인 --------------------------------
     @PostMapping("/signin")
-    @Operation(summary = "로그인", description = "<strong>선생님 로그인</strong><br><br>" +
+    @Operation(summary = "선생님 로그인", description = "<strong>선생님 로그인</strong><br><br>" +
             "uid와 upw로 로그인<br>" +
             "성공시 선생님 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
