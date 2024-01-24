@@ -15,7 +15,6 @@ import com.preschool.preschoolhome.kid.model.KidProfileVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -92,7 +91,7 @@ public class KidService {
         if (level < 2 ) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        GrowhCheck vo = new GrowhCheck();
+        GrowthCheck vo = new GrowthCheck();
         for (KidDetailInsDto dto : list) {
             if (dto.getGrowthDate() != null) {
                 if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){

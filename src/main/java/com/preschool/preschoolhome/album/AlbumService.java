@@ -152,6 +152,8 @@ public class AlbumService {
 
     // 활동 앨범 댓글 삭제
     public ResVo delAlbumComment(AlbumDelCommentDto dto) {
+        int loginUserPk = authenticationFacade.getLoginUserPk();
+
         try {
             int affectedRows = mapper.delAlbumComment(dto);
             if (affectedRows > 0) {
