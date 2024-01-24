@@ -135,12 +135,6 @@
     </update>
 
 
-    <select id="selTeacherRank">
-        SELECT ilevel
-        FROM t_teacher
-        WHERE iteacher = #{iteacher}
-    </select>
-
     <!-- 선생님 정보 댓글 -->
     <update id="isDelTeacher">
         UPDATE t_teacher
@@ -163,4 +157,13 @@
         from t_teacher
         where teacher_uid = #{teacherUid}
     </select>
+
+    <insert id="insClass">
+        INSERT INTO t_grade
+        (ikid, iclass)
+        VALUES
+        <foreach collection="ikids" item="ikid" open="(" close=")" separator="),(">
+            #{ikid}, #{iclass}
+        </foreach>
+    </insert>
 </mapper>
