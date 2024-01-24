@@ -133,11 +133,11 @@ public class ParentService {
 
     //원래정보 불러오기
     public ParentBeforInfoVo getParentEdit() {
-        int loginUserPk = authenticationFacade.getLoginUserPk();
-        if (loginUserPk != 1) {
+        int level = authenticationFacade.getLevelPk();
+        if (level != 1) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        ParentBeforInfoVo vo = mapper.selBeforeInfo(loginUserPk);
+        ParentBeforInfoVo vo = mapper.selBeforeInfo(level);
         return vo;
     }
 
