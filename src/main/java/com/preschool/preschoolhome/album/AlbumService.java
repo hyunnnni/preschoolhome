@@ -187,7 +187,6 @@ public class AlbumService {
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        try {
             String target = "/album/" + dto.getIalbum();
             // 글 수정
             int updAfftectedRows = mapper.updAlbum(dto);
@@ -211,9 +210,5 @@ public class AlbumService {
                 return new ResVo(FAIL);
             }
             return new ResVo(SUCCESS);
-        } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
     }
 }
