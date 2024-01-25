@@ -22,6 +22,7 @@ public interface TeacherMapper {
     int updStateIsDelParent(DelStateParentIsProc pDto);
     //------------------------ 현재 계정이 있는 모든 부모의 정보 조회  ------------------------
     List<SelParManagementVo> selParManagement(SelParManagementDto dto);
+    //------------------------ 현재 계정이 있는 모든 부모의 정보 조회  ------------------------
     int insClass(InsKidManagementProc pdto);
     //------------------------ 부모 정보 원아 반 별 기준으로 조회  ------------------------
     List<SelParManagementVo> selParManagementClass (SelParManagementDto dto);
