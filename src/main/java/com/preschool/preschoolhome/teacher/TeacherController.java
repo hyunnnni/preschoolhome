@@ -37,11 +37,7 @@ public class TeacherController {
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
     @GetMapping("/kid")
-    @Operation(summary = "원아 관리 페이지 조회", description = """
-            리스트 안 result 값이<br>
-            -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
-            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
-            0 : 이상 없음<br>""")
+    @Operation(summary = "원아 관리 페이지 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
@@ -55,9 +51,6 @@ public class TeacherController {
     @PatchMapping("/stateorclass")
     @Operation(summary = "원아 재원 상태 / 반 승급 수정", description = """
             result 값이<br>
-            -4 : 연결 부모님 계정 삭제 처리 실패<br>
-            -3 : 원아 상태 수정 실패<br>
-            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
             -1 : 원아 상태 수정/ 부모님 연결 계정 삭제 실패<br>
             1 이상 : 수정 성공한 원아의 수""")
     @ApiResponses(value = {
@@ -71,10 +64,7 @@ public class TeacherController {
 
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
     @GetMapping("/parent")
-    @Operation(summary = "학부모 관리 페이지 조회", description = """
-            리스트 안 result 값이<br>
-            -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
-            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>""")
+    @Operation(summary = "학부모 관리 페이지 조회")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
             @ApiResponse(responseCode = "400", description = "요청 오류"),
@@ -88,8 +78,6 @@ public class TeacherController {
     @PutMapping("/parent")
     @Operation(summary = "학부모 정보 관리자가 삭제", description = """
             result 값이<br>
-            -4 : 부모님 계정 삭제 실패<br>
-            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
             1 이상 : 삭제 처리된 계정 수""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
@@ -104,8 +92,6 @@ public class TeacherController {
     @DeleteMapping("/Disconnent")
     @Operation(summary = "학부모와 원아 연결 끊기", description = """
             result 값이<br>
-            -2 : 관리자 외 계정으로 접근 시 거부 에러<br>
-            -1 : 연결 끊기 실패<br>
             1 : 연결 끊기 성공""")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "통신 성공"),
