@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface AlbumMapper {
-
+//sfd
     // 활동 앨범 등록
     int insAlbum (AlbumInsDto dto);
     // 활동 앨범 사진 등록
