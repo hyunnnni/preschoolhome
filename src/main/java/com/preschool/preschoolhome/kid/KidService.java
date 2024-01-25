@@ -35,6 +35,9 @@ public class KidService {
         }
         try {
             KidProfileVo vo = mapper.kidProfile(ikid);
+            if(vo == null){
+                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+            }
             vo.setResult(Const.SUCCESS);
             List<KidParent> parents = mapper.kidParent(ikid);
             List<KidGrowth> growths = mapper.kidGrowth(ikid, year);

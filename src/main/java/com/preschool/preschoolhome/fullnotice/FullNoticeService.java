@@ -69,7 +69,7 @@ public class FullNoticeService {
 //-------------------------------- 유치원 소식 작성 --------------------------------
 
     public ResVo postFullNotice (InsFullNoticeDto dto){
-        try {
+
             int level = authenticationFacade.getLevelPk();
             dto.setIlevel(level);
 
@@ -106,9 +106,8 @@ public class FullNoticeService {
                 throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
             return new ResVo(dto.getIfullNotice());
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
+
+
     }
 
 //-------------------------------- 유치원 소식 삭제 --------------------------------
