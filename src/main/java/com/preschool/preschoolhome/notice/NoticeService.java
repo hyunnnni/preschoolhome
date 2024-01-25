@@ -25,65 +25,65 @@ public class NoticeService {
 
     //-------------------------------- 알림장 등록 --------------------------------
 
-    ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto){
+    ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         try {
             mapper.insNotice(dto);
-            String target = "/notice/"+dto.getInotice();
+            String target = "/notice/" + dto.getInotice();
 
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
-            for (MultipartFile file: pics) {
+            for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getPics().add(saveFileNm);
             }
             mapper.insNoticePics(picsDto);
             return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
     //-------------------------------- 알림장 수정 시 정보 출력--------------------------------
 
-    public NoticeUpdSelVo noticeEdit(int inotice, int ikid){
+    public NoticeUpdSelVo noticeEdit(int inotice, int ikid) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         try {
-            NoticeUpdSelVo vo = mapper.noticeEdit(inotice,ikid);
+            NoticeUpdSelVo vo = mapper.noticeEdit(inotice, ikid);
             List<String> pics = mapper.noticeEditPics(inotice);
             vo.setNoticePics(pics);
             return vo;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
     //-------------------------------- 알림장 수정 --------------------------------
 
-    public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto){
+    public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         try {
-            String target = "/notice/"+dto.getInotice();
+            String target = "/notice/" + dto.getInotice();
             int affectedRows = mapper.updNotice(dto);
             int affectedDelRows = mapper.delNoticePics(dto.getInotice());
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
-            for (MultipartFile file: pics) {
+            for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getPics().add(saveFileNm);
             }
             int affectedPicRows = mapper.insNoticePics(picsDto);
             return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -91,16 +91,16 @@ public class NoticeService {
 
     //-------------------------------- 알림장 삭제 --------------------------------
 
-    ResVo delNotice(int iteacher, int inotice){
+    ResVo delNotice(int iteacher, int inotice) {
         int level = authenticationFacade.getLevelPk();
-        if(level != 2){
+        if (level != 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         try {
             mapper.delAllNotice(iteacher, inotice);
             mapper.delNotice(iteacher, inotice);
             return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -109,117 +109,105 @@ public class NoticeService {
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
     public List<SelAllNoticeVo> getKidManagement(SelAllNoticeDto dto) {
 
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            List<SelAllNoticeVo> voList = new ArrayList<>();
-            SelAllNoticeVo vo = new SelAllNoticeVo();
+        List<SelAllNoticeVo> voList = new ArrayList<>();
+        SelAllNoticeVo vo = new SelAllNoticeVo();
 
-            if (dto.getIlevel() == 1) {
-                voList = mapper.selAllNoticeBoardPar(dto);
-            }
-            if (dto.getIlevel() == 2 || dto.getIlevel() == 3) {
-                voList = mapper.selAllNoticeBoardTea(dto);
-            }
-            if (voList.size() == 0) {
-                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-            }
-
-            for (SelAllNoticeVo picCheck : voList) {
-                Integer result = mapper.selNoticeBoardPicCheck(picCheck.getInotice());
-                if (result != null) {
-                    picCheck.setPicCheck(Const.SUCCESS);
-                }
-            }
-
-            return voList;
-
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (dto.getIlevel() == 1) {
+            voList = mapper.selAllNoticeBoardPar(dto);
         }
+        if (dto.getIlevel() == 2 || dto.getIlevel() == 3) {
+            voList = mapper.selAllNoticeBoardTea(dto);
+        }
+        if (voList.size() == 0) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+
+        for (SelAllNoticeVo picCheck : voList) {
+            Integer result = mapper.selNoticeBoardPicCheck(picCheck.getInotice());
+            if (result != null) {
+                picCheck.setPicCheck(Const.SUCCESS);
+            }
+        }
+
+        return voList;
+
     }
 
     //-------------------------------- 알림장 상세 조회 --------------------------------
     public SelDetailNoticeVo getDetailNotice(SelDetailNoticeDto dto) {
 
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            SelDetailNoticeVo vo = mapper.selNoticeDetail(dto.getInotice());
+        SelDetailNoticeVo vo = mapper.selNoticeDetail(dto.getInotice());
 
-            if (vo == null) {
-                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-            }
-
-            vo.setPics(mapper.selNoticeDetailPics(dto.getInotice()));
-
-            List<SelNoticeComment> comList = mapper.selNoticeDetailCom(dto.getInotice());
-            List<SelNoticeCommentProc> comments = new ArrayList<>();
-
-            if (comList.size() > 0) {
-                for (SelNoticeComment com : comList) {
-                    if (com.getIparent() > 0 && com.getIteacher() == 0) {
-                        SelNoticeCommentProc parComment = mapper.selNoticeDetailPar(com.getIparent());
-                        parComment.setInoticeComment(com.getInoticeComment());
-                        parComment.setNoticeComment(com.getNoticeComment());
-                        parComment.setCreatedAt(com.getCreatedAt());
-                        comments.add(parComment);
-                    }
-                    if (com.getIteacher() > 0 && com.getIparent() == 0) {
-                        SelNoticeCommentProc teaComment = mapper.selNoticeDetailTea(com.getIteacher());
-                        teaComment.setInoticeComment(com.getInoticeComment());
-                        teaComment.setNoticeComment(com.getNoticeComment());
-                        teaComment.setCreatedAt(com.getCreatedAt());
-                        comments.add(teaComment);
-                    }
-
-                }
-            }
-            vo.setComments(comments);
-
-            return vo;
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
+
+        vo.setPics(mapper.selNoticeDetailPics(dto.getInotice()));
+
+        List<SelNoticeComment> comList = mapper.selNoticeDetailCom(dto.getInotice());
+        List<SelNoticeCommentProc> comments = new ArrayList<>();
+
+        if (comList.size() > 0) {
+            for (SelNoticeComment com : comList) {
+                if (com.getIparent() > 0 && com.getIteacher() == 0) {
+                    SelNoticeCommentProc parComment = mapper.selNoticeDetailPar(com.getIparent());
+                    parComment.setInoticeComment(com.getInoticeComment());
+                    parComment.setNoticeComment(com.getNoticeComment());
+                    parComment.setCreatedAt(com.getCreatedAt());
+                    comments.add(parComment);
+                }
+                if (com.getIteacher() > 0 && com.getIparent() == 0) {
+                    SelNoticeCommentProc teaComment = mapper.selNoticeDetailTea(com.getIteacher());
+                    teaComment.setInoticeComment(com.getInoticeComment());
+                    teaComment.setNoticeComment(com.getNoticeComment());
+                    teaComment.setCreatedAt(com.getCreatedAt());
+                    comments.add(teaComment);
+                }
+
+            }
+        }
+        vo.setComments(comments);
+
+        return vo;
     }
+
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     public ResVo postNoticeComment(InsNoticeCommentDto dto) {
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
 
-            int result = mapper.insNoticeComment(dto);
-            if (result == 0) {
-                return new ResVo(Const.FAIL);
-            }
-            return new ResVo(result);
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
+
+        int result = mapper.insNoticeComment(dto);
+        if (result == 0) {
+            return new ResVo(Const.FAIL);
         }
+        return new ResVo(result);
+
     }
 
     //-------------------------------- 알림장 댓글 삭제 --------------------------------
     public ResVo delNoticeComment(DelNoticeCommentDto dto) {
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
 
-            if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
-                    (dto.getIparent() > 0 && dto.getIteacher() > 0)) {
-                return new ResVo(Const.BAD_PARAMETER);
-            }
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            int result = mapper.delNoticeComment(dto);
-
-            if (result == 0) {
-                return new ResVo(Const.NO_INFORMATION);
-            }
-
-            return new ResVo(result);
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
+                (dto.getIparent() > 0 && dto.getIteacher() > 0)) {
+            return new ResVo(Const.BAD_PARAMETER);
         }
+
+        int result = mapper.delNoticeComment(dto);
+
+        if (result == 0) {
+            return new ResVo(Const.NO_INFORMATION);
+        }
+
+        return new ResVo(result);
     }
 }

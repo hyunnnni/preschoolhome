@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @Service
 @RequiredArgsConstructor
 public class TeacherService {
@@ -35,192 +34,170 @@ public class TeacherService {
     private final CookieUtils cookieUtils;
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
-    public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto){
-        try{
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
+    public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto) {
 
-            if(!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)){
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            List<SelKidManagementVo> voList = new ArrayList<>();
-            SelKidManagementVo vo = new SelKidManagementVo();
-
-            voList = mapper.selKidManagement(dto);
-
-            if(voList.size() == 0){
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
-
-            return voList;
-
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
+
+        List<SelKidManagementVo> voList = new ArrayList<>();
+        SelKidManagementVo vo = new SelKidManagementVo();
+
+        voList = mapper.selKidManagement(dto);
+
+        if (voList.size() == 0) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+        }
+
+        return voList;
     }
 
     //-------------------------------- 원아 재원 상태 / 반 승급 수정 --------------------------------
 
-    public ResVo patchKidStateOrClass (UpdKidStateDto dto){
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
+    public ResVo patchKidStateOrClass(UpdKidStateDto dto) {
 
-            if(!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)){
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            int result = mapper.updKidStateOrClass(dto);
-            DelStateParentIsProc pDto = new DelStateParentIsProc();
+        if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+        }
 
-            if (dto.getKidCheck() == Const.STATE_GRADUATE || dto.getKidCheck() == Const.STATE_DROP_OUT) {
+        int result = mapper.updKidStateOrClass(dto);
+        DelStateParentIsProc pDto = new DelStateParentIsProc();
 
-                List<Integer> iParents = mapper.SelGraduateParentPk(dto.getIkids());
+        if (dto.getKidCheck() == Const.STATE_GRADUATE || dto.getKidCheck() == Const.STATE_DROP_OUT) {
 
-                if (iParents.size() != 0) {
-                    for (int parent : iParents) {
+            List<Integer> iParents = mapper.SelGraduateParentPk(dto.getIkids());
 
-                        List<Integer> ikids = mapper.SelGraduateKidPk(parent);
-                        List<Integer> state = mapper.selStateKid(ikids);
+            if (iParents.size() != 0) {
+                for (int parent : iParents) {
 
-                        if (state.contains(Const.ZERO)) {
-                            continue;
-                        }
-                        pDto.setIparent(parent);
-                        int delResult = mapper.updStateIsDelParent(pDto);
-                        if (delResult == Const.ZERO) {
-                            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
-                        }
+                    List<Integer> ikids = mapper.SelGraduateKidPk(parent);
+                    List<Integer> state = mapper.selStateKid(ikids);
+
+                    if (state.contains(Const.ZERO)) {
+                        continue;
+                    }
+                    pDto.setIparent(parent);
+                    int delResult = mapper.updStateIsDelParent(pDto);
+                    if (delResult == Const.ZERO) {
+                        throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
                     }
                 }
             }
-
-            if(dto.getKidCheck() >= Const.CLASS_HIBISCUS || dto.getKidCheck() <= Const.CLASS_ROSE){
-                InsKidManagementProc pdto = InsKidManagementProc.builder()
-                        .ikids(dto.getIkids())
-                        .iclass(dto.getKidCheck())
-                        .build();
-                int insResult = mapper.insClass(pdto);
-                if(insResult == 0){
-                    throw new RestApiException(AuthErrorCode.GRADE_FAIL);
-                }
-            }
-            if (result > Const.SUCCESS || result > Const.ZERO) {
-                return new ResVo(result);
-            }
-            if (result == Const.ZERO) {
-                throw new RestApiException(AuthErrorCode.UPD_STATE_FAIL);
-            }
-            return new ResVo(Const.FAIL);
-
-        }catch (Exception e){
-
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-
         }
+
+        if (dto.getKidCheck() >= Const.CLASS_HIBISCUS || dto.getKidCheck() <= Const.CLASS_ROSE) {
+            InsKidManagementProc pdto = InsKidManagementProc.builder()
+                    .ikids(dto.getIkids())
+                    .iclass(dto.getKidCheck())
+                    .build();
+            int insResult = mapper.insClass(pdto);
+            if (insResult == 0) {
+                throw new RestApiException(AuthErrorCode.GRADE_FAIL);
+            }
+        }
+        if (result > Const.SUCCESS || result > Const.ZERO) {
+            return new ResVo(result);
+        }
+        if (result == Const.ZERO) {
+            throw new RestApiException(AuthErrorCode.UPD_STATE_FAIL);
+        }
+        return new ResVo(Const.FAIL);
     }
+
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
-    public List<SelParManagementVo> getParentManagement (SelParManagementDto dto){
+    public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
 
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
 
-            if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            List<SelParManagementVo> voList = new ArrayList<>();
-            SelParManagementVo vo = new SelParManagementVo();
-
-            if (dto.getIclass() > 0) {
-                voList = mapper.selParManagementClass(dto);
-            } else if (dto.getIclass() == 0) {
-                voList = mapper.selParManagement(dto);
-            }
-
-            if (voList.size() == 0) {
-                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-            }
-
-            for (SelParManagementVo vo1 : voList) {
-                List<SelKidNameClass> kids = mapper.selConnectionKid(vo1.getIparent());
-                if (kids.size() > 0) {
-                    vo1.setKids(kids);
-                }
-            }
-
-            return voList;
-
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
+
+        List<SelParManagementVo> voList = new ArrayList<>();
+        SelParManagementVo vo = new SelParManagementVo();
+
+        if (dto.getIclass() > 0) {
+            voList = mapper.selParManagementClass(dto);
+        } else if (dto.getIclass() == 0) {
+            voList = mapper.selParManagement(dto);
+        }
+
+        if (voList.size() == 0) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+
+        for (SelParManagementVo vo1 : voList) {
+            List<SelKidNameClass> kids = mapper.selConnectionKid(vo1.getIparent());
+            if (kids.size() > 0) {
+                vo1.setKids(kids);
+            }
+        }
+
+        return voList;
 
     }
 
 //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
 
-    public ResVo delParent(DelParentDto dto){
+    public ResVo delParent(DelParentDto dto) {
 
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
 
-            if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            int delResult = mapper.delParDisconnectKid(dto.getIparents());
-            if (delResult == 0) {
-                throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
-            }
-            int isDelResult = mapper.updIsDelParent(dto);
-            if (isDelResult == 0) {
-                throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
-            }
-
-            return new ResVo(isDelResult);
-
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
+
+        int delResult = mapper.delParDisconnectKid(dto.getIparents());
+        if (delResult == 0) {
+            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
+        }
+        int isDelResult = mapper.updIsDelParent(dto);
+        if (isDelResult == 0) {
+            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
+        }
+
+        return new ResVo(isDelResult);
 
     }
 
 //-------------------------------- 학부모와 원아 연결 끊기  --------------------------------
 
-    public ResVo delDisconnect(DelDisconnectDto dto){
+    public ResVo delDisconnect(DelDisconnectDto dto) {
 
-        try {
-            int level = authenticationFacade.getLevelPk();
-            dto.setIlevel(level);
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
 
-            if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
-                throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-            }
-
-            int result = mapper.delDisconnent(dto);
-
-            if (result == 0) {
-                throw new RestApiException(AuthErrorCode.FAIL);
-            }
-
-            return new ResVo(result);
-
-        }catch (Exception e){
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
+
+        int result = mapper.delDisconnent(dto);
+
+        if (result == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+
+        return new ResVo(result);
 
     }
 
     //-------------------------------- 선생님 정보 수정 시 불러오기 --------------------------------
 
-    public TeacherEditVo selTeacherEdit (int iteacher, int ilevel) {
+    public TeacherEditVo selTeacherEdit(int iteacher, int ilevel) {
         if (ilevel < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        try{
+        try {
             return mapper.selTeacherEdit(iteacher);
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
