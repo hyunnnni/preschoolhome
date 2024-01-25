@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -14,8 +15,17 @@ import java.io.IOException;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
+    private final String imgFolder;
+
+    public WebMvcConfiguration(@Value("${file.dir}") String imgFolder) { //value : yaml에 있는 file.dir에 있는 속성값을 di 해줌  imgFolder에 담아줌
+        this.imgFolder = imgFolder;
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("/pic/**") //pic으로 요청이 오면  컨트롤러  -> 외부 경로 -> 스태틱 순
+                .addResourceLocations("file:"+imgFolder); //외부 경로인 이 경로까지 찾아라
         registry
                 .addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/**")

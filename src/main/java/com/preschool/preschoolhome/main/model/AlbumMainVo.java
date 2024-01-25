@@ -6,7 +6,7 @@ import lombok.Data;
 public class AlbumMainVo {
     private int ialbum;
     private String albumTitle;
-    private String albumContent;
+    private String albumContents;
     private String createdAt;
     private String albumPic;
 }

@@ -16,16 +16,12 @@ public class MainService {
 
     // 메인화면 조회
     public MainVo getMain(MainDto dto) {
-        try {
+
             MainVo list = new MainVo();
             List<AlbumMainVo> album = mapper.selMainAlbum(dto);
             list.setAlbumMainVoList(album);
             List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
             list.setFullNoticeVoList(noticeFix);
             return list;
-        } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
     }
 }
