@@ -92,6 +92,9 @@ public class FullNoticeService {
             if (dto.getFullPic() == null) {
                 return new ResVo(Const.SUCCESS);
             }
+
+            int picResult = mapper.insFullNoticePics(pdto);
+
             pdto.setIfullNotice(dto.getIfullNotice());
             String target = "/fullnotice/" + dto.getIfullNotice();
 
@@ -99,9 +102,6 @@ public class FullNoticeService {
                 String saverFileNm = mfu.transferTo(file, target);
                 pdto.getFullPic().add(saverFileNm);
             }
-
-            int picResult = mapper.insFullNoticePics(pdto);
-
             if (picResult < 1) {
                 throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
