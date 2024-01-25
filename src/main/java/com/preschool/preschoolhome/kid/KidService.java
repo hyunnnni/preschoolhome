@@ -33,33 +33,35 @@ public class KidService {
         if (level < 1) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            KidProfileVo vo = mapper.kidProfile(ikid);
-            if(vo == null){
-                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-            }
-            vo.setResult(Const.SUCCESS);
+        KidProfileVo vo = mapper.kidProfile(ikid);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+        vo.setResult(Const.SUCCESS);
             List<KidParent> parents = mapper.kidParent(ikid);
-            List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
             vo.setParents(parents);
+            if(parents == null){
+                throw new RestApiException(AuthErrorCode.FAIL);
+            }
+            List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
             vo.setGrowths(growths);
+        if(growths == null){
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
             return vo;
-        }catch (Exception e){
+    }
+
+    //원아 식별코드 수정
+    ResVo kidCode(int ikid) {
+        try {
+            mapper.kidCode(ikid);
+            return new ResVo(Const.SUCCESS);
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 
-    //원아 식별코드 수정
-    ResVo kidCode(int ikid){
-        try {
-            mapper.kidCode(ikid);
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
-    }
     //원아 등록
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -71,33 +73,40 @@ public class KidService {
                 pic == null) {
             throw new RestApiException(AuthErrorCode.ALL_YOU_NEED_IS_PARAM);
         }
-        try {
-            String path = "/kid/profile";
-            String savedPicFileNm = myFileUtils.transferTo(pic, path);
-            dto.setProfile(savedPicFileNm);
-            mapper.kidSignup(dto);
-            int ikid = mapper.selIkid(dto);
-            dto.setIkid(ikid);
-            mapper.kidgrade(dto);
-            KidInsVo vo2 = new KidInsVo();
-            vo2.setCode(dto.getCode());
-            vo2.setIkid(ikid);
-            return vo2;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+
+        String path = "/kid/profile";
+        String savedPicFileNm = myFileUtils.transferTo(pic, path);
+        dto.setProfile(savedPicFileNm);
+        int kid = mapper.kidSignup(dto);
+        if (kid == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+        int ikid = mapper.selIkid(dto);
+        dto.setIkid(ikid);
+        if (ikid == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        int grade = mapper.kidgrade(dto);
+        if (grade == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        KidInsVo vo2 = new KidInsVo();
+        vo2.setCode(dto.getCode());
+        vo2.setIkid(ikid);
+        return vo2;
+
     }
+
     //원아 발달사항 등록
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         GrowthCheck vo = new GrowthCheck();
         for (KidDetailInsDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){
+                if (dto.getGrowth() < 1 || dto.getGrowth() > 10) {
                     throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -113,14 +122,13 @@ public class KidService {
                 vo.setGrowthDate(dto.getGrowthDate());
                 Integer check = mapper.growthCheck(vo);
                 log.info("check:{}", check);
-                if(check != null){
+                if (check != null) {
                     throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
-                try {
-                    mapper.kidGrowthInsDetail(dto);
-                } catch (Exception e){
-                    e.printStackTrace();
-                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+
+                int kiddetail1 = mapper.kidGrowthInsDetail(dto);
+                if (kiddetail1 == 0) {
+                    throw new RestApiException(AuthErrorCode.FAIL);
                 }
             }
             if (dto.getBodyDate() != null) {
@@ -139,28 +147,27 @@ public class KidService {
                 vo.setIkid(dto.getIkid());
                 vo.setBodyDate(dto.getBodyDate());
                 Integer check = mapper.bodyCheck(vo);
-                if(check != null){
+                if (check != null) {
                     throw new RestApiException(AuthErrorCode.OVER_GROWTH);
                 }
-                try {
-                    mapper.kidBodyInsDetail(dto);
-                } catch (Exception e){
-                    e.printStackTrace();
-                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                int kiddetail2 = mapper.kidBodyInsDetail(dto);
+                if (kiddetail2 == 0) {
+                    throw new RestApiException(AuthErrorCode.FAIL);
                 }
             }
         }
         return new ResVo(Const.SUCCESS);
     }
+
     //원아 발달사항 수정
     ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         for (KidDetailUpdDto dto : list) {
             if (dto.getGrowthDate() != null) {
-                if(dto.getGrowth() < 1 || dto.getGrowth() > 10 ){
+                if (dto.getGrowth() < 1 || dto.getGrowth() > 10) {
                     throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
                 }
                 int growthmonth = Integer.parseInt(dto.getGrowthDate().substring(5, 7));
@@ -171,13 +178,11 @@ public class KidService {
                     case 3: dto.setGrowthQuarterly(3); break;
                     case 4: dto.setGrowthQuarterly(4); break;
                 }
-                try {
-                    mapper.kidGrowthUpdDetail(dto);
-                } catch (Exception e){
-                    e.printStackTrace();
-                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-                }
 
+                int kiddetail1 = mapper.kidGrowthUpdDetail(dto);
+                if (kiddetail1 == 0) {
+                    throw new RestApiException(AuthErrorCode.FAIL);
+                }
             }
             if (dto.getBodyDate() != null) {
                 if (dto.getHeight() < 1 || dto.getWeight() < 1) {
@@ -191,38 +196,39 @@ public class KidService {
                     case 3: dto.setBodyQuarterly(3); break;
                     case 4: dto.setBodyQuarterly(4); break;
                 }
-
-                try {
-                    mapper.kidBodyUpdDetail(dto);
-                } catch (Exception e){
-                    e.printStackTrace();
-                    throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+                int kiddetail2 = mapper.kidBodyUpdDetail(dto);
+                if (kiddetail2 == 0) {
+                    throw new RestApiException(AuthErrorCode.FAIL);
                 }
             }
         }
         return new ResVo(Const.SUCCESS);
     }
+
     //원아 발달사항 수정 시 기존 데이터 조회
     public KidDetailEditVo kidDetailEdit(int ikid, int year) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            KidDetailEditVo vo = mapper.kidDetailEdit(ikid);
-            List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
-            vo.setGrowths(growths);
-            vo.setResult(Const.SUCCESS);
-            return vo;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        KidDetailEditVo vo = mapper.kidDetailEdit(ikid);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+
+        List<KidGrowth> growths = mapper.kidGrowth(ikid, year);
+        if (growths == null) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        vo.setGrowths(growths);
+        vo.setResult(Const.SUCCESS);
+        return vo;
     }
+
     //원아 프로필 수정
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (dto.getKidNm() == null || dto.getBirth() == null ||
@@ -230,47 +236,45 @@ public class KidService {
                 pic == null) {
             throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
         }
-        try {
             String path = "/kid/" + dto.getIkid();
             myFileUtils.delFolderTrigger(path);
             String savedPicFileNm = myFileUtils.transferTo(pic, path);
             dto.setProfile(savedPicFileNm);
-            mapper.kidUpdProfile(dto);
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        int kid = mapper.kidUpdProfile(dto);
+        if (kid == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
-    }
+            return new ResVo(Const.SUCCESS);
+        }
+
     //원아 프로필 수정 시 기존 데이터 조회
-    public KidProfileEditVo kidEdit(int ikid){
+    public KidProfileEditVo kidEdit(int ikid) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 2 ) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
             KidProfileEditVo vo = mapper.kidEdit(ikid);
-            vo.setResult(Const.SUCCESS);
-            return vo;
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+        vo.setResult(Const.SUCCESS);
+        return vo;
     }
 
     //졸업한 지 10년 된  원아 전체 삭제
     public ResVo allGraduateKid() {
         int level = authenticationFacade.getLevelPk();
-        if (level < 3 ) {
+        if (level < 3) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            mapper.allGraduateKid();
-            mapper.allGraduateDelKid();
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e){
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        int del1 = mapper.allGraduateKid();
+        if (del1 == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+        int del2 = mapper.allGraduateDelKid();
+        if (del2 == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+            return new ResVo(Const.SUCCESS);
     }
 }

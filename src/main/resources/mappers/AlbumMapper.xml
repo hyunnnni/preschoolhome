@@ -127,19 +127,6 @@
         </if>
     </delete>
 
-
-    <!-- 메인 활동 앨범 -->
-    <select id="selMainAlbum">
-        SELECT A.ialbum, A.album_title AS albumTitle, A.album_contents AS albumContents, A.created_at AS createdAt,
-        B.album_pic AS albumPic
-        FROM t_album A
-        JOIN t_album_pics B
-        ON A.ialbum = B.ialbum
-        GROUP BY A.album_title
-        ORDER BY A.ialbum DESC
-        LIMIT #{startIdx}, #{rowCount}
-    </select>
-
 </mapper>
 
 

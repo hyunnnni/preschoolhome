@@ -39,16 +39,6 @@ public class AlbumService {
         }
     }
 
-    // 활동 앨범 메인화면 조회
-    public List<AlbumMainVo> getMainAlbum(AlbumMainDto dto) {
-        try {
-            return mapper.selMainAlbum(dto);
-        } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 
     // 활동 앨범 상세 조회
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
