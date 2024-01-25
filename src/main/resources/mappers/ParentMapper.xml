@@ -13,7 +13,7 @@
         FROM t_kid K
         JOIN t_parent_kid P
         ON K.ikid = P.ikid
-        WHERE K.ikid = #{ikid}
+        WHERE P.iparent = #{iparent}
     </select>
 
     <select id="connectParent">
