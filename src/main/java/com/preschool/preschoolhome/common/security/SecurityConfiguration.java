@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         ,"/err"
                         ,"/"
                         ,"/fimg/**"
+                        ,"/pic"
                         ,"/pic/**"
                         ,"/profile"
                         ,"/profile/**"
