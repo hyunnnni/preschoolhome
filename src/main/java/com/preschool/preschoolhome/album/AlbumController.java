@@ -36,7 +36,7 @@ public class AlbumController {
         dto.setAlbumPic(pics);
         return service.postAlbum(dto);
     }
-
+//sfdsfd
 
     //------------------------------------- 활동 앨범 전체 조회 -------------------------------------//
     @Operation(summary = "활동 앨범 전체 조회")

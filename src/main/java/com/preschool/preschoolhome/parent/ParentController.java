@@ -41,8 +41,8 @@ public class ParentController {
             "회원가입 전 아이디 중복체크<br>" +
             "성공시 1로 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public CodeCorrect postParentSignup(ParentInsDto dto) {
-        return service.chekUid(dto);
+    public CodeCorrect postParentSignup(@RequestParam @Schema(title = "아이디") String uid ){
+        return service.chekUid(uid);
     }
 
     //부모회원가입

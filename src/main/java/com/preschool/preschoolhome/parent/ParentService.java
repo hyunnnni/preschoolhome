@@ -53,14 +53,14 @@ public class ParentService {
     }
 
     //아이디중복체크
-    public CodeCorrect chekUid(ParentInsDto dto) {
-        String checkUid = mapper.checkParentInfo(dto.getUid());
+    public CodeCorrect chekUid(String uid) {
+        String checkUid = mapper.checkParentInfo(uid);
         CodeCorrect response = new CodeCorrect();
 
         if (checkUid != null) {
             throw new RestApiException(AuthErrorCode.ALREADY_EXIST_ID);
         }
-        if (dto.getUid() == null) {
+        if (uid == null) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ID);
         }
         if (checkUid == null) {

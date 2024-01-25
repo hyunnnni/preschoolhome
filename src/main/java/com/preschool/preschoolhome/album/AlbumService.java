@@ -24,6 +24,7 @@ public class AlbumService {
     private final AuthenticationFacade authenticationFacade;
 
     // 활동 앨범 전체 조회
+    //dfjlksfd
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
