@@ -8,6 +8,14 @@
         where code = #{code}
     </select>
 
+    <select id="selKid">
+        SELECT K.ikid, K.kid_nm AS kidNm
+        FROM t_kid K
+        JOIN t_parent_kid P
+        ON K.ikid = P.ikid
+        WHERE K.ikid = #{ikid}
+    </select>
+
     <select id="connectParent">
         select iparent
         from t_parent_kid

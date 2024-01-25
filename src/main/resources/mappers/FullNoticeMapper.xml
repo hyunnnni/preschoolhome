@@ -13,7 +13,7 @@
     </select>
 
     <select id="getFullNoticelist">
-        SELECT F.ifull_notice as iFullNotice , F.full_title as fullTitle, T.teacher_nm as writer,
+        SELECT F.ifull_notice as iFullNotice, F.ifull_notice as iFullNotice , F.full_title as fullTitle, T.teacher_nm as writer,
         F.created_at as createdAt
         FROM t_full_notice F
         JOIN t_teacher T

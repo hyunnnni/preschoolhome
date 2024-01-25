@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Schema(title = "부모 로그인")
 public class ParentEntity {
@@ -28,6 +30,6 @@ public class ParentEntity {
     private String firebaseToken;
     @Schema(title = "회원가입 한 날짜")
     private String createdAt;
-    @Schema(title = "아이PK")
+    @Schema(title = "아이 PK")
     private int ikid;
 }

@@ -100,7 +100,7 @@ public class ParentService {
         ParentEntity entity = mapper.checkParentsId(dto);
         String upw = mapper.checkParentInfo(dto.getUid());
         ParentKid pk = new ParentKid();
-
+        pk.setKidList(mapper.selKid(dto.getIkid()));
         if (upw == null) {
             throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
 
@@ -110,7 +110,8 @@ public class ParentService {
 
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
             pk.setIparent(entity.getIparent());
-            pk.setIkid(entity.getIkid());
+//            pk.setKidList(entity.getIkid());
+
         }
         MyPrincipal myPrincipal = MyPrincipal.builder()
                 .iuser(entity.getIparent())

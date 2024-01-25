@@ -9,6 +9,8 @@ import java.util.List;
 public interface ParentMapper {
     CodeVo selCode(CodeDto dto); //식별코드셀렉
 
+    List<SelKid> selKid(int ikid); //로그인시 애 가져오기
+
     String checkParentInfo(String uid);//아이디중복체크
 
     int insParent(ParentInsDto dto); //부모회원가입
