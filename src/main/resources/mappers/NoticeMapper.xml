@@ -45,20 +45,20 @@
     </delete>
 
     <delete id="delAllNotice">
-        DELETE b, c
-        FROM t_notice_board a
-        left JOIN t_notice_pics b
-        ON a.inotice = b.inotice
-        right JOIN t_notice_comment c
-        ON a.inotice = c.inotice
-        WHERE a.iteacher = #{iteacher}
-        AND a.inotice = #{inotice}
+        DELETE B, C
+        FROM t_notice_board A
+        LEFT JOIN t_notice_pics B
+        ON A.inotice = B.inotice
+        LEFT JOIN t_notice_comment C
+        ON A.inotice = C.inotice
+        WHERE A.inotice = #{inotice}
+        AND A.iteacher = #{iteacher}
     </delete>
     <delete id="delNotice">
         DELETE
         FROM t_notice_board
-        WHERE iteacher = #{iteacher}
-        AND inotice = #{inotice}
+        WHERE inotice = #{inotice}
+        AND iteacher = #{iteacher}
     </delete>
 
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
