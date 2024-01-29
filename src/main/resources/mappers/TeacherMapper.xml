@@ -150,10 +150,10 @@
     </update>
 
 
-    <!-- 선생님 정보 댓글 -->
+    <!-- 선생님 정보 삭제 -->
     <update id="isDelTeacher">
         UPDATE t_teacher
-        SET tc_del = #{tcDel}
+        SET tc_is_del = #{tcIsDel}
         WHERE iteacher = #{iteacher}
     </update>
 

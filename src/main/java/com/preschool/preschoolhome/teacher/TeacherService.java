@@ -241,11 +241,11 @@ public class TeacherService {
 
     public ResVo delTeacher(TeacherDelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (dto.getIlevel() < 3) {
+        if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
-            if (dto.getIlevel() == 3) { // swagger test 시 level 값을 3으로 입력 시 성공
+            if (level == 3) {
                 int affectedRows = mapper.isDelTeacher(dto);
                 if (affectedRows > 0) {
                     return new ResVo(Const.SUCCESS);
