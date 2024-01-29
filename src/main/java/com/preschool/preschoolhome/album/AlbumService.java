@@ -204,7 +204,7 @@ public class AlbumService {
 
         String target = "/album/" + dto.getIalbum();
 
-        if(pics != null) {
+        if(pics.size() != 0) {
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);

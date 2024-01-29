@@ -90,9 +90,11 @@ public class NoticeService {
 
         int affectedDelRows = mapper.delNoticePics(dto.getInotice());
 
-        if (pics != null) {
+        if (pics.size() != 0) {
+
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
+
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getPics().add(saveFileNm);
