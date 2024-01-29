@@ -98,7 +98,12 @@
 
     <!-- 활동 앨글 글 삭제 -->
     <delete id="delAlbumAll">
-        DELETE FROM t_album WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+        DELETE
+        FROM t_album
+        WHERE ialbum = #{ialbum}
+        <if test="ilevel == 2">
+            and A.iteacher = #{iteacher}
+        </if>
     </delete>
 
     <!-- 활동 앨범 댓글 등록 -->

@@ -44,7 +44,7 @@
         where uid = #{uid} and upw = #{upw}
     </select>
     <select id="checkParentsId">
-        SELECT uid, upw, iparent, ilevel
+        SELECT uid, upw, iparent, ilevel, pr_is_del as prIsDel
         from t_parent
         where uid = #{uid} and upw = #{upw}
     </select>

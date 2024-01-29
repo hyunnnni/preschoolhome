@@ -32,4 +32,6 @@ public class ParentEntity {
     private String createdAt;
     @Schema(title = "아이 PK")
     private int ikid;
+    @Schema(title = "계정삭제여부")
+    private int prIsDel;
 }

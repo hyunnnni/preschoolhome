@@ -98,8 +98,9 @@ public class AlbumService {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIteacher(iteacher);
+        dto.setIlevel(level);
         // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 삭제 접근 제한
-        if (level < 2) {
+        if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
