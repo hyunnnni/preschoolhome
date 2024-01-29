@@ -173,11 +173,12 @@ public class ParentService {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         dto.setIparent(loginUserPk);
         CodeVo vo = mapper.selCode(dto);
+        Integer exist = mapper.selKidParent(vo.getIkid(),dto.getIparent());
 
         if (dto.getCode() == null) {
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
         }
-        if(dto.getCode() == vo.getCode()){
+        if(exist != null){
             throw new RestApiException(AuthErrorCode.ALREADY_CONNECTION);
         }
         List<Integer> iparent = mapper.connectParent(vo.getIkid());

@@ -7,6 +7,11 @@
         from t_kid
         where code = #{code}
     </select>
+    <select id="selKidParent">
+        select ikid
+        from t_parent_kid
+        where ikid = #{ikid} and iparent = #{iparent}
+    </select>
 
     <select id="selKid">
         SELECT K.ikid, K.kid_nm AS kidNm
