@@ -39,7 +39,7 @@ public class NoticeService {
         }
         String target = "/notice/" + dto.getInotice();
 
-        if (pics != null) {
+        if (pics.size() > 0) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
             for (MultipartFile file : pics) {
@@ -94,7 +94,7 @@ public class NoticeService {
         if (affectedDelRows == 0) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
-        if (pics != null) {
+        if (pics.size() > 0) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
             for (MultipartFile file : pics) {
