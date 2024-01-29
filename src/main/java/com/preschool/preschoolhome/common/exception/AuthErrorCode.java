@@ -32,6 +32,7 @@ public enum AuthErrorCode implements ErrorCode {
     NO_INFORMATION(HttpStatus.NOT_FOUND,"조회되는 정보가 없습니다"),
     UPD_STATE_FAIL(HttpStatus.NOT_FOUND,"재원상태/반 수정 실패"),
     PICS_FAIL(HttpStatus.NOT_ACCEPTABLE,"사진 실패하였습니다"),
+    PICS_NULL(HttpStatus.NOT_ACCEPTABLE,"사진 파일을 올려주세요"),
     UPD_IS_DEL_FAIL(HttpStatus.NOT_FOUND,"부모님 계정 삭제 처리 실패입니다"),
     GRADE_FAIL(HttpStatus.NOT_ACCEPTABLE,"반 승급 데이터 삽입을 실패했습니다");
 
