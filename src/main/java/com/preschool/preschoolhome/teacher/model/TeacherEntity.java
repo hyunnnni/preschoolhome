@@ -18,4 +18,5 @@ public class TeacherEntity {
     private String accessToken;
     private String firebaseToken;
     private String createdAt;
+    private int tcIsDel;
 }
