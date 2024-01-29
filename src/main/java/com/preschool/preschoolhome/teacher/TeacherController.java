@@ -105,19 +105,13 @@ public class TeacherController {
     //-------------------------------- 선생님 정보 수정 불러오기 --------------------------------
     @GetMapping("/edit")
     @Valid
-    @Operation(summary = "선생님 정보 수정", description = """
+    @Operation(summary = "선생님 정보 수정 시 불러오기", description = """
             수정할 선생님 정보 불러오기
             """)
     public TeacherEditVo selTeacherEdit(@RequestParam
-                                        @NotBlank(message = "잘못된 값입니다")
                                         @Schema(title = "선생님 PK")
-                                        int iteacher,
-                                        @RequestParam
-                                        @Range(min = BOSS, message = "접근할 권한이 없습니다")
-                                        @NotBlank(message = "잘못된 값입니다")
-                                        @Schema(title = "이 페이지에 접근하는 유저의 등급 PK")
-                                        int ilevel) {
-        return service.selTeacherEdit(iteacher, ilevel);
+                                        int iteacher) {
+        return service.selTeacherEdit(iteacher);
     }
 
     //-------------------------------- 선생님 정보 수정 --------------------------------

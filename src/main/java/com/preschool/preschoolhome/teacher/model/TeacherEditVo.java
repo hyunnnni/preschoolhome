@@ -11,6 +11,6 @@ public class TeacherEditVo {
     private String teacherUpw;
     private String teacherIntroduce;
     private String teacherProfile;
-    private String tcDel;
+    private String tcIsDel;
     private String tcEmail;
 }

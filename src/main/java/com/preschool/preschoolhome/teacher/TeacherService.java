@@ -196,8 +196,9 @@ public class TeacherService {
 
     //-------------------------------- 선생님 정보 수정 시 불러오기 --------------------------------
 
-    public TeacherEditVo selTeacherEdit(int iteacher, int ilevel) {
-        if (ilevel < 3) {
+    public TeacherEditVo selTeacherEdit(int iteacher) {
+        int level = authenticationFacade.getLevelPk();
+        if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {

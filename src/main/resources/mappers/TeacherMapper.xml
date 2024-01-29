@@ -134,7 +134,7 @@
     <!-- 선생님 정보 수정 시 정보 불러오기 -->
     <select id="selTeacherEdit">
         SELECT ilevel, iclass, teacher_nm AS teacherNm, teacher_uid AS teacherUid, teacher_upw AS teacherUpw, teacher_introduce AS teacherIntroduce,
-        teacher_profile AS teacherProfile, tc_del AS tcDel, tc_email AS tcEmail
+        teacher_profile AS teacherProfile, tc_is_del AS tcIsDel, tc_email AS tcEmail
         FROM t_teacher
         WHERE iteacher = #{iteacher}
     </select>
