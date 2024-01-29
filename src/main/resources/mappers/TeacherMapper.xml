@@ -129,13 +129,19 @@
         WHERE iteacher = #{iteacher}
     </select>
 
+    <!-- 선생님 회원가입 시 아이디 중복 체크 (3차에 쓰셈) -->
+    <select id="selTeaUid">
+        SELECT COUNT(teacher_uid)
+        FROM t_teacher
+        WHERE teacher_uid = #{teacherUid}
+    </select>
+
     <!-- 선생님 정보 수정 -->
     <update id="updTeacher">
         UPDATE t_teacher
         SET teacher_nm = #{teacherNm}
         , ilevel = #{ilevel}
         , iclass = #{iclass}
-        , teacher_uid = #{teacherUid}
         , teacher_upw = #{teacherUpw}
         , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
@@ -151,6 +157,7 @@
         WHERE iteacher = #{iteacher}
     </update>
 
+    <!--           선생님 로그인 시 정보 조회             -->
     <select id="selTeacher">
         SELECT iteacher, ilevel, iclass, teacher_nm as teacherNm
         , teacher_uid as teacherUid, teacher_upw as teacherUpw
@@ -161,9 +168,12 @@
         where teacher_uid = #{teacherUid}
         and teacher_upw = #{teacherUpw}
     </select>
+
+    <!--           선생님 로그인 시 비밀번호 체크            -->
     <select id="checkTeacherInfo">
         select teacher_upw
         from t_teacher
         where teacher_uid = #{teacherUid}
     </select>
+
 </mapper>

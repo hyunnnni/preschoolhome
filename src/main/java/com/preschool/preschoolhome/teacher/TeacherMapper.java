@@ -34,16 +34,16 @@ public interface TeacherMapper {
     int updIsDelParent(DelParentDto dto);
     //------------------------ 학부모와 원아 연결 끊기 ------------------------
     int delDisconnent(DelDisconnectDto dto);
-
-
-    // 선생님 정보 변경 전 불러오기
+    //------------------------ 선생님 정보 수정 전 불러오기 ------------------------
     TeacherEditVo selTeacherEdit (int iteacher);
-    // 선생님 정보 변경
+    //------------------------ 선생님 회원가입 시 아이디 중복 체크 ( 3차에 쓰셈 )------------------------
+    int selTeaUid(String teacherUid);
+    //------------------------ 선생님 정보 수정 ------------------------
     int updTeacher (TeacherPatchDto dto);
-
-    // 선생님 정보 삭제
+    //------------------------ 선생님 정보 삭제 ------------------------
     int isDelTeacher (TeacherDelDto dto);
-
-    TeacherEntity selTeacher(TeacherSigninDto dto); //부모님 로그인 셀렉
+    //------------------------ 선생님 로그인 성공 시 정보 조회------------------------
+    TeacherEntity selTeacher(TeacherSigninDto dto);
+    //------------------------ 선생님 로그인 시 비밀번호 체크------------------------
     String checkTeacherInfo (String uid);
 }

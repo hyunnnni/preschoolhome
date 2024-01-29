@@ -219,6 +219,7 @@ public class TeacherService {
             throw new RestApiException(AuthErrorCode.PICS_NULL);
         }
         try {
+
             String path = "/user/" + dto.getIteacher();
             myFileUtils.delFolderTrigger(path);
             String savedFileNm = myFileUtils.transferTo(teacherProfile, path);

@@ -126,7 +126,7 @@ public class TeacherController {
             -1 : 하나의 값도 변경되지 않음<br>
             1 : 성공
             """)
-    public ResVo putTeacher(@RequestPart MultipartFile pic, @Valid @RequestPart TeacherPatchDto dto) {
+    public ResVo putTeacher(@RequestPart(required = false) MultipartFile pic, @Valid @RequestPart TeacherPatchDto dto) {
         return service.putTeacher(pic, dto);
     }
 
@@ -140,7 +140,8 @@ public class TeacherController {
         return service.delTeacher(dto);
     }
 
-    //선생님 로그인
+    //-------------------------------- 선생님 로그인 --------------------------------
+
     @PostMapping("/signin")
     @Operation(summary = "로그인", description = "<strong>선생님 로그인</strong><br><br>" +
             "uid와 upw로 로그인<br>" +
