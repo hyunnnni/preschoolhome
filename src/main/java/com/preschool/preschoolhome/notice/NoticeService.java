@@ -108,8 +108,9 @@ public class NoticeService {
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
     public List<SelAllNoticeVo> getKidManagement(SelAllNoticeDto dto) {
-
+        int iuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        dto.setLoginedIuser(iuser);
         dto.setIlevel(level);
 
         List<SelAllNoticeVo> voList = new ArrayList<>();
