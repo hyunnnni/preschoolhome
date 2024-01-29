@@ -62,7 +62,7 @@
         WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
     </select>
 
-    <!-- 활동 앨범 글 삭제 시 사진 조회 -->
+    <!-- 활동 앨범 글 수정 시 사진 조회 -->
     <select id="albumEditPics">
         SELECT album_pic AS albumPic
         FROM t_album_pics
@@ -83,7 +83,7 @@
         WHERE ialbum = #{ialbum}
     </delete>
 
-    <!-- 활동 앨범 삭제 -->
+    <!-- 활동 앨범 사진과 댓글 삭제 -->
     <delete id="delAlbumCommentPics">
         DELETE B, C
         FROM t_album A
@@ -97,7 +97,7 @@
         </if>
     </delete>
 
-    <!-- 활동 앨글 글 삭제 -->
+    <!-- 활동 앨범 글 삭제 -->
     <delete id="delAlbumAll">
         DELETE
         FROM t_album

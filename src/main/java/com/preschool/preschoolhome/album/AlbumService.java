@@ -6,6 +6,7 @@ import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import lombok.RequiredArgsConstructor;
@@ -107,6 +108,7 @@ public class AlbumService {
 
     // 활동 앨범 삭제
     public ResVo delAlbum(AlbumDelDto dto) {
+
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIteacher(iteacher);
@@ -117,13 +119,13 @@ public class AlbumService {
         }
         try {
             int comAffectedRows = mapper.delAlbumCommentPics(dto);
-            if (comAffectedRows > 0) {
-                return new ResVo(SUCCESS);
-            }
+
             int delAffectedRows = mapper.delAlbumAll(dto);
-            if (delAffectedRows > 0) {
+
+            if(delAffectedRows == SUCCESS || comAffectedRows == SUCCESS){
                 return new ResVo(SUCCESS);
             }
+
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
@@ -134,18 +136,27 @@ public class AlbumService {
 
     // 활동 앨범 댓글 등록
     public ResVo postAlbumComment(AlbumCommentInsDto dto) {
-        int iteacher = authenticationFacade.getLoginUserPk();
+
+        int loginUserPk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
-        dto.setIparent(iteacher);
+
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+        if(level == 1){
+            dto.setIparent(loginUserPk);
+        }else {
+            dto.setIteacher(loginUserPk);
+        }
+
         try {
             int affectedRows = mapper.insAlbumComment(dto);
+
             if (affectedRows > 0) {
                 return new ResVo(SUCCESS);
             }
+
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
