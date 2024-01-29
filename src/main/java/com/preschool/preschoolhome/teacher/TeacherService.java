@@ -208,21 +208,29 @@ public class TeacherService {
     //-------------------------------- 선생님 정보 수정  --------------------------------
 
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
+
         int level = authenticationFacade.getLevelPk();
+
         if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+
+        if(teacherProfile == null){
+            throw new RestApiException(AuthErrorCode.PICS_NULL);
         }
         try {
             String path = "/user/" + dto.getIteacher();
             myFileUtils.delFolderTrigger(path);
             String savedFileNm = myFileUtils.transferTo(teacherProfile, path);
             dto.setTeacherProfile(savedFileNm);
+
             int affectedRows = mapper.updTeacher(dto);
+
             if (affectedRows > 0) {
                 return new ResVo(Const.SUCCESS);
             }
+
         } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(Const.FAIL);

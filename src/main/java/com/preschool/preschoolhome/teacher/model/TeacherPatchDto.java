@@ -36,7 +36,7 @@ public class TeacherPatchDto {
     private String tcEmail;
 
     @Schema(title = "선생님 프로필 사진")
-    @NotBlank(message = "사진을 선택해주세요.")
+    @JsonIgnore
     private String teacherProfile;
 
     @Schema(title = "선생님 소개글")

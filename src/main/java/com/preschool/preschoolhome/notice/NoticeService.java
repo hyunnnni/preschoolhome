@@ -30,21 +30,24 @@ public class NoticeService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            mapper.insNotice(dto);
-            String target = "/notice/" + dto.getInotice();
 
-            NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            picsDto.setInotice(dto.getInotice());
-            for (MultipartFile file : pics) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                picsDto.getPics().add(saveFileNm);
-            }
-            mapper.insNoticePics(picsDto);
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e) {
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        int result = mapper.insNotice(dto);
+        if (result == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+        String target = "/notice/" + dto.getInotice();
+
+        NoticePicsInsDto picsDto = new NoticePicsInsDto();
+        picsDto.setInotice(dto.getInotice());
+        for (MultipartFile file : pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getPics().add(saveFileNm);
+        }
+        int result2 = mapper.insNoticePics(picsDto);
+        if (result2 == 0) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+        return new ResVo(Const.SUCCESS);
     }
 
     //-------------------------------- 알림장 수정 시 정보 출력--------------------------------
@@ -108,8 +111,9 @@ public class NoticeService {
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
     public List<SelAllNoticeVo> getKidManagement(SelAllNoticeDto dto) {
-
+        int iuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        dto.setLoginedIuser(iuser);
         dto.setIlevel(level);
 
         List<SelAllNoticeVo> voList = new ArrayList<>();

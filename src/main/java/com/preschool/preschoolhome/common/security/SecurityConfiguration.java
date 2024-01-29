@@ -32,7 +32,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/main"
                         ,"/**"
-                        ,"/main/**"
                         ,"/api/main"
                         ,"/api/main/**"
                         ,"/preschool/teacher"
