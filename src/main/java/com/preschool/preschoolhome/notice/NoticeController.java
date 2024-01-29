@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
@@ -77,22 +78,22 @@ public class NoticeController {
                                              @Positive(message="잘못된 값입니다")
                                              @Schema(title = "페이징 시 필요한 데이터")
                                              int page,
-                                             @RequestParam
-                                             @Positive(message = "잘못된 값입니다")
+                                             @RequestParam(required = false, defaultValue = "0")
+                                             @PositiveOrZero(message = "잘못된 값입니다")
                                              @Schema(title = "학부모 유저가 접근 시 본인과 연결된 원아 PK / 연결된 모든 원아 조회 시 = 0")
                                              int ikid,
-                                             @RequestParam
+                                             @RequestParam(required = false, defaultValue = "0")
                                              @Range(min = Const.ZERO, max = Const.CLASS_ROSE, message = "해당 반으로 검색되는 아이가 없습니다.")
-                                             @Schema(title = "연결을 끊을 원아PK")
+                                             @Schema(title = "반 선택")
                                              int iclass,
                                              @RequestParam
-                                             @Schema(title = "연결을 끊을 원아PK")
-                                             String year,
-                                             @RequestParam
-                                             @Positive(message = "잘못된 값입니다")
-                                             @Schema(title = "연결을 끊을 원아PK")
-                                             int loginedIuser){
+                                             @Schema(title = "년도 선택")
+                                             String year){
         SelAllNoticeDto dto = new SelAllNoticeDto();
+        dto.setPage(page);
+        dto.setIkid(ikid);
+        dto.setIclass(iclass);
+        dto.setYear(year);
         return service.getKidManagement(dto);
 
     }
