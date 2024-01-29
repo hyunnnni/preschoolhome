@@ -262,6 +262,9 @@ public class TeacherService {
         } else if (!dto.getTeacherUpw().equals(upw)) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
+        if(entity.getTcIsDel() == 1){
+            throw new RestApiException(AuthErrorCode.DELETE_ID);
+        }
 
         MyPrincipal myPrincipal = MyPrincipal.builder()
                 .iuser(entity.getIteacher())
