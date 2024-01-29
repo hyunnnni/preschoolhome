@@ -100,6 +100,9 @@ public class ParentService {
         ParentEntity entity = mapper.checkParentsId(dto);
         String upw = mapper.checkParentInfo(dto.getUid());
         dto.setIparent(entity.getIparent());
+        if(entity.getPrIsDel() == 1){
+            throw new RestApiException(AuthErrorCode.DELETE_ID);
+        }
         if (upw == null) {
             throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
 
