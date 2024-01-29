@@ -99,18 +99,16 @@ public class ParentService {
     public ParentKid parentSignin(HttpServletRequest req, HttpServletResponse res, ParentSigninDto dto) {
         ParentEntity entity = mapper.checkParentsId(dto);
         String upw = mapper.checkParentInfo(dto.getUid());
-        dto.setIparent(entity.getIparent());
-        if(entity.getPrIsDel() == 1){
-            throw new RestApiException(AuthErrorCode.DELETE_ID);
-        }
         if (upw == null) {
             throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
-
         } else if (!dto.getUpw().equals(upw)) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
+        if(entity.getPrIsDel() == 1){
+            throw new RestApiException(AuthErrorCode.DELETE_ID);
+        }
         ParentKid pk = new ParentKid();
-
+        dto.setIparent(entity.getIparent());
         pk.setKidList(mapper.selKid(dto.getIparent()));
 
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
