@@ -6,6 +6,7 @@
     <select id="kidProfile">
         SELECT kid_nm as kidNm, iclass, gender, profile, birth
         , address, memo, emer_nm as emerNm, emer_nb as emerNb
+        , code
         FROM t_kid
         WHERE ikid = #{ikid}
     </select>

@@ -39,6 +39,16 @@
         </foreach>)
         order by iparent
     </select>
+    <!--         부모와 연결 끊기          -->
+    <delete id="delDisconnect">
+        DELETE
+        FROM t_parent_kid
+        WHERE ikid in (
+        <foreach collection="ikids" item = "ikid" separator=",">
+            #{ikid}
+        </foreach>)
+
+    </delete>
     <!--         부모와 연결된 모든 원아 조회          -->
     <select id="SelGraduateKidPk">
         SELECT ikid
@@ -87,7 +97,7 @@
         ON A.ikid = B.ikid
         where A.iparent = #{iparent}
     </select>
-    <!--           해당 부모와 연결된 원아들과 연결 끊기             -->
+    <!--           해당 부모와 연결된 원아들과 연결 끊기              -->
     <delete id="delParDisconnectKid">
         DELETE
         FROM t_parent_kid
@@ -124,9 +134,16 @@
     <!-- 선생님 정보 수정 시 정보 불러오기 -->
     <select id="selTeacherEdit">
         SELECT ilevel, iclass, teacher_nm AS teacherNm, teacher_uid AS teacherUid, teacher_upw AS teacherUpw, teacher_introduce AS teacherIntroduce,
-        teacher_profile AS teacherProfile, tc_del AS tcDel, tc_email AS tcEmail
+        teacher_profile AS teacherProfile, tc_is_del AS tcIsDel, tc_email AS tcEmail
         FROM t_teacher
         WHERE iteacher = #{iteacher}
+    </select>
+
+    <!-- 선생님 회원가입 시 아이디 중복 체크 (3차에 쓰셈) -->
+    <select id="selTeaUid">
+        SELECT COUNT(teacher_uid)
+        FROM t_teacher
+        WHERE teacher_uid = #{teacherUid}
     </select>
 
     <!-- 선생님 정보 수정 -->
@@ -135,7 +152,6 @@
         SET teacher_nm = #{teacherNm}
         , ilevel = #{ilevel}
         , iclass = #{iclass}
-        , teacher_uid = #{teacherUid}
         , teacher_upw = #{teacherUpw}
         , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
@@ -144,13 +160,14 @@
     </update>
 
 
-    <!-- 선생님 정보 댓글 -->
+    <!-- 선생님 정보 삭제 -->
     <update id="isDelTeacher">
         UPDATE t_teacher
-        SET tc_del = #{tcDel}
+        SET tc_is_del = #{tcIsDel}
         WHERE iteacher = #{iteacher}
     </update>
 
+    <!--           선생님 로그인 시 정보 조회             -->
     <select id="selTeacher">
         SELECT iteacher, ilevel, iclass, teacher_nm as teacherNm
         , teacher_uid as teacherUid, teacher_upw as teacherUpw
@@ -161,9 +178,12 @@
         where teacher_uid = #{teacherUid}
         and teacher_upw = #{teacherUpw}
     </select>
+
+    <!--           선생님 로그인 시 비밀번호 체크            -->
     <select id="checkTeacherInfo">
         select teacher_upw
         from t_teacher
         where teacher_uid = #{teacherUid}
     </select>
+
 </mapper>

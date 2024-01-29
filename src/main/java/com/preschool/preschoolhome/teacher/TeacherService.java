@@ -44,12 +44,11 @@ public class TeacherService {
         }
 
         List<SelKidManagementVo> voList = new ArrayList<>();
-        SelKidManagementVo vo = new SelKidManagementVo();
 
         voList = mapper.selKidManagement(dto);
 
         if (voList.size() == 0) {
-            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
         return voList;
@@ -83,15 +82,19 @@ public class TeacherService {
                         continue;
                     }
                     pDto.setIparent(parent);
-                    int delResult = mapper.updStateIsDelParent(pDto);
-                    if (delResult == Const.ZERO) {
+                    int updResult = mapper.updStateIsDelParent(pDto);
+                    if (updResult == Const.ZERO) {
                         throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
                     }
+                }
+                int disResult = mapper.delDisconnect(dto.getIkids());
+                if(disResult == 0){
+                    throw new RestApiException(AuthErrorCode.CONNECTION_FAIL);
                 }
             }
         }
 
-        if (dto.getKidCheck() >= Const.CLASS_HIBISCUS || dto.getKidCheck() <= Const.CLASS_ROSE) {
+        if (dto.getKidCheck() >= Const.CLASS_HIBISCUS && dto.getKidCheck() <= Const.CLASS_ROSE) {
             InsKidManagementProc pdto = InsKidManagementProc.builder()
                     .ikids(dto.getIkids())
                     .iclass(dto.getKidCheck())
@@ -101,7 +104,7 @@ public class TeacherService {
                 throw new RestApiException(AuthErrorCode.GRADE_FAIL);
             }
         }
-        if (result > Const.SUCCESS || result > Const.ZERO) {
+        if (result > Const.ZERO) {
             return new ResVo(result);
         }
         if (result == Const.ZERO) {
@@ -193,8 +196,9 @@ public class TeacherService {
 
     //-------------------------------- 선생님 정보 수정 시 불러오기 --------------------------------
 
-    public TeacherEditVo selTeacherEdit(int iteacher, int ilevel) {
-        if (ilevel < 3) {
+    public TeacherEditVo selTeacherEdit(int iteacher) {
+        int level = authenticationFacade.getLevelPk();
+        if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -208,21 +212,30 @@ public class TeacherService {
     //-------------------------------- 선생님 정보 수정  --------------------------------
 
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
+
         int level = authenticationFacade.getLevelPk();
+
         if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+
+        if(teacherProfile == null){
+            throw new RestApiException(AuthErrorCode.PICS_NULL);
+        }
         try {
+
             String path = "/user/" + dto.getIteacher();
             myFileUtils.delFolderTrigger(path);
             String savedFileNm = myFileUtils.transferTo(teacherProfile, path);
             dto.setTeacherProfile(savedFileNm);
+
             int affectedRows = mapper.updTeacher(dto);
+
             if (affectedRows > 0) {
                 return new ResVo(Const.SUCCESS);
             }
+
         } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(Const.FAIL);
@@ -232,11 +245,11 @@ public class TeacherService {
 
     public ResVo delTeacher(TeacherDelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (dto.getIlevel() < 3) {
+        if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
-            if (dto.getIlevel() == 3) { // swagger test 시 level 값을 3으로 입력 시 성공
+            if (level == 3) {
                 int affectedRows = mapper.isDelTeacher(dto);
                 if (affectedRows > 0) {
                     return new ResVo(Const.SUCCESS);
@@ -255,14 +268,15 @@ public class TeacherService {
         TeacherEntity entity = mapper.selTeacher(dto);
 
         String upw = mapper.checkTeacherInfo(dto.getTeacherUid());
-        if(entity.getTcIsDel() == 1){
-            throw new RestApiException(AuthErrorCode.DELETE_ID);
-        }
+
         if (upw == null) {
             throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
 
         } else if (!dto.getTeacherUpw().equals(upw)) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
+        }
+        if(entity.getTcIsDel() == 1){
+            throw new RestApiException(AuthErrorCode.DELETE_ID);
         }
 
         MyPrincipal myPrincipal = MyPrincipal.builder()

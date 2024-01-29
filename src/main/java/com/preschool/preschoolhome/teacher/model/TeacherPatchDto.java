@@ -16,16 +16,12 @@ public class TeacherPatchDto {
     @NotBlank(message = "이름을 입력해주세요")
     private String teacherNm;
 
-    @JsonIgnore
+    @Schema(title = "해당 선생님의 등급")
     private int ilevel;
 
     @Schema(title = "반 PK")
     @Positive(message = "잘못된 값입니다")
     private int iclass;
-
-    @Schema(title = "선생님 ID")
-    @NotBlank(message = "아이디를 입력해주세요")
-    private String teacherUid;
 
     @Schema(title = "선생님 PW")
     @NotBlank(message = "비밀번호를 입력해주세요")
@@ -36,7 +32,7 @@ public class TeacherPatchDto {
     private String tcEmail;
 
     @Schema(title = "선생님 프로필 사진")
-    @NotBlank(message = "사진을 선택해주세요.")
+    @JsonIgnore
     private String teacherProfile;
 
     @Schema(title = "선생님 소개글")

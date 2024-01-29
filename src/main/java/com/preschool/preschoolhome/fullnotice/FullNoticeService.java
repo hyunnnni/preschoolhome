@@ -133,10 +133,6 @@ public class FullNoticeService {
         }
         int result = mapper.delFullNoticePics(dto);
 
-        if (result == 0) {
-            throw new RestApiException(AuthErrorCode.PICS_FAIL);
-        }
-
         int result1 = mapper.delFullNotice(dto);
 
         if (result1 == 0) {

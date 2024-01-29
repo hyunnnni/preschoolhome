@@ -105,19 +105,13 @@ public class TeacherController {
     //-------------------------------- 선생님 정보 수정 불러오기 --------------------------------
     @GetMapping("/edit")
     @Valid
-    @Operation(summary = "선생님 정보 수정", description = """
+    @Operation(summary = "선생님 정보 수정 시 불러오기", description = """
             수정할 선생님 정보 불러오기
             """)
     public TeacherEditVo selTeacherEdit(@RequestParam
-                                        @NotBlank(message = "잘못된 값입니다")
                                         @Schema(title = "선생님 PK")
-                                        int iteacher,
-                                        @RequestParam
-                                        @Range(min = BOSS, message = "접근할 권한이 없습니다")
-                                        @NotBlank(message = "잘못된 값입니다")
-                                        @Schema(title = "이 페이지에 접근하는 유저의 등급 PK")
-                                        int ilevel) {
-        return service.selTeacherEdit(iteacher, ilevel);
+                                        int iteacher) {
+        return service.selTeacherEdit(iteacher);
     }
 
     //-------------------------------- 선생님 정보 수정 --------------------------------
@@ -126,7 +120,7 @@ public class TeacherController {
             -1 : 하나의 값도 변경되지 않음<br>
             1 : 성공
             """)
-    public ResVo putTeacher(@RequestPart MultipartFile pic, @Valid @RequestPart TeacherPatchDto dto) {
+    public ResVo putTeacher(@RequestPart(required = false) MultipartFile pic, @Valid @RequestPart TeacherPatchDto dto) {
         return service.putTeacher(pic, dto);
     }
 
@@ -140,7 +134,8 @@ public class TeacherController {
         return service.delTeacher(dto);
     }
 
-    //선생님 로그인
+    //-------------------------------- 선생님 로그인 --------------------------------
+
     @PostMapping("/signin")
     @Operation(summary = "로그인", description = "<strong>선생님 로그인</strong><br><br>" +
             "uid와 upw로 로그인<br>" +
