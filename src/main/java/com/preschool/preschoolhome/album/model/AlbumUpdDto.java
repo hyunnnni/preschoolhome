@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.album.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Data
 public class AlbumUpdDto {
-    //    @JsonIgnore
+    @JsonIgnore
     private int ilevel;
 
     @Schema(title = "선생님 PK")
@@ -31,6 +32,7 @@ public class AlbumUpdDto {
     @Positive(message = "잘못된 값입니다")
     private int ialbum;
 
+    @JsonIgnore
     @Schema(title = "활동 앨범에 첨부한 사진들")
     private List<String> albumPic;
 }

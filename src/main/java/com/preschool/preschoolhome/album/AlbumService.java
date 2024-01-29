@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.album;
 
 import com.preschool.preschoolhome.album.model.*;
+import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
@@ -42,20 +43,31 @@ public class AlbumService {
 
     // 활동 앨범 상세 조회
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
+
         int level = authenticationFacade.getLevelPk();
-        // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+
+        List<AlbumDetailSelVo> list = mapper.selDetailAlbum(dto);
+        if(list.size() == 0){
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+
         try {
-            List<AlbumDetailSelVo> list = mapper.selDetailAlbum(dto);
             for (AlbumDetailSelVo vo : list) {
+
                 List<String> pics = mapper.selPicsAlbum(dto);
-                vo.setAlbumPic(pics);
+                if(pics != null) {
+                    vo.setAlbumPic(pics);
+                }
                 List<AlbumAllCommentVo> comment = mapper.selCommentAlbum(dto);
-                vo.setAlbumComments(comment);
+                if(comment != null) {
+                    vo.setAlbumComments(comment);
+                }
             }
             return list;
+
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
@@ -174,32 +186,37 @@ public class AlbumService {
 
     // 활동 앨범 수정
     public ResVo putAlbum(List<MultipartFile> pics, AlbumUpdDto dto) {
+
+        int level = authenticationFacade.getLevelPk();
         // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 수정 접근 제한
-        if (dto.getIlevel() < 2) {
+        if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-            String target = "/album/" + dto.getIalbum();
-            // 글 수정
-            int updAfftectedRows = mapper.updAlbum(dto);
-            if (updAfftectedRows == 0) {
-                return new ResVo(FAIL);
-            }
-            // 사진 삭제
-            int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
-            if (delPicsAffectedRows == 0) {
-                return new ResVo(FAIL);
-            }
-            // 사진 등록
-            AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
-            picsDto.setIalbum(dto.getIalbum());
+        // 글 수정
+        int updAfftectedRows = mapper.updAlbum(dto);
+
+        // 사진 삭제
+        int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
+
+        // 사진 등록
+        AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
+        picsDto.setIalbum(dto.getIalbum());
+
+        String target = "/album/" + dto.getIalbum();
+
+        if(pics.size() != 0) {
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);
             }
+
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
+
             if (picsAffectedRows == 0) {
                 return new ResVo(FAIL);
             }
-            return new ResVo(SUCCESS);
+        }
+
+        return new ResVo(SUCCESS);
     }
 }

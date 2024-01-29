@@ -74,8 +74,9 @@
         UPDATE t_album
         SET album_title = #{albumTitle}
         , album_contents = #{albumContents}
-        WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+        WHERE ialbum = #{ialbum}
     </update>
+
     <!-- 활동 앨범 수정(사진) -->
     <delete id="delAlbumPic">
         DELETE FROM t_album_pics
