@@ -57,15 +57,19 @@ public class NoticeService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            NoticeUpdSelVo vo = mapper.noticeEdit(inotice, ikid);
-            List<String> pics = mapper.noticeEditPics(inotice);
-            vo.setNoticePics(pics);
-            return vo;
-        } catch (Exception e) {
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+
+        NoticeUpdSelVo vo = mapper.noticeEdit(inotice, ikid);
+        if (vo == null) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
-    }
+        List<String> pics = mapper.noticeEditPics(inotice);
+        if (pics == null) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+        vo.setNoticePics(pics);
+        return vo;
+        }
+
 
     //-------------------------------- 알림장 수정 --------------------------------
 

@@ -40,7 +40,7 @@ public class NoticeController {
     //-------------------------------- 알림장 수정 시 정보 출력--------------------------------
 
     @Operation(summary = "알림장 기존 정보 조회", description = "알림장 수정 시 기존 정보 조회")
-    @GetMapping("edit")
+    @GetMapping("/edit")
     public NoticeUpdSelVo getNoticeEdit(int inotice, int ikid){
         return service.noticeEdit(inotice, ikid);
     }
@@ -49,7 +49,7 @@ public class NoticeController {
     @Operation(summary = "알림장 수정", description = "알림장 수정")
     @PutMapping
     public ResVo putUpdNotice(@RequestPart List<MultipartFile> pics,
-                              @RequestPart NoticeUpdDto dto){
+                              @RequestPart @Valid NoticeUpdDto dto){
         return service.updNotice(pics, dto);
     }
 
