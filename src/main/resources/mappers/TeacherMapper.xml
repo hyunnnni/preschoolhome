@@ -156,7 +156,7 @@
         , teacher_uid as teacherUid, teacher_upw as teacherUpw
         , tc_email as tcEmail, teacher_introduce as teacherIntroduce
         , teacher_profile as teacherProfile, created_at as createdAt
-        , firebase_token as firebaseToken
+        , firebase_token as firebaseToken, tc_is_del as tcIsDel
         from t_teacher
         where teacher_uid = #{teacherUid}
         and teacher_upw = #{teacherUpw}

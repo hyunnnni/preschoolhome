@@ -255,7 +255,9 @@ public class TeacherService {
         TeacherEntity entity = mapper.selTeacher(dto);
 
         String upw = mapper.checkTeacherInfo(dto.getTeacherUid());
-
+        if(entity.getTcIsDel() == 1){
+            throw new RestApiException(AuthErrorCode.DELETE_ID);
+        }
         if (upw == null) {
             throw new RestApiException(AuthErrorCode.NOT_EXIST_USER_ID);
 
