@@ -31,7 +31,7 @@ public interface ParentMapper {
 
     int updUserFirebaseToken(UserFirebaseTokenPatchDto dto);
 
-
+    Integer selKidParent(int ikid, int iparent);
 
 
 }
