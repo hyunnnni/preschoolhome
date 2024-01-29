@@ -33,7 +33,7 @@ public class NoticeController {
     @Operation(summary = "알림장 등록", description = "알림장 등록")
     @PostMapping
     public ResVo postInsNotice(@RequestPart List<MultipartFile> pics,
-            @RequestPart NoticeInsDto dto){
+            @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }
 
