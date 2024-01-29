@@ -13,8 +13,7 @@ import java.util.List;
 public class NoticeInsDto {
     @JsonIgnore
     private int inotice;
-    @Schema(title = "선생님 PK")
-    @Positive(message = "잘못된 값입니다")
+    @JsonIgnore
     private int iteacher;
     @Schema(title = "원아 PK")
     @Positive(message = "잘못된 값입니다")

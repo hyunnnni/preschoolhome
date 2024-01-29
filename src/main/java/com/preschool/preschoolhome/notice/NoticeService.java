@@ -26,7 +26,9 @@ public class NoticeService {
     //-------------------------------- 알림장 등록 --------------------------------
 
     ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
+        int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        dto.setIteacher(iteacher);
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
@@ -37,15 +39,17 @@ public class NoticeService {
         }
         String target = "/notice/" + dto.getInotice();
 
-        NoticePicsInsDto picsDto = new NoticePicsInsDto();
-        picsDto.setInotice(dto.getInotice());
-        for (MultipartFile file : pics) {
-            String saveFileNm = myFileUtils.transferTo(file, target);
-            picsDto.getPics().add(saveFileNm);
-        }
-        int result2 = mapper.insNoticePics(picsDto);
-        if (result2 == 0) {
-            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        if (pics != null) {
+            NoticePicsInsDto picsDto = new NoticePicsInsDto();
+            picsDto.setInotice(dto.getInotice());
+            for (MultipartFile file : pics) {
+                String saveFileNm = myFileUtils.transferTo(file, target);
+                picsDto.getPics().add(saveFileNm);
+            }
+            int result2 = mapper.insNoticePics(picsDto);
+            if (result2 == 0) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            }
         }
         return new ResVo(Const.SUCCESS);
     }
@@ -68,20 +72,29 @@ public class NoticeService {
         }
         vo.setNoticePics(pics);
         return vo;
-        }
+    }
 
 
     //-------------------------------- 알림장 수정 --------------------------------
 
     public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto) {
+        int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        dto.setIteacher(iteacher);
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            String target = "/notice/" + dto.getInotice();
-            int affectedRows = mapper.updNotice(dto);
-            int affectedDelRows = mapper.delNoticePics(dto.getInotice());
+
+        String target = "/notice/" + dto.getInotice();
+        int affectedRows = mapper.updNotice(dto);
+        if (affectedRows == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        int affectedDelRows = mapper.delNoticePics(dto.getInotice());
+        if (affectedDelRows == 0) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+        if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
             for (MultipartFile file : pics) {
@@ -89,11 +102,11 @@ public class NoticeService {
                 picsDto.getPics().add(saveFileNm);
             }
             int affectedPicRows = mapper.insNoticePics(picsDto);
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+            if (affectedPicRows == 0) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            }
         }
+        return new ResVo(Const.SUCCESS);
     }
 
     //-------------------------------- 알림장 삭제 --------------------------------

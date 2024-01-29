@@ -25,7 +25,14 @@
         WHERE inotice = #{inotice}
         AND ikid = #{ikid}
     </select>
-
+    <update id="updNotice">
+        UPDATE t_notice_board
+        SET iteacher = #{iteacher}
+        , ikid = #{ikid}
+        , notice_title = #{noticeTitle}
+        , notice_contents = #{noticeContents}
+        WHERE inotice = #{inotice}
+    </update>
     <select id="noticeEditPics">
         SELECT notice_pic
         FROM t_notice_pics

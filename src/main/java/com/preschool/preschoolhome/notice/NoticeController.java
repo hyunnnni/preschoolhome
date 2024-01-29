@@ -32,7 +32,7 @@ public class NoticeController {
 
     @Operation(summary = "알림장 등록", description = "알림장 등록")
     @PostMapping
-    public ResVo postInsNotice(@RequestPart List<MultipartFile> pics,
+    public ResVo postInsNotice(@RequestPart(required = false) List<MultipartFile> pics,
             @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }
@@ -48,7 +48,7 @@ public class NoticeController {
     //-------------------------------- 알림장 수정 --------------------------------
     @Operation(summary = "알림장 수정", description = "알림장 수정")
     @PutMapping
-    public ResVo putUpdNotice(@RequestPart List<MultipartFile> pics,
+    public ResVo putUpdNotice(@RequestPart(required = false) List<MultipartFile> pics,
                               @RequestPart @Valid NoticeUpdDto dto){
         return service.updNotice(pics, dto);
     }
