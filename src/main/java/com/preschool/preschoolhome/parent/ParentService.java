@@ -42,7 +42,7 @@ public class ParentService {
         dto.setCode(code);
         CodeVo vo = mapper.selCode(dto);
         if (vo == null) {
-            throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
+            throw new RestApiException(AuthErrorCode.CHECK_CODE);
         }
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
         if (iparent.size() > 2) {
