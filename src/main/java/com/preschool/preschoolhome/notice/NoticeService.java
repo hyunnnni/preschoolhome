@@ -111,19 +111,19 @@ public class NoticeService {
 
     //-------------------------------- 알림장 삭제 --------------------------------
 
-    ResVo delNotice(int iteacher, int inotice) {
+    ResVo delNotice(int inotice) {
+        int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+
         if (level != 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        try {
-            mapper.delAllNotice(iteacher, inotice);
-            mapper.delNotice(iteacher, inotice);
-            return new ResVo(Const.SUCCESS);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        int result = mapper.delAllNotice(iteacher, inotice);
+        int result2 = mapper.delNotice(iteacher, inotice);
+        if (result2 == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+        return new ResVo(Const.SUCCESS);
     }
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------

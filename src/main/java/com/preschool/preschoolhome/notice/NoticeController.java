@@ -57,8 +57,8 @@ public class NoticeController {
 
     @Operation(summary = "알림장 삭제", description = "알림장 삭제")
     @DeleteMapping
-    public ResVo deleteDelNotice(int iteacher,int inotice){
-        return service.delNotice(iteacher,inotice);
+    public ResVo deleteDelNotice(int inotice){
+        return service.delNotice(inotice);
     }
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
