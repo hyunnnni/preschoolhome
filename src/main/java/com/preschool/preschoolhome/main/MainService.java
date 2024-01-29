@@ -15,13 +15,17 @@ public class MainService {
     private final MainMapper mapper;
 
     // 메인화면 조회
-    public MainVo getMain(MainDto dto) {
+    public MainVo getMain() {
 
-            MainVo list = new MainVo();
-            List<AlbumMainVo> album = mapper.selMainAlbum(dto);
-            list.setAlbumMainVoList(album);
-            List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
-            list.setFullNoticeVoList(noticeFix);
-            return list;
+        MainDto dto = new MainDto();
+        MainVo list = new MainVo();
+
+        List<AlbumMainVo> album = mapper.selMainAlbum(dto);
+        list.setAlbumMainVoList(album);
+
+        List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
+        list.setFullNoticeVoList(noticeFix);
+
+        return list;
     }
 }
