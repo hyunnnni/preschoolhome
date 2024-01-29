@@ -177,6 +177,9 @@ public class ParentService {
         if (dto.getCode() == null) {
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
         }
+        if(dto.getCode() == vo.getCode()){
+            throw new RestApiException(AuthErrorCode.ALREADY_CONNECTION);
+        }
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
         if (iparent.size() > 2) {
             throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
