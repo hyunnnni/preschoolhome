@@ -39,6 +39,16 @@
         </foreach>)
         order by iparent
     </select>
+    <!--         부모와 연결 끊기          -->
+    <delete id="delDisconnect">
+        DELETE
+        FROM t_parent_kid
+        WHERE ikid in (
+        <foreach collection="ikids" item = "ikid" separator=",">
+            #{ikid}
+        </foreach>)
+
+    </delete>
     <!--         부모와 연결된 모든 원아 조회          -->
     <select id="SelGraduateKidPk">
         SELECT ikid
@@ -87,7 +97,7 @@
         ON A.ikid = B.ikid
         where A.iparent = #{iparent}
     </select>
-    <!--           해당 부모와 연결된 원아들과 연결 끊기             -->
+    <!--           해당 부모와 연결된 원아들과 연결 끊기              -->
     <delete id="delParDisconnectKid">
         DELETE
         FROM t_parent_kid

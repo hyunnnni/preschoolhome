@@ -44,12 +44,11 @@ public class TeacherService {
         }
 
         List<SelKidManagementVo> voList = new ArrayList<>();
-        SelKidManagementVo vo = new SelKidManagementVo();
 
         voList = mapper.selKidManagement(dto);
 
         if (voList.size() == 0) {
-            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
         return voList;
@@ -83,15 +82,19 @@ public class TeacherService {
                         continue;
                     }
                     pDto.setIparent(parent);
-                    int delResult = mapper.updStateIsDelParent(pDto);
-                    if (delResult == Const.ZERO) {
+                    int updResult = mapper.updStateIsDelParent(pDto);
+                    if (updResult == Const.ZERO) {
                         throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
                     }
+                }
+                int disResult = mapper.delDisconnect(dto.getIkids());
+                if(disResult == 0){
+                    throw new RestApiException(AuthErrorCode.CONNECTION_FAIL);
                 }
             }
         }
 
-        if (dto.getKidCheck() >= Const.CLASS_HIBISCUS || dto.getKidCheck() <= Const.CLASS_ROSE) {
+        if (dto.getKidCheck() >= Const.CLASS_HIBISCUS && dto.getKidCheck() <= Const.CLASS_ROSE) {
             InsKidManagementProc pdto = InsKidManagementProc.builder()
                     .ikids(dto.getIkids())
                     .iclass(dto.getKidCheck())
@@ -101,7 +104,7 @@ public class TeacherService {
                 throw new RestApiException(AuthErrorCode.GRADE_FAIL);
             }
         }
-        if (result > Const.SUCCESS || result > Const.ZERO) {
+        if (result > Const.ZERO) {
             return new ResVo(result);
         }
         if (result == Const.ZERO) {
