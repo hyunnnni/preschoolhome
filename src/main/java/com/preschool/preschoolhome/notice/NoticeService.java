@@ -87,13 +87,9 @@ public class NoticeService {
 
         String target = "/notice/" + dto.getInotice();
         int affectedRows = mapper.updNotice(dto);
-        if (affectedRows == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
+
         int affectedDelRows = mapper.delNoticePics(dto.getInotice());
-        if (affectedDelRows == 0) {
-            throw new RestApiException(AuthErrorCode.PICS_FAIL);
-        }
+
         if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());

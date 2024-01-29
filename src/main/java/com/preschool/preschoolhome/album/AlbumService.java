@@ -186,32 +186,37 @@ public class AlbumService {
 
     // 활동 앨범 수정
     public ResVo putAlbum(List<MultipartFile> pics, AlbumUpdDto dto) {
+
+        int level = authenticationFacade.getLevelPk();
         // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 수정 접근 제한
-        if (dto.getIlevel() < 2) {
+        if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-            String target = "/album/" + dto.getIalbum();
-            // 글 수정
-            int updAfftectedRows = mapper.updAlbum(dto);
-            if (updAfftectedRows == 0) {
-                return new ResVo(FAIL);
-            }
-            // 사진 삭제
-            int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
-            if (delPicsAffectedRows == 0) {
-                return new ResVo(FAIL);
-            }
-            // 사진 등록
-            AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
-            picsDto.setIalbum(dto.getIalbum());
+        // 글 수정
+        int updAfftectedRows = mapper.updAlbum(dto);
+
+        // 사진 삭제
+        int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
+
+        // 사진 등록
+        AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
+        picsDto.setIalbum(dto.getIalbum());
+
+        String target = "/album/" + dto.getIalbum();
+
+        if(pics != null) {
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);
             }
+
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
+
             if (picsAffectedRows == 0) {
                 return new ResVo(FAIL);
             }
-            return new ResVo(SUCCESS);
+        }
+
+        return new ResVo(SUCCESS);
     }
 }
