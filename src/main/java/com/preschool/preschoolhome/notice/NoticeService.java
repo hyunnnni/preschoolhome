@@ -200,7 +200,9 @@ public class NoticeService {
 
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     public ResVo postNoticeComment(InsNoticeCommentDto dto) {
-
+        if(dto.getIteacher() > 0 && dto.getIparent() > 0){
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+        }
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -220,7 +222,7 @@ public class NoticeService {
 
         if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
                 (dto.getIparent() > 0 && dto.getIteacher() > 0)) {
-            return new ResVo(Const.BAD_PARAMETER);
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
 
         int result = mapper.delNoticeComment(dto);

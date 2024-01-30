@@ -158,12 +158,12 @@ public class NoticeController {
             @Positive(message="잘못된 값입니다")
             @Schema(title = "삭제하고 싶은 댓글 pk")
             int inoticeComment,
-            @RequestParam
-            @Positive(message = "잘못된 값입니다")
+            @RequestParam(required = false)
+            @PositiveOrZero(message = "잘못된 값입니다")
             @Schema(title = "삭제를 원하는 유저의 pk(관리자일 때)")
             int iteacher,
-            @RequestParam
-            @Positive(message = "잘못된 값입니다")
+            @RequestParam(required = false)
+            @PositiveOrZero(message = "잘못된 값입니다")
             @Schema(title = "삭제를 원하는 유저의 pk(학부모일 때)")
             int iparent
     ){

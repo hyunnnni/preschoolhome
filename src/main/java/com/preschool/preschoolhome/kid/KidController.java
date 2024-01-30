@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
@@ -28,7 +29,7 @@ public class KidController {
     @Valid
     @GetMapping("/{year}/{ikid}")
     public KidProfileVo getKidProfile(@PathVariable int year
-            , @PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid){
+            , @PathVariable @Positive(message = "원아정보를 정확히 입력해주세요") int ikid){
         return service.kidProfile(year, ikid);
     }
 
@@ -60,8 +61,8 @@ public class KidController {
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @Valid
     @GetMapping("/detail/edit/{ikid}")
-    public KidDetailEditVo getKidDetailEdit(@PathVariable @Min(value = 1, message = "원아정보를 정확히 입력해주세요") int ikid
-            ,@Pattern(regexp = "^[12]\\d{3}$", message = "형식에 맞지 않습니다") int year){
+    public KidDetailEditVo getKidDetailEdit(@PathVariable @Positive(message = "원아정보를 정확히 입력해주세요") int ikid
+            ,int year){
         return service.kidDetailEdit(ikid,year);
     }
 
