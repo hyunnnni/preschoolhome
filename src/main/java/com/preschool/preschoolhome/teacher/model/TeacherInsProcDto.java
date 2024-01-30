@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
+@Schema(title = "선생님 회원가입 시 사용할 데이터 3차 사용")
 public class TeacherInsProcDto {
     @Schema(title = "선생님 이름")
     private int teacherNm;

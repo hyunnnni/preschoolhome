@@ -1,9 +1,11 @@
 package com.preschool.preschoolhome.teacher.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
+@Schema(title = "선생님 로그인 시 응답 데이터")
 public class TeacherEntity {
     private int iteacher;
     private int ilevel;
@@ -11,7 +13,6 @@ public class TeacherEntity {
     private String teacherUid;
     private String teacherUpw;
     private String teacherNm;
-    @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$")
     private String tcEmail;
     private String teacherIntroduce;
     private String teacherProfile;

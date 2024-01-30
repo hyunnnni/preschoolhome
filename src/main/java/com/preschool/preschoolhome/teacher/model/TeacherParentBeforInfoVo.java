@@ -17,7 +17,6 @@ public class TeacherParentBeforInfoVo {
     @Schema(title = "아이디")
     private String uid;
     @Schema(title = "이메일")
-    @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$")
     private String prEmail;
 
 }
