@@ -33,7 +33,7 @@ public class TeacherService {
     private final CookieUtils cookieUtils;
 
     //-------------------------------- 원아 관리 페이지 조회 --------------------------------
-    public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto) {
+    public SelKidManagementVo getKidManagement(SelKidManagementDto dto) {
 
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
@@ -42,7 +42,8 @@ public class TeacherService {
             throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
 
-        List<SelKidManagementVo> voList = new ArrayList<>();
+        SelKidManagementVo vo = new SelKidManagementVo();
+        List<SelKidManagement> voList = new ArrayList<>();
 
         voList = mapper.selKidManagement(dto);
 
@@ -50,7 +51,10 @@ public class TeacherService {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        return voList;
+        vo.setKidPage(voList);
+        vo.setTotalPage(mapper.selKidPage(dto.getKidCheck()));
+
+        return vo;
     }
 
     //-------------------------------- 원아 재원 상태 / 반 승급 수정 --------------------------------
@@ -113,7 +117,7 @@ public class TeacherService {
     }
 
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
-    public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
+    public SelParManagementVo getParentManagement(SelParManagementDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -121,27 +125,33 @@ public class TeacherService {
             throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
 
-        List<SelParManagementVo> voList = new ArrayList<>();
+        List<SelParManagement> voList = new ArrayList<>();
         SelParManagementVo vo = new SelParManagementVo();
+        int total = Const.ZERO;
 
         if (dto.getIclass() > 0) {
             voList = mapper.selParManagementClass(dto);
-        } else if (dto.getIclass() == 0) {
+            total = mapper.selParPage(dto.getPrIsDel());
+        }
+        if (dto.getIclass() == 0) {
             voList = mapper.selParManagement(dto);
+            total = mapper.selParPageClass(dto);
         }
 
         if (voList.size() == 0) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        for (SelParManagementVo vo1 : voList) {
+        for (SelParManagement vo1 : voList) {
             List<SelKidNameClass> kids = mapper.selConnectionKid(vo1.getIparent());
             if (kids.size() > 0) {
                 vo1.setKids(kids);
             }
         }
+        vo.setTotalPage(total);
+        vo.setParentPage(voList);
 
-        return voList;
+        return vo;
     }
 
 //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------

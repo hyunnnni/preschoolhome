@@ -15,6 +15,17 @@
         </if>
         LIMIT #{startIdx},#{rowCount}
     </select>
+    <!--                 원아 관리 페이지 수 체크                   -->
+    <select id="selKidPage">
+        SELECT COUNT(ikid)
+        FROM t_kid
+        <if test="kidCheck > 0">
+        where iclass = #{kidCheck}
+        </if>
+        <if test = "0 >= kidCheck">
+            where state = #{kidCheck}
+        </if>
+    </select>
     <!--                 원아 재원 상태 / 반 승급 수정                   -->
     <update id="updKidStateOrClass">
         UPDATE t_kid
@@ -77,6 +88,12 @@
         where pr_is_del = #{prIsDel}
         LIMIT #{startIdx}, #{rowCount}
     </select>
+    <!--           현재 계정이 있는 모든 부모의 정보 조회 페이지 수            -->
+    <select id="parPage">
+        SELECT COUNT(iparent)
+        FROM t_parent
+        WHERE pr_is_del = #{prIsDel}
+    </select>
     <!--           부모 정보 원아 반 별 기준으로 조회             -->
     <select id="selParManagementClass">
         SELECT DISTINCT A.iparent, A.parent_nm AS parentNm, A.uid, A.phone_nb AS phoneNb
@@ -88,6 +105,17 @@
         where A.pr_is_del = #{prIsDel}
         and C.iclass = #{iclass}
         LIMIT #{startIdx}, #{rowCount}
+    </select>
+    <!--           부모 정보 원아 반 별 기준으로 조회 페이지 수            -->
+    <select id="selParManagementClass">
+        SELECT DISTINCT A.iparent
+        FROM t_parent AS A
+        JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        JOIN t_kid AS C
+        ON B.ikid = C.ikid
+        where A.pr_is_del = #{prIsDel}
+        and C.iclass = #{iclass}
     </select>
     <!--           해당 부모와 연결이 되어 있는 원아의 이름과 반 조회             -->
     <select id="selConnectionKid">

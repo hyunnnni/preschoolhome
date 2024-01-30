@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class ParentService {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ID);
         }
         if (checkUid == null) {
-            response.setIsValid(1); //회원가입 가능
+            response.setIsValid(Const.SUCCESS); //회원가입 가능
             response.setMessage("사용가능한 아이디");
         }
         return response;
@@ -151,21 +152,25 @@ public class ParentService {
 
     //부모 마이페이지 정보수정
     public ResVo putParent(UpParentDto dto) {
+
         int loginUserPk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIparent(loginUserPk);
         dto.setIlevel(level);
-        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
-                && dto.getUpw() == null) {
-            return new ResVo(-1);
+
+        if(StringUtils.containsWhitespace(dto.getParentNm())||
+                StringUtils.containsWhitespace(dto.getPhoneNb())||
+                StringUtils.containsWhitespace(dto.getPrEmail())||
+                StringUtils.containsWhitespace(dto.getParentNm())){
 
         }
+        int result = mapper.putParent(dto);
 
-        int result1 = mapper.putParent(dto);
-        if (result1 == 0) {
+        if (result == 0) {
             return new ResVo(-1);
             //throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
+
         return new ResVo(1);
 
     }

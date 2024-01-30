@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.parent.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -12,14 +13,23 @@ public class UpParentDto {
     private int iparent;
     @JsonIgnore
     private int ilevel;
+
     @Schema(title = "부모이름")
+    @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
+            message = "형식이 맞지 않습니다 확인해주세요")
     private String parentNm;
+
     @Schema(title = "휴대폰번호")
+    @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
+            message = "공백이 포함되어있습니다 다시 확인해주세요")
     private String phoneNb;
+
     @Schema(title = "이메일")
     @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$")
     private String prEmail;
-    @Schema(title = "비밀번호")
-    private String upw;
 
+    @Schema(title = "비밀번호")
+    @Pattern(regexp = "^[a-z|A-Z|0-9|_-~!@#$%^&]*$",
+            message = "공백이 포함되어있습니다 다시 확인해주세요")
+    private String upw;
 }
