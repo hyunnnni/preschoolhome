@@ -59,7 +59,7 @@
     <select id="selAlbumContent">
         SELECT album_title AS albumTitle, album_contents AS albumContents
         FROM t_album
-        WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+        WHERE ialbum = #{ialbum}
     </select>
 
     <!-- 활동 앨범 글 수정 시 사진 조회 -->

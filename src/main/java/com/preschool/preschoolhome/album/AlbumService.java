@@ -187,17 +187,24 @@ public class AlbumService {
 
     // 활동 앨범 수정 시 정보 출력
     public AlbumDeSelVo albumEdit(int ialbum) {
-        int iteacher = authenticationFacade.getLoginUserPk();
-        try {
+
+        int ilevel = authenticationFacade.getLevelPk();
+
+        if(ilevel < 1 || ilevel > 3){
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+        }
             // 수정할 글 내용과 사진들 불러오기
-            AlbumDeSelVo vo = mapper.selAlbumContent(iteacher, ialbum);
+            AlbumDeSelVo vo = mapper.selAlbumContent(ialbum);
+
+            if(vo == null){
+                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+            }
+
             List<String> pics = mapper.albumEditPics(ialbum);
+
             vo.setAlbumPic(pics);
             return vo;
-        } catch (Exception e){
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     // 활동 앨범 수정

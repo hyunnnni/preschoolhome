@@ -125,8 +125,8 @@ public class AlbumController {
         return service.putAlbum(pics, dto);
     }
 
-    //------------------------------------- 활동 앨범 수정 시 정보 출력-------------------------------------//
-    @Operation(summary = "활동 앨범 수정", description = """
+    //------------------------------------- 활동 앨범 수정 시 정보 조회 -------------------------------------//
+    @Operation(summary = "활동 앨범 수정 시 정보 조회", description = """
             수정 시 수정할 글과 사진 정보 출력
             """)
     @Valid
