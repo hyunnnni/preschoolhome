@@ -200,7 +200,8 @@ public class NoticeService {
 
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     public ResVo postNoticeComment(InsNoticeCommentDto dto) {
-        if(dto.getIteacher() > 0 && dto.getIparent() > 0){
+        if((dto.getIparent() == 0 && dto.getIteacher() == 0)||
+                (dto.getIteacher() > 0 && dto.getIparent() > 0)){
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
         int level = authenticationFacade.getLevelPk();
