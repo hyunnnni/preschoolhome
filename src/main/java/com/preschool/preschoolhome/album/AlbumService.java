@@ -6,7 +6,6 @@ import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
-import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +56,7 @@ public class AlbumService {
     }
 
     //------------------------------------- 활동 앨범 전체 조회 -------------------------------------
-    public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
+    public AllAlbumSelVo getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
         if (level < 1) {
@@ -65,7 +64,11 @@ public class AlbumService {
         }
         try {
             List<AlbumSelVo> vo = mapper.selAllAlbum(dto);
-            return vo;
+            AllAlbumSelVo vo1 =new AllAlbumSelVo();
+            vo1.setList(vo);
+            int albumCnt = mapper.selAlbumCnt();
+            vo1.setAlbumCnt(albumCnt);
+            return vo1;
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);

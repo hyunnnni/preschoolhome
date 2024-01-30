@@ -35,7 +35,7 @@ public class FullNoticeController {
             "성공시 페이지 띄우기<br>" +
             "실패시 에러메세지송출<br>")
 
-    public List<SelFullNoticeVo> getAllFullNotice(@RequestParam @Schema(title = "페이지") int page) {
+    public AllFullNoticeSelVo getAllFullNotice(@RequestParam @Schema(title = "페이지") int page) {
 
         SelFullNoticeDto dto = new SelFullNoticeDto();
         dto.setPage(page);

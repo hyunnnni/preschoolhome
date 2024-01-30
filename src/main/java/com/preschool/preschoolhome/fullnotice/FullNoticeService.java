@@ -25,7 +25,7 @@ public class FullNoticeService {
 
     //-------------------------------- 전체게시판 조회 --------------------------------
 
-    public List<SelFullNoticeVo> getAllFullNotice(SelFullNoticeDto dto) {
+    public AllFullNoticeSelVo getAllFullNotice(SelFullNoticeDto dto) {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -47,8 +47,11 @@ public class FullNoticeService {
         if (voList.size() > 10) {
             throw new RestApiException(AuthErrorCode.OVER_FIX_NOTICE);
         }
-
-        return voList;
+        AllFullNoticeSelVo vo = new AllFullNoticeSelVo();
+        vo.setList(noticelist);
+        int noticeCnt = mapper.selNoticeCnt();
+        vo.setNoticeCnt(noticeCnt);
+        return vo;
     }
 
     //-------------------------------- 개별게시판 조회 --------------------------------

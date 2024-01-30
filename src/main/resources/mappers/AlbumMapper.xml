@@ -13,7 +13,11 @@
         ORDER BY A.ialbum DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>
-
+    <!-- 활동 앨범 개수 -->
+    <select id="selAlbumCnt">
+        SELECT COUNT(ialbum)
+        FROM t_album
+    </select>
     <!-- 활동 앨범 상세 조회 (글)-->
     <select id="selDetailAlbum">
         SELECT album_title AS albumTitle, album_contents AS albumContents, created_at AS createdAt

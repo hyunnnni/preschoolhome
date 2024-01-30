@@ -6,18 +6,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
-import static com.preschool.preschoolhome.common.utils.Const.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,7 +36,7 @@ public class AlbumController {
     @Operation(summary = "활동 앨범 전체 조회")
     @Valid
     @GetMapping("/listall")
-    public List<AlbumSelVo> getAllAlbum(@RequestParam
+    public AllAlbumSelVo getAllAlbum(@RequestParam
                                         @Positive(message = "잘못된 값입니다")
                                         @Schema(title = "페이지")
                                         int page) {
