@@ -39,7 +39,7 @@ public class NoticeService {
         }
         String target = "/notice/" + dto.getInotice();
 
-        if (pics != null) {
+        if (pics.size() > 0) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
             for (MultipartFile file : pics) {
@@ -87,14 +87,16 @@ public class NoticeService {
 
         String target = "/notice/" + dto.getInotice();
         int affectedRows = mapper.updNotice(dto);
-
+        if (affectedRows == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
         int affectedDelRows = mapper.delNoticePics(dto.getInotice());
-
-        if (pics.size() != 0) {
-
+        if (affectedDelRows == 0) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+        if (pics.size() > 0) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
-
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getPics().add(saveFileNm);
