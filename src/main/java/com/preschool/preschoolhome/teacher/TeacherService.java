@@ -321,7 +321,7 @@ public class TeacherService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        TeacherParentBeforInfoVo vo = mapper.selBeforeInfo(iparent);
+        TeacherParentBeforInfoVo vo = mapper.selBeforeInfo1(iparent);
         return vo;
     }
 }

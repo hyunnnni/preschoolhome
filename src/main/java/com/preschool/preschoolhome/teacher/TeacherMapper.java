@@ -52,5 +52,5 @@ public interface TeacherMapper {
     //------------------------ 선생님이 부모님 정보 변경 ------------------------
     int putTeacherParent(UpdTeacherParentDto dto);
     //------------------------ 선생님이 부모님 원래정보 불러오기 ------------------------
-    TeacherParentBeforInfoVo selBeforeInfo(int iparent);
+    TeacherParentBeforInfoVo selBeforeInfo1(int iparent);
 }

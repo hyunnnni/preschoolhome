@@ -204,7 +204,7 @@
         where iparent = #{iparent}
     </update>
     <!--           선생님이 학부모 원래 정보 불러오기            -->
-    <select id="selBeforeInfo">
+    <select id="selBeforeInfo1">
         select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
         from t_parent
         where iparent = #{iparent}
