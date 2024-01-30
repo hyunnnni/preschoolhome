@@ -74,7 +74,6 @@ public class NoticeService {
         return vo;
     }
 
-
     //-------------------------------- 알림장 수정 --------------------------------
     @Transactional
     public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto) {
@@ -151,9 +150,7 @@ public class NoticeService {
                 picCheck.setPicCheck(Const.SUCCESS);
             }
         }
-
         return voList;
-
     }
 
     //-------------------------------- 알림장 상세 조회 --------------------------------
@@ -189,7 +186,6 @@ public class NoticeService {
                     teaComment.setCreatedAt(com.getCreatedAt());
                     comments.add(teaComment);
                 }
-
             }
         }
         vo.setComments(comments);
@@ -230,7 +226,6 @@ public class NoticeService {
         if (result == 0) {
             return new ResVo(Const.NO_INFORMATION);
         }
-
         return new ResVo(result);
     }
 }
