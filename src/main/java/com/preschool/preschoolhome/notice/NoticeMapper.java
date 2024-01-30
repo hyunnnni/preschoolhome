@@ -19,8 +19,8 @@ public interface NoticeMapper {
     int delNoticePics(int inotice);
 
     //알림장 삭제
-    int delNotice(int iteacher, int inotice);
-    int delAllNotice(int iteacher, int inotice);
+    int delNotice(int inotice);
+    int delAllNotice(int inotice);
 
     //------------------------ 학부모 유저 시점 원아 알림장 전체 조회 ------------------------
     List<SelAllNoticeVo> selAllNoticeBoardPar(SelAllNoticeDto dto);

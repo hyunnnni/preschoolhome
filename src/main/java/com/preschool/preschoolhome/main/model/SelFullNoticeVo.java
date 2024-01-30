@@ -16,6 +16,4 @@ public class SelFullNoticeVo {
     private int fullNoticeFix;
     @Schema(title = "유치원 소식 등록일")
     private String createdAt;
-
-
 }

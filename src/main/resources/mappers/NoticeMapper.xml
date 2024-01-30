@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.notice.NoticeMapper">
+    <!--                 알림장 등록 글                 -->
     <insert id="insNotice" useGeneratedKeys="true" keyProperty="inotice">
         INSERT INTO t_notice_board
         SET iteacher = #{iteacher}
@@ -9,7 +10,7 @@
         , notice_title = #{noticeTitle}
         , notice_contents = #{noticeContents}
     </insert>
-
+    <!--                 알림장 등록 사진                  -->
     <insert id="insNoticePics">
         INSERT INTO t_notice_pics
         (inotice, notice_pic)
@@ -18,13 +19,14 @@
             #{inotice}, #{pic}
         </foreach>
     </insert>
-
+    <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">
         SELECT inotice, notice_title AS noticeTitle, notice_contents AS noticeContents
         FROM t_notice_board
         WHERE inotice = #{inotice}
         AND ikid = #{ikid}
     </select>
+    <!--                 알림장 수정                  -->
     <update id="updNotice">
         UPDATE t_notice_board
         SET iteacher = #{iteacher}
@@ -33,17 +35,18 @@
         , notice_contents = #{noticeContents}
         WHERE inotice = #{inotice}
     </update>
+    <!--                 알림장 수정 시 내용 조회 사진                  -->
     <select id="noticeEditPics">
         SELECT notice_pic
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
-
+    <!--                 수정 시 알림장 사진 삭제                  -->
     <delete id="delNoticePics">
         DELETE FROM t_notice_pics
         WHERE inotice = #{inotice}
     </delete>
-
+    <!--                 알림장 삭제 댓글, 사진                  -->
     <delete id="delAllNotice">
         DELETE B, C
         FROM t_notice_board A
@@ -52,13 +55,12 @@
         LEFT JOIN t_notice_comment C
         ON A.inotice = C.inotice
         WHERE A.inotice = #{inotice}
-        AND A.iteacher = #{iteacher}
     </delete>
+    <!--                                   -->
     <delete id="delNotice">
         DELETE
         FROM t_notice_board
         WHERE inotice = #{inotice}
-        AND iteacher = #{iteacher}
     </delete>
 
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
