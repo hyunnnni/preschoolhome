@@ -10,6 +10,6 @@ import java.util.List;
 public class SelKidManagementVo {
     @Schema(title = "변경을 원하는 원아PK")
     private List<SelKidManagement> kidPage;
-    @Schema(title = "총 페이지 수")
-    private int totalPage;
+    @Schema(title = "총 개수")
+    private Integer totalCnt;
 }
