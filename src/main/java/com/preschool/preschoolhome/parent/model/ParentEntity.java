@@ -24,7 +24,6 @@ public class ParentEntity {
     @Schema(title = "휴대폰번호")
     private String phoneNb;
     @Schema(title = "이메일")
-    @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$")
     private String prEmail;
     @Schema(title = "토큰")
     private String firebaseToken;
