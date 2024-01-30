@@ -159,12 +159,6 @@ public class ParentService {
         dto.setIparent(loginUserPk);
         dto.setIlevel(level);
 
-        if(StringUtils.containsWhitespace(dto.getParentNm())||
-                StringUtils.containsWhitespace(dto.getPhoneNb())||
-                StringUtils.containsWhitespace(dto.getPrEmail())||
-                StringUtils.containsWhitespace(dto.getParentNm())){
-
-        }
         int result = mapper.putParent(dto);
 
         if (result == 0) {
