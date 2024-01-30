@@ -2,25 +2,36 @@ package com.preschool.preschoolhome.kid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.preschool.preschoolhome.MockMvcConfig;
+import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.kid.model.KidProfileVo;
+import com.preschool.preschoolhome.teacher.model.TeacherEntity;
+import com.preschool.preschoolhome.teacher.model.TeacherSigninDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.mockito.ArgumentMatchers.any;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.any;
 
+@SpringBootTest
 @MockMvcConfig
-@WebMvcTest(KidController.class)
+@Import(KidController.class)
 class KidControllerTest {
 
     @Autowired
@@ -30,30 +41,46 @@ class KidControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    String token;
+
+   /* @BeforeEach
+    public void before() throws Exception {
+        TeacherSigninDto dto = new TeacherSigninDto();
+        dto.setTeacherUid("123");
+        dto.setTeacherUpw("123");
+
+        String contentAsString = mockMvc.perform(MockMvcRequestBuilders.post("/api/teacher")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(dto)))
+                .andReturn().getResponse().getContentAsString();
+        TeacherEntity signinVo = mapper.readValue(contentAsString, TeacherEntity.class);
+        this.token = "Bearer " + signinVo.getAccessToken();
+    }
+*/
     @Test
     void getKidProfile() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>(); //스프링 꺼 해쉬맵과 비슷?
         params.add("year","2024");
-        params.add("loginedIuser","1");
+        params.add("ikid","1");
 
         KidProfileVo result = new KidProfileVo();
         result.setKidNm("최승철");
         result.setIclass(1);
         result.setGender(1);
 
-        given(service.kidProfile(any(), any())).willReturn(result);
+
+        given(service.kidProfile(anyInt(), anyInt())).willReturn(result);
 
         mvc.perform(
                         MockMvcRequestBuilders
-                                .get("/api/kid")
-                                .params((params))
+                        .get("/api/kid/2024/1")
                 )//검증하는부분
                 .andExpect(status().isOk())
                 .andExpect(content().string(mapper.writeValueAsString(result)))
                 .andDo(print());
 
-        verify(service).kidProfile(any(),any());
+        verify(service).kidProfile(anyInt(),anyInt());
     }
 
     @Test
