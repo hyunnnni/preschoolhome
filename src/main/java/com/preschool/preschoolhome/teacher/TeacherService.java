@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class TeacherService {
     }
 
     //-------------------------------- 원아 재원 상태 / 반 승급 수정 --------------------------------
-
+    @Transactional
     public ResVo patchKidStateOrClass(UpdKidStateDto dto) {
 
         int level = authenticationFacade.getLevelPk();
@@ -113,8 +114,6 @@ public class TeacherService {
 
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
     public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
-
-
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -143,14 +142,11 @@ public class TeacherService {
         }
 
         return voList;
-
     }
 
 //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
-
+    @Transactional
     public ResVo delParent(DelParentDto dto) {
-
-
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -168,7 +164,6 @@ public class TeacherService {
         }
 
         return new ResVo(isDelResult);
-
     }
 
 //-------------------------------- 학부모와 원아 연결 끊기  --------------------------------
@@ -307,7 +302,6 @@ public class TeacherService {
             return new ResVo(-1);
 
         }
-
         int result1 = mapper.putTeacherParent(dto);
         if (result1 == 0) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
