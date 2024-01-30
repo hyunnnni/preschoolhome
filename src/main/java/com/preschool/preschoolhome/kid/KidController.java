@@ -25,6 +25,7 @@ import java.util.List;
 public class KidController {
     private final KidService service;
 
+    //-------------------------------- 원아 해당 년도 마이페이지 조회 --------------------------------
     @Operation(summary = "원아 마이페이지", description = "원아 해당 년도 마이페이지 조회")
     @Valid
     @GetMapping("/{year}/{ikid}")
@@ -33,6 +34,7 @@ public class KidController {
         return service.kidProfile(year, ikid);
     }
 
+    //-------------------------------- 원아 식별코드 수정 --------------------------------
     @Operation(summary = "원아 식별코드 수정", description = "원아 식별코드 수정")
     @Valid
     @PatchMapping("/code/{ikid}")
@@ -40,24 +42,28 @@ public class KidController {
         return service.kidCode(ikid);
     }
 
+    //-------------------------------- 원아 등록 --------------------------------
     @Operation(summary = "원아 등록", description = "원아 등록")
     @PostMapping
     public KidInsVo postKidSignup(@RequestPart MultipartFile pic,@Valid @RequestPart KidInsDto dto){
         return service.kidSignup(pic, dto);
     }
 
+    //-------------------------------- 원아 발달사항 등록 --------------------------------
     @Operation(summary = "원아 발달사항 등록", description = "원아 발달사항 등록")
     @PostMapping("/detail")
     public ResVo postKidInsDetail(@Valid @RequestBody List<KidDetailInsDto> dto){
         return service.kidInsDetail(dto);
     }
 
+    //-------------------------------- 원아 발달사항 수정 --------------------------------
     @Operation(summary = "원아 발달사항 수정", description = "원아 발달사항 수정")
     @PutMapping("/detail")
     public ResVo putKidUpdDetail(@Valid @RequestBody List<KidDetailUpdDto> dto){
         return service.kidUpdDetail(dto);
     }
 
+    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @Valid
     @GetMapping("/detail/edit/{ikid}")
@@ -66,12 +72,14 @@ public class KidController {
         return service.kidDetailEdit(ikid,year);
     }
 
+    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
     @PutMapping
     public ResVo putKidProfile(@RequestPart MultipartFile pic,@Valid @RequestPart KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
 
+    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
     @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
     @Valid
     @GetMapping("/edit/{ikid}")
@@ -79,6 +87,7 @@ public class KidController {
         return service.kidEdit(ikid);
     }
 
+    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
     @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
     @DeleteMapping
     public ResVo delAllGraduateKid(){
