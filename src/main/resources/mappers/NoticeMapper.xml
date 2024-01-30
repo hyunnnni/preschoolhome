@@ -56,7 +56,7 @@
         ON A.inotice = C.inotice
         WHERE A.inotice = #{inotice}
     </delete>
-    <!--                                   -->
+    <!--             알림장 글 삭제                 -->
     <delete id="delNotice">
         DELETE
         FROM t_notice_board

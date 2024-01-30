@@ -8,18 +8,22 @@ import java.util.List;
 
 @Mapper
 public interface NoticeMapper {
-    //알림장 등록
+    //------------------------ 알림장 등록 글 ------------------------
     int insNotice(NoticeInsDto dto);
+    //------------------------ 알림장 등록 사진 ------------------------
     int insNoticePics(NoticePicsInsDto dto);
-    //알림장 수정 시 내용 조회
+    //------------------------ 알림장 수정 시 내용 조회 글 ------------------------
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
+    //------------------------ 알림장 수정 시 내용 조회 사진 ------------------------
     List<String> noticeEditPics(int inotice);
-    //알림장 수정
+    //------------------------ 알림장 수정 ------------------------
     int updNotice(NoticeUpdDto dto);
+    //------------------------ 수정 시 알림장 사진 삭제 ------------------------
     int delNoticePics(int inotice);
 
-    //알림장 삭제
+    //------------------------ 알림장 글 삭제 ------------------------
     int delNotice(int inotice);
+    //------------------------ 알림장 삭제 댓글, 사진 ------------------------
     int delAllNotice(int inotice);
 
     //------------------------ 학부모 유저 시점 원아 알림장 전체 조회 ------------------------
