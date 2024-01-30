@@ -27,13 +27,13 @@ public interface TeacherMapper {
     //------------------------ 현재 계정이 있는 모든 부모의 정보 조회  ------------------------
     List<SelParManagement> selParManagement(SelParManagementDto dto);
     //------------------------ 현재 계정이 있는 모든 부모의 정보 조회 페이지 수  ------------------------
-    int selParPage(int prIsDel);
+    Integer selParPage(int prIsDel);
     //------------------------ 원아 반 승급 시 데이터 저장  ------------------------
     int insClass(InsKidManagementProc pdto);
     //------------------------ 부모 정보 원아 반 별 기준으로 조회  ------------------------
     List<SelParManagement > selParManagementClass (SelParManagementDto dto);
     //------------------------ 부모 정보 원아 반 별 기준으로 조회 페이지 수 ------------------------
-    int selParPageClass(SelParManagementDto dto);
+    Integer selParPageClass(SelParManagementDto dto);
     //------------------------ 해당 부모와 연결이 되어 있는 원아의 이름과 반 조회 ------------------------
     List<SelKidNameClass> selConnectionKid(int iparent);
     //------------------------ 해당 부모와 연결된 원아들과 연결 끊기 ------------------------

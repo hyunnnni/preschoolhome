@@ -108,7 +108,7 @@
     </select>
     <!--           부모 정보 원아 반 별 기준으로 조회 페이지 수            -->
     <select id="selParPageClass">
-        SELECT DISTINCT A.iparent
+        SELECT COUNT(DISTINCT A.iparent)
         FROM t_parent AS A
         JOIN t_parent_kid AS B
         ON A.iparent = B.iparent

@@ -52,7 +52,7 @@ public class TeacherService {
         }
 
         vo.setKidPage(voList);
-        vo.setTotalPage(mapper.selKidPage(dto.getKidCheck()));
+        vo.setTotalCnt(mapper.selKidPage(dto.getKidCheck()));
 
         return vo;
     }
@@ -127,15 +127,16 @@ public class TeacherService {
 
         List<SelParManagement> voList = new ArrayList<>();
         SelParManagementVo vo = new SelParManagementVo();
-        int total = Const.ZERO;
+        Integer total = Const.ZERO;
 
         if (dto.getIclass() > 0) {
             voList = mapper.selParManagementClass(dto);
-            total = mapper.selParPage(dto.getPrIsDel());
+            total = mapper.selParPageClass(dto);
+
         }
         if (dto.getIclass() == 0) {
             voList = mapper.selParManagement(dto);
-            total = mapper.selParPageClass(dto);
+            total = mapper.selParPage(dto.getPrIsDel());
         }
 
         if (voList.size() == 0) {
@@ -148,7 +149,7 @@ public class TeacherService {
                 vo1.setKids(kids);
             }
         }
-        vo.setTotalPage(total);
+        vo.setTotalCnt(total);
         vo.setParentPage(voList);
 
         return vo;
