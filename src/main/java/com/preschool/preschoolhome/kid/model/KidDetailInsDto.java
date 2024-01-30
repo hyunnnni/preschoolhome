@@ -5,8 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 @Data
 @Schema(title = "원아 발달사항 등록")
@@ -15,13 +20,12 @@ public class KidDetailInsDto {
     @Positive(message = "원아 번호를 입력해주세요")
     private int ikid;
     @Schema(title = "키")
-    @Positive(message = "값을 확인해주세요")
     private int height;
+    @PositiveOrZero(message = "값을 확인해주세요")
     @Schema(title = "체중")
-    @Positive(message = "값을 확인해주세요")
+    @PositiveOrZero(message = "값을 확인해주세요")
     private int weight;
     @Schema(title = "칭찬카드")
-    @Range(min = 1,max = 10, message = "값을 확인해주세요")
     private int growth;
     @Schema(title = "입력일")
     @Pattern(regexp = "^([12]\\d{3})-(0[1-9]|1[012])-(0[0-9]|[12][0-9]|3[01])$",
