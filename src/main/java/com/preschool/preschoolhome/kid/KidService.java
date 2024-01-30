@@ -28,7 +28,7 @@ public class KidService {
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-    //원아 해당 년도 마이페이지 조회
+    //-------------------------------- 원아 해당 년도 마이페이지 조회 --------------------------------
     public KidProfileVo kidProfile(int year, int ikid) {
         int level = authenticationFacade.getLevelPk();
         if (level < 1) {
@@ -52,7 +52,7 @@ public class KidService {
             return vo;
     }
 
-    //원아 식별코드 수정
+    //-------------------------------- 원아 식별코드 수정 --------------------------------
     ResVo kidCode(int ikid) {
         try {
             mapper.kidCode(ikid);
@@ -63,7 +63,7 @@ public class KidService {
         }
     }
 
-    //원아 등록
+    //-------------------------------- 원아 등록 --------------------------------
     @Transactional
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -99,7 +99,7 @@ public class KidService {
 
     }
 
-    //원아 발달사항 등록
+    //-------------------------------- 원아 발달사항 등록 --------------------------------
     @Transactional
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
         int level = authenticationFacade.getLevelPk();
@@ -162,7 +162,7 @@ public class KidService {
         return new ResVo(Const.SUCCESS);
     }
 
-    //원아 발달사항 수정
+    //-------------------------------- 원아 발달사항 수정 --------------------------------
     @Transactional
     public ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
         int level = authenticationFacade.getLevelPk();
@@ -209,7 +209,7 @@ public class KidService {
         return new ResVo(Const.SUCCESS);
     }
 
-    //원아 발달사항 수정 시 기존 데이터 조회
+    //-------------------------------- 원아 발달사항 수정 시 기존 데이터 조회 --------------------------------
     public KidDetailEditVo kidDetailEdit(int ikid, int year) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -229,7 +229,7 @@ public class KidService {
         return vo;
     }
 
-    //원아 프로필 수정
+    //-------------------------------- 원아 프로필 수정 --------------------------------
     public ResVo kidUpdProfile(MultipartFile pic, KidUpdDto dto) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -251,7 +251,7 @@ public class KidService {
             return new ResVo(Const.SUCCESS);
         }
 
-    //원아 프로필 수정 시 기존 데이터 조회
+    //-------------------------------- 원아 프로필 수정 시 기존 데이터 조회 --------------------------------
     public KidProfileEditVo kidEdit(int ikid) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -265,7 +265,7 @@ public class KidService {
         return vo;
     }
 
-    //졸업한 지 10년 된  원아 전체 삭제
+    //-------------------------------- 졸업한 지 10년 된  원아 전체 삭제 --------------------------------
     @Transactional
     public ResVo allGraduateKid() {
         int level = authenticationFacade.getLevelPk();

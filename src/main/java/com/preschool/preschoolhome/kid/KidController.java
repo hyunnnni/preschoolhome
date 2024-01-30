@@ -63,7 +63,7 @@ public class KidController {
         return service.kidUpdDetail(dto);
     }
 
-    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
+    //-------------------------------- 원아 발달사항 수정 시 기존 데이터 조회 --------------------------------
     @Operation(summary = "원아 발달사항 수정 시 기존 데이터 조회", description = "원아 발달사항 수정 시 기존 데이터 조회")
     @Valid
     @GetMapping("/detail/edit/{ikid}")
@@ -72,14 +72,14 @@ public class KidController {
         return service.kidDetailEdit(ikid,year);
     }
 
-    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
+    //-------------------------------- 원아 프로필 수정 --------------------------------
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
     @PutMapping
     public ResVo putKidProfile(@RequestPart MultipartFile pic,@Valid @RequestPart KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
 
-    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
+    //-------------------------------- 원아 프로필 수정 시 기존 데이터 조회 --------------------------------
     @Operation(summary = "원아 프로필 수정 시 기존 데이터 조회", description = "원아 프로필 수정 시 기존 데이터 조회")
     @Valid
     @GetMapping("/edit/{ikid}")
@@ -87,7 +87,7 @@ public class KidController {
         return service.kidEdit(ikid);
     }
 
-    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
+    //-------------------------------- 졸업한 지 10년 된  원아 전체 삭제 --------------------------------
     @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
     @DeleteMapping
     public ResVo delAllGraduateKid(){
