@@ -23,7 +23,7 @@ public class FullNoticeService {
     private final MyFileUtils mfu;
     private final AuthenticationFacade authenticationFacade;
 
-    //-------------------------------- 전체게시판 조회 --------------------------------
+    //-------------------------------- 전체 게시판 조회 --------------------------------
 
     public AllFullNoticeSelVo getAllFullNotice(SelFullNoticeDto dto) {
         int level = authenticationFacade.getLevelPk();
