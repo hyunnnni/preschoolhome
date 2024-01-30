@@ -27,7 +27,7 @@ import static com.preschool.preschoolhome.common.utils.Const.*;
 public class AlbumController {
     private final AlbumService service;
 
-    //------------------------------------- 활동 앨범 등록 -------------------------------------//
+    //------------------------------------- 활동 앨범 등록 -------------------------------------
     @Operation(summary = "활동 앨범 등록", description = """
             -1: 실패<br> 1: 성공
             """)
@@ -37,7 +37,7 @@ public class AlbumController {
         return service.postAlbum(dto);
     }
 
-    //------------------------------------- 활동 앨범 전체 조회 -------------------------------------//
+    //------------------------------------- 활동 앨범 전체 조회 -------------------------------------
     @Operation(summary = "활동 앨범 전체 조회")
     @Valid
     @GetMapping("/listall")
@@ -50,7 +50,7 @@ public class AlbumController {
         return service.getAllAlbum(dto);
     }
 
-    //------------------------------------- 활동 앨범 상세 조회 -------------------------------------//
+    //------------------------------------- 활동 앨범 상세 조회 -------------------------------------
     @Operation(summary = "활동 앨범 상세 조회")
     @Valid
     @GetMapping
@@ -64,7 +64,7 @@ public class AlbumController {
     }
 
 
-    //------------------------------------- 활동 앨범 글 삭제 -------------------------------------//
+    //------------------------------------- 활동 앨범 글 삭제 -------------------------------------
     @Operation(summary = "활동 앨범 글 삭제", description = """
             -1: 실패<br> 1: 성공
             """)
@@ -80,7 +80,7 @@ public class AlbumController {
     }
 
 
-    //------------------------------------- 활동 앨범 댓글 등록 -------------------------------------//
+    //------------------------------------- 활동 앨범 댓글 등록 -------------------------------------
     @Operation(summary = "활동 앨범 댓글 등록", description = """
             -1: 실패<br> 1: 성공
             """)
@@ -90,7 +90,7 @@ public class AlbumController {
     }
 
 
-    //------------------------------------- 활동 앨범 댓글 삭제 -------------------------------------//
+    //------------------------------------- 활동 앨범 댓글 삭제 -------------------------------------
     @Operation(summary = "활동 앨범 댓글 삭제", description = """
             -1: 실패<br> 1: 성공
             """)
@@ -102,10 +102,10 @@ public class AlbumController {
                                  @Positive(message = "잘못된 값입니다")
                                  @Schema(title = "앨범 PK")
                                  int ialbum,
-                                 @RequestParam
+                                 @RequestParam(required = false, defaultValue = "0")
                                  @Schema(title = "선생님 PK")
                                  int iteacher,
-                                 @RequestParam
+                                 @RequestParam(required = false, defaultValue = "0")
                                  @Schema(title = "선생님 PK")
                                  int iparent) {
         AlbumDelCommentDto dto = new AlbumDelCommentDto();
@@ -116,7 +116,7 @@ public class AlbumController {
         return service.delAlbumComment(dto);
     }
 
-    //------------------------------------- 활동 앨범 수정 -------------------------------------//
+    //------------------------------------- 활동 앨범 수정 -------------------------------------
     @Operation(summary = "활동 앨범 수정", description = """
             수정할 글과 사진 수정
             """)
@@ -125,8 +125,8 @@ public class AlbumController {
         return service.putAlbum(pics, dto);
     }
 
-    //------------------------------------- 활동 앨범 수정 시 정보 출력-------------------------------------//
-    @Operation(summary = "활동 앨범 수정", description = """
+    //------------------------------------- 활동 앨범 수정 시 정보 조회 -------------------------------------
+    @Operation(summary = "활동 앨범 수정 시 정보 조회", description = """
             수정 시 수정할 글과 사진 정보 출력
             """)
     @Valid

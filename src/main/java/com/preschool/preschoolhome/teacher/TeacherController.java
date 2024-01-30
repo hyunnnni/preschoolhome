@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.teacher;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.parent.model.ParentBeforInfoVo;
 import com.preschool.preschoolhome.parent.model.ParentKid;
 import com.preschool.preschoolhome.parent.model.ParentSigninDto;
 import com.preschool.preschoolhome.teacher.model.*;
@@ -145,4 +146,20 @@ public class TeacherController {
             , @RequestBody TeacherSigninDto dto) {
         return service.teacherSignin(req, res, dto);
     }
+    //-------------------------------- 선생님 부모정보 수정 --------------------------------
+    @PutMapping("/parentedit")
+    @Operation(summary = "선생님이 부모님 정보 수정")
+    public ResVo putTeacherParent(@RequestBody UpdTeacherParentDto dto){
+        return service.putTeacherParent(dto);
+    }
+    //-------------------------------- 선생님 부모정보 수정시 정보가져오기 --------------------------------
+    @GetMapping("/parentedit")
+    @Operation(summary = "수정 전 정보가져오기", description = "<strong>정보 불러오기</strong><br><br>" +
+            "수정전 정보가져오기<br>" +
+            "성공시 원래 정보 가져오기, 부모 PK 응답<br>" +
+            "실패시 에러메세지송출 <br>")
+    public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent){
+        return service.getTeacherParentEdit(iparent);
+    }
+
 }

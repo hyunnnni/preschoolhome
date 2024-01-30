@@ -7,7 +7,7 @@
     <select id="selAllAlbum">
         SELECT A.ialbum, A.album_title AS albumTitle, B.album_pic AS albumPic
         FROM t_album A
-        JOIN t_album_pics B
+        LEFT JOIN t_album_pics B
         ON A.ialbum = B.ialbum
         GROUP BY A.ialbum
         ORDER BY A.ialbum DESC
@@ -46,7 +46,7 @@
     </insert>
 
     <!-- 활동 앨범 사진 등록 -->
-    <insert id="insAlbumPic" useGeneratedKeys="true" keyProperty="ialbumPic">
+    <insert id="insAlbumPic">
         INSERT INTO t_album_pics
         (ialbum, album_pic)
         VALUES
@@ -59,7 +59,7 @@
     <select id="selAlbumContent">
         SELECT album_title AS albumTitle, album_contents AS albumContents
         FROM t_album
-        WHERE ialbum = #{ialbum} and iteacher = #{iteacher}
+        WHERE ialbum = #{ialbum}
     </select>
 
     <!-- 활동 앨범 글 수정 시 사진 조회 -->

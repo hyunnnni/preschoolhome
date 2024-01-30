@@ -8,15 +8,14 @@ import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.security.JwtTokenProvider;
 import com.preschool.preschoolhome.common.security.MyPrincipal;
 import com.preschool.preschoolhome.common.utils.*;
-import com.preschool.preschoolhome.parent.model.ParentEntity;
-import com.preschool.preschoolhome.parent.model.ParentKid;
-import com.preschool.preschoolhome.parent.model.ParentSigninDto;
+import com.preschool.preschoolhome.parent.model.*;
 import com.preschool.preschoolhome.teacher.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class TeacherService {
     }
 
     //-------------------------------- 원아 재원 상태 / 반 승급 수정 --------------------------------
-
+    @Transactional
     public ResVo patchKidStateOrClass(UpdKidStateDto dto) {
 
         int level = authenticationFacade.getLevelPk();
@@ -115,8 +114,6 @@ public class TeacherService {
 
     //-------------------------------- 학부모 관리 페이지 조회 --------------------------------
     public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
-
-
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -145,14 +142,11 @@ public class TeacherService {
         }
 
         return voList;
-
     }
 
 //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
-
+    @Transactional
     public ResVo delParent(DelParentDto dto) {
-
-
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -170,7 +164,6 @@ public class TeacherService {
         }
 
         return new ResVo(isDelResult);
-
     }
 
 //-------------------------------- 학부모와 원아 연결 끊기  --------------------------------
@@ -296,5 +289,33 @@ public class TeacherService {
         entity.setAccessToken(at);
 
         return entity;
+    }
+
+    //선생님이 부모 마이페이지 정보수정
+    public ResVo putTeacherParent(UpdTeacherParentDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        if(level<2){
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
+        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
+                && dto.getUpw() == null) {
+            return new ResVo(-1);
+
+        }
+        int result1 = mapper.putTeacherParent(dto);
+        if (result1 == 0) {
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        return new ResVo(1);
+
+    }
+    //부모 원래정보 불러오기
+    public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent) {
+        int level = authenticationFacade.getLevelPk();
+        if (level < 2) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
+        TeacherParentBeforInfoVo vo = mapper.selBeforeInfo1(iparent);
+        return vo;
     }
 }

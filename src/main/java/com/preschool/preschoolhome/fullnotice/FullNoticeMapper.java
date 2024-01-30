@@ -8,12 +8,14 @@ import java.util.List;
 @Mapper
 public interface FullNoticeMapper {
 
-    //-----------게시판 전체 조회 및 상세조회
+    //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
     List<SelFullNoticeVo> getFullNoticeFix();
+    //-------------------------------- 게시판 전체 조회 일반 공지 --------------------------------
     List<SelFullNoticeVo> getFullNoticelist(SelFullNoticeDto dto);
-
-    List<String> selNoticePic(int iFullNotice); //notice안 사진 불러오기
-    SelNoticeVo getNotice(int iFullNotice); //notice불러오기
+    //-------------------------------- 게시판 상세 조회 사진 --------------------------------
+    List<String> selNoticePic(int iFullNotice);
+    //-------------------------------- 게시판 상세 조회 글 --------------------------------
+    SelNoticeVo getNotice(int iFullNotice);
 
     //-------------------------------- 유치원 소식 작성 --------------------------------
     int insFullNotice(InsFullNoticeDto dto);

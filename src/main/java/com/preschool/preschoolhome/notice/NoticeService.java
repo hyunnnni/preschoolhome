@@ -11,6 +11,7 @@ import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class NoticeService {
     private final AuthenticationFacade authenticationFacade;
 
     //-------------------------------- 알림장 등록 --------------------------------
-
+    @Transactional
     ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
@@ -32,7 +33,6 @@ public class NoticeService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-
         int result = mapper.insNotice(dto);
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
@@ -76,7 +76,7 @@ public class NoticeService {
 
 
     //-------------------------------- 알림장 수정 --------------------------------
-
+    @Transactional
     public ResVo updNotice(List<MultipartFile> pics, NoticeUpdDto dto) {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
@@ -110,8 +110,8 @@ public class NoticeService {
     }
 
     //-------------------------------- 알림장 삭제 --------------------------------
-
-    ResVo delNotice(int inotice) {
+    @Transactional
+    public ResVo delNotice(int inotice) {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
 
@@ -200,7 +200,9 @@ public class NoticeService {
 
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     public ResVo postNoticeComment(InsNoticeCommentDto dto) {
-
+        if(dto.getIteacher() > 0 && dto.getIparent() > 0){
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+        }
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
@@ -220,7 +222,7 @@ public class NoticeService {
 
         if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
                 (dto.getIparent() > 0 && dto.getIteacher() > 0)) {
-            return new ResVo(Const.BAD_PARAMETER);
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
 
         int result = mapper.delNoticeComment(dto);

@@ -9,6 +9,7 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.fullnotice.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import com.preschool.preschoolhome.common.utils.ResVo;
 
@@ -69,6 +70,7 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 작성 --------------------------------
 
+    @Transactional
     public ResVo postFullNotice (InsFullNoticeDto dto){
 
             int level = authenticationFacade.getLevelPk();
@@ -115,6 +117,7 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 삭제 --------------------------------
 
+    @Transactional
     public ResVo delFullNotice(DelFullNoticeDto dto){
 
         int level = authenticationFacade.getLevelPk();
@@ -143,6 +146,7 @@ public class FullNoticeService {
 
 //-------------------------------- 유치원 소식 수정 --------------------------------
 
+    @Transactional
     public ResVo putFullNotice(UpdFullNoticeDto dto){
 
         int level = authenticationFacade.getLevelPk();
