@@ -101,8 +101,8 @@ public class ParentController {
             "자진탈퇴시 isdel 1로 정보 숨기기<br>" +
             "성공시 isdel 1로 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public ResVo delParentSelf(@RequestBody ParentDeleteDto dto){
-        return service.delParentSelf(dto);
+    public ResVo delParentSelf(){
+        return service.delParentSelf();
 
     }
 

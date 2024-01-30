@@ -40,12 +40,16 @@ public class ParentService {
 
     //식별코드 매칭
     public CodeVo getMatch(String code) {
+
         CodeDto dto = new CodeDto();
         dto.setCode(code);
+
         CodeVo vo = mapper.selCode(dto);
+
         if (vo == null) {
             throw new RestApiException(AuthErrorCode.CHECK_CODE);
         }
+
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
         if (iparent.size() > 2) {
             throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
@@ -178,18 +182,22 @@ public class ParentService {
     //마이페이지 원아추가
     @Transactional
     public CodeVo postKidCode(CodeDto dto) {
+
         int loginUserPk = authenticationFacade.getLoginUserPk();
         dto.setIparent(loginUserPk);
-        CodeVo vo = mapper.selCode(dto);
-        Integer exist = mapper.selKidParent(vo.getIkid(),dto.getIparent());
 
-        if (dto.getCode() == null) {
-            throw new RestApiException(AuthErrorCode.CHECK_CODE);
+        CodeVo vo = mapper.selCode(dto);
+        if(vo == null){
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
+
+        Integer exist = mapper.selKidParent(vo.getIkid(),dto.getIparent());
         if(exist != null){
             throw new RestApiException(AuthErrorCode.ALREADY_CONNECTION);
         }
+
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
+
         if (iparent.size() > 2) {
             throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
         } else {
@@ -202,11 +210,10 @@ public class ParentService {
     }
 
     //부모 정보 삭제
-    public ResVo delParentSelf(ParentDeleteDto dto) {
+    public ResVo delParentSelf() {
         int loginUserPk = authenticationFacade.getLoginUserPk();
-        dto.setIparent(loginUserPk);
 
-        int delete = mapper.delParent(dto);
+        int delete = mapper.delParent(loginUserPk);
         if (delete == 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
 
