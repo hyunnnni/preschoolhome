@@ -10,8 +10,6 @@ import java.util.List;
 public class AlbumPicsInsDto {
     @Schema(title = "활동 앨범 PK")
     private int ialbum;
-    @Schema(title = "활동 앨범 사진 PK")
-    private int ialbumPic;
     @Schema(title = "활동 앨범에 첨부한 사진들")
     private List<String> albumPic = new ArrayList<>();
 }
