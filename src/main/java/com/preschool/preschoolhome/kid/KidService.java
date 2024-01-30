@@ -273,12 +273,9 @@ public class KidService {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         int del1 = mapper.allGraduateKid();
-        if (del1 == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
         int del2 = mapper.allGraduateDelKid();
         if (del2 == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
+            throw new RestApiException(AuthErrorCode.GRADUATE_FAIL);
         }
             return new ResVo(Const.SUCCESS);
     }

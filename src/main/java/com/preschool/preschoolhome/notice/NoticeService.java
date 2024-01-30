@@ -115,7 +115,7 @@ public class NoticeService {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
 
-        if (level != 2) {
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         int result = mapper.delAllNotice(iteacher, inotice);
