@@ -21,12 +21,12 @@ public class AlbumCommentInsDto {
     @Schema(title = "활동 앨범 댓글")
     private String albumComment;
 
+    @JsonIgnore
     @Schema(title = "선생님 PK")
-    @PositiveOrZero
     private int iteacher;
 
+    @JsonIgnore
     @Schema(title = "부모님 PK")
-    @PositiveOrZero
     private int iparent;
 
 }

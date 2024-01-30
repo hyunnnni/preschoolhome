@@ -25,13 +25,8 @@ public class MainController {
     @Operation(summary = "메인화면 조회")
     @Valid
     @GetMapping
-    public MainVo getMain(@RequestParam
-                               @Positive(message = "잘못된 값입니다")
-                               @Schema(title = "페이지")
-                               int page) {
-        MainDto dto = new MainDto();
-        dto.setPage(page);
-        return service.getMain(dto);
+    public MainVo getMain(){
+        return service.getMain();
     }
 
 }
