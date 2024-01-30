@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.fullnotice.FullNoticeMapper">
+    <!--                 게시판 전체 조회 시 상단 공지                  -->
     <select id="getFullNoticeFix">
         SELECT F.ifull_notice as iFullNotice , F.full_title as fullTitle, T.teacher_nm as writer,
         F.full_notice_fix as fullNoticeFix, F.created_at as createdAt
@@ -12,6 +13,7 @@
         ORDER BY F.created_at DESC
     </select>
 
+    <!--                 게시판 전체 조회 일반 공지                   -->
     <select id="getFullNoticelist">
         SELECT F.ifull_notice as iFullNotice, F.ifull_notice as iFullNotice , F.full_title as fullTitle, T.teacher_nm as writer,
         F.created_at as createdAt
@@ -22,12 +24,14 @@
         limit #{starIdx},#{row}
     </select>
 
+    <!--                 게시판 상세 조회 사진                -->
     <select id="selNoticePic">
         SELECT full_pic
         FROM t_full_notice_pics
         where ifull_notice = #{iFullNotice}
     </select>
 
+    <!--                 게시판 상세 조회 글                  -->
     <select id="getNotice">
         SELECT N.full_title as fullTitle, N.full_contents as fullContents,
         T.teacher_nm as writer, N.created_at createdAt

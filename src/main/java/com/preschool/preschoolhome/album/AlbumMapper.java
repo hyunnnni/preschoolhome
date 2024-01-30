@@ -7,37 +7,33 @@ import java.util.List;
 
 @Mapper
 public interface AlbumMapper {
-
-    // 활동 앨범 등록
-    int insAlbum (AlbumInsDto dto);
-    // 활동 앨범 사진 등록
-    int insAlbumPic (AlbumPicsInsDto dto);
-
-    // 활동 앨범 전체 조회
+    //------------------------------------- 활동 앨범 전체 조회 -------------------------------------
     List<AlbumSelVo> selAllAlbum (AlbumSelDto dto);
-
-    // 활동 앨범 상세 조회 (글)
+    //------------------------------------- 활동 앨범 상세 조회 (글) -------------------------------------
     List<AlbumDetailSelVo> selDetailAlbum (AlbumDetailSelDto dto);
-    // 활동 앨범 상세 조회 (사진)
+    //------------------------------------- 활동 앨범 상세 조회 (사진) -------------------------------------
     List<String> selPicsAlbum (AlbumDetailSelDto dto);
-    // 활동 앨범 상세 조회 (댓글)
+    //------------------------------------- 활동 앨범 상세 조회 (댓글) -------------------------------------
     List<AlbumAllCommentVo> selCommentAlbum (AlbumDetailSelDto dto);
-
-    // 활동 앨범 수정
+    //------------------------------------- 활동 앨범 등록 -------------------------------------
+    int insAlbum (AlbumInsDto dto);
+    //------------------------------------- 활동 앨범 사진 등록 -------------------------------------
+    int insAlbumPic (AlbumPicsInsDto dto);
+    //------------------------------------- 활동 앨범 글 내용 가져오기 -------------------------------------
     AlbumDeSelVo selAlbumContent(int ialbum);
+    //------------------------------------- 활동 앨범 글 수정 시 사진 조회 -------------------------------------
     List<String> albumEditPics(int ialbum);
+    //------------------------------------- 활동 앨범 수정-------------------------------------
     int updAlbum (AlbumUpdDto dto);
+    //------------------------------------- 활동 앨범 수정(사진) -------------------------------------
     int delAlbumPic(int ialbum);
-
-    // 활동 앨범 삭제 (사진, 댓글)
+    //------------------------------------- 활동 앨범 사진과 댓글 삭제 -------------------------------------
     int delAlbumCommentPics (AlbumDelDto dto);
-    // 활동 앨범 삭제 (글)
+    //------------------------------------- 활동 앨범 글 삭제  -------------------------------------
     int delAlbumAll (AlbumDelDto dto);
-
-
-    // 앨범 댓글 등록
+    //------------------------------------- 활동 앨범 댓글 등록 -------------------------------------
     int insAlbumComment (AlbumCommentInsDto dto);
-    // 앨번 댓글 삭제
+    //------------------------------------- 활동 앨범 댓글 삭제 -------------------------------------
     int delAlbumComment (AlbumDelCommentDto dto);
 
 }

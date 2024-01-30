@@ -11,6 +11,7 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,7 +26,37 @@ public class AlbumService {
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-    // 활동 앨범 전체 조회
+    //------------------------------------- 활동 앨범 등록 -------------------------------------
+    @Transactional
+    public ResVo postAlbum(AlbumInsDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
+        if (level < 2) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+        try {
+            int AffectedRows = mapper.insAlbum(dto);
+            String target = "/album/" + dto.getIalbum();
+
+            AlbumPicsInsDto pdto = new AlbumPicsInsDto();
+            pdto.setIalbum(dto.getIalbum());
+
+            for (MultipartFile file : dto.getAlbumPic()) {
+                String saveFileNm = myFileUtils.transferTo(file, target);
+                pdto.getAlbumPic().add(saveFileNm);
+            }
+            int picAffectedRows = mapper.insAlbumPic(pdto);
+            if (picAffectedRows > 0) {
+                return new ResVo(dto.getIalbum());
+            }
+        } catch (Exception e){
+            // 예외 발생 시 에러 메시지 띄우기
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        return new ResVo(FAIL);
+    }
+
+    //------------------------------------- 활동 앨범 전체 조회 -------------------------------------
     public List<AlbumSelVo> getAllAlbum(AlbumSelDto dto) {
         int level = authenticationFacade.getLevelPk();
         // 등급이 1, 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급 접근 제한
@@ -42,7 +73,7 @@ public class AlbumService {
     }
 
 
-    // 활동 앨범 상세 조회
+    //------------------------------------- 활동 앨범 상세 조회 -------------------------------------
     public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
 
         int level = authenticationFacade.getLevelPk();
@@ -75,44 +106,15 @@ public class AlbumService {
         }
     }
 
-
-    // 활동 앨범 등록
-    public ResVo postAlbum(AlbumInsDto dto) {
-        int level = authenticationFacade.getLevelPk();
-        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
-        if (level < 2) {
-            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
-        }
-        try {
-            int AffectedRows = mapper.insAlbum(dto);
-            String target = "/album/" + dto.getIalbum();
-
-            AlbumPicsInsDto pdto = new AlbumPicsInsDto();
-            pdto.setIalbum(dto.getIalbum());
-
-            for (MultipartFile file : dto.getAlbumPic()) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                pdto.getAlbumPic().add(saveFileNm);
-            }
-            int picAffectedRows = mapper.insAlbumPic(pdto);
-            if (picAffectedRows > 0) {
-                return new ResVo(dto.getIalbum());
-            }
-        } catch (Exception e){
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
-        return new ResVo(FAIL);
-    }
-
-
-    // 활동 앨범 삭제
+    //------------------------------------- 활동 앨범 글 삭제 -------------------------------------
+    @Transactional
     public ResVo delAlbum(AlbumDelDto dto) {
 
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIteacher(iteacher);
         dto.setIlevel(level);
+
         // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 1 부모님은 글 삭제 접근 제한
         if (dto.getIlevel() < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
@@ -134,7 +136,7 @@ public class AlbumService {
     }
 
 
-    // 활동 앨범 댓글 등록
+    //------------------------------------- 활동 앨범 댓글 등록 -------------------------------------
     public ResVo postAlbumComment(AlbumCommentInsDto dto) {
 
         int loginUserPk = authenticationFacade.getLoginUserPk();
@@ -164,7 +166,7 @@ public class AlbumService {
         return new ResVo(FAIL);
     }
 
-    // 활동 앨범 댓글 삭제
+    //------------------------------------- 활동 앨범 댓글 삭제 -------------------------------------
     public ResVo delAlbumComment(AlbumDelCommentDto dto) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
 
@@ -185,29 +187,8 @@ public class AlbumService {
         return new ResVo(FAIL);
     }
 
-    // 활동 앨범 수정 시 정보 출력
-    public AlbumDeSelVo albumEdit(int ialbum) {
-
-        int ilevel = authenticationFacade.getLevelPk();
-
-        if(ilevel < 1 || ilevel > 3){
-            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
-        }
-            // 수정할 글 내용과 사진들 불러오기
-            AlbumDeSelVo vo = mapper.selAlbumContent(ialbum);
-
-            if(vo == null){
-                throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-            }
-
-            List<String> pics = mapper.albumEditPics(ialbum);
-
-            vo.setAlbumPic(pics);
-            return vo;
-
-    }
-
-    // 활동 앨범 수정
+    //------------------------------------- 활동 앨범 수정 -------------------------------------
+    @Transactional
     public ResVo putAlbum(List<MultipartFile> pics, AlbumUpdDto dto) {
 
         int level = authenticationFacade.getLevelPk();
@@ -241,5 +222,27 @@ public class AlbumService {
         }
 
         return new ResVo(SUCCESS);
+    }
+
+    //------------------------------------- 활동 앨범 수정 시 정보 조회 -------------------------------------
+    public AlbumDeSelVo albumEdit(int ialbum) {
+
+        int ilevel = authenticationFacade.getLevelPk();
+
+        if(ilevel < 1 || ilevel > 3){
+            throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+        }
+        // 수정할 글 내용과 사진들 불러오기
+        AlbumDeSelVo vo = mapper.selAlbumContent(ialbum);
+
+        if(vo == null){
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+
+        List<String> pics = mapper.albumEditPics(ialbum);
+
+        vo.setAlbumPic(pics);
+        return vo;
+
     }
 }
