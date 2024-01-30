@@ -123,10 +123,10 @@
         <if test="growthMemo != null">
             , growth_memo = #{growthMemo}
         </if>
-            , growth_quarterly = #{growthQuarterly}
+            , growth_date = #{growthDate}
         </set>
         WHERE ikid = #{ikid}
-        and growth_date = #{growthDate}
+        and growth_quarterly = #{growthQuarterly}
     </update>
     <update id="kidBodyUpdDetail">
         UPDATE t_body
@@ -137,10 +137,10 @@
         <if test="weight > 0">
             , weight = #{weight}
         </if>
-            , body_quarterly = #{bodyQuarterly}
+            , body_date = #{bodyDate}
         </set>
         WHERE ikid = #{ikid}
-        and body_date = #{bodyDate}
+        and body_quarterly = #{bodyQuarterly}
     </update>
     <!--              원아 수정 시 기존 정보 출력              -->
     <select id="kidEdit">
