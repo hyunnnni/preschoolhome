@@ -7,7 +7,7 @@
     <select id="selAllAlbum">
         SELECT A.ialbum, A.album_title AS albumTitle, B.album_pic AS albumPic
         FROM t_album A
-        JOIN t_album_pics B
+        LEFT JOIN t_album_pics B
         ON A.ialbum = B.ialbum
         GROUP BY A.ialbum
         ORDER BY A.ialbum DESC

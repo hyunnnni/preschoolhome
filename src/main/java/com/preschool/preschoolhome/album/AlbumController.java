@@ -102,10 +102,10 @@ public class AlbumController {
                                  @Positive(message = "잘못된 값입니다")
                                  @Schema(title = "앨범 PK")
                                  int ialbum,
-                                 @RequestParam
+                                 @RequestParam(required = false, defaultValue = "0")
                                  @Schema(title = "선생님 PK")
                                  int iteacher,
-                                 @RequestParam
+                                 @RequestParam(required = false, defaultValue = "0")
                                  @Schema(title = "선생님 PK")
                                  int iparent) {
         AlbumDelCommentDto dto = new AlbumDelCommentDto();

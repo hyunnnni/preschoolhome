@@ -168,8 +168,13 @@ public class AlbumService {
     public ResVo delAlbumComment(AlbumDelCommentDto dto) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
 
+        if(dto.getIparent() > 0 && dto.getIteacher() > 0 ){
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+        }
+
         try {
             int affectedRows = mapper.delAlbumComment(dto);
+
             if (affectedRows > 0) {
                 return new ResVo(SUCCESS);
             }
