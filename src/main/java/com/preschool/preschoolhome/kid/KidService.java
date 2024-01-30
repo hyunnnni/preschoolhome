@@ -15,6 +15,7 @@ import com.preschool.preschoolhome.kid.model.KidProfileVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -63,6 +64,7 @@ public class KidService {
     }
 
     //원아 등록
+    @Transactional
     public KidInsVo kidSignup(MultipartFile pic, KidInsDto dto) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -98,6 +100,7 @@ public class KidService {
     }
 
     //원아 발달사항 등록
+    @Transactional
     public ResVo kidInsDetail(List<KidDetailInsDto> list) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -160,7 +163,8 @@ public class KidService {
     }
 
     //원아 발달사항 수정
-    ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
+    @Transactional
+    public ResVo kidUpdDetail(List<KidDetailUpdDto> list) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
@@ -262,6 +266,7 @@ public class KidService {
     }
 
     //졸업한 지 10년 된  원아 전체 삭제
+    @Transactional
     public ResVo allGraduateKid() {
         int level = authenticationFacade.getLevelPk();
         if (level < 3) {

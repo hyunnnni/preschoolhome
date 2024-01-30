@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class ParentService {
     }
 
     //회원가입, 성공시 t_parent_kid 테이블에 ikidPK, iparentPK 인서트
+    @Transactional
     public ResVo insParent(ParentInsDto dto) {
 
         if (dto.getIsValid() != 1) {
@@ -169,6 +171,7 @@ public class ParentService {
     }
 
     //마이페이지 원아추가
+    @Transactional
     public CodeVo postKidCode(CodeDto dto) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
         dto.setIparent(loginUserPk);
