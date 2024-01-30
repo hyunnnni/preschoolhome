@@ -46,7 +46,7 @@
     </insert>
 
     <!-- 활동 앨범 사진 등록 -->
-    <insert id="insAlbumPic" useGeneratedKeys="true" keyProperty="ialbumPic">
+    <insert id="insAlbumPic">
         INSERT INTO t_album_pics
         (ialbum, album_pic)
         VALUES

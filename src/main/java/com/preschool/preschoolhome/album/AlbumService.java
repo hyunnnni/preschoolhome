@@ -96,7 +96,7 @@ public class AlbumService {
             }
             int picAffectedRows = mapper.insAlbumPic(pdto);
             if (picAffectedRows > 0) {
-                return new ResVo(SUCCESS);
+                return new ResVo(dto.getIalbum());
             }
         } catch (Exception e){
             // 예외 발생 시 에러 메시지 띄우기
