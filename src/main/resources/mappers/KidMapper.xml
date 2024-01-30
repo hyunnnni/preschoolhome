@@ -182,12 +182,13 @@
         ON f.inotice = g.inotice
         left JOIN t_notice_comment h
         ON f.inotice = h.inotice
-        WHERE YEAR(CURRENT_DATE) - 13 >= YEAR(a.birth)
+        WHERE YEAR(CURRENT_DATE) - 13 <![CDATA[>=]]> YEAR(a.birth)
     </delete>
     <!--                  원아 해당년도 졸업                  -->
     <delete id="allGraduateDelKid">
         DELETE
         FROM t_kid
-        WHERE YEAR(CURRENT_DATE) - 13 >= YEAR(birth)
+        WHERE YEAR(CURRENT_DATE) - 13 <![CDATA[>=]]> YEAR(birth)
+
     </delete>
 </mapper>
