@@ -59,7 +59,7 @@ public class TeacherController {
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResVo patchKidStateOrClass(@RequestBody UpdKidStateDto dto) {
+    public ResVo patchKidStateOrClass(@RequestBody @Valid UpdKidStateDto dto) {
         return service.patchKidStateOrClass(dto);
     }
 
@@ -85,7 +85,7 @@ public class TeacherController {
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResVo delParent(@RequestBody DelParentDto dto) {
+    public ResVo delParent(@RequestBody @Valid DelParentDto dto) {
         return service.delParent(dto);
     }
 
@@ -149,7 +149,7 @@ public class TeacherController {
     //-------------------------------- 선생님 부모정보 수정 --------------------------------
     @PutMapping("/parentedit")
     @Operation(summary = "선생님이 부모님 정보 수정")
-    public ResVo putTeacherParent(@RequestBody UpdTeacherParentDto dto){
+    public ResVo putTeacherParent(@RequestBody @Valid UpdTeacherParentDto dto){
         return service.putTeacherParent(dto);
     }
     //-------------------------------- 선생님 부모정보 수정시 정보가져오기 --------------------------------

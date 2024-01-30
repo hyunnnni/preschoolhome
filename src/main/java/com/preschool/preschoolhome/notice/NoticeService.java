@@ -26,7 +26,7 @@ public class NoticeService {
 
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
-    ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
+    public ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIteacher(iteacher);

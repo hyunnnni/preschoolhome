@@ -38,7 +38,7 @@ public class ParentService {
     private final AuthenticationFacade authenticationFacade;
     private final PasswordEncoder passwordEncoder;
 
-    //식별코드 매칭
+    //-------------------------------- 식별코드 매칭 --------------------------------
     public CodeVo getMatch(String code) {
 
         CodeDto dto = new CodeDto();
@@ -57,8 +57,8 @@ public class ParentService {
         return vo;
 
     }
+    //-------------------------------- 아이디 중복 체크 --------------------------------
 
-    //아이디중복체크
     public CodeCorrect chekUid(String uid) {
         String checkUid = mapper.checkParentInfo(uid);
         CodeCorrect response = new CodeCorrect();
@@ -75,8 +75,8 @@ public class ParentService {
         }
         return response;
     }
+    //-------------------------------- 부모회원가입 --------------------------------
 
-    //회원가입, 성공시 t_parent_kid 테이블에 ikidPK, iparentPK 인서트
     @Transactional
     public ResVo insParent(ParentInsDto dto) {
 
@@ -101,8 +101,7 @@ public class ParentService {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
-
-    //부모님 로그인
+    //-------------------------------- 부모님 로그인 --------------------------------
     public ParentKid parentSignin(HttpServletRequest req, HttpServletResponse res, ParentSigninDto dto) {
         ParentEntity entity = mapper.checkParentsId(dto);
         String upw = mapper.checkParentInfo(dto.getUid());
@@ -141,8 +140,7 @@ public class ParentService {
         pk.setResult(Const.SUCCESS);
         return pk;
     }
-
-    //원래정보 불러오기
+    //-------------------------------- 수정 시 기존 정보 불러오기 --------------------------------
     public ParentBeforInfoVo getParentEdit() {
         int level = authenticationFacade.getLevelPk();
         int iparent = authenticationFacade.getLoginUserPk();
@@ -153,8 +151,7 @@ public class ParentService {
         return vo;
     }
 
-
-    //부모 마이페이지 정보수정
+    //-------------------------------- 부모 마이페이지 정보수정 --------------------------------
     public ResVo putParent(UpParentDto dto) {
 
         int loginUserPk = authenticationFacade.getLoginUserPk();
@@ -178,8 +175,7 @@ public class ParentService {
         return new ResVo(1);
 
     }
-
-    //마이페이지 원아추가
+    //-------------------------------- 마이페이지 원아추가 --------------------------------
     @Transactional
     public CodeVo postKidCode(CodeDto dto) {
 
@@ -208,8 +204,7 @@ public class ParentService {
             return vo;
         }
     }
-
-    //부모 정보 삭제
+    //-------------------------------- 부모 정보 삭제 --------------------------------
     public ResVo delParentSelf() {
         int loginUserPk = authenticationFacade.getLoginUserPk();
 
@@ -220,7 +215,7 @@ public class ParentService {
         } else
             return new ResVo(1);
     }
-
+    //-------------------------------- 리프레시 토큰 --------------------------------
     public ParentKid getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
         Cookie cookie = cookieUtils.getCookie(req, "rt");
         ParentKid vo = new ParentKid();
@@ -242,7 +237,7 @@ public class ParentService {
         vo.setAccessToken(at);
         return vo;
     }
-
+    //-------------------------------- 파이어베이스 토큰 --------------------------------
     public ResVo patchUserFirebaseToken(UserFirebaseTokenPatchDto dto) {
         int affectedRows = mapper.updUserFirebaseToken(dto);
         return new ResVo(affectedRows);
