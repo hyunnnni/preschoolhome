@@ -48,7 +48,7 @@ public class FullNoticeService {
             throw new RestApiException(AuthErrorCode.OVER_FIX_NOTICE);
         }
         AllFullNoticeSelVo vo = new AllFullNoticeSelVo();
-        vo.setList(noticelist);
+        vo.setList(voList);
         int noticeCnt = mapper.selNoticeCnt();
         vo.setNoticeCnt(noticeCnt);
         return vo;

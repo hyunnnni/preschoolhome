@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.kid.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
@@ -14,7 +15,8 @@ public class KidInsDto {
     @JsonIgnore
     private int ikid;
     @Schema(title = "이름")
-    @Pattern(regexp = "^([가-힣|a-z|A-Z])$", message = "형식에 맞지 않습니다")
+    @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
+            message = "형식이 맞지 않습니다 확인해주세요")
     private String kidNm;
     @Schema(title = "반")
     @Range(min = 1,max = 4,message = "반을 확인해주세요")
@@ -26,9 +28,10 @@ public class KidInsDto {
     private String profile;
     @Schema(title = "출생일")
     @Pattern(regexp = "^([12]\\d{3})-(0[1-9]|1[012])-(0[0-9]|[12][0-9]|3[01])$",
-    message = "형식에 맞지 않습니다")
+    message = "형식이 맞지 않습니다 확인해주세요")
     private String birth;
     @Schema(title = "주소")
+    @NotBlank
     private String address;
     @JsonIgnore
     private String code;
