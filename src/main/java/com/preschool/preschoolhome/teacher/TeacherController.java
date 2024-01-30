@@ -44,7 +44,7 @@ public class TeacherController {
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public List<SelKidManagementVo> getKidManagement(SelKidManagementDto dto) {
+    public SelKidManagementVo getKidManagement(SelKidManagementDto dto) {
         return service.getKidManagement(dto);
     }
 
@@ -71,7 +71,7 @@ public class TeacherController {
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public List<SelParManagementVo> getParentManagement(SelParManagementDto dto) {
+    public SelParManagementVo getParentManagement(SelParManagementDto dto) {
         return service.getParentManagement(dto);
     }
 

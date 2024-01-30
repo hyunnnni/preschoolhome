@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.checkerframework.checker.units.qual.C;
@@ -51,7 +52,7 @@ public class ParentController {
             "이상없을 경우 회원가입 성공<br>" +
             "성공시 1로 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public ResVo postSignup(@RequestBody ParentInsDto dto) {
+    public ResVo postSignup(@RequestBody @Valid ParentInsDto dto) {
         return service.insParent(dto);
     }
 
@@ -80,9 +81,7 @@ public class ParentController {
             "정보 수정<br>" +
             "성공시 1 응답<br>" +
             "실패시 -1 <br>")
-    public ResVo putParent(@RequestBody UpParentDto dto){
-
-        checkInfo(dto.getParentNm(),dto.getPhoneNb(),dto.getPrEmail(),dto.getUpw());
+    public ResVo putParent(@RequestBody @Valid UpParentDto dto){
         return service.putParent(dto);
     }
 
@@ -116,27 +115,6 @@ public class ParentController {
     public ResVo patchUserFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
         return service.patchUserFirebaseToken(dto);
     }
-
-
-
-
-    private void checkInfo(String name, String nb,String Em,String upw) {
-        if (name.isBlank()) {
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
-        }
-        if (nb.isBlank()) {
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
-        }
-        if (Em.isBlank()) {
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
-        }
-        if(upw.isBlank()){
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
-        }
-
-    }
-
-
 }
 
 
