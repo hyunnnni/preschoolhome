@@ -185,5 +185,28 @@
         from t_teacher
         where teacher_uid = #{teacherUid}
     </select>
-
+    <!--           선생님이 학부모 정보 변경            -->
+    <update id="putTeacherParent">
+        update t_parent
+        set
+        <if test="parentNm != null">
+            parent_nm = #{parentNm}
+        </if>
+        <if test="phoneNb != null">
+            ,phone_nb = #{phoneNb}
+        </if>
+        <if test="prEmail != null">
+            ,pr_email = #{prEmail}
+        </if>
+        <if test="upw != null">
+            ,upw = #{upw}
+        </if>
+        where iparent = #{iparent}
+    </update>
+    <!--           선생님이 학부모 원래 정보 불러오기            -->
+    <select id="selBeforeInfo">
+        select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
+        from t_parent
+        where iparent = #{iparent}
+    </select>
 </mapper>

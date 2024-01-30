@@ -8,9 +8,7 @@ import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.security.JwtTokenProvider;
 import com.preschool.preschoolhome.common.security.MyPrincipal;
 import com.preschool.preschoolhome.common.utils.*;
-import com.preschool.preschoolhome.parent.model.ParentEntity;
-import com.preschool.preschoolhome.parent.model.ParentKid;
-import com.preschool.preschoolhome.parent.model.ParentSigninDto;
+import com.preschool.preschoolhome.parent.model.*;
 import com.preschool.preschoolhome.teacher.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -296,5 +294,34 @@ public class TeacherService {
         entity.setAccessToken(at);
 
         return entity;
+    }
+
+    //선생님이 부모 마이페이지 정보수정
+    public ResVo putTeacherParent(UpdTeacherParentDto dto) {
+        int level = authenticationFacade.getLevelPk();
+        if(level<2){
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
+        if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
+                && dto.getUpw() == null) {
+            return new ResVo(-1);
+
+        }
+
+        int result1 = mapper.putTeacherParent(dto);
+        if (result1 == 0) {
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        return new ResVo(1);
+
+    }
+    //부모 원래정보 불러오기
+    public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent) {
+        int level = authenticationFacade.getLevelPk();
+        if (level < 2) {
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
+        TeacherParentBeforInfoVo vo = mapper.selBeforeInfo(iparent);
+        return vo;
     }
 }
