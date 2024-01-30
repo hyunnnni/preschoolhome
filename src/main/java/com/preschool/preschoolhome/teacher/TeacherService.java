@@ -13,6 +13,7 @@ import com.preschool.preschoolhome.teacher.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -301,9 +302,8 @@ public class TeacherService {
 
         return entity;
     }
-
-    //선생님이 부모 마이페이지 정보수정
-    public ResVo putTeacherParent(UpdTeacherParentDto dto) {
+    //-------------------------------- 선생님이 부모 마이페이지 정보수정 --------------------------------
+    public ResVo putTeacherParent( UpdTeacherParentDto dto) {
         int level = authenticationFacade.getLevelPk();
         if(level<2){
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
@@ -320,7 +320,7 @@ public class TeacherService {
         return new ResVo(1);
 
     }
-    //부모 원래정보 불러오기
+    //-------------------------------- 부모 원래정보 불러오기 --------------------------------
     public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {

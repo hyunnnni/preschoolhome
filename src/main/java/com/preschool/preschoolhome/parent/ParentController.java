@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class ParentController {
     private final ParentService service;
 
-    //식별코드매칭
+    //-------------------------------- 식별코드 매칭 --------------------------------
     @GetMapping("/check")
     @Operation(summary = "식별코드 체크", description = "<strong>식별코드 체크</strong><br><br>" +
             "식별코드로 회원가입 전 검증단계<br>" +
@@ -36,7 +36,7 @@ public class ParentController {
     }
 
 
-    //부모아이디 중복확인
+    //-------------------------------- 아이디 중복 체크 --------------------------------
     @GetMapping("/signup")
     @Operation(summary = "아이디 중복체크", description = "<strong>아이디 중복 체크</strong><br><br>" +
             "회원가입 전 아이디 중복체크<br>" +
@@ -46,7 +46,7 @@ public class ParentController {
         return service.chekUid(uid);
     }
 
-    //부모회원가입
+    //-------------------------------- 부모회원가입 --------------------------------
     @PostMapping("/signup")
     @Operation(summary = "부모님 회원가입", description = "<strong>부모님 회원가입</strong><br><br>" +
             "이상없을 경우 회원가입 성공<br>" +
@@ -55,7 +55,7 @@ public class ParentController {
     public ResVo postSignup(@RequestBody @Valid ParentInsDto dto) {
         return service.insParent(dto);
     }
-
+    //-------------------------------- 부모님 로그인 --------------------------------
     //부모님 로그인
     @PostMapping("/signin")
     @Operation(summary = "로그인", description = "<strong>부모님 로그인</strong><br><br>" +
@@ -66,16 +66,16 @@ public class ParentController {
             , @RequestBody ParentSigninDto dto){
         return service.parentSignin(req, res, dto);
     }
-
+    //-------------------------------- 수정 시 기존 정보 불러오기 --------------------------------
     @GetMapping("/edit")
-    @Operation(summary = "수정 전 정보가져오기", description = "<strong>정보 불러오기</strong><br><br>" +
+    @Operation(summary = "수정 시 기존 정보 불러오기", description = "<strong>정보 불러오기</strong><br><br>" +
             "수정전 정보가져오기<br>" +
             "성공시 원래 정보 가져오기, 부모 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
     public ParentBeforInfoVo getParentEdit(){
         return service.getParentEdit();
     }
-
+    //-------------------------------- 부모 마이페이지 정보수정 --------------------------------
     @PutMapping("/putparent")
     @Operation(summary = "부모님 정보 수정", description = "<strong>정보수정</strong><br><br>" +
             "정보 수정<br>" +
@@ -85,17 +85,17 @@ public class ParentController {
         return service.putParent(dto);
     }
 
+    //-------------------------------- 마이페이지 원아추가 --------------------------------
 
-    //부모 마이페이지상 식별코드로 원아등록
     @PostMapping("/kidadd")
-    @Operation(summary = "마이페이지에서 원아연결", description = "<strong>원아 연결</strong><br><br>" +
+    @Operation(summary = "마이페이지 원아추가", description = "<strong>원아 연결</strong><br><br>" +
             "식별코드로 부모가 원아 연결<br>" +
             "성공시 원아 정보로 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public CodeVo postParentKidAdd(@RequestBody CodeDto dto) {
+    public CodeVo postParentKidAdd(@RequestBody @Valid CodeDto dto) {
         return service.postKidCode(dto);
     }
-
+    //-------------------------------- 부모 정보 삭제 --------------------------------
     @PatchMapping
     @Operation(summary = "부모님 탈퇴", description = "<strong>부모님 탈퇴</strong><br><br>" +
             "자진탈퇴시 isdel 1로 정보 숨기기<br>" +
@@ -105,12 +105,12 @@ public class ParentController {
         return service.delParentSelf();
 
     }
-
+    //-------------------------------- 리프레시 토큰 --------------------------------
     @GetMapping("/refresh-token")
     public ParentKid getRefreshToken(HttpServletRequest req){
         return service.getRefreshToken(req);
     }
-
+    //-------------------------------- 파이어베이스 토큰 --------------------------------
     @PatchMapping("/firebase-token")
     public ResVo patchUserFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
         return service.patchUserFirebaseToken(dto);
