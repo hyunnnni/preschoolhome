@@ -14,6 +14,7 @@ public class KidInsDto {
     @JsonIgnore
     private int ikid;
     @Schema(title = "이름")
+    @Pattern(regexp = "^([가-힣|a-z|A-Z])$", message = "형식에 맞지 않습니다")
     private String kidNm;
     @Schema(title = "반")
     @Range(min = 1,max = 4,message = "반을 확인해주세요")
