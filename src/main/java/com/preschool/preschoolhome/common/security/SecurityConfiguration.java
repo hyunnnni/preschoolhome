@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 //스프링이 기본제공해주는 보안기법 - 화면상에서 보안해줘서 필요없음
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/main/**"
+                        ,"/**"
                         ,"/login/**"
                         ,"/signin/**"
                         ,"/preschool/**"
