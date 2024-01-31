@@ -10,7 +10,7 @@
     </select>
 
    <select id="getTeacherProfile">
-       select teacher_nm as teacherNm, iclass,
+       select teacher_nm as teacherNm, iclass, iteacher,
        teacher_profile as teacherProfile, teacher_introduce as teacherIntroduce
        from t_teacher
    </select>

@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class TeacherProfileVo {
+    @Schema(title = "선생님 PK")
+    private int iteacher;
     @Schema(title = "반 PK")
     private int iclass;
     @Schema(title = "선생님 이름")
