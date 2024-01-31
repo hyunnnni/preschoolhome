@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                         ,"/api/parent/signin"
                         ,"/api/parent/signup"
                         ,"/api/teacher/signup"
-                        ,"/api/preschool/**"
+                        ,"/api/preschool/teacher"
                         ,"/api/full/listall"
                         ,"/api/parent/check"
                         ,"/api/parent/refresh-token"
