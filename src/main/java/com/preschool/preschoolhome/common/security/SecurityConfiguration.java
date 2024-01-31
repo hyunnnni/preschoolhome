@@ -56,6 +56,8 @@ public class SecurityConfiguration {
                         ,"/swagger.html"
                         ,"/swagger-ui/**"
                         ,"/v3/api-docs/**"
+                        ,"/api/open/**"
+                        ,"/info/location"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/main").permitAll()
                         .anyRequest().authenticated()
