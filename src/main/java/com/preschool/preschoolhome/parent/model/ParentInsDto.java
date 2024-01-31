@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Schema(name = "부모 정보 입력", title = "식별코드 인증 후 회원가입")
 public class ParentInsDto {
-    @JsonIgnore
+    @Schema(title = "앞에서 받은 아이 pk(자동매칭을 위한 것)")
     private int ikid;
     @JsonIgnore
     private int iparent;

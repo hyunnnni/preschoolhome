@@ -9,6 +9,7 @@ import com.preschool.preschoolhome.teacher.model.TeacherSigninDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -32,6 +33,7 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 @MockMvcConfig
 @Import(KidController.class)
+//@WebMvcTest({KidController.class})
 class KidControllerTest {
 
     @Autowired
@@ -68,7 +70,6 @@ class KidControllerTest {
         result.setKidNm("최승철");
         result.setIclass(1);
         result.setGender(1);
-
 
         given(service.kidProfile(anyInt(), anyInt())).willReturn(result);
 

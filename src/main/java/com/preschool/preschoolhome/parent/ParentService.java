@@ -84,7 +84,7 @@ public class ParentService {
             throw new RestApiException(AuthErrorCode.CHECK_DUPLICATION_ID);
         }
         String checkParent = mapper.checkParentInfo(dto.getUid());
-//        if(checkUid != null){
+ //       if(checkUid != null){
 //            throw new RestApiException(AuthErrorCode.ALREADY_EXIST_ID);
 //        }
 
