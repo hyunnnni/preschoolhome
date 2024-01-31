@@ -6,6 +6,7 @@
     <select id="getKidProfile">
         select kid_nm as kidNm, profile, iclass
         from t_kid
+        WHERE state = 0
     </select>
 
    <select id="getTeacherProfile">
