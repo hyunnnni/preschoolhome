@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/main/**"
                         ,"/login/**"
+                        ,"/signin/**"
                         ,"/preschool/**"
                         ,"/full/listall"
                         ,"/parent/signin"
