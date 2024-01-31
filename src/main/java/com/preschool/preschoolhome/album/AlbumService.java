@@ -29,7 +29,8 @@ public class AlbumService {
     @Transactional
     public ResVo postAlbum(AlbumInsDto dto) {
         int level = authenticationFacade.getLevelPk();
-        // 등급이 2, 3만 접근 가능하게 하며, 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
+        // 등급이 2, 3만 접근 가능하게 하며,
+        // 원아 연결 없이 로그인만 가능한 0인 등급과 부모님은 글 작성 접근 제한
         if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }

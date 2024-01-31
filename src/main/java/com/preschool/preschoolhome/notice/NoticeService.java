@@ -27,9 +27,11 @@ public class NoticeService {
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
     public ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
+
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setIteacher(iteacher);
+
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
