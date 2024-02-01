@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkkindergarden=self.webpackChunkkindergarden||[]).push([[969],{1969:(e,n,r)=>{r.r(n),r.d(n,{default:()=>s});r(2791),r(484);var d=r(184);const s=()=>(0,d.jsx)("h1",{children:"\ubc29\uacfc\ud6c4 \ud65c\ub3d9 \ud398\uc774\uc9c0"})}}]);
-//# sourceMappingURL=969.e691f74b.chunk.js.map

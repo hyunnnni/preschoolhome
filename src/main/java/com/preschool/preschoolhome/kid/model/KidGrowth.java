@@ -29,8 +29,8 @@ public class KidGrowth {
     private String growthDate;
     @Schema(title = "발달사항 메모")
     private String growthMemo;
-    @JsonIgnore
+    @Schema(title = "신체 분기")
     private int bodyQuarterly;
-    @JsonIgnore
+    @Schema(title = "발달사항 분기")
     private int growthQuarterly;
 }

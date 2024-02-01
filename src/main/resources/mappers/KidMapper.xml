@@ -21,6 +21,7 @@
     <select id="kidGrowth">
         SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
         , b.growth_date as growthDate, b.growth_memo as growthMemo
+        , a.body_quarterly as bodyQuarterly, b.growth_quarterly as growthQuarterly
         FROM t_body a
         LEFT JOIN t_growth b
         ON a.body_quarterly = b.growth_quarterly
@@ -28,6 +29,7 @@
         WHERE a.ikid = #{ikid}
         and year(body_date) = #{year}
         and year(growth_date) = #{year}
+        ORDER BY body_quarterly ASC
     </select>
     <!--                  원아 코드 수정                    -->
     <update id="kidCode">
