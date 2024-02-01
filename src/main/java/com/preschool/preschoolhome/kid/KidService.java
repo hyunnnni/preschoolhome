@@ -230,11 +230,6 @@ public class KidService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (dto.getKidNm() == null || dto.getBirth() == null ||
-                dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null) {
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
-        }
             String path = "/kid/" + dto.getIkid();
             myFileUtils.delFolderTrigger(path);
             String savedPicFileNm = myFileUtils.transferTo(pic, path);
