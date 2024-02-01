@@ -210,7 +210,7 @@ public class AlbumService {
         picsDto.setIalbum(dto.getIalbum());
 
         String target = "/album/" + dto.getIalbum();
-
+        myFileUtils.delFolderTrigger(target);
         if(pics.size() != 0) {
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);

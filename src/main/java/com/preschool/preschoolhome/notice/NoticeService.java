@@ -84,7 +84,6 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
 
-        String target = "/notice/" + dto.getInotice();
         int affectedRows = mapper.updNotice(dto);
         if (affectedRows == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
@@ -93,6 +92,10 @@ public class NoticeService {
         if (affectedDelRows == 0) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
+
+        String target = "/notice/" + dto.getInotice();
+        myFileUtils.delFolderTrigger(target);
+
         if (pics.size() > 0) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
