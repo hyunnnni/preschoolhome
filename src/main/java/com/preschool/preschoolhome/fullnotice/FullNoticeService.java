@@ -115,8 +115,6 @@ public class FullNoticeService {
             }
 
             return new ResVo(dto.getIfullNotice());
-
-
     }
 
 //-------------------------------- 유치원 소식 삭제 --------------------------------
