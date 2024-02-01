@@ -205,9 +205,12 @@ public class ParentService {
         int delete = mapper.delParent(loginUserPk);
         if (delete == 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-
-        } else
-            return new ResVo(1);
+        }
+        int delete1 = mapper.delParent(loginUserPk);
+        if (delete1 == 0) {
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+        }
+        return new ResVo(Const.SUCCESS);
     }
     //-------------------------------- 리프레시 토큰 --------------------------------
     public ParentKid getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
