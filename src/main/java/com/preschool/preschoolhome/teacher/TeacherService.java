@@ -223,12 +223,10 @@ public class TeacherService {
         if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-
         if(teacherProfile == null){
             throw new RestApiException(AuthErrorCode.PICS_NULL);
         }
         try {
-
             String path = "/user/" + dto.getIteacher();
             myFileUtils.delFolderTrigger(path);
             String savedFileNm = myFileUtils.transferTo(teacherProfile, path);
@@ -243,7 +241,7 @@ public class TeacherService {
         } catch (Exception e) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-        return new ResVo(Const.FAIL);
+        return new ResVo(Const.SUCCESS);
     }
 
     //-------------------------------- 선생님 정보 삭제 --------------------------------
