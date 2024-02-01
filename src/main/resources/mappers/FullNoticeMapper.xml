@@ -28,6 +28,11 @@
         SELECT COUNT(ifull_notice)
         FROM t_full_notice
     </select>
+    <select id="selNoticeFixCnt">
+        SELECT COUNT(ifull_notice)
+        FROM t_full_notice
+        WHERE full_notice_fix = 1
+    </select>
 
     <!--                 게시판 상세 조회 사진                -->
     <select id="selNoticePic">

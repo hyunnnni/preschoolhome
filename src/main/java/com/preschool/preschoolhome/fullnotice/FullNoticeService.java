@@ -52,6 +52,8 @@ public class FullNoticeService {
         vo.setList(voList);
         int noticeCnt = mapper.selNoticeCnt();
         vo.setNoticeCnt(noticeCnt);
+        int noticeFixCnt = mapper.selNoticeFixCnt();
+        vo.setNoticeFixCnt(noticeFixCnt);
         return vo;
     }
 
