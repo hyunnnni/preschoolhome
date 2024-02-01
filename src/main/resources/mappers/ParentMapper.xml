@@ -46,8 +46,9 @@
         set pr_is_del = 1
         where iparent = #{iparent}
     </update>
-    <delete id="delParent">
-        DELETE t_parent_kid
+    <delete id="delParentkid">
+        DELETE
+        FROM t_parent_kid
         where iparent = #{iparent}
     </delete>
     <!--           아이디중복체크            -->

@@ -7,12 +7,14 @@
         select kid_nm as kidNm, profile, iclass
         from t_kid
         WHERE state = 0
+        ORDER BY ikid ASC
     </select>
 
    <select id="getTeacherProfile">
        select iteacher, teacher_nm as teacherNm, iclass,
        teacher_profile as teacherProfile, teacher_introduce as teacherIntroduce
        from t_teacher
+       ORDER BY iclass ASC
    </select>
 
 </mapper>

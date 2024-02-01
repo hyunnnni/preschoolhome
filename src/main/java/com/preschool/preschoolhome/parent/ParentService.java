@@ -206,7 +206,7 @@ public class ParentService {
         if (delete == 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
-        int delete1 = mapper.delParent(loginUserPk);
+        int delete1 = mapper.delParentkid(loginUserPk);
         if (delete1 == 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
