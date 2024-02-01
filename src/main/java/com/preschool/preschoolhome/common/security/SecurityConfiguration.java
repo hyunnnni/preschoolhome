@@ -66,11 +66,6 @@ public class SecurityConfiguration {
                     except.authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                             .accessDeniedHandler(new JwtAccessDeniedHandler());
                 })
-                        //.requestMatchers(HttpMethod.GET,"/api/**").permitAll() get방식이었을 경우만 허용하며 다른(delete, post, put) 방식을 허용하지 않겠다는 것을 의미 (편집됨)
-                        //.requestMatchers("/api/user").hasAnyRole("user","admin")//권한 접근
-                        //.anyRequest().hasRole("admin") //그외 모든 것들 admin권한이 있어야 접근
-                        //.anyRequest().authenticated()) //로그인권한
-                //permitall은 무사 통과시켜준다는 뜻, matchers 매칭해줌
                 .build();
     }
 

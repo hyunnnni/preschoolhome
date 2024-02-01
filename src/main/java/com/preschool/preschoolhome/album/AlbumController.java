@@ -27,7 +27,8 @@ public class AlbumController {
             -1: 실패<br> 1: 성공
             """)
     @PostMapping
-    public ResVo postAlbum(@RequestPart List<MultipartFile> pics, @Valid @RequestPart AlbumInsDto dto) {
+    public ResVo postAlbum(@RequestPart List<MultipartFile> pics,
+                           @Valid @RequestPart AlbumInsDto dto) {
         dto.setAlbumPic(pics);
         return service.postAlbum(dto);
     }
