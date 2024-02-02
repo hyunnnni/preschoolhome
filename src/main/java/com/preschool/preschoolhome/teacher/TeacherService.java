@@ -167,9 +167,7 @@ public class TeacherService {
         }
 
         int delResult = mapper.delParDisconnectKid(dto.getIparents());
-        if (delResult == 0) {
-            throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
-        }
+
         int isDelResult = mapper.updIsDelParent(dto);
         if (isDelResult == 0) {
             throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
