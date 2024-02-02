@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 //스프링이 기본제공해주는 보안기법 - 화면상에서 보안해줘서 필요없음
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
+
                         "/api/main/**"
                         ,"/api/teacher/signin"
                         ,"/api/parent/signin"
@@ -40,15 +41,12 @@ public class SecurityConfiguration {
                         ,"/api/parent/check"
                         ,"/api/parent/refresh-token"
                         ,"/api/teacher/refresh-token"
-                        ,"/api/teacher/firebase-token"
-                        ,"/api/parent/firebase-token"
                         ,"/error"
                         ,"/err"
                         ,"/"
                         ,"/images/**"
                         ,"/pic/**"
-                        ,"/profile"
-                        ,"/profile/**"
+                        ,"/fimg/**"
                         ,"/css/**"
                         ,"/index.html"
                         ,"/static/**"
