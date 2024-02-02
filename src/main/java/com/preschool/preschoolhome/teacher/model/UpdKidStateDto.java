@@ -13,7 +13,6 @@ import java.util.List;
 @Schema(title = "관리자 입장에서 원아 재원 상태 / 반 승급 수정 시 필요한 데이터")
 public class UpdKidStateDto {
     @Schema(title = "원아PK(여러 개 선택가능)")
-    @NotBlank(message = "원아를 선택해주세요")
     private List<Integer> ikids;
     @JsonIgnore
     private int ilevel;
