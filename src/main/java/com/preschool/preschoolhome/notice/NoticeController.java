@@ -74,7 +74,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "400", description = "요청 오류"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public List<SelAllNoticeVo> getAllNotice(@RequestParam
+    public AllNoticeVo getAllNotice(@RequestParam
                                              @Positive(message="잘못된 값입니다")
                                              @Schema(title = "페이징 시 필요한 데이터")
                                              int page,

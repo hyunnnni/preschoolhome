@@ -28,8 +28,12 @@ public interface NoticeMapper {
 
     //------------------------ 학부모 유저 시점 원아 알림장 전체 조회 ------------------------
     List<SelAllNoticeVo> selAllNoticeBoardPar(SelAllNoticeDto dto);
+    //------------------------ 학부모 유저 시점 원아 알림장 전체 개수 조회 ------------------------
+    int selNoticeParCnt();
     //------------------------ 선생님 유저 시점 원아 알림장 전체 조회 ------------------------
     List<SelAllNoticeVo> selAllNoticeBoardTea(SelAllNoticeDto dto);
+    //------------------------ 선생님 유저 시점 원아 알림장 전체 개수 조회 ------------------------
+    int selNoticeTeaCnt();
     //------------------------ 알림장 전체 조회 시 해당 알림장의 사진 유/무 체크 ------------------------
     Integer selNoticeBoardPicCheck(int inotice);
     //------------------------ 알림장 상세 조회 ------------------------

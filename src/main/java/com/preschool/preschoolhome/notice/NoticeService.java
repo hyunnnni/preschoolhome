@@ -130,20 +130,21 @@ public class NoticeService {
     }
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
-    public List<SelAllNoticeVo> getKidManagement(SelAllNoticeDto dto) {
+    public AllNoticeVo getKidManagement(SelAllNoticeDto dto) {
         int iuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         dto.setLoginedIuser(iuser);
         dto.setIlevel(level);
 
         List<SelAllNoticeVo> voList = new ArrayList<>();
-        SelAllNoticeVo vo = new SelAllNoticeVo();
-
+        int noticeCnt = 0;
         if (dto.getIlevel() == 1) {
             voList = mapper.selAllNoticeBoardPar(dto);
+            noticeCnt = mapper.selNoticeParCnt();
         }
         if (dto.getIlevel() == 2 || dto.getIlevel() == 3) {
             voList = mapper.selAllNoticeBoardTea(dto);
+            noticeCnt = mapper.selNoticeTeaCnt();
         }
         if (voList.size() == 0) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
@@ -155,7 +156,11 @@ public class NoticeService {
                 picCheck.setPicCheck(Const.SUCCESS);
             }
         }
-        return voList;
+        AllNoticeVo vo = new AllNoticeVo();
+        vo.setList(voList);
+
+        vo.setNoticeCnt(noticeCnt);
+        return vo;
     }
 
     //-------------------------------- 알림장 상세 조회 --------------------------------
