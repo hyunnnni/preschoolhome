@@ -58,19 +58,11 @@ class KidMapperTest {
         int affectedRows = kidMapper.kidSignup(dto);
         assertEquals(1, affectedRows, "1");
 
-        int selAffectedRows = kidMapper.selIkid(dto);
-        assertEquals(4, selAffectedRows, "2"); // auto_increment
+        int selAffectedRows = kidMapper.kidUpdPic(dto);
+        assertEquals(1, selAffectedRows, "2"); // auto_increment
 
     }
 
-    @Test
-    void selIkid() {
-        KidInsDto dto = new KidInsDto();
-        dto.setCode("111");
-
-        int result = kidMapper.selIkid(dto);
-        assertEquals(1, result);
-    }
 
     @Test
     void kidGrowthInsDetail() {
