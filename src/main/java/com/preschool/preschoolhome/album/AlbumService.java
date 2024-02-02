@@ -217,9 +217,7 @@ public class AlbumService {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);
             }
-
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
-
             if (picsAffectedRows == 0) {
                 return new ResVo(FAIL);
             }

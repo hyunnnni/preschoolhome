@@ -38,10 +38,10 @@
         WHERE ikid = #{ikid}
     </update>
     <!--                  원아 등록                         -->
-    <insert id="kidSignup">
-        <selectKey resultType="String" keyProperty="code" order="BEFORE">
-            SELECT SUBSTR(MD5(RAND()),1,10) AS code
-        </selectKey>
+    <select id="code">
+        SELECT SUBSTR(MD5(RAND()),1,10) AS code
+    </select>
+    <insert id="kidSignup" keyProperty="ikid" useGeneratedKeys="true">
         INSERT t_kid
         SET kid_nm = #{kidNm}
         , birth = #{birth}
@@ -54,16 +54,16 @@
         , emer_nb = #{emerNb}
         , memo = #{memo}
     </insert>
+    <update id="kidUpdPic">
+        UPDATE t_kid
+        SET profile = #{profile}
+        WHERE ikid = #{ikid}
+    </update>
     <insert id="kidgrade">
         INSERT INTO t_grade
         SET ikid = #{ikid}
         , iclass = #{iclass}
     </insert>
-    <select id="selIkid">
-        SELECT ikid
-        FROM t_kid
-        WHERE code = #{code}
-    </select>
     <!--                  원아 발달사항 등록                  -->
     <select id="growthCheck">
         SELECT growth_quarterly

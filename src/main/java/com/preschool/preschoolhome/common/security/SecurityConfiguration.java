@@ -30,36 +30,28 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 //스프링이 기본제공해주는 보안기법 - 화면상에서 보안해줘서 필요없음
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
-                        "/api/main/**"
-                        ,"/api/teacher/signin"
-                        ,"/api/parent/signin"
-                        ,"/api/parent/signup"
-                        ,"/api/teacher/signup"
-                        ,"/api/preschool/teacher"
-                        ,"/api/full/listall"
-                        ,"/api/parent/check"
-                        ,"/api/parent/refresh-token"
-                        ,"/api/teacher/refresh-token"
-                        ,"/api/teacher/firebase-token"
-                        ,"/api/parent/firebase-token"
-                        ,"/error"
-                        ,"/err"
-                        ,"/"
-                        ,"/images/**"
-                        ,"/pic/**"
-                        ,"/profile"
-                        ,"/profile/**"
-                        ,"/css/**"
-                        ,"/index.html"
-                        ,"/static/**"
-                        ,"/swagger.html"
-                        ,"/swagger-ui/**"
-                        ,"/v3/api-docs/**"
-                        ,"/api/open/**"
-                        ,"/info/location"
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/main").permitAll()
-                        .anyRequest().authenticated()
+                        "/api/album"
+                        ,"/api/album/**"
+                        ,"/api/full"
+                        ,"/api/full/edit"
+                        ,"/api/kid"
+                        ,"/api/kid/**"
+                        ,"/api/notice"
+                        ,"/api/notice/**"
+                        ,"/api/preschool/kid"
+                        ,"/api/parent/edit"
+                        ,"/api/parent/putparent"
+                        ,"/api/parent/kidadd"
+                        ,"/api/teacher"
+                        ,"/api/teacher/kid"
+                        ,"/api/teacher/stateorclass"
+                        ,"/api/teacher/parent"
+                        ,"/api/teacher/disconnect"
+                        ,"/api/teacher/edit"
+                        ,"/api/teacher/parentedit"
+                        ).authenticated()
+                        .requestMatchers(HttpMethod.PATCH,"/api/parent").authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(except -> {

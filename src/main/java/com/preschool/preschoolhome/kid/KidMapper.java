@@ -14,19 +14,20 @@ public interface KidMapper {
     //원아 코드 수정
     int kidCode(int ikid);
     //원아등록
+    String code();
     int kidSignup(KidInsDto dto);
+    int kidUpdPic(KidInsDto dto);
     int kidgrade(KidInsDto dto);
-    int selIkid(KidInsDto dto);
     //원아 발달사항 등록
     Integer growthCheck(GrowthCheck dto);
     Integer bodyCheck(GrowthCheck dto);
     int kidGrowthInsDetail(KidDetailInsDto dto);
     int kidBodyInsDetail(KidDetailInsDto dto);
+    //원아 발달사항 수정 시 기존 정보 출력
+    KidDetailEditVo kidDetailEdit(int ikid);
     //원아 발달사항 수정
     int kidGrowthUpdDetail(KidDetailUpdDto dto);
     int kidBodyUpdDetail(KidDetailUpdDto dto);
-    //원아 발달사항 수정 시 기존 정보 출력
-    KidDetailEditVo kidDetailEdit(int ikid);
     //원아정보 수정
     int kidUpdProfile(KidUpdDto dto);
     //원아 수정 시 기존 정보 출력

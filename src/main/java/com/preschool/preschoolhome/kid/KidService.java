@@ -70,22 +70,17 @@ public class KidService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (dto.getKidNm() == null || dto.getBirth() == null ||
-                dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null) {
-            throw new RestApiException(AuthErrorCode.ALL_YOU_NEED_IS_PARAM);
-        }
-
-        String path = "/kid/profile";
-        String savedPicFileNm = myFileUtils.transferTo(pic, path);
-        dto.setProfile(savedPicFileNm);
-        int kid = mapper.kidSignup(dto);
-        if (kid == 0) {
+        String code = mapper.code();
+        dto.setCode(code);
+        int result = mapper.kidSignup(dto);
+        if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        int ikid = mapper.selIkid(dto);
-        dto.setIkid(ikid);
-        if (ikid == 0) {
+        String path = "/kid/" + dto.getIkid();
+        String savedPicFileNm = myFileUtils.transferTo(pic, path);
+        dto.setProfile(savedPicFileNm);
+        int result2 = mapper.kidUpdPic(dto);
+        if (result2 == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
         int grade = mapper.kidgrade(dto);
@@ -94,7 +89,7 @@ public class KidService {
         }
         KidInsVo vo2 = new KidInsVo();
         vo2.setCode(dto.getCode());
-        vo2.setIkid(ikid);
+        vo2.setIkid(dto.getIkid());
         return vo2;
 
     }
@@ -234,11 +229,6 @@ public class KidService {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
-        }
-        if (dto.getKidNm() == null || dto.getBirth() == null ||
-                dto.getAddress() == null || !(dto.getGender() == 0 || dto.getGender() == 1) ||
-                pic == null) {
-            throw new RestApiException(AuthErrorCode.NOT_EMPTY_INFO);
         }
             String path = "/kid/" + dto.getIkid();
             myFileUtils.delFolderTrigger(path);
