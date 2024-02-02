@@ -90,7 +90,7 @@ public class TeacherController {
     }
 
     //-------------------------------- 학부모와 원아 연결 끊기 --------------------------------
-    @DeleteMapping("/Disconnent")
+    @DeleteMapping("/disconnect")
     @Operation(summary = "학부모와 원아 연결 끊기", description = """
             result 값이<br>
             1 : 연결 끊기 성공""")
