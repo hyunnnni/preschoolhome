@@ -117,7 +117,7 @@ public class AlbumController {
             수정할 글과 사진 수정
             """)
     @PutMapping
-    public ResVo putAlbum(@RequestPart List<MultipartFile> pics, @Valid @RequestPart AlbumUpdDto dto) {
+    public ResVo putAlbum(@RequestPart List<MultipartFile> pics,@RequestPart List<MultipartFile> pics1, @Valid @RequestPart AlbumUpdDto dto) {
         return service.putAlbum(pics, dto);
     }
 
