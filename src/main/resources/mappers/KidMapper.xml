@@ -19,7 +19,7 @@
         WHERE b.ikid = #{ikid}
     </select>
     <select id="kidGrowth">
-        SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
+        (SELECT a.height, a.weight, a.body_date as bodyDate, b.growth
         , b.growth_date as growthDate, b.growth_memo as growthMemo
         , a.body_quarterly as bodyQuarterly, b.growth_quarterly as growthQuarterly
         FROM t_body a
@@ -28,8 +28,20 @@
         AND a.ikid = b.ikid
         WHERE a.ikid = #{ikid}
         and year(body_date) = #{year}
-        and year(growth_date) = #{year}
-        ORDER BY body_quarterly ASC
+        and year(growth_date) = #{year})
+        UNION
+        (SELECT c.height, c.weight, c.body_date as bodyDate, d.growth
+        , d.growth_date as growthDate, d.growth_memo as growthMemo
+        , c.body_quarterly as bodyQuarterly, d.growth_quarterly as growthQuarterly
+        FROM t_body c
+        RIGHT JOIN t_growth d
+        ON c.body_quarterly = d.growth_quarterly
+        AND c.ikid = d.ikid
+        WHERE c.ikid = #{ikid}
+        and year(body_date) = #{year}
+        and year(growth_date) = #{year})
+        ORDER BY bodyQuarterly ASC
+
     </select>
     <!--                  원아 코드 수정                    -->
     <update id="kidCode">
