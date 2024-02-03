@@ -23,7 +23,7 @@
         , b.growth_date as growthDate, b.growth_memo as growthMemo
         , a.body_quarterly as bodyQuarterly, b.growth_quarterly as growthQuarterly
         FROM t_body a
-        LEFT JOIN t_growth b
+        FULL JOIN t_growth b
         ON a.body_quarterly = b.growth_quarterly
         AND a.ikid = b.ikid
         WHERE a.ikid = #{ikid}
