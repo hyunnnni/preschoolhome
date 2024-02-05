@@ -8,7 +8,7 @@
         SELECT ikid, iclass, kid_nm as kidNm, profile
         from t_kid
         <if test="kidCheck > 0">
-            where iclass = #{kidCheck}
+            where iclass = #{kidCheck} and state = 0
         </if>
         <if test = "0 >= kidCheck">
             where state = #{kidCheck}
