@@ -110,7 +110,7 @@
         JOIN t_kid AS B
         ON A.ikid = B.ikid
         <if test="iclass > 0">
-            WHERE B.iclass = #{iclass}
+            WHERE B.iclass = #{iclass} and B.state = 0
         </if>
         <if test="iclass == 0">
             WHERE B.state = #{iclass}
@@ -128,7 +128,7 @@
         JOIN t_kid AS B
         ON A.ikid = B.ikid
         <if test="iclass > 0">
-            WHERE B.iclass = #{iclass}
+            WHERE B.iclass = #{iclass} and B.state = 0
         </if>
         <if test="iclass == 0">
             WHERE B.state = #{iclass}
