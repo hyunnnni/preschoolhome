@@ -68,7 +68,7 @@
 
     <!-- 활동 앨범 글 수정 시 사진 조회 -->
     <select id="albumEditPics">
-        SELECT album_pic AS albumPic
+        SELECT ialbum_pic AS ialbumPic, album_pic AS albumPic
         FROM t_album_pics
         WHERE ialbum = #{ialbum}
     </select>
@@ -84,7 +84,11 @@
     <!-- 활동 앨범 수정(사진) -->
     <delete id="delAlbumPic">
         DELETE FROM t_album_pics
-        WHERE ialbum = #{ialbum}
+        WHERE ialbum_pic in
+        <foreach collection="ialbumPic" item="ialbumpk" open="(" separator="," close=")">
+            #{ialbumpk}
+        </foreach>
+
     </delete>
 
     <!-- 활동 앨범 사진과 댓글 삭제 -->
