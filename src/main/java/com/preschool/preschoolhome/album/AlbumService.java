@@ -241,7 +241,7 @@ public class AlbumService {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        List<String> pics = mapper.albumEditPics(ialbum);
+        List<AlbumPicsVo> pics = mapper.albumEditPics(ialbum);
 
         vo.setAlbumPic(pics);
         return vo;
