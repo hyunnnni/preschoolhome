@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 @Schema(title = "알림장 수정")
 public class NoticeUpdSelVo {
+    @Schema(title = "원아 PK")
+    private int ikid;
     @Schema(title = "알림장 PK")
     private int inotice;
     @Schema(title = "알림장 제목")
