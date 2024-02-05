@@ -32,6 +32,9 @@ public class AlbumUpdDto {
     @Positive(message = "잘못된 값입니다")
     private int ialbum;
 
+    @Schema(title = "활동 앨범에서 삭제 처리할 앨범 PK")
+    private List<Integer> ialbumPic;
+
     @JsonIgnore
     @Schema(title = "활동 앨범에 첨부한 사진들")
     private List<String> albumPic;

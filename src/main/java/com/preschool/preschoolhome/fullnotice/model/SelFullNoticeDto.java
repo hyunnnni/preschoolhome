@@ -19,7 +19,7 @@ public class SelFullNoticeDto {
     @JsonIgnore
     private int starIdx;
     @JsonIgnore
-    private int row = Const.NOTICE_COUNT_PER_PAGE;
+    private int row;
 
 
     public void setPage(int page) {

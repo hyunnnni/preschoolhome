@@ -140,11 +140,11 @@ public class NoticeService {
         int noticeCnt = 0;
         if (dto.getIlevel() == 1) {
             voList = mapper.selAllNoticeBoardPar(dto);
-            noticeCnt = mapper.selNoticeParCnt();
+            noticeCnt = mapper.selNoticeParCnt(dto);
         }
         if (dto.getIlevel() == 2 || dto.getIlevel() == 3) {
             voList = mapper.selAllNoticeBoardTea(dto);
-            noticeCnt = mapper.selNoticeTeaCnt();
+            noticeCnt = mapper.selNoticeTeaCnt(dto);
         }
         if (voList.size() == 0) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
