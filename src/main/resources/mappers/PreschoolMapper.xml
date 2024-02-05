@@ -4,7 +4,7 @@
 <mapper namespace="com.preschool.preschoolhome.preschool.PreschoolMapper">
     
     <select id="getKidProfile">
-        select kid_nm as kidNm, profile, iclass
+        select kid_nm as kidNm, profile, iclass, ikid
         from t_kid
         WHERE state = 0
         ORDER BY ikid ASC
