@@ -24,6 +24,7 @@ public class SelFullNoticeDto {
 
     public void setPage(int page) {
 
+        this.row = Const.NOTICE_COUNT_PER_PAGE;
         this.starIdx = (page - 1) * row;
     }
 }
