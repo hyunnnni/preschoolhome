@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -180,7 +181,16 @@ public class KidService {
 
                 int kiddetail1 = mapper.kidGrowthUpdDetail(dto);
                 if (kiddetail1 == 0) {
-                    throw new RestApiException(AuthErrorCode.FAIL);
+                    KidDetailInsDto insDto = new KidDetailInsDto();
+                    insDto.setIkid(dto.getIkid());
+                    insDto.setGrowth(dto.getGrowth());
+                    insDto.setGrowthDate(dto.getGrowthDate());
+                    insDto.setGrowthMemo(dto.getGrowthMemo());
+                    insDto.setGrowthQuarterly(dto.getGrowthQuarterly());
+                    int kiddetail11 = mapper.kidGrowthInsDetail(insDto);
+                    if (kiddetail11 == 0) {
+                        throw new RestApiException(AuthErrorCode.FAIL);
+                    }
                 }
             }
             if (dto.getBodyDate() != null) {
@@ -197,7 +207,16 @@ public class KidService {
                 }
                 int kiddetail2 = mapper.kidBodyUpdDetail(dto);
                 if (kiddetail2 == 0) {
-                    throw new RestApiException(AuthErrorCode.FAIL);
+                    KidDetailInsDto insDto = new KidDetailInsDto();
+                    insDto.setIkid(dto.getIkid());
+                    insDto.setWeight(dto.getWeight());
+                    insDto.setHeight(dto.getHeight());
+                    insDto.setBodyDate(dto.getBodyDate());
+                    insDto.setBodyQuarterly(dto.getBodyQuarterly());
+                    int kiddetail22 = mapper.kidBodyInsDetail(insDto);
+                    if (kiddetail22 == 0) {
+                        throw new RestApiException(AuthErrorCode.FAIL);
+                    }
                 }
             }
         }
