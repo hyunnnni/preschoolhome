@@ -32,14 +32,11 @@ public class MyFileUtils {
 
     //랜덤 파일명 만들기
     public String getRandomFileNm() {
-        String str = UUID.randomUUID().toString();
-        log.info("123123:{}", str);
         return UUID.randomUUID().toString();
     }
 
     //확장자 얻어오기
     public String getExt(String fileNm) {
-
         return fileNm.substring(fileNm.lastIndexOf("."));
     }
 
@@ -51,7 +48,6 @@ public class MyFileUtils {
     //랜덤 파일명 만들기 with 확장자 from MultipartFile
     public String getRandomFileNm(MultipartFile mf) {
         String fileNm = mf.getOriginalFilename();
-
         return getRandomFileNm(fileNm);
     }
 
