@@ -12,11 +12,15 @@ public interface AlbumMapper {
     //------------------------------------- 활동 앨범 개수 -------------------------------------
     int selAlbumCnt ();
     //------------------------------------- 활동 앨범 상세 조회 (글) -------------------------------------
-    List<AlbumDetailSelVo> selDetailAlbum (AlbumDetailSelDto dto);
+    AlbumDetailSelVo selDetailAlbum (AlbumDetailSelDto dto);
     //------------------------------------- 활동 앨범 상세 조회 (사진) -------------------------------------
     List<String> selPicsAlbum (AlbumDetailSelDto dto);
     //------------------------------------- 활동 앨범 상세 조회 (댓글) -------------------------------------
     List<AlbumAllCommentVo> selCommentAlbum (AlbumDetailSelDto dto);
+    //------------------------ 알림장 작성자 pk로 이름 조회(관리자) ------------------------
+    AlbumSelCommentProc selAlbumDetailTea (int iteacher);
+    //------------------------ 알림장 작성자 pk로 이름 조회(부모님) ------------------------
+    AlbumSelCommentProc selAlbumDetailPar (int iparent);
     //------------------------------------- 활동 앨범 등록 -------------------------------------
     int insAlbum (AlbumInsDto dto);
     //------------------------------------- 활동 앨범 사진 등록 -------------------------------------

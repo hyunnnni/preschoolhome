@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.preschool.preschoolhome.common.utils.Const.FAIL;
@@ -78,36 +79,42 @@ public class AlbumService {
 
 
     //------------------------------------- 활동 앨범 상세 조회 -------------------------------------
-    public List<AlbumDetailSelVo> getDetailAlbum(AlbumDetailSelDto dto) {
+    public AlbumDetailSelVo getDetailAlbum(AlbumDetailSelDto dto) {
 
         int level = authenticationFacade.getLevelPk();
         if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-
-        List<AlbumDetailSelVo> list = mapper.selDetailAlbum(dto);
-        if(list.size() == 0){
+        // 활동 앨범 글 불러오기
+        AlbumDetailSelVo list = mapper.selDetailAlbum(dto);
+        if (list == null) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
+        list.setAlbumPic(mapper.selPicsAlbum(dto));
+        // 댓글 불러오기
+        List<AlbumAllCommentVo> comList = mapper.selCommentAlbum(dto);
+        List<AlbumSelCommentProc> comments = new ArrayList<>();
 
-        try {
-            for (AlbumDetailSelVo vo : list) {
-
-                List<String> pics = mapper.selPicsAlbum(dto);
-                if(pics != null) {
-                    vo.setAlbumPic(pics);
+        if (comList.size() > 0) {
+            for (AlbumAllCommentVo vo : comList) {
+                if (vo.getIteacher() > 0 && vo.getIparent() == 0) {
+                    AlbumSelCommentProc teaComment = mapper.selAlbumDetailTea(vo.getIteacher());
+                    teaComment.setIalbumComment(vo.getIalbumComment());
+                    teaComment.setAlbumComment(vo.getAlbumComment());
+                    teaComment.setCreatedAt(vo.getCreatedAt());
+                    comments.add(teaComment);
                 }
-                List<AlbumAllCommentVo> comment = mapper.selCommentAlbum(dto);
-                if(comment != null) {
-                    vo.setAlbumComments(comment);
+                if (vo.getIparent() > 0 && vo.getIteacher() == 0) {
+                    AlbumSelCommentProc parComment = mapper.selAlbumDetailPar(vo.getIparent());
+                    parComment.setIalbumComment(vo.getIalbumComment());
+                    parComment.setAlbumComment(vo.getAlbumComment());
+                    parComment.setCreatedAt(vo.getCreatedAt());
+                    comments.add(parComment);
                 }
             }
-            return list;
-
-        } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
+        list.setAlbumComments(comments);
+        return  list;
     }
 
     //------------------------------------- 활동 앨범 글 삭제 -------------------------------------

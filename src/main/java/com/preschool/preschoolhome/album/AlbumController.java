@@ -50,7 +50,7 @@ public class AlbumController {
     @Operation(summary = "활동 앨범 상세 조회")
     @Valid
     @GetMapping
-    public List<AlbumDetailSelVo> getDetailAlbum(@RequestParam
+    public AlbumDetailSelVo getDetailAlbum(@RequestParam
                                                  @Positive(message = "잘못된 값입니다")
                                                  @Schema(title = "앨범 PK")
                                                  int ialbum) {
