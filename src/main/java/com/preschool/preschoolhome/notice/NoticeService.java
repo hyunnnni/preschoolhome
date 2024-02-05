@@ -41,7 +41,7 @@ public class NoticeService {
         }
         String target = "/notice/" + dto.getInotice();
 
-        if (!pics.isEmpty()) {
+        if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());
             for (MultipartFile file : pics) {
