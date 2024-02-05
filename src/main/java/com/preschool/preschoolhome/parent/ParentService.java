@@ -51,7 +51,7 @@ public class ParentService {
         }
 
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
-        if (iparent.size() > 2) {
+        if (iparent.size() >= 2) {
             throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
         }
         return vo;
