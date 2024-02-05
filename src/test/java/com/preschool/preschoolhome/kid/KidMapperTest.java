@@ -20,9 +20,11 @@ class KidMapperTest {
 
     @Test
     void kidProfile() {
-        int ikid = 1;
+        int ikid = 4;
+
         KidProfileVo vo = kidMapper.kidProfile(ikid);
-        assertEquals("이마크", vo.getKidNm());
+
+        assertEquals("문준휘", vo.getKidNm());
     }
 
     @Test
@@ -119,7 +121,7 @@ class KidMapperTest {
     void kidDetailEdit() {
         int ikid = 1;
         KidDetailEditVo vo = kidMapper.kidDetailEdit(ikid);
-        assertEquals("이마크", vo.getKidNm());
+        assertEquals("최승철", vo.getKidNm());
     }
 
     @Test
@@ -127,7 +129,7 @@ class KidMapperTest {
         int ikid = 1;
 
         KidDetailEditVo vo = kidMapper.kidDetailEdit(ikid);
-        assertEquals("이마크", vo.getKidNm());
+        assertEquals("최승철", vo.getKidNm());
     }
 
     @Test

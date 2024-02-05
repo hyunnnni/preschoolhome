@@ -22,6 +22,7 @@
         FROM t_full_notice F
         JOIN t_teacher T
         ON F.iteacher = T.iteacher
+        where F.full_notice_fix = 0
         ORDER BY F.created_at DESC
         limit #{starIdx}, #{row}
     </select>
