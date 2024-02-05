@@ -31,7 +31,7 @@ public class FullNoticeService {
         dto.setIlevel(level);
 
         List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
-        if (noticeFix.size() == 0 || noticeFix.size() > 3) {
+        if (noticeFix.size() > 3) {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
         }
 
