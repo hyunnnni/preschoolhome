@@ -57,7 +57,3 @@ spring:
 
 file:
   dir: /home/download/
-
-logging:
-  level:
-    -com.preschool.preschoolhome: info
