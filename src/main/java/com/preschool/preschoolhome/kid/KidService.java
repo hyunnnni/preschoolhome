@@ -68,7 +68,6 @@ public class KidService {
                     code1 = mapper.kidAllCode(ikid1);
                     i = 0;
                 }
-
             }
             return new ResVo(Const.SUCCESS);
         } catch (Exception e) {
