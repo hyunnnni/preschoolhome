@@ -49,6 +49,23 @@
         SET code = (SELECT SUBSTR(MD5(RAND()),1,10))
         WHERE ikid = #{ikid}
     </update>
+    <!--                원아 코드 중복 확인                 -->
+    <select id="kidAllCode">
+        SELECT code
+        FROM t_kid
+        <where>
+            <if test="code != null and code !='' ">
+                code = #{code}
+            </if>
+            <if test="ikid > 0">
+                ikid = #{ikid}
+            </if>
+        </where>
+    </select>
+    <select id="kidAllCode1">
+        SELECT code
+        FROM t_kid
+    </select>
     <!--                  원아 등록                         -->
     <select id="code">
         SELECT SUBSTR(MD5(RAND()),1,10) AS code

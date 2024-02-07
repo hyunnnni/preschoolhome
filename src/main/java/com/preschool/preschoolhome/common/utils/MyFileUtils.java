@@ -42,6 +42,7 @@ public class MyFileUtils {
 
     //랜덤 파일명 만들기 with 확장자
     public String getRandomFileNm(String originFileNm) {
+
         return getRandomFileNm() + getExt(originFileNm);
     }
 

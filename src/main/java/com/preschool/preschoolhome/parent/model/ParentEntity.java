@@ -13,6 +13,7 @@ public class ParentEntity {
     private int iparent;
     @Schema(title = "아이와의 관계")
     private int irelation;
+    private String role;
     @Schema(title = "등급")
     private int ilevel;
     @Schema(title = "로그인")
