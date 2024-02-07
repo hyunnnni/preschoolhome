@@ -39,11 +39,14 @@ public class MyFileUtils {
     public String getExt(String fileNm) {
         return fileNm.substring(fileNm.lastIndexOf("."));
     }
-
+    //이름 얻어오기
+    public String getName(String fileNm) {
+        return fileNm.substring(0, fileNm.lastIndexOf("."));
+    }
     //랜덤 파일명 만들기 with 확장자
     public String getRandomFileNm(String originFileNm) {
 
-        return getRandomFileNm() + getExt(originFileNm);
+        return getName(originFileNm)+ getRandomFileNm() + getExt(originFileNm);
     }
 
     //랜덤 파일명 만들기 with 확장자 from MultipartFile
