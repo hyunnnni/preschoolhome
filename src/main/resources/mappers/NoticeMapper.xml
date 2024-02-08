@@ -44,7 +44,10 @@
     <!--                 수정 시 알림장 사진 삭제                  -->
     <delete id="delNoticePics">
         DELETE FROM t_notice_pics
-        WHERE inotice = #{inotice}
+        WHERE inotice_pic in
+        <foreach collection="inoticePic" item="pk" open="(" separator="," close=")">
+            #{pk}
+        </foreach>
     </delete>
     <!--                 알림장 삭제 댓글, 사진                  -->
     <delete id="delAllNotice">
