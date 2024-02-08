@@ -9,6 +9,7 @@ import lombok.Data;
 public class TeacherEntity {
     private int iteacher;
     private int ilevel;
+    private String role;
     private int iclass;
     private String teacherUid;
     private String teacherUpw;

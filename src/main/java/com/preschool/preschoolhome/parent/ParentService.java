@@ -51,7 +51,7 @@ public class ParentService {
         }
 
         List<Integer> iparent = mapper.connectParent(vo.getIkid());
-        if (iparent.size() > 2) {
+        if (iparent.size() >= 2) {
             throw new RestApiException(AuthErrorCode.NOT_CONNETCT_KID);
         }
         return vo;
@@ -126,6 +126,9 @@ public class ParentService {
                 .iuser(entity.getIparent())
                 .ilevel(entity.getIlevel())
                 .build();
+
+        myPrincipal.getRoles().add(entity.getRole());
+
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
 

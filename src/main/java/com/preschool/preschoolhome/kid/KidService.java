@@ -56,7 +56,19 @@ public class KidService {
     //-------------------------------- 원아 식별코드 수정 --------------------------------
     ResVo kidCode(int ikid) {
         try {
+            List<String> codes = mapper.kidAllCode1();
             mapper.kidCode(ikid);
+            KidCode ikid1 = new KidCode();
+            ikid1.setIkid(ikid);
+            String code1 = mapper.kidAllCode(ikid1);
+            for (int i = 0; i < codes.size(); i++) {
+                if(codes.get(i).equals(code1)){
+                    mapper.kidCode(ikid);
+                    ikid1.setIkid(ikid);
+                    code1 = mapper.kidAllCode(ikid1);
+                    i = 0;
+                }
+            }
             return new ResVo(Const.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,8 +83,23 @@ public class KidService {
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
+
         String code = mapper.code();
-        dto.setCode(code);
+        KidCode code1 = new KidCode();
+        code1.setCode(code);
+        String codes = mapper.kidAllCode(code1);
+
+        do {
+            if(codes == null){
+                dto.setCode(code);
+            } else {
+                code = mapper.code();
+                code1.setCode(code);
+                codes = mapper.kidAllCode(code1);
+                dto.setCode(code);
+            }
+        } while (codes == null);
+
         int result = mapper.kidSignup(dto);
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);

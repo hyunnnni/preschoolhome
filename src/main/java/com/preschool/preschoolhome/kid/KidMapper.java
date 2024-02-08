@@ -13,6 +13,9 @@ public interface KidMapper {
     List<KidParent> kidParent(int ikid);
     //원아 코드 수정
     int kidCode(int ikid);
+    //원아 코드 중복 체크
+    String kidAllCode(KidCode dto);
+    List<String> kidAllCode1();
     //원아등록
     String code();
     int kidSignup(KidInsDto dto);
