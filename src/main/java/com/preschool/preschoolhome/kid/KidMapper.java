@@ -38,6 +38,8 @@ public interface KidMapper {
     //원아 해당년도 모두 졸업
     int allGraduateKid();
     int allGraduateDelKid();
+    //------------------------ 졸업, 퇴소 원아 부모 연결 끊기 ---------------------
+    int delDisconnect(List<Integer> ikids);
 
 
 }
