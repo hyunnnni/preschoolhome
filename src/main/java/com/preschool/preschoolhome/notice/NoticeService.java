@@ -68,7 +68,7 @@ public class NoticeService {
         if (vo == null) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        List<String> pics = mapper.noticeEditPics(inotice);
+        List<NoticePicsVo> pics = mapper.noticeEditPics(inotice);
         if (pics == null) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }

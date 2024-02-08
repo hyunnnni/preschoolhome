@@ -176,7 +176,7 @@
     <!--              원아 수정 시 기존 정보 출력              -->
     <select id="kidEdit">
         SELECT kid_nm as kidNm, birth, gender, iclass
-        , address , profile, state, date(created_at) as createdAt
+        , address, profile, state, date(created_at) as createdAt
         , emer_nm as emerNm, emer_nb as emerNb, memo
         FROM t_kid
         WHERE ikid = #{ikid}
@@ -213,13 +213,13 @@
         ON f.inotice = g.inotice
         left JOIN t_notice_comment h
         ON f.inotice = h.inotice
-        WHERE YEAR(CURRENT_DATE) - 13 <![CDATA[>=]]> YEAR(a.birth)
+        WHERE YEAR(CURRENT_DATE) - 53 <![CDATA[>=]]> YEAR(a.birth)
     </delete>
     <!--                  원아 해당년도 졸업                  -->
     <delete id="allGraduateDelKid">
         DELETE
         FROM t_kid
-        WHERE YEAR(CURRENT_DATE) - 13 <![CDATA[>=]]> YEAR(birth)
+        WHERE YEAR(CURRENT_DATE) - 53 <![CDATA[>=]]> YEAR(birth)
 
     </delete>
 </mapper>
