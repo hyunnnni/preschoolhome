@@ -68,8 +68,8 @@ public class FullNoticeService {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
         }
 
-        List<String> pics = mapper.selNoticePic(iFullNotice);
-        notice.setPics(pics);
+        notice.setPics(mapper.selNoticePic(iFullNotice));
+
         return notice;
     }
 
@@ -173,15 +173,16 @@ public class FullNoticeService {
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        if (dto.getFullPic() == null) {
-            return new ResVo(Const.SUCCESS);
-        }
-        if (selResult > 0) {
-            int delResult = mapper.delUpdFullNoticePics(dto.getIfullNotice());
+        if (selResult > 0 && dto.getDelPics() != null) {
+            int delResult = mapper.delUpdFullNoticePics(dto.getDelPics());
             if (delResult == 0) {
                 throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
         }
+        if (dto.getFullPic() == null) {
+            return new ResVo(Const.SUCCESS);
+        }
+
         pdto.setIfullNotice(dto.getIfullNotice());
         String target = "/fullnotice/" + dto.getIfullNotice();
         myFileUtils.delFolderTrigger(target);

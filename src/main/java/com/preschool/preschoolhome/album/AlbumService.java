@@ -6,6 +6,7 @@ import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import lombok.RequiredArgsConstructor;
@@ -211,7 +212,16 @@ public class AlbumService {
         int updAfftectedRows = mapper.updAlbum(dto);
 
         // 사진 삭제
-        int delPicsAffectedRows = mapper.delAlbumPic(dto.getIalbum());
+        if (dto.getDelPics() != null) {
+            int delPicsAffectedRows = mapper.delAlbumPic(dto.getDelPics());
+            if (delPicsAffectedRows == 0) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            }
+        }
+        //추가로 사진 업로드 하는 게 없다면 리턴
+        if (pics == null) {
+            return new ResVo(Const.SUCCESS);
+        }
 
         // 사진 등록
         AlbumPicsInsDto picsDto = new AlbumPicsInsDto();

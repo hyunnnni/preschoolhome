@@ -94,12 +94,12 @@
         WHERE ialbum = #{ialbum}
     </update>
 
-    <!-- 활동 앨범 수정(사진) -->
+    <!-- 활동 앨범 수정 시 사진 삭제 -->
     <delete id="delAlbumPic">
         DELETE FROM t_album_pics
         WHERE ialbum_pic in
-        <foreach collection="ialbumPic" item="ialbumpk" open="(" separator="," close=")">
-            #{ialbumpk}
+        <foreach collection="delPics" item="ialbumPic" open="(" separator="," close=")">
+            #{ialbumPic}
         </foreach>
 
     </delete>

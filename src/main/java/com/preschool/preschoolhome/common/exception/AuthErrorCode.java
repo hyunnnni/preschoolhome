@@ -31,7 +31,7 @@ public enum AuthErrorCode implements ErrorCode {
     NO_PERMISSION(HttpStatus.UNAUTHORIZED,"관리자 페이지에 접근할 권한이 없습니다."),
     NO_INFORMATION(HttpStatus.NOT_FOUND,"조회되는 정보가 없습니다."),
     UPD_STATE_FAIL(HttpStatus.NOT_FOUND,"재원상태/반 수정 실패"),
-    PICS_FAIL(HttpStatus.NOT_ACCEPTABLE,"사진 등록 실패"),
+    PICS_FAIL(HttpStatus.NOT_ACCEPTABLE,"사진 실패"),
     PICS_NULL(HttpStatus.NOT_ACCEPTABLE,"사진 파일을 올려주세요."),
     UPD_IS_DEL_FAIL(HttpStatus.NOT_FOUND,"부모님 계정 삭제 처리 실패입니다."),
     ALREADY_CONNECTION(HttpStatus.BAD_REQUEST, "이미 연결되어 있는 계정입니다."),

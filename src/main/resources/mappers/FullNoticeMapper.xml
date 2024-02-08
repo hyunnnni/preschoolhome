@@ -39,7 +39,7 @@
 
     <!--                 게시판 상세 조회 사진                -->
     <select id="selNoticePic">
-        SELECT full_pic
+        SELECT ifull_pic AS ifullPic, full_pic AS pic
         FROM t_full_notice_pics
         where ifull_notice = #{iFullNotice}
     </select>
@@ -101,7 +101,10 @@
     <delete id="delUpdFullNoticePics">
         DELETE
         FROM t_full_notice_pics
-        WHERE ifull_notice = #{ifullNotice}
+        WHERE ifull_pic in (
+        <foreach collection="delPics" item="ifullPic" separator=",">
+            #{ifullPic}
+        </foreach>)
     </delete>
     <!--                 유치원 소식 사진 개수 조회                  -->
     <select id="selFullNoticePics">

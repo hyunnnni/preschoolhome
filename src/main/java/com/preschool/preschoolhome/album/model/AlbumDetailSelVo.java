@@ -18,7 +18,6 @@ public class AlbumDetailSelVo {
     private List<AlbumSelCommentProc> albumComments;
     @Schema(title = "활동 앨범 글 작성일")
     private String createdAt;
-    private int iteacher;
-    private int iparent;
+    @JsonIgnore
     private int ialbumComment;
 }

@@ -16,6 +16,6 @@ public class SelNoticeVo {
     private String writer;
     @Schema(title = "유치원 소식 등록일")
     private String createdAt;
-    @Schema(title = "유치원 소식 사진")
-    private List<String> pics;
+    @Schema(title = "유치원 소식 사진과 PK")
+    private List<SelNoticePics> pics;
 }
