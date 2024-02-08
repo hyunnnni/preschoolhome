@@ -68,7 +68,7 @@ public class NoticeService {
         if (vo == null) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        List<String> pics = mapper.noticeEditPics(inotice);
+        List<NoticePicsVo> pics = mapper.noticeEditPics(inotice);
         if (pics == null) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
@@ -90,26 +90,28 @@ public class NoticeService {
         if (affectedRows == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        int affectedDelRows = mapper.delNoticePics(dto.getInotice());
-        if (affectedDelRows == 0) {
-            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+
+        if (dto.getInoticePic() != null) {
+            int affectedDelRows = mapper.delNoticePics(dto.getInoticePic());
+            if (affectedDelRows == 0) {
+                throw new RestApiException(AuthErrorCode.FAIL);
+            }
         }
 
         String target = "/notice/" + dto.getInotice();
         myFileUtils.delFolderTrigger(target);
 
-        if (pics.size() > 0) {
-            NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            picsDto.setInotice(dto.getInotice());
-            for (MultipartFile file : pics) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                picsDto.getPics().add(saveFileNm);
-            }
-            int affectedPicRows = mapper.insNoticePics(picsDto);
-            if (affectedPicRows == 0) {
-                throw new RestApiException(AuthErrorCode.PICS_FAIL);
-            }
+        NoticePicsInsDto picsDto = new NoticePicsInsDto();
+        picsDto.setInotice(dto.getInotice());
+        for (MultipartFile file : pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getPics().add(saveFileNm);
         }
+        int affectedPicRows = mapper.insNoticePics(picsDto);
+        if (affectedPicRows == 0) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+
         return new ResVo(Const.SUCCESS);
     }
 
@@ -205,8 +207,8 @@ public class NoticeService {
 
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     public ResVo postNoticeComment(InsNoticeCommentDto dto) {
-        if((dto.getIparent() == 0 && dto.getIteacher() == 0)||
-                (dto.getIteacher() > 0 && dto.getIparent() > 0)){
+        if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
+                (dto.getIteacher() > 0 && dto.getIparent() > 0)) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
         int level = authenticationFacade.getLevelPk();

@@ -15,11 +15,11 @@ public interface NoticeMapper {
     //------------------------ 알림장 수정 시 내용 조회 글 ------------------------
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
     //------------------------ 알림장 수정 시 내용 조회 사진 ------------------------
-    List<String> noticeEditPics(int inotice);
+    List<NoticePicsVo> noticeEditPics(int inotice);
     //------------------------ 알림장 수정 ------------------------
     int updNotice(NoticeUpdDto dto);
     //------------------------ 수정 시 알림장 사진 삭제 ------------------------
-    int delNoticePics(int inotice);
+    int delNoticePics(List<Integer> inoticePic);
 
     //------------------------ 알림장 글 삭제 ------------------------
     int delNotice(int inotice);

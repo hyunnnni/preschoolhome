@@ -17,5 +17,5 @@ public class NoticeUpdSelVo {
     @Schema(title = "알림장 내용")
     private String noticeContents;
     @Schema(title = "알림장 사진")
-    List<String> noticePics;
+    List<NoticePicsVo> noticePics;
 }

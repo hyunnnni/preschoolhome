@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,7 +45,7 @@ public class KidController {
 
     //-------------------------------- 원아 등록 --------------------------------
     @Operation(summary = "원아 등록", description = "원아 등록")
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public KidInsVo postKidSignup(@RequestPart MultipartFile pic,@Valid @RequestPart KidInsDto dto){
         return service.kidSignup(pic, dto);
     }

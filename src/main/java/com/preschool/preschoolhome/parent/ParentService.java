@@ -126,6 +126,9 @@ public class ParentService {
                 .iuser(entity.getIparent())
                 .ilevel(entity.getIlevel())
                 .build();
+
+        myPrincipal.getRoles().add(entity.getRole());
+
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);
 
