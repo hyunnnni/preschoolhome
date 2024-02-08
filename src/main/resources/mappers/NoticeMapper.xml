@@ -37,7 +37,7 @@
     </update>
     <!--                 알림장 수정 시 내용 조회 사진                  -->
     <select id="noticeEditPics">
-        SELECT notice_pic
+        SELECT inotice_pic as inoticePic, notice_pic as noticePic
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
