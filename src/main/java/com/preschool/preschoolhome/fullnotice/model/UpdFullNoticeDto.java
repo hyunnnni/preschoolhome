@@ -31,6 +31,8 @@ public class UpdFullNoticeDto {
     @JsonIgnore
     @Schema(title = "유치원 소식 사진")
     private List<MultipartFile> fullPic;
+    @Schema(title = "삭제된 사진이 있다면 그 사진의 pk들")
+    private List<Integer> delPics;
     @JsonIgnore
     private int ilevel;
 

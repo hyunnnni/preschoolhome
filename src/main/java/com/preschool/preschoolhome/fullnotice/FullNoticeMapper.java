@@ -16,7 +16,7 @@ public interface FullNoticeMapper {
     int selNoticeCnt();
     int selNoticeFixCnt();
     //-------------------------------- 게시판 상세 조회 사진 --------------------------------
-    List<String> selNoticePic(int iFullNotice);
+    List<SelNoticePics> selNoticePic(int iFullNotice);
     //-------------------------------- 게시판 상세 조회 글 --------------------------------
     SelNoticeVo getNotice(int iFullNotice);
 
@@ -33,7 +33,7 @@ public interface FullNoticeMapper {
     //-------------------------------- 유치원 소식 수정 --------------------------------
     int putFullNotice(UpdFullNoticeDto dto);
     //-------------------------------- 유치원 소식 업데이트 시 사진 삭제 --------------------------------
-    int delUpdFullNoticePics(int ifullNotice);
+    int delUpdFullNoticePics(List<Integer> delPics);
     //-------------------------------- 유치원 소식 사진 개수 조회 --------------------------------
     Integer selFullNoticePics(int ifullNotice);
     //-------------------------------- 유치원 소식 상단 고정 기능 조회 --------------------------------
