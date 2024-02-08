@@ -91,10 +91,6 @@ public class TeacherService {
                         throw new RestApiException(AuthErrorCode.UPD_IS_DEL_FAIL);
                     }
                 }
-                int disResult = mapper.delDisconnect(dto.getIkids());
-                if(disResult == 0){
-                    throw new RestApiException(AuthErrorCode.CONNECTION_FAIL);
-                }
             }
         }
 
