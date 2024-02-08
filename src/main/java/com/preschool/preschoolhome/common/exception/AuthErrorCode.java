@@ -13,7 +13,7 @@ public enum AuthErrorCode implements ErrorCode {
     CHECK_CODE(HttpStatus.BAD_REQUEST,"식별코드를 확인해주세요."),
     CHECK_DUPLICATION_ID(HttpStatus.BAD_REQUEST,"아이디 중복체크를 해주세요."),
     NOT_ENTER_ID(HttpStatus.BAD_REQUEST,"아이디를 입력하세요."),
-    DELETE_ID(HttpStatus.BAD_REQUEST,"회원가입을 진행해주세요(라는 멘트 띄워주세요 삭제된 계정임)."),
+    DELETE_ID(HttpStatus.BAD_REQUEST,"회원가입을 진행해주세요."),
     ALREADY_EXIST_ID(HttpStatus.BAD_REQUEST,"이미 존재하는 아이디입니다."),
     NOT_EXIST_USER_ID(HttpStatus.NOT_FOUND,"아이디를 확인해주세요."),
     VALID_PASSWORD(HttpStatus.NOT_FOUND,"비밀번호를 확인해주세요."),
