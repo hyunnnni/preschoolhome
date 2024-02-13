@@ -40,9 +40,13 @@ public class AlbumController {
     public AllAlbumSelVo getAllAlbum(@RequestParam
                                         @Positive(message = "잘못된 값입니다")
                                         @Schema(title = "페이지")
-                                        int page) {
+                                        int page,
+                                        @RequestParam(required = false)
+                                        @Schema(title = "검색어")
+                                        String search) {
         AlbumSelDto dto = new AlbumSelDto();
         dto.setPage(page);
+        dto.setSearch(search);
         return service.getAllAlbum(dto);
     }
 

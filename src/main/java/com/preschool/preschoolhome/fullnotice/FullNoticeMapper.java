@@ -9,12 +9,12 @@ import java.util.List;
 public interface FullNoticeMapper {
 
     //-------------------------------- 게시판 전체 조회 시 상단 공지 --------------------------------
-    List<SelFullNoticeVo> getFullNoticeFix();
+    List<SelFullNoticeVo> getFullNoticeFix(String search);
     //-------------------------------- 게시판 전체 조회 일반 공지 --------------------------------
     List<SelFullNoticeVo> getFullNoticelist(SelFullNoticeDto dto);
     //--------------------------------- 게시판 전체 조회 개수 -------------------------------------
-    int selNoticeCnt();
-    int selNoticeFixCnt();
+    int selNoticeCnt(String search);
+    int selNoticeFixCnt(String search);
     //-------------------------------- 게시판 상세 조회 사진 --------------------------------
     List<SelNoticePics> selNoticePic(int iFullNotice);
     //-------------------------------- 게시판 상세 조회 글 --------------------------------
