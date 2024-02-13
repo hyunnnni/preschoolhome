@@ -70,12 +70,6 @@
             #{ifullNotice}, #{pic}
         </foreach>
     </insert>
-    <!--                 유치원 소식 작성자 pk 조회                  -->
-    <select id="selFullNoticeWriter">
-        SELECT iteacher
-        FROM t_full_notice
-        WHERE ifull_notice = #{ifullNotice}
-    </select>
     <!--                 유치원 소식 사진 삭제                  -->
     <delete id="delFullNoticePics">
         DELETE
