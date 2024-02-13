@@ -86,9 +86,17 @@
     </update>
     <!--           현재 계정이 있는 모든 부모의 정보 조회             -->
     <select id="selParManagement">
-        SELECT iparent, parent_nm AS parentNm, uid, phone_nb AS phoneNb
-        FROM t_parent
+        SELECT A.iparent, A.parent_nm AS parentNm, A.uid, A.phone_nb AS phoneNb
+        FROM t_parent as A
+        JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        JOIN t_kid AS C
+        ON B.ikid = C.ikid
         where pr_is_del = #{prIsDel}
+        <if test="search != null and search != '' ">
+            AND (C.kid_nm like concat ('%', #{search}, '%')
+            OR A.parent_nm like concat ('%', #{search}, '%'))
+        </if>
         LIMIT #{startIdx}, #{rowCount}
     </select>
     <!--           현재 계정이 있는 모든 부모의 정보 조회 페이지 수            -->
@@ -106,7 +114,11 @@
         JOIN t_kid AS C
         ON B.ikid = C.ikid
         where A.pr_is_del = #{prIsDel}
-        and C.iclass = #{iclass}
+        AND C.iclass = #{iclass}
+        <if test="search != null and search != '' ">
+            AND (C.kid_nm like concat ('%', #{search}, '%')
+            OR A.parent_nm like concat ('%', #{search}, '%'))
+        </if>
         LIMIT #{startIdx}, #{rowCount}
     </select>
     <!--           부모 정보 원아 반 별 기준으로 조회 페이지 수            -->
