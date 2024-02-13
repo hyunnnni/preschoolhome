@@ -53,7 +53,7 @@ public class TeacherService {
         }
 
         vo.setKidPage(voList);
-        vo.setTotalCnt(mapper.selKidPage(dto.getKidCheck()));
+        vo.setTotalCnt(mapper.selKidPage(dto));
 
         return vo;
     }
