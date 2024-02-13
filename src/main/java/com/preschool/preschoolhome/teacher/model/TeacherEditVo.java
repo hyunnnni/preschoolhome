@@ -20,7 +20,7 @@ public class TeacherEditVo {
     private String teacherIntroduce;
     @Schema(title = "선생님 사진")
     private String teacherProfile;
-    @Schema(title = "계정삭제된 선생님 구분용")
+    @Schema(title = "계정 삭제된 선생님 구분용")
     private String tcIsDel;
     @Schema(title = "선생님 이메일")
     private String tcEmail;

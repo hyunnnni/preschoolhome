@@ -131,13 +131,6 @@ public class FullNoticeService {
             throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
 
-        if (dto.getIlevel() == 2) {
-            Integer writer = mapper.selFullNoticeWriter(dto.getIfullNotice());
-
-            if (writer == null || writer != dto.getIteacher()) {
-                throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
-            }
-        }
         int result = mapper.delFullNoticePics(dto);
 
         int result1 = mapper.delFullNotice(dto);
