@@ -25,6 +25,9 @@ public class SelAllNoticeDto {
     @Schema(title = "이 페이지에 접근한 유저(선생님 OR 학부모)의 PK")
     private int loginedIuser;
 
+    @Schema(title = "검색기능")
+    private String search;
+
     @JsonIgnore
     private int ilevel;
     @JsonIgnore

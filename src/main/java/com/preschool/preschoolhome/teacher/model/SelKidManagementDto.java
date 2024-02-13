@@ -14,6 +14,8 @@ public class SelKidManagementDto {
     private int kidCheck;
     @JsonIgnore
     private int ilevel;
+    @Schema(title = "검색기능")
+    private String search;
     @JsonIgnore
     private int startIdx;
     @JsonIgnore

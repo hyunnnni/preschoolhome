@@ -38,6 +38,9 @@ public interface KidMapper {
     //원아 해당년도 모두 졸업
     int allGraduateKid();
     int allGraduateDelKid();
-
+    //------------------------ 졸업, 퇴소 원아 부모 연결 끊고 삭제 ---------------------
+    List<Integer> selKidPk();
+    List<Integer> selParentPk(List<Integer> ikids);
+    int delParent(List<Integer> iparents);
 
 }

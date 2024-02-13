@@ -11,7 +11,7 @@ public interface TeacherMapper {
     //------------------------ 원아 관리 페이지 조회 ------------------------
     List<SelKidManagement> selKidManagement(SelKidManagementDto dto);
     //------------------------ 원아 관리 페이지 수 체크 ------------------------
-    int selKidPage(int kidCheck);
+    int selKidPage(SelKidManagementDto dto);
     //------------------------ 원아 재원 상태 / 반 승급 수정 ------------------------
     int updKidStateOrClass(UpdKidStateDto dto);
     //------------------------ 원아 재원 상태 졸업으로 변경 시 부모 계정 삭제 처리에 필요한 부모 pk 조회 ------------------------
@@ -20,8 +20,6 @@ public interface TeacherMapper {
     List<Integer> SelGraduateKidPk(int iparent);
     //------------------------ 원아 재원 상태 조회 ------------------------
     List<Integer> selStateKid(List<Integer> ikids);
-    //------------------------ 졸업, 퇴소 원아 부모 연결 끊기 ---------------------
-    int delDisconnect(List<Integer> ikids);
     //------------------------ 원아 졸업 시 부모 계정 삭제 처리 ------------------------
     int updStateIsDelParent(DelStateParentIsProc pDto);
     //------------------------ 현재 계정이 있는 모든 부모의 정보 조회  ------------------------

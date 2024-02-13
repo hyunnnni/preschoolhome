@@ -9,9 +9,15 @@
         from t_kid
         <if test="kidCheck > 0">
             where iclass = #{kidCheck} and state = 0
+            <if test="search != null and search != '' ">
+                AND kid_nm like concat ('%', #{search}, '%')
+            </if>
         </if>
         <if test = "0 >= kidCheck">
             where state = #{kidCheck}
+            <if test="search != null and search != '' ">
+                AND kid_nm like concat ('%', #{search}, '%')
+            </if>
         </if>
         LIMIT #{startIdx},#{rowCount}
     </select>
@@ -21,9 +27,15 @@
         FROM t_kid
         <if test="kidCheck > 0">
         where iclass = #{kidCheck}
+            <if test="search != null and search != '' ">
+                AND kid_nm like concat ('%', #{search}, '%')
+            </if>
         </if>
         <if test = "0 >= kidCheck">
             where state = #{kidCheck}
+            <if test="search != null and search != '' ">
+                AND kid_nm like concat ('%', #{search}, '%')
+            </if>
         </if>
     </select>
     <!--                 원아 재원 상태 / 반 승급 수정                   -->
@@ -50,16 +62,7 @@
         </foreach>)
         order by iparent
     </select>
-    <!--         부모와 연결 끊기          -->
-    <delete id="delDisconnect">
-        DELETE
-        FROM t_parent_kid
-        WHERE ikid in (
-        <foreach collection="ikids" item = "ikid" separator=",">
-            #{ikid}
-        </foreach>)
 
-    </delete>
     <!--         부모와 연결된 모든 원아 조회          -->
     <select id="SelGraduateKidPk">
         SELECT ikid

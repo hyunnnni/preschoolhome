@@ -308,6 +308,11 @@ public class KidService {
         if (level < 3) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
+        List<Integer> ikids = mapper.selKidPk();
+        List<Integer> iparents = mapper.selParentPk(ikids);
+
+        int delparent = mapper.delParent(iparents);
+
         int del1 = mapper.allGraduateKid();
         int del2 = mapper.allGraduateDelKid();
         if (del2 == 0) {

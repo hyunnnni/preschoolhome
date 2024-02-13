@@ -35,10 +35,14 @@ public class FullNoticeController {
             "성공시 페이지 띄우기<br>" +
             "실패시 에러메세지송출<br>")
 
-    public AllFullNoticeSelVo getAllFullNotice(@RequestParam @Schema(title = "페이지") int page) {
+    public AllFullNoticeSelVo getAllFullNotice(@RequestParam @Schema(title = "페이지")
+                                                   int page
+                                               ,@RequestParam(required = false) @Schema(title = "검색어")
+                                                   String search) {
 
         SelFullNoticeDto dto = new SelFullNoticeDto();
         dto.setPage(page);
+        dto.setSearch(search);
         return service.getAllFullNotice(dto);
     }
     //-------------------------------- 유치원 소식 조회 --------------------------------
