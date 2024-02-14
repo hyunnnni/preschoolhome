@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.teacher;
 
 import com.preschool.preschoolhome.parent.model.ParentBeforInfoVo;
+import com.preschool.preschoolhome.parent.model.UserFirebaseTokenPatchDto;
 import com.preschool.preschoolhome.teacher.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -61,4 +62,6 @@ public interface TeacherMapper {
     int teacherUpPic(TeacherInsDto dto);
     //----------------------- 3차 선생님 전체조회 or 반별 조회 ------------
     List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto);
+    //-------------------------------- 토큰 --------------------------------
+    int updTeaFirebaseToken(UserFirebaseTokenPatchDto dto);
 }

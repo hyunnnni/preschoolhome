@@ -351,4 +351,9 @@ public class TeacherService {
         return mapper.selAllTeacher(dto);
     }
 
+    //-------------------------------- 파이어베이스 토큰 --------------------------------
+    public ResVo patchTeaFirebaseToken(UserFirebaseTokenPatchDto dto) {
+        int affectedRows = mapper.updTeaFirebaseToken(dto);
+        return new ResVo(affectedRows);
+    }
 }

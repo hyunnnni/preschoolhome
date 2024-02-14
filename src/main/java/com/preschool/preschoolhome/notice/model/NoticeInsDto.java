@@ -16,14 +16,15 @@ public class NoticeInsDto {
     @JsonIgnore
     private int iteacher;
     @Schema(title = "원아 PK")
-    @Positive(message = "잘못된 값입니다")
-    private int ikid;
+    private List<Integer> ikids;
     @Schema(title = "알림장 제목")
     @NotBlank(message = "값을 입력해주세요")
     private String noticeTitle;
     @Schema(title = "알림장 내용")
     @NotBlank(message = "값을 입력해주세요")
     private String noticeContents;
+    @Schema(title = "중요 알림장")
+    private int noticeCheck;
     @JsonIgnore
     @Schema(title = "알림장 사진")
     List<String> noticePics;

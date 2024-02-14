@@ -4,6 +4,7 @@ import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.parent.model.ParentBeforInfoVo;
 import com.preschool.preschoolhome.parent.model.ParentKid;
 import com.preschool.preschoolhome.parent.model.ParentSigninDto;
+import com.preschool.preschoolhome.parent.model.UserFirebaseTokenPatchDto;
 import com.preschool.preschoolhome.teacher.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -171,7 +172,10 @@ public class TeacherController {
 
         return service.insTeacher(pic,dto);
     }
-
+    @PatchMapping("/firebase-token")
+    public ResVo patchTeaFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
+        return service.patchTeaFirebaseToken(dto);
+    }
     //------------------------- 3차 전체 선생님 불러오기 -----------------------------------------
 
 //    @GetMapping

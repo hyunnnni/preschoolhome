@@ -238,8 +238,8 @@ public class ParentService {
         return vo;
     }
     //-------------------------------- 파이어베이스 토큰 --------------------------------
-    public ResVo patchUserFirebaseToken(UserFirebaseTokenPatchDto dto) {
-        int affectedRows = mapper.updUserFirebaseToken(dto);
+    public ResVo patchParFirebaseToken(UserFirebaseTokenPatchDto dto) {
+        int affectedRows = mapper.updParFirebaseToken(dto);
         return new ResVo(affectedRows);
     }
 }

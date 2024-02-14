@@ -28,12 +28,21 @@ import java.util.List;
 public class NoticeController {
     private final NoticeService service;
 
-    //-------------------------------- 알림장 등록 --------------------------------
+    //----------------------------- 선생님 알림장 등록 --------------------------------
 
-    @Operation(summary = "알림장 등록", description = "알림장 등록")
+    @Operation(summary = "선생님 알림장 등록", description = "선생님 알림장 등록")
     @PostMapping
-    public ResVo postInsNotice(@RequestPart(required = false) List<MultipartFile> pics,
+    public ResVo postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
             @RequestPart @Valid NoticeInsDto dto){
+        return service.insNotice(pics, dto);
+    }
+
+    //----------------------------- 학부모 알림장 등록 --------------------------------
+
+    @Operation(summary = "학부모 알림장 등록", description = "학부모 알림장 등록")
+    @PostMapping
+    public ResVo postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
+                               @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }
 

@@ -29,7 +29,7 @@ public interface ParentMapper {
     int delParent(int loginUserPk);
     int delParentkid(int loginUserPk);
     //-------------------------------- 토큰 --------------------------------
-    int updUserFirebaseToken(UserFirebaseTokenPatchDto dto);
+    int updParFirebaseToken(UserFirebaseTokenPatchDto dto);
     //-------------------------------- 해당 부모와 원아가 연결 되어 있는지 체크 --------------------------------
     Integer selKidParent(int ikid, int iparent);
 

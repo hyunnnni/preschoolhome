@@ -112,8 +112,8 @@ public class ParentController {
     }
     //-------------------------------- 파이어베이스 토큰 --------------------------------
     @PatchMapping("/firebase-token")
-    public ResVo patchUserFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
-        return service.patchUserFirebaseToken(dto);
+    public ResVo patchParFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
+        return service.patchParFirebaseToken(dto);
     }
 
 

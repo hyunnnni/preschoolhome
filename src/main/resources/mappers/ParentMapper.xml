@@ -93,9 +93,9 @@
         where iparent = #{iparent}
     </update>
     <!--           토큰            -->
-    <update id="updUserFirebaseToken">
+    <update id="updParFirebaseToken">
         UPDATE t_parent
         SET firebase_token = #{firebaseToken}
-        WHERE iparent = #{iparent}
+        WHERE iparent = #{iuser}
     </update>
 </mapper>
