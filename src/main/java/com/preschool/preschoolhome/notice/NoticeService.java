@@ -40,7 +40,9 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
         String target = "/notice/" + dto.getInotice();
-
+        if (pics.size()>5){
+            throw new RestApiException(AuthErrorCode.MANY_PIC);
+        }
         if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             picsDto.setInotice(dto.getInotice());

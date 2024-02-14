@@ -41,6 +41,8 @@ public interface KidMapper {
     //------------------------ 졸업, 퇴소 원아 부모 연결 끊고 삭제 ---------------------
     List<Integer> selKidPk();
     List<Integer> selParentPk(List<Integer> ikids);
-    int delParent(List<Integer> iparents);
+    List<Integer> selKidParentPk(int iparent);
+    int delParentKid(List<Integer> ikids);
+    int delParent(int iparent);
 
 }
