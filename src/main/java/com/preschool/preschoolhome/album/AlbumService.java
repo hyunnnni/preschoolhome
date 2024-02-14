@@ -51,6 +51,9 @@ public class AlbumService {
             if (picAffectedRows > 0) {
                 return new ResVo(dto.getIalbum());
             }
+            if (picAffectedRows > 20) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            }
         } catch (Exception e){
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
@@ -235,11 +238,10 @@ public class AlbumService {
                 picsDto.getAlbumPic().add(saveFileNm);
             }
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
-            if (picsAffectedRows == 0) {
-                return new ResVo(FAIL);
+            if (picsAffectedRows == 0 || pics.size() > 20) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
         }
-
         return new ResVo(SUCCESS);
     }
 
