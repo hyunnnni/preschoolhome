@@ -30,7 +30,7 @@ public class FullNoticeService {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
-        List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix();
+        List<SelFullNoticeVo> noticeFix = mapper.getFullNoticeFix(dto.getSearch());
         if (noticeFix.size() > 3) {
             throw new RestApiException(AuthErrorCode.NOT_IMPORTED);
         }
@@ -50,9 +50,9 @@ public class FullNoticeService {
         }
         AllFullNoticeSelVo vo = new AllFullNoticeSelVo();
         vo.setList(voList);
-        int noticeCnt = mapper.selNoticeCnt();
+        int noticeCnt = mapper.selNoticeCnt(dto.getSearch());
         vo.setNoticeCnt(noticeCnt);
-        int noticeFixCnt = mapper.selNoticeFixCnt();
+        int noticeFixCnt = mapper.selNoticeFixCnt(dto.getSearch());
         vo.setNoticeFixCnt(noticeFixCnt);
         return vo;
     }
@@ -131,13 +131,6 @@ public class FullNoticeService {
             throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
 
-        if (dto.getIlevel() == 2) {
-            Integer writer = mapper.selFullNoticeWriter(dto.getIfullNotice());
-
-            if (writer == null || writer != dto.getIteacher()) {
-                throw new RestApiException(CommonErrorCode.INVALID_PARAMETER);
-            }
-        }
         int result = mapper.delFullNoticePics(dto);
 
         int result1 = mapper.delFullNotice(dto);

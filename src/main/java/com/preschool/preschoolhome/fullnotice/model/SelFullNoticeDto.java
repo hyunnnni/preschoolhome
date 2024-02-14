@@ -16,6 +16,9 @@ public class SelFullNoticeDto {
     @Range(min = 1, max = 3, message = "해당 페이지에 접근할 권한이 없습니다.")
     private int ilevel;
 
+    @Schema(title = "검색 기능")
+    private String search;
+
     @JsonIgnore
     private int starIdx;
     @JsonIgnore

@@ -9,6 +9,9 @@
         FROM t_album A
         LEFT JOIN t_album_pics B
         ON A.ialbum = B.ialbum
+        <if test="search != null and search != '' ">
+            WHERE album_title like concat ('%', #{search}, '%')
+        </if>
         GROUP BY A.ialbum
         ORDER BY A.ialbum DESC
         LIMIT #{startIdx}, #{rowCount}

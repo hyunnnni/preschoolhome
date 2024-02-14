@@ -17,7 +17,8 @@ public class AlbumSelDto {
     @JsonIgnore
     @Schema(title = "페이징 처리 끝")
     private int rowCount;
-
+    @Schema(title = "검색 기능")
+    private String search;
 
     public void setPage(int page) {
         this.rowCount = ROW_COUNT;

@@ -11,6 +11,9 @@
         JOIN t_teacher T
         ON F.iteacher = T.iteacher
         where F.full_notice_fix = 1
+        <if test="search != null and search != '' ">
+            AND full_title like concat ('%', #{search}, '%')
+        </if>
         ORDER BY F.created_at DESC
     </select>
 
@@ -23,6 +26,9 @@
         JOIN t_teacher T
         ON F.iteacher = T.iteacher
         where F.full_notice_fix = 0
+        <if test="search != null and search != '' ">
+            AND full_title like concat ('%', #{search}, '%')
+        </if>
         ORDER BY F.created_at DESC
         limit #{starIdx}, #{row}
     </select>
@@ -30,11 +36,18 @@
     <select id="selNoticeCnt">
         SELECT COUNT(ifull_notice)
         FROM t_full_notice
+        WHERE full_notice_fix = 0
+        <if test="search != null and search != '' ">
+            AND full_title like concat ('%', #{search}, '%')
+        </if>
     </select>
     <select id="selNoticeFixCnt">
         SELECT COUNT(ifull_notice)
         FROM t_full_notice
         WHERE full_notice_fix = 1
+        <if test="search != null and search != '' ">
+            AND full_title like concat ('%', #{search}, '%')
+        </if>
     </select>
 
     <!--                 게시판 상세 조회 사진                -->
@@ -70,12 +83,6 @@
             #{ifullNotice}, #{pic}
         </foreach>
     </insert>
-    <!--                 유치원 소식 작성자 pk 조회                  -->
-    <select id="selFullNoticeWriter">
-        SELECT iteacher
-        FROM t_full_notice
-        WHERE ifull_notice = #{ifullNotice}
-    </select>
     <!--                 유치원 소식 사진 삭제                  -->
     <delete id="delFullNoticePics">
         DELETE

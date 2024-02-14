@@ -88,11 +88,15 @@ public class NoticeController {
                                              int iclass,
                                              @RequestParam
                                              @Schema(title = "년도 선택")
-                                             String year){
+                                             String year,
+                                             @RequestParam(required = false)
+                                             @Schema(title = "검색어")
+                                             String search){
         SelAllNoticeDto dto = new SelAllNoticeDto();
         dto.setPage(page);
         dto.setIkid(ikid);
         dto.setIclass(iclass);
+        dto.setSearch(search);
         dto.setYear(year);
         return service.getKidManagement(dto);
 

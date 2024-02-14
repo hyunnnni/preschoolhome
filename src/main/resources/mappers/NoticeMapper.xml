@@ -66,6 +66,14 @@
         WHERE inotice = #{inotice}
     </delete>
 
+
+    <sql id="search1">
+        <if test="search != null search != '' ">
+            AND (notice_title like concat ('%', #{search}, '%'))
+        </if>
+    </sql>
+
+
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardPar">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
@@ -83,6 +91,9 @@
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
+        </if>
+        <if test="search != null and search != '' ">
+            AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
         ORDER BY A.created_at DESC
         LIMIT #{startIdx}, #{rowCount}
@@ -104,6 +115,9 @@
         <if test="year != null">
             AND year(A.created_at) = #{year}
         </if>
+        <if test="search != null and search != '' ">
+            AND B.kid_nm like concat ('%', #{search}, '%')
+        </if>
     </select>
     <!--                 선생님 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardTea">
@@ -120,6 +134,9 @@
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
+        </if>
+        <if test="search != null and search != '' ">
+            AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
         ORDER BY A.created_at DESC
         LIMIT #{startIdx}, #{rowCount}
@@ -138,6 +155,9 @@
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
+        </if>
+        <if test="search != null and search != '' ">
+            AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
     </select>
     <!--                 알림장 전체 조회 시 해당 알림장의 사진 유/무 체크                  -->
