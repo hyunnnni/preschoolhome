@@ -41,6 +41,11 @@
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
+    <select id="noticeSelPics">
+        SELECT inotice_pic
+        FROM t_notice_pics
+        WHERE inotice = #{inotice}
+    </select>
     <!--                 수정 시 알림장 사진 삭제                  -->
     <delete id="delNoticePics">
         DELETE FROM t_notice_pics

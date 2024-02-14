@@ -105,6 +105,11 @@ public class NoticeService {
 
         NoticePicsInsDto picsDto = new NoticePicsInsDto();
         picsDto.setInotice(dto.getInotice());
+        List<Integer> selpics = mapper.noticeSelPics(dto.getInotice());
+        if(pics.size() - selpics.size() > 5){
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+
         for (MultipartFile file : pics) {
             String saveFileNm = myFileUtils.transferTo(file, target);
             picsDto.getPics().add(saveFileNm);
