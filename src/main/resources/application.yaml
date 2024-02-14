@@ -37,13 +37,14 @@ server:
 
 logging:
   level:
-    jdbc:
-      sqlonly: off
-      sqltiming: info
-      resultsettable: info
-      audit: off
-      resultset: off
-      connection: off
+    -com.preschool.preschoolhome: debug
+#    jdbc:
+#      sqlonly: off
+#      sqltiming: info
+#      resultsettable: info
+#      audit: off
+#      resultset: off
+#      connection: off
 ---
 spring:
   config:

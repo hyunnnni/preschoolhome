@@ -308,10 +308,43 @@ public class KidService {
         if (level < 3) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        List<Integer> ikids = mapper.selKidPk();
-        List<Integer> iparents = mapper.selParentPk(ikids);
 
-        int delparent = mapper.delParent(iparents);
+        List<Integer> ikids = mapper.selKidPk();
+        if (ikids.size() == 0) {
+            throw new RestApiException(AuthErrorCode.GRADUATE_FAIL);
+        }
+        List<Integer> iparents = mapper.selParentPk(ikids);
+        if (iparents.size() == 0) {
+            throw new RestApiException(AuthErrorCode.GRADUATE_FAIL);
+        }
+        for (int i = 0; i < ikids.size(); i++) {
+            for (int j = 0; j < ikids.size(); j++) {
+                if(i!=j){
+                    if(ikids.get(i) == ikids.get(j)){
+                        ikids.remove(j);
+                    }
+                }
+            }
+        }
+        int delparentkid = mapper.delParentKid(ikids);
+        if (delparentkid == 0) {
+            throw new RestApiException(AuthErrorCode.GRADUATE_FAIL);
+        }
+        for (int i = 0; i < iparents.size(); i++) {
+            for (int j = 0; j < iparents.size(); j++) {
+                if(i!=j){
+                    if(iparents.get(i) == iparents.get(j)){
+                        iparents.remove(j);
+                    }
+                }
+            }
+        }
+        for (int iparent : iparents ) {
+            List<Integer> result = mapper.selKidParentPk(iparent);
+            if (result == null){
+                mapper.delParent(iparent);
+            }
+        }
 
         int del1 = mapper.allGraduateKid();
         int del2 = mapper.allGraduateDelKid();

@@ -220,33 +220,41 @@
         DELETE
         FROM t_kid
         WHERE YEAR(CURRENT_DATE) - 53 <![CDATA[>=]]> YEAR(birth)
-
     </delete>
 
     <!--         부모와 연결 끊기          -->
     <!--         부모와 연결된 모든 원아 조회          -->
-    <select id="selKidPk">
+    <select id="selKidPk" resultType="int">
         SELECT ikid
         FROM t_kid
         where YEAR(CURRENT_DATE) - 53 <![CDATA[>=]]> YEAR(birth)
     </select>
+    <select id="selKidParentPk">
+        SELECT ikid
+        FROM t_parent_kid
+        where iparent = #{iparent}
 
+    </select>
     <select id="selParentPk">
         SELECT iparent
         FROM t_parent_kid
-        where ikid in (
-        <foreach collection="ikids" item = "ikid" separator=",">
+        where ikid in
+        <foreach collection="ikids" item = "ikid" open="(" separator="," close=")">
             #{ikid}
-        </foreach>)
+        </foreach>
     </select>
 
+    <delete id="delParentKid">
+        DELETE
+        FROM t_parent_kid
+        WHERE iparent in
+        <foreach collection="ikids" item = "ikid" open="(" separator="," close=")">
+            #{ikid}
+        </foreach>
+    </delete>
     <delete id="delParent">
         DELETE
         FROM t_parent
-        WHERE iparent in
-        <foreach collection="iparents" item="iparent" open="(" separator="," close=")">
-            #{iparent}
-        </foreach>
-
+        WHERE iparent = #{iparent}
     </delete>
 </mapper>
