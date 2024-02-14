@@ -37,6 +37,7 @@ public enum AuthErrorCode implements ErrorCode {
     ALREADY_CONNECTION(HttpStatus.BAD_REQUEST, "이미 연결되어 있는 계정입니다."),
     CONNECTION_FAIL(HttpStatus.BAD_REQUEST, "연결 끊기를 실패했습니다."),
     GRADE_FAIL(HttpStatus.NOT_ACCEPTABLE,"반 승급 데이터 삽입을 실패했습니다."),
+    MANY_PIC(HttpStatus.BAD_REQUEST,"업로드 사진 제한 개수를 초과했습니다."),
     GRADUATE_FAIL(HttpStatus.NOT_FOUND,"삭제할 데이터가 없습니다.");
 
 
