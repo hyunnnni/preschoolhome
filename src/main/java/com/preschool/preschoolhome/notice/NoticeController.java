@@ -40,7 +40,7 @@ public class NoticeController {
     //----------------------------- 학부모 알림장 등록 --------------------------------
 
     @Operation(summary = "학부모 알림장 등록", description = "학부모 알림장 등록")
-    @PostMapping
+    @PostMapping("/par")
     public ResVo postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
                                @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
