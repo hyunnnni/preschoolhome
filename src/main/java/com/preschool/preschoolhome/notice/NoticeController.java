@@ -64,7 +64,8 @@ public class NoticeController {
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
     @GetMapping
     @Valid
-    @Operation(summary = "유치원 알림장 전체 조회", description = """
+    @Operation(summary = "3차 유치원 알림장 전체 조회", description = """
+    내가 쓴 글 or 내가 받은 글 값 추가 
     로그인 유저에 따라 연결 원아 기준으로만 조회되거나 선생님은 전체 조회/ 반 조회 가능<br>
     리스트 안 result 값이<br>
     -3 : 해당 정보로 조회 시 조회되는 정보 없음<br>
@@ -129,7 +130,8 @@ public class NoticeController {
 //-------------------------------- 알림장 댓글 등록 --------------------------------
 
     @PostMapping("/comment")
-    @Operation(summary = "유치원 알림장 댓글 등록", description = """
+    @Operation(summary = "3차 유치원 알림장 댓글 등록", description = """
+    푸시 기능 추가<br>
     알림장 상세 조회 로그인 유저에 따라 화면이 조금 다르다<br>
     result 값이<br>
     -1 : 댓글 작성 실패<br>
