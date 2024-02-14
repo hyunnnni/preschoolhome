@@ -345,7 +345,6 @@ public class KidService {
                 mapper.delParent(iparent);
             }
         }
-
         int del1 = mapper.allGraduateKid();
         int del2 = mapper.allGraduateDelKid();
         if (del2 == 0) {
