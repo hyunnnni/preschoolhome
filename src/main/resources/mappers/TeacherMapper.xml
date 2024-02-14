@@ -105,6 +105,10 @@
         SELECT COUNT(iparent)
         FROM t_parent
         WHERE pr_is_del = #{prIsDel}
+        <if test="search != null and search != '' ">
+            AND (C.kid_nm like concat ('%', #{search}, '%')
+            OR A.parent_nm like concat ('%', #{search}, '%'))
+        </if>
     </select>
     <!--           부모 정보 원아 반 별 기준으로 조회             -->
     <select id="selParManagementClass">
@@ -132,6 +136,10 @@
         ON B.ikid = C.ikid
         where A.pr_is_del = #{prIsDel}
         and C.iclass = #{iclass}
+        <if test="search != null and search != '' ">
+            AND (C.kid_nm like concat ('%', #{search}, '%')
+            OR A.parent_nm like concat ('%', #{search}, '%'))
+        </if>
     </select>
     <!--           해당 부모와 연결이 되어 있는 원아의 이름과 반 조회             -->
     <select id="selConnectionKid">
