@@ -101,6 +101,9 @@ public class FullNoticeService {
             if (dto.getFullPic() == null) {
                 return new ResVo(Const.SUCCESS);
             }
+            if(dto.getFullPic().size() > 20) {
+                //throw new RestApiException()
+            }
 
             pdto.setIfullNotice(dto.getIfullNotice());
             String target = "/fullnotice/" + dto.getIfullNotice();
