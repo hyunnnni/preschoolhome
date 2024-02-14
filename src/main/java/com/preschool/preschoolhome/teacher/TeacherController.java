@@ -161,5 +161,24 @@ public class TeacherController {
     public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent){
         return service.getTeacherParentEdit(iparent);
     }
+    //------------------------------ 3차 원장님이 선생님 등록 ------------------------------------
+    @PostMapping("/signup")
+    @Operation(summary = "원장님이 선생님 등록", description = "<strong>선생님 회원가입</strong><br><br>" +
+            "이상없을 경우 회원가입 성공<br>" +
+            "성공시 선생님PK로 응답<br>" +
+            "실패시 -1 or 에러메세지 송출 <br>")
+    public ResVo postTeacher( @RequestPart MultipartFile pic,@RequestPart @Valid TeacherInsDto dto){
+
+        return service.insTeacher(pic,dto);
+    }
+
+    //------------------------- 3차 전체 선생님 불러오기 -----------------------------------------
+
+//    @GetMapping
+//    @Operation(summary = "전체 선생님 정보 불러오기", description = "<strong>전체 선생님 불러오기</strong><br><br>" +
+//            "성공시 화면띄우기<br>" +
+//            "실패시 에러메세지 송출 <br>")
+//    public
+
 
 }

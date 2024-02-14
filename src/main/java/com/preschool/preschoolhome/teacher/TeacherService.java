@@ -1,9 +1,7 @@
 package com.preschool.preschoolhome.teacher;
 
-import com.preschool.preschoolhome.common.exception.AuthErrorCode;
-import com.preschool.preschoolhome.common.exception.CommonErrorCode;
-import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
-import com.preschool.preschoolhome.common.exception.RestApiException;
+import com.google.rpc.context.AttributeContext;
+import com.preschool.preschoolhome.common.exception.*;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.security.JwtTokenProvider;
 import com.preschool.preschoolhome.common.security.MyPrincipal;
@@ -17,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -152,7 +151,7 @@ public class TeacherService {
         return vo;
     }
 
-//-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
+    //-------------------------------- 학부모 정보 관리자가 삭제 --------------------------------
     @Transactional
     public ResVo delParent(DelParentDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -217,7 +216,7 @@ public class TeacherService {
         if (level < 3) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        if(teacherProfile == null){
+        if (teacherProfile == null) {
             throw new RestApiException(AuthErrorCode.PICS_NULL);
         }
         try {
@@ -272,7 +271,7 @@ public class TeacherService {
         } else if (!dto.getTeacherUpw().equals(upw)) {
             throw new RestApiException(AuthErrorCode.VALID_PASSWORD);
         }
-        if(entity.getTcIsDel() == 1){
+        if (entity.getTcIsDel() == 1) {
             throw new RestApiException(AuthErrorCode.DELETE_ID);
         }
 
@@ -297,10 +296,11 @@ public class TeacherService {
 
         return entity;
     }
+
     //-------------------------------- 선생님이 부모 마이페이지 정보수정 --------------------------------
-    public ResVo putTeacherParent( UpdTeacherParentDto dto) {
+    public ResVo putTeacherParent(UpdTeacherParentDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if(level<2){
+        if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (dto.getParentNm() == null && dto.getPhoneNb() == null && dto.getPrEmail() == null
@@ -315,6 +315,7 @@ public class TeacherService {
         return new ResVo(1);
 
     }
+
     //-------------------------------- 부모 원래정보 불러오기 --------------------------------
     public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent) {
         int level = authenticationFacade.getLevelPk();
@@ -324,4 +325,30 @@ public class TeacherService {
         TeacherParentBeforInfoVo vo = mapper.selBeforeInfo1(iparent);
         return vo;
     }
+
+    //----------------------------- 3차 원장님이 선생님 등록하기 ------------------
+    public ResVo insTeacher(MultipartFile pic, TeacherInsDto dto) {
+        int result = mapper.insTeacher(dto);
+        if (result == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        String path = "/teacher/" + dto.getIteacher();
+        String savedPicFileNm = myFileUtils.transferTo(pic, path);
+        dto.setTeacherProfile(savedPicFileNm);
+        int result2 = mapper.teacherUpPic(dto);
+        if (result2 == 0) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        return new ResVo(dto.getIteacher());
+    }
+
+    //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
+    public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto) {
+        if(dto.getPage() == 0){
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+
+        return mapper.selAllTeacher(dto);
+    }
+
 }

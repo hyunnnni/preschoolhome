@@ -7,17 +7,19 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
-@Schema(title = "회원가입 데이터 3차에 사용 예정")
+@Schema(title = "3차 선생님 회원가입")
 public class TeacherInsDto {
+
     @JsonIgnore
-    private int ilevel;
+    private int iteacher;
+
     @Schema(title = "반 PK")
     private int iclass;
 
     @Schema(title = "선생님 이름")
     @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
             message = "형식이 맞지 않습니다 확인해주세요")
-    private int teacherNm;
+    private String teacherNm;
 
     @Schema(title = "선생님 ID")
     @Pattern(regexp = "^[a-z|A-Z|0-9]*$",
@@ -36,4 +38,12 @@ public class TeacherInsDto {
     @Schema(title = "선생님 소개글")
     @NotBlank
     private String teacherIntroduce;
+
+    @Schema(title ="선생님 이메일")
+    @NotBlank
+    private String tcEmail;
+
+    @Schema(title ="권한")
+    @JsonIgnore
+    private String role;
 }

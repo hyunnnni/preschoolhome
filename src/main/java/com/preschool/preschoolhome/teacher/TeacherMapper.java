@@ -56,4 +56,9 @@ public interface TeacherMapper {
     int putTeacherParent(UpdTeacherParentDto dto);
     //------------------------ 선생님이 부모님 원래정보 불러오기 ------------------------
     TeacherParentBeforInfoVo selBeforeInfo1(int iparent);
+    //------------------------ 3차 선생님 원장님이 추가하기 --------------------------
+    int insTeacher(TeacherInsDto dto);
+    int teacherUpPic(TeacherInsDto dto);
+    //----------------------- 3차 선생님 전체조회 or 반별 조회 ------------
+    List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto);
 }
