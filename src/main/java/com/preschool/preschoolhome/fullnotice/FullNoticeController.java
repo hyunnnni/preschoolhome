@@ -57,7 +57,8 @@ public class FullNoticeController {
 
     //-------------------------------- 유치원 소식 작성 --------------------------------
     @PostMapping
-    @Operation(summary = "유치원 소식 작성", description = """
+    @Operation(summary = "3차 유치원 소식 작성", description = """
+            사진 개수 제한 기능 추가<br>
             리스트 안 result 값이<br>
             1 : 글만 작성 성공<br>
             1 이상 : 정상적으로 작성 성공""")
@@ -99,7 +100,8 @@ public class FullNoticeController {
 
     //-------------------------------- 유치원 소식 수정 --------------------------------
     @PutMapping
-    @Operation(summary = "유치원 소식 수정", description = """
+    @Operation(summary = "3차 유치원 소식 수정", description = """
+            사진 개수 제한 기능 추가<br>
             리스트 안 result 값이<br>
             1 이상 : 사진과 글 성공<br>
             1 : (글만 있는 소식일 시) 수정 성공""")

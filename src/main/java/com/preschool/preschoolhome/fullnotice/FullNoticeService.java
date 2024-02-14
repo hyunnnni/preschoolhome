@@ -7,6 +7,7 @@ import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.fullnotice.model.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,7 +103,7 @@ public class FullNoticeService {
                 return new ResVo(Const.SUCCESS);
             }
             if(dto.getFullPic().size() > 20) {
-                //throw new RestApiException()
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
 
             pdto.setIfullNotice(dto.getIfullNotice());
@@ -177,6 +178,12 @@ public class FullNoticeService {
         }
         if (dto.getFullPic() == null) {
             return new ResVo(Const.SUCCESS);
+
+        }
+        selResult = mapper.selFullNoticePics(dto.getIfullNotice());
+        int picSize = 20;
+        if ((picSize - selResult) < dto.getFullPic().size()){
+            throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
 
         pdto.setIfullNotice(dto.getIfullNotice());
