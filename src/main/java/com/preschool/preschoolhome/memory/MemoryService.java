@@ -28,8 +28,19 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
 
     public AllSelMemoryVo AllMemory(AllSelMemoryDto dto){
-        return mapper.AllMemory(dto);
+        List<String> roles = authenticationFacade.getRoles();
+        AllSelMemoryVo vo = new AllSelMemoryVo();
+        if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
+            vo = mapper.AllMemoryTea(dto);
+            vo.setImemoryCnt(mapper.AllMemoryTeaCnt(dto));
+        }
+        if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
+            vo = mapper.AllMemoryPar(dto);
+            vo.setImemoryCnt(mapper.AllMemoryParCnt(dto));
+        }
+        return vo;
     }
+
 
 
 }

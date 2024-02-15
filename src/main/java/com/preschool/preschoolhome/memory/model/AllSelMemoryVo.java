@@ -21,6 +21,8 @@ public class AllSelMemoryVo {
     private List<String> memoryPic;
     @Schema(title = "댓글여부")
     private List<String> memoryComment;
+    @Schema(title = "추억앨범 총 개수")
+    private int imemoryCnt;
     @Schema(title = "작성시간")
     private String createdAt;
 
