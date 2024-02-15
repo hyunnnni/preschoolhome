@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.memory.MemoryMapper">
+    <select id="AllMemory">
+        SELECT imemory, memory_title as memoryTitle, memory_contents as memoryContents
+        , teacher_nm as teacherNm, created_at as createdAt
+        FROM t_memory
+        <if test="iclass>0">
+            <where>
+                iclass = #{iclass}
+            </where>
+        </if>
+        LIMIT #{startIdx}, #{rowCount}
 
+
+    </select>
 
 </mapper>
 

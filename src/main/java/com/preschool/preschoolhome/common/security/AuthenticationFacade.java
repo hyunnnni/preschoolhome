@@ -5,6 +5,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AuthenticationFacade {
     public MyUserDetails getLoginUser(){
@@ -34,5 +36,15 @@ public class AuthenticationFacade {
                 : myUserDetails
                 .getMyPrincipal()
                 .getIlevel();
+    }
+
+
+    public List<String> getRoles(){
+        MyUserDetails myUserDetails = getLoginUser();
+        return myUserDetails == null
+                ? null
+                : myUserDetails
+                .getMyPrincipal()
+                .getRoles();
     }
 }
