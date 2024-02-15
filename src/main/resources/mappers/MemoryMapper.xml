@@ -79,6 +79,11 @@
         FROM t_memory_comment
         WHERE imemory = #{imemory}
     </select>
+    <select id="iMemoryIkid">
+        SELECT ikid
+        FROM t_memory
+        WHERE imemory = #{imemory}
+    </select>
 </mapper>
 
 

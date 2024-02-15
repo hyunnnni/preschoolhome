@@ -14,4 +14,5 @@ public interface MemoryMapper {
     List<AllSelMemoryVo> allMemoryPar(AllSelMemoryDto dto);
     int allMemoryParCnt(AllSelMemoryDto dto);
     int iMemoryComment(int imemory);
+    List<Integer> iMemoryIkid(int imemory);
 }

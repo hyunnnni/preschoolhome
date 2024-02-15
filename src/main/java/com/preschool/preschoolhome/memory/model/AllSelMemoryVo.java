@@ -11,6 +11,8 @@ import java.util.List;
 public class AllSelMemoryVo {
     @Schema(title = "추억앨범 PK")
     private int imemory;
+    @Schema(title = "원아 PK")
+    private List<Integer> ikids;
     @Schema(title = "추억앨범 제목")
     private String memoryTitle;
     @Schema(title = "추억앨범 내용")
@@ -23,5 +25,7 @@ public class AllSelMemoryVo {
     private String createdAt;
     @Schema(title = "댓글여부")
     private int memoryComment;
+    @Schema(title = "댓글")
+    private List<String> memoryComments;
 
 }

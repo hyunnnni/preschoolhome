@@ -1,23 +1,15 @@
 package com.preschool.preschoolhome.memory;
 
-import com.preschool.preschoolhome.common.utils.ResVo;
-import com.preschool.preschoolhome.kid.KidService;
-import com.preschool.preschoolhome.kid.model.*;
+
 import com.preschool.preschoolhome.memory.model.AllMemoryVo;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
+
 import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,4 +24,8 @@ public class MemoryController {
         return service.allMemory(dto);
     }
 
+    @GetMapping("/detail")
+    public AllSelMemoryVo getMemory(int imemory){
+        return null;
+    }
 }
