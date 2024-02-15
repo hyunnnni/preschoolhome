@@ -247,4 +247,9 @@ public class NoticeService {
         }
         return new ResVo(result);
     }
+
+    //-------------------------------- 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보 --------------------------------
+    public List<SelTagKids> getFromKids(){
+        return mapper.selFromKids();
+    }
 }

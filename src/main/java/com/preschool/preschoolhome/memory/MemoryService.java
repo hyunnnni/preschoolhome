@@ -9,6 +9,8 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.kid.KidMapper;
 import com.preschool.preschoolhome.kid.model.*;
+import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
+import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +27,9 @@ public class MemoryService {
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-
+    public AllSelMemoryVo AllMemory(AllSelMemoryDto dto){
+        return mapper.AllMemory(dto);
+    }
 
 
 }
