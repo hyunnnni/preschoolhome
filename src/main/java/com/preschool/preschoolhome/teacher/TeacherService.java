@@ -344,11 +344,10 @@ public class TeacherService {
 
     //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
     public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto) {
-        if(dto.getPage() == 0){
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
 
-        return mapper.selAllTeacher(dto);
+        List<SelAllTeacherVo> vo = mapper.selAllTeacher(dto);
+//-----------예외처리- 해야함 ----------------
+        return vo;
     }
 
     //-------------------------------- 파이어베이스 토큰 --------------------------------

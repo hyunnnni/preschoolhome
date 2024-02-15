@@ -17,7 +17,7 @@ public class SelAllTeacherVo {
     @Schema(title = "선생님 ID")
     private String teacherUid;
     @Schema(title = "선생님 재직상태")
-    private String tcIsDel;
+    private int tcIsDel;
     @Schema(title = "선생님 email")
     private String tcEmail;
     @Schema(title = "선생님 메모")

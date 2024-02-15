@@ -13,13 +13,13 @@ public class SelAllTeacherDto {
     private int page;
 
     @JsonIgnore
-    private int starIdx;
+    private int startIdx;
     @JsonIgnore
     private int rowCount;
 
     public void setPage(int page) {
         this.rowCount = Const.ROW_COUNT;
-        this.starIdx = (page - 1) * rowCount;
+        this.startIdx = (page - 1) * rowCount;
         this.page = page;
 
     }
