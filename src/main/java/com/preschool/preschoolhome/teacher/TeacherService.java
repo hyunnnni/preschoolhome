@@ -212,6 +212,7 @@ public class TeacherService {
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
 
         int level = authenticationFacade.getLevelPk();
+        dto.setLoginIlevel(level);
 
         if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
