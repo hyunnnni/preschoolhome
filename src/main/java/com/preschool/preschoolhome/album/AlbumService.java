@@ -36,6 +36,9 @@ public class AlbumService {
         if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+        if (dto.getAlbumPic().size() > 20) {
+            throw new RestApiException(AuthErrorCode.MANY_PIC);
+        }
         try {
             int AffectedRows = mapper.insAlbum(dto);
             String target = "/album/" + dto.getIalbum();
@@ -47,14 +50,14 @@ public class AlbumService {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 pdto.getAlbumPic().add(saveFileNm);
             }
+
             int picAffectedRows = mapper.insAlbumPic(pdto);
+
             if (picAffectedRows > 0) {
                 return new ResVo(dto.getIalbum());
             }
-            if (picAffectedRows > 20) {
-                throw new RestApiException(AuthErrorCode.PICS_FAIL);
-            }
-        } catch (Exception e){
+
+        } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
@@ -70,7 +73,7 @@ public class AlbumService {
         }
         try {
             List<AlbumSelVo> vo = mapper.selAllAlbum(dto);
-            AllAlbumSelVo vo1 =new AllAlbumSelVo();
+            AllAlbumSelVo vo1 = new AllAlbumSelVo();
             vo1.setList(vo);
             int albumCnt = mapper.selAlbumCnt();
             vo1.setAlbumCnt(albumCnt);
@@ -118,7 +121,7 @@ public class AlbumService {
             }
         }
         list.setAlbumComments(comments);
-        return  list;
+        return list;
     }
 
     //------------------------------------- 활동 앨범 글 삭제 -------------------------------------
@@ -139,7 +142,7 @@ public class AlbumService {
 
             int delAffectedRows = mapper.delAlbumAll(dto);
 
-            if(delAffectedRows == SUCCESS || comAffectedRows == SUCCESS){
+            if (delAffectedRows == SUCCESS || comAffectedRows == SUCCESS) {
                 return new ResVo(SUCCESS);
             }
 
@@ -161,9 +164,9 @@ public class AlbumService {
         if (level < 1) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        if(level == 1){
+        if (level == 1) {
             dto.setIparent(loginUserPk);
-        }else {
+        } else {
             dto.setIteacher(loginUserPk);
         }
 
@@ -185,7 +188,7 @@ public class AlbumService {
     public ResVo delAlbumComment(AlbumDelCommentDto dto) {
         int loginUserPk = authenticationFacade.getLoginUserPk();
 
-        if(dto.getIparent() > 0 && dto.getIteacher() > 0 ){
+        if (dto.getIparent() > 0 && dto.getIteacher() > 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
 
@@ -232,14 +235,14 @@ public class AlbumService {
 
         String target = "/album/" + dto.getIalbum();
         myFileUtils.delFolderTrigger(target);
-        if(pics.size() != 0) {
+        if (pics.size() != 0) {
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);
             }
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
             if (picsAffectedRows == 0 || pics.size() > 20) {
-                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
         }
         return new ResVo(SUCCESS);
@@ -250,13 +253,13 @@ public class AlbumService {
 
         int ilevel = authenticationFacade.getLevelPk();
 
-        if(ilevel < 1 || ilevel > 3){
+        if (ilevel < 1 || ilevel > 3) {
             throw new RestApiException(AuthErrorCode.NO_PERMISSION);
         }
         // 수정할 글 내용과 사진들 불러오기
         AlbumDeSelVo vo = mapper.selAlbumContent(ialbum);
 
-        if(vo == null){
+        if (vo == null) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
