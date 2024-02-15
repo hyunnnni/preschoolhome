@@ -48,11 +48,11 @@ public interface TeacherMapper {
     //------------------------ 선생님 정보 수정 ------------------------
     int updTeacher (TeacherPatchDto dto);
     //------------------------ 선생님 정보 삭제 ------------------------
-    int isDelTeacher (TeacherDelDto dto);
+    int updIsDelTeacher (TeacherDelDto dto);
     //------------------------ 선생님 로그인 성공 시 정보 조회 ------------------------
-    TeacherEntity selTeacher(TeacherSigninDto dto);
-    //------------------------ 선생님 로그인 시 비밀번호 체크 ------------------------
+    TeacherEntity selTeacher(TeacherSigninDto dto);    //------------------------ 선생님 로그인 시 비밀번호 체크 ------------------------
     String checkTeacherInfo (String uid);
+
     //------------------------ 선생님이 부모님 정보 변경 ------------------------
     int putTeacherParent(UpdTeacherParentDto dto);
     //------------------------ 선생님이 부모님 원래정보 불러오기 ------------------------

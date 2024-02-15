@@ -186,9 +186,9 @@
 
     <!-- 선생님 정보 수정 시 정보 불러오기 -->
     <select id="selTeacherEdit">
-        SELECT ilevel, iclass, teacher_nm AS teacherNm, teacher_uid AS teacherUid, teacher_upw AS teacherUpw,
-        teacher_introduce AS teacherIntroduce,
-        teacher_profile AS teacherProfile, tc_is_del AS tcIsDel, tc_email AS tcEmail
+        SELECT iteacher, ilevel, iclass, teacher_nm AS teacherNm, teacher_uid AS teacherUid, teacher_upw AS teacherUpw,
+        teacher_introduce AS teacherIntroduce, tc_role AS tcRole,
+        teacher_profile AS teacherProfile, tc_email AS tcEmail
         FROM t_teacher
         WHERE iteacher = #{iteacher}
     </select>
@@ -206,20 +206,23 @@
         SET teacher_nm = #{teacherNm}
         , ilevel = #{ilevel}
         , iclass = #{iclass}
+        , teacher_uid = #{teacherUid}
         , teacher_upw = #{teacherUpw}
         , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
         , teacher_introduce = #{teacherIntroduce}
+        , tc_role =
+        <choose>
+            <when test="ilevel == 3">
+                #{tcRole}
+            </when>
+            <otherwise>
+                tc_role
+            </otherwise>
+        </choose>
         WHERE iteacher = #{iteacher}
     </update>
 
-
-    <!-- 선생님 정보 삭제 -->
-    <update id="isDelTeacher">
-        UPDATE t_teacher
-        SET tc_is_del = #{tcIsDel}
-        WHERE iteacher = #{iteacher}
-    </update>
 
     <!--           선생님 로그인 시 정보 조회             -->
     <select id="selTeacher">
@@ -293,5 +296,16 @@
         UPDATE t_teacher
         SET firebase_token = #{firebaseToken}
         WHERE iteacher = #{iuser}
+    </update>
+
+
+    <!-- 3차 선생님 계정 삭제 처리  -->
+    <update id="updIsDelTeacher">
+        UPDATE t_teacher
+        SET tc_is_del = #{tcIsDel}
+        WHERE iteacher in (
+        <foreach collection="iteachers" item="iteacher" separator=",">
+            #{iteacher}
+        </foreach>)
     </update>
 </mapper>

@@ -196,7 +196,7 @@ public class TeacherService {
 
     public TeacherEditVo selTeacherEdit(int iteacher) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 3) {
+        if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         try {
@@ -213,7 +213,7 @@ public class TeacherService {
 
         int level = authenticationFacade.getLevelPk();
 
-        if (level < 3) {
+        if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         if (teacherProfile == null) {
@@ -238,21 +238,17 @@ public class TeacherService {
     }
 
     //-------------------------------- 선생님 정보 삭제 --------------------------------
-
     public ResVo delTeacher(TeacherDelDto dto) {
         int level = authenticationFacade.getLevelPk();
-        if (level < 3) {
+        if (level != Const.BOSS) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        try {
-            if (level == 3) {
-                int affectedRows = mapper.isDelTeacher(dto);
-                if (affectedRows > 0) {
-                    return new ResVo(Const.SUCCESS);
-                }
+        try{
+            int affectedRows = mapper.updIsDelTeacher(dto);
+            if (affectedRows > 0) {
+                return new ResVo(Const.SUCCESS);
             }
         } catch (Exception e) {
-            // 예외 발생 시 에러 메시지 띄우기
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
         return new ResVo(Const.FAIL);
@@ -344,7 +340,7 @@ public class TeacherService {
 
     //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
     public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto) {
-        if(dto.getPage() == 0){
+        if (dto.getPage() == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
 
