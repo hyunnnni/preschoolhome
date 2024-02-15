@@ -294,4 +294,5 @@
         SET tc_firebase_token = #{firebaseToken}
         WHERE iteacher = #{iuser}
     </update>
+
 </mapper>
