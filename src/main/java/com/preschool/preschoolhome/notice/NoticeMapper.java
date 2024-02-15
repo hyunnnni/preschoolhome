@@ -2,7 +2,6 @@ package com.preschool.preschoolhome.notice;
 
 import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,11 +9,13 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
     //------------------------ 알림장 등록 글 ------------------------
-    int insNotice(NoticeInsDto dto);
+    int insNotice(NoticeInsProcDto pdto);
     //------------------------ 알림장 등록 사진 ------------------------
     int insNoticePics(NoticePicsInsDto dto);
     //------------------------ 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회 ------------------------
-    List<String> selOtherfirebaseByLoginUser(List<Integer> inotices);
+    List<String> selParFirebaseByLoginUser(List<Integer> inotices);
+    //------------------------ 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 ------------------------
+    List<String> selTeaFirebaseByLoginUser(List<Integer> inotices);
     //------------------------ 알림장 수정 시 내용 조회 글 ------------------------
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
     //------------------------ 알림장 수정 시 내용 조회 사진 ------------------------

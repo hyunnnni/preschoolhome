@@ -2,11 +2,9 @@ package com.preschool.preschoolhome.notice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
-import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
@@ -14,7 +12,6 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,13 +39,6 @@ public class NoticeService {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
-        NoticeInsProcDto pdto = NoticeInsProcDto.builder()
-                .writerIuser(writerIuser)
-                .noticeTitle(dto.getNoticeTitle())
-                .noticeContents(dto.getNoticeContents())
-                .noticeCheck(dto.getNoticeCheck())
-                .build();
-
         if (level > Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
@@ -56,21 +46,30 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
 
+        NoticeInsProcDto pdto = NoticeInsProcDto.builder()
+                .writerIuser(writerIuser)
+                .writerIlevel(level)
+                .noticeTitle(dto.getNoticeTitle())
+                .noticeContents(dto.getNoticeContents())
+                .noticeCheck(dto.getNoticeCheck())
+                .build();
+
         int result;
         List<Integer> inotices = new ArrayList<>();
         for(Integer kid : dto.getIkids()){
             pdto.setIkid(kid);
-            result = mapper.insNotice(dto);
+            result = mapper.insNotice(pdto);
             if (result == 0) {
                 throw new RestApiException(AuthErrorCode.FAIL);
             }
             inotices.add(pdto.getInotice());
         }
 
-        String target = "/notice/" + dto.getInotice();
+
         if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             for(int inotice : inotices) {
+                String target = "/notice/" + inotice;
                 picsDto.setInotice(inotice);
                 for (MultipartFile file : pics) {
                     String saveFileNm = myFileUtils.transferTo(file, target);
@@ -87,28 +86,38 @@ public class NoticeService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
         String createdAt = now.format(formatter); // 포맷 적용
 
-        List<String> otherTokens = mapper.selOtherfirebaseByLoginUser(inotices);
+        List<String> otherTokens = new ArrayList<>();
+
+        if(level == Const.PARENT) {
+            otherTokens = mapper.selParFirebaseByLoginUser(inotices);
+        }
+        if(level == Const.TEACHER || level == Const.BOSS) {
+            otherTokens = mapper.selTeaFirebaseByLoginUser(inotices);
+        }
         try {
+
             otherTokens.removeAll(Collections.singletonList(null));
-            NoticePushVo pushVo = new NoticePushVo();
-            pushVo.setNoticeTitle(dto.getNoticeTitle());
-            pushVo.setWriterIuser(writerIuser);
-            pushVo.setCreatedAt(createdAt);
 
-            String body = objMapper.writeValueAsString(pushVo);
-            log.info("body: {}", body);
-            Notification noti = Notification.builder()
-                    .setTitle("dm")
-                    .setBody(body)
-                    .build();
+            if(otherTokens.size() != 0) {
+                NoticePushVo pushVo = new NoticePushVo();
+                pushVo.setNoticeTitle(dto.getNoticeTitle());
+                pushVo.setWriterIuser(writerIuser);
+                pushVo.setCreatedAt(createdAt);
 
-            MulticastMessage message = MulticastMessage.builder()
-                    .addAllTokens(otherTokens)
-                    .setNotification(noti)
-                    .build();
+                String body = objMapper.writeValueAsString(pushVo);
+                log.info("body: {}", body);
+                Notification noti = Notification.builder()
+                        .setTitle("dm")
+                        .setBody(body)
+                        .build();
 
-            FirebaseMessaging.getInstance().sendEachForMulticast(message);
+                MulticastMessage message = MulticastMessage.builder()
+                        .addAllTokens(otherTokens)
+                        .setNotification(noti)
+                        .build();
 
+                FirebaseMessaging.getInstance().sendEachForMulticast(message);
+            }
             } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }

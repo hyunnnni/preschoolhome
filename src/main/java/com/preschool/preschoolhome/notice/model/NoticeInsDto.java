@@ -11,8 +11,6 @@ import java.util.List;
 @Data
 @Schema(title = "알림장 등록에 필요한 요청 데이터")
 public class NoticeInsDto {
-    @JsonIgnore
-    private List<Integer> inotice;
     @Schema(title = "원아 PK")
     private List<Integer> ikids;
     @Schema(title = "알림장 제목")
@@ -23,7 +21,4 @@ public class NoticeInsDto {
     private String noticeContents;
     @Schema(title = "중요 알림장")
     private int noticeCheck;
-    @JsonIgnore
-    @Schema(title = "알림장 사진")
-    List<String> noticePics;
 }

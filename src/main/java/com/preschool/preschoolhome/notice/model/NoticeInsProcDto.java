@@ -13,8 +13,10 @@ import java.util.List;
 public class NoticeInsProcDto {
     @Schema(title = "유치원소식 PK")
     private int inotice;
-    @Schema(title = "선생님 PK")
+    @Schema(title = "작성하는 유저의 PK")
     private int writerIuser;
+    @Schema(title = "작성하는 유저의 등급 PK")
+    private int writerIlevel;
     @Schema(title = "원아 PK")
     private int ikid;
     @Schema(title = "알림장 제목")
