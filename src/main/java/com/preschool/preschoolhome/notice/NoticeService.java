@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,31 +32,52 @@ public class NoticeService {
 
         int iteacher = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
-        dto.setIteacher(iteacher);
+        NoticeInsProcDto pdto = NoticeInsProcDto.builder()
+                .iteacher(iteacher)
+                .noticeTitle(dto.getNoticeTitle())
+                .noticeContents(dto.getNoticeContents())
+                .noticeCheck(dto.getNoticeCheck())
+                .build();
 
         if (level < 2) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        int result = mapper.insNotice(dto);
-        if (result == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
-        String target = "/notice/" + dto.getInotice();
         if (pics.size()>5){
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
+
+        int result;
+        List<Integer> inotices = new ArrayList<>();
+        for(Integer kid : dto.getIkids()){
+            pdto.setIkid(kid);
+            result = mapper.insNotice(dto);
+            if (result == 0) {
+                throw new RestApiException(AuthErrorCode.FAIL);
+            }
+            inotices.add(pdto.getInotice());
+        }
+
+        String target = "/notice/" + dto.getInotice();
         if (pics != null) {
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            picsDto.setInotice(dto.getInotice());
-            for (MultipartFile file : pics) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                picsDto.getPics().add(saveFileNm);
-            }
-            int result2 = mapper.insNoticePics(picsDto);
-            if (result2 == 0) {
-                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            for(int inotice : inotices) {
+                picsDto.setInotice(inotice);
+                for (MultipartFile file : pics) {
+                    String saveFileNm = myFileUtils.transferTo(file, target);
+                    picsDto.getPics().add(saveFileNm);
+                }
+                int result2 = mapper.insNoticePics(picsDto);
+                if (result2 == 0) {
+                    throw new RestApiException(AuthErrorCode.PICS_FAIL);
+                }
             }
         }
+
+        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
+        String createdAt = now.format(formatter); // 포맷 적용
+
+        List<SelOtherToken> otherTokens = mapper.selOtherfirebaseByLoginUser(inotices);
         return new ResVo(Const.SUCCESS);
     }
 

@@ -5,10 +5,9 @@
     <!--                 알림장 등록 글                 -->
     <insert id="insNotice" useGeneratedKeys="true" keyProperty="inotice">
         INSERT INTO t_notice_board
-        SET iteacher = #{iteacher}
-        , ikid = #{ikid}
-        , notice_title = #{noticeTitle}
-        , notice_contents = #{noticeContents}
+        ( iteacher, ikid, notice_title, notice_contents, notice_check )
+        VALUES
+        (#{iteacher}, #{ikid}, #{noticeTitle}, #{noticeContents}, #{noticeCheck})
     </insert>
     <!--                 알림장 등록 사진                  -->
     <insert id="insNoticePics">
@@ -25,9 +24,12 @@
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
-        INNER JOIN t_memory_room AS C
+        INNER JOIN t_notice_board AS C
         ON B.ikid = C.ikid
-        WHERE C.imemory = #{imemory}
+        WHERE C.inotice in (
+        <foreach collection="inotices" item="inotice" separator=",">
+            #{inotice}
+        </foreach>
 
     </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
