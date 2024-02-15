@@ -294,7 +294,7 @@
     <!--           토큰            -->
     <update id="updTeaFirebaseToken">
         UPDATE t_teacher
-        SET firebase_token = #{firebaseToken}
+        SET tc_firebase_token = #{firebaseToken}
         WHERE iteacher = #{iuser}
     </update>
 
