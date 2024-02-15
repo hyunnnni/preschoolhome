@@ -3,6 +3,8 @@ package com.preschool.preschoolhome.memory;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.kid.KidService;
 import com.preschool.preschoolhome.kid.model.*;
+import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
+import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,6 +26,9 @@ import java.util.List;
 public class MemoryController {
     private final MemoryService service;
 
-
+    @GetMapping
+    public AllSelMemoryVo getAllMemory(AllSelMemoryDto dto){
+        return service.AllMemory(dto);
+    }
 
 }

@@ -10,6 +10,8 @@ import lombok.Data;
 public class AllSelMemoryDto {
     @Schema(title = "페이징 시 필요한 데이터")
     private int page;
+    @Schema(title = "반")
+    private int iclass;
     @Schema(title = "검색기능")
     private String search;
     @JsonIgnore
