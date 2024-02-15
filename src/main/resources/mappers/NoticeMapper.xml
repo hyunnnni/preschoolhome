@@ -19,6 +19,10 @@
             #{inotice}, #{pic}
         </foreach>
     </insert>
+    <!--                 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보                  -->
+    <select id="selOtherfirebaseByLoginUser">
+        SELECT firebase_token
+    </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">
         SELECT ikid, inotice, notice_title AS noticeTitle, notice_contents AS noticeContents

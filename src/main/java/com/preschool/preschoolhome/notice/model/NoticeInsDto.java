@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@Schema(title = "알림장 등록")
+@Schema(title = "알림장 등록에 필요한 요청 데이터")
 public class NoticeInsDto {
     @JsonIgnore
     private int inotice;
