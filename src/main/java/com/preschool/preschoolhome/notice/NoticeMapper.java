@@ -12,6 +12,8 @@ public interface NoticeMapper {
     int insNotice(NoticeInsDto dto);
     //------------------------ 알림장 등록 사진 ------------------------
     int insNoticePics(NoticePicsInsDto dto);
+
+    //List<SelOther>
     //------------------------ 알림장 수정 시 내용 조회 글 ------------------------
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
     //------------------------ 알림장 수정 시 내용 조회 사진 ------------------------

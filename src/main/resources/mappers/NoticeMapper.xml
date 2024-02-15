@@ -19,9 +19,16 @@
             #{inotice}, #{pic}
         </foreach>
     </insert>
-    <!--                 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보                  -->
+    <!--                 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selOtherfirebaseByLoginUser">
-        SELECT firebase_token
+        SELECT A.pr_firebase_token AS prFirebaseToken, A.iuser
+        FROM t_parent AS A
+        INNER JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        INNER JOIN t_memory_room AS C
+        ON B.ikid = C.ikid
+        WHERE C.imemory = #{imemory}
+
     </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">

@@ -13,6 +13,9 @@ public class TeacherPatchDto {
     @Positive(message = "잘못된 값입니다")
     private int iteacher;
 
+    @JsonIgnore
+    private int loginIlevel;
+
     @Schema(title = "선생님 이름")
     @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
             message = "형식이 맞지 않습니다. 확인해주세요.")
