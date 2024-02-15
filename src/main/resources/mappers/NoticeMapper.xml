@@ -167,6 +167,12 @@
         <if test="iclass == 0">
             WHERE B.state = #{iclass}
         </if>
+        <if test="fromTo == 0">
+            <![CDATA[ AND A.iparent >= 1 ]]>
+        </if>
+        <if test="fromTo == 1">
+            <![CDATA[ AND A.iteacher >= 1 ]]>
+        </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
         </if>
