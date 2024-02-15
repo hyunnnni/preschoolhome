@@ -138,6 +138,12 @@
         JOIN t_parent AS D
         ON C.iparent = D.iparent
         WHERE D.iparent = #{loginedIuser}
+        <if test="fromTo == 0">
+            <![CDATA[ AND A.iteacher >= 1 ]]>
+        </if>
+        <if test="fromTo == 1">
+            <![CDATA[ AND A.iparent >= 1 ]]>
+        </if>
         <if test="ikid > 0">
             AND c.ikid = #{ikid}
         </if>
