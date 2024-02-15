@@ -178,11 +178,13 @@ public class TeacherController {
     }
     //------------------------- 3차 전체 선생님 불러오기 -----------------------------------------
 
-//    @GetMapping
-//    @Operation(summary = "전체 선생님 정보 불러오기", description = "<strong>전체 선생님 불러오기</strong><br><br>" +
-//            "성공시 화면띄우기<br>" +
-//            "실패시 에러메세지 송출 <br>")
-//    public
+    @GetMapping
+    @Operation(summary = "전체 선생님 정보 불러오기", description = "<strong>전체 선생님 불러오기</strong><br><br>" +
+            "성공시 화면띄우기<br>" +
+            "실패시 에러메세지 송출 <br>")
+    public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto){
+        return service.selAllTeacher(dto);
+    }
 
 
 }
