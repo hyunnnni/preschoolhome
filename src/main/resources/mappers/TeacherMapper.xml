@@ -213,7 +213,7 @@
         , teacher_introduce = #{teacherIntroduce}
         , tc_role =
         <choose>
-            <when test="ilevel == 3">
+            <when test="loginIlevel == 3">
                 #{tcRole}
             </when>
             <otherwise>
