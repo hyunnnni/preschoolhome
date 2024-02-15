@@ -14,7 +14,7 @@ public class NoticeInsProcDto {
     @Schema(title = "유치원소식 PK")
     private int inotice;
     @Schema(title = "선생님 PK")
-    private int iteacher;
+    private int writerIuser;
     @Schema(title = "원아 PK")
     private int ikid;
     @Schema(title = "알림장 제목")

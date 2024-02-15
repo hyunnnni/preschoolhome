@@ -1,5 +1,10 @@
 package com.preschool.preschoolhome.notice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.MulticastMessage;
+import com.google.firebase.messaging.Notification;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
@@ -9,7 +14,9 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,29 +24,32 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeService {
     private final NoticeMapper mapper;
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
+    private final ObjectMapper objMapper;
 
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
     public ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
 
-        int iteacher = authenticationFacade.getLoginUserPk();
+        int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         NoticeInsProcDto pdto = NoticeInsProcDto.builder()
-                .iteacher(iteacher)
+                .writerIuser(writerIuser)
                 .noticeTitle(dto.getNoticeTitle())
                 .noticeContents(dto.getNoticeContents())
                 .noticeCheck(dto.getNoticeCheck())
                 .build();
 
-        if (level < 2) {
+        if (level > Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (pics.size()>5){
@@ -77,8 +87,33 @@ public class NoticeService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
         String createdAt = now.format(formatter); // 포맷 적용
 
-        List<SelOtherToken> otherTokens = mapper.selOtherfirebaseByLoginUser(inotices);
+        List<String> otherTokens = mapper.selOtherfirebaseByLoginUser(inotices);
+        try {
+            otherTokens.removeAll(Collections.singletonList(null));
+            NoticePushVo pushVo = new NoticePushVo();
+            pushVo.setNoticeTitle(dto.getNoticeTitle());
+            pushVo.setWriterIuser(writerIuser);
+            pushVo.setCreatedAt(createdAt);
+
+            String body = objMapper.writeValueAsString(pushVo);
+            log.info("body: {}", body);
+            Notification noti = Notification.builder()
+                    .setTitle("dm")
+                    .setBody(body)
+                    .build();
+
+            MulticastMessage message = MulticastMessage.builder()
+                    .addAllTokens(otherTokens)
+                    .setNotification(noti)
+                    .build();
+
+            FirebaseMessaging.getInstance().sendEachForMulticast(message);
+
+            } catch (Exception e) {
+            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+        }
         return new ResVo(Const.SUCCESS);
+
     }
 
     //-------------------------------- 알림장 수정 시 정보 출력--------------------------------

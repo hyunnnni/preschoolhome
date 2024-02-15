@@ -4,9 +4,10 @@ public class Const {
     public static final int LOGIN_NO_UID = 2;
     public static final int LOGIN_DIFF_UPW = 3;
 
-    public static final int PARENT = 1; //학부모 PK
-    public static final int TEACHER = 2; //관리자 선생님 PK
-    public static final int BOSS = 3; //관리자 원장님 PK
+    public static final int PARENT = 1; //학부모
+    public static final int TEACHER = 2; //관리자 선생님
+    public static final int BOSS = 3; //관리자 원장님
+    public static final int graduate = 4; //졸업자 학부모
     public static final int RESULT = 100; // INT 초기화 시 넣을 더미 값
     public static final int FAIL = -1; //실패 응답값-----------
     public static final int SUCCESS = 1; //성공 응답값--------
