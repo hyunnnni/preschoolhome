@@ -188,4 +188,16 @@ public class NoticeController {
         dto.setIparent(iparent);
         return service.delNoticeComment(dto);
     }
+    //-------------------------------- 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보 --------------------------------
+    @GetMapping ("/tag")
+    @Operation(summary = "알림장 작성 시 보내고 싶은 원아 태그에 쓰일 모든 원아 정보", description = """
+        여러 원아에게 알림장을 보내고 싶을 때 선택할 수 있는 원아들 정보 조회""")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "통신 성공"),
+            @ApiResponse(responseCode = "400", description = "요청 오류"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public List<SelTagKids> getFromKids(){
+        return service.getFromKids();
+    }
 }

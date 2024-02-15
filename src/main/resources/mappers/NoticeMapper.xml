@@ -70,15 +70,6 @@
         FROM t_notice_board
         WHERE inotice = #{inotice}
     </delete>
-
-
-    <sql id="search1">
-        <if test="search != null search != '' ">
-            AND (notice_title like concat ('%', #{search}, '%'))
-        </if>
-    </sql>
-
-
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardPar">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
@@ -225,4 +216,10 @@
             iparent = #{iparent}
         </if>
     </delete>
+    <!--                 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보                  -->
+    <select id="selFromKids">
+        SELECT ikid, iclass, kid_nm AS kidNm
+        FROM t_kid
+        ORDER BY iclass
+    </select>
 </mapper>

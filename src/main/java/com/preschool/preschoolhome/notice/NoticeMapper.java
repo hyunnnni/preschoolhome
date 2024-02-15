@@ -51,4 +51,7 @@ public interface NoticeMapper {
     int insNoticeComment (InsNoticeCommentDto dto);
     //-------------------------------- 알림장 댓글 삭제 --------------------------------
     int delNoticeComment (DelNoticeCommentDto dto);
+    //-------------------------------- 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보 --------------------------------
+    List<SelTagKids> selFromKids();
+
 }
