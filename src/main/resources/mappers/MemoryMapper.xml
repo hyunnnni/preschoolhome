@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.memory.MemoryMapper">
-    <select id="AllMemoryTea">
+    <select id="allMemoryTea">
         SELECT A.imemory, C.ikid, A.memory_title as memoryTitle, A.memory_contents as memoryContents
         , A.teacher_nm as teacherNm, A.created_at as createdAt
         FROM t_memory A
@@ -21,7 +21,7 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
-    <select id="AllMemoryTeaCnt">
+    <select id="allMemoryTeaCnt">
         SELECT Count(A.imemory)
         FROM t_memory A
         JOIN t_memory_room B
@@ -38,11 +38,11 @@
             </if>
         </where>
     </select>
-    <select id="AllMemoryPar">
+    <select id="allMemoryPar">
         SELECT A.imemory, C.ikid, A.memory_title as memoryTitle, A.memory_contents as memoryContents
         , A.teacher_nm as teacherNm, A.created_at as createdAt
         FROM t_memory A
-        JOIN t_memory B
+        JOIN t_memory_room B
         ON A.imemory = B.imemory
         JOIN t_kid C
         ON B.ikid = C.ikid
@@ -57,10 +57,10 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
-    <select id="AllMemoryParCnt">
+    <select id="allMemoryParCnt">
         SELECT Count(A.imemory)
         FROM t_memory A
-        JOIN t_memory B
+        JOIN t_memory_room B
         ON A.imemory = B.imemory
         JOIN t_kid C
         ON B.ikid = C.ikid
@@ -73,6 +73,11 @@
                 OR C.kid_nm like concat ('%', #{search}, '%'))
             </if>
         </where>
+    </select>
+    <select id="iMemoryComment">
+        SELECT COUNT(imemory_comment)
+        FROM t_memory_comment
+        WHERE imemory = #{imemory}
     </select>
 </mapper>
 

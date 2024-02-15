@@ -9,8 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface MemoryMapper {
-    AllSelMemoryVo AllMemoryTea(AllSelMemoryDto dto);
-    int AllMemoryTeaCnt(AllSelMemoryDto dto);
-    AllSelMemoryVo AllMemoryPar(AllSelMemoryDto dto);
-    int AllMemoryParCnt(AllSelMemoryDto dto);
+    List<AllSelMemoryVo> allMemoryTea(AllSelMemoryDto dto);
+    int allMemoryTeaCnt(AllSelMemoryDto dto);
+    List<AllSelMemoryVo> allMemoryPar(AllSelMemoryDto dto);
+    int allMemoryParCnt(AllSelMemoryDto dto);
+    int iMemoryComment(int imemory);
 }
