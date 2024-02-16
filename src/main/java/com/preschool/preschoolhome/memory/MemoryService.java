@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.google.rpc.context.AttributeContext;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
@@ -50,7 +51,11 @@ public class MemoryService {
 
 
     public SelMemoryVo selMemory(int imemory){
-        //한개의 앨범안에 여러개의 사진이 들어가야함
+//        List<String> roles = authenticationFacade.getRoles();
+//        if(!(roles.get(0).equals("admin"))){
+//            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+//        }
+
         String exist = mapper.selImemory(imemory);
         if(exist ==null){
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
@@ -61,7 +66,7 @@ public class MemoryService {
         SelMemoryVo memory = mapper.selMemory(imemory);
         List<String> pics = mapper.selMemoryPic(imemory);
         memory.setMemoryPic(pics);
-        //한개의 memory 안에 여러개의 사진을 넣어서 return  해줘야함
+
 
         return memory;
     }
