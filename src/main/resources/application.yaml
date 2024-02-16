@@ -30,11 +30,6 @@ springdoc:
 fcm:
   certification: serviceAccountKey.json
 
-server:
-  port: 8080
-
-
-
 logging:
   level:
     -com.preschool.preschoolhome: debug
