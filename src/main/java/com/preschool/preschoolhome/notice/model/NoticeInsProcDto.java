@@ -3,21 +3,25 @@ package com.preschool.preschoolhome.notice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-@Schema(title = "알림장 등록에 필요한 요청 데이터")
-public class NoticeInsDto {
+@Builder
+public class NoticeInsProcDto {
+    @Schema(title = "유치원소식 PK")
+    private int inotice;
+    @Schema(title = "작성하는 유저의 PK")
+    private int writerIuser;
+    @Schema(title = "작성하는 유저의 등급 PK")
+    private int writerIlevel;
     @Schema(title = "원아 PK")
-    private List<Integer> ikids;
+    private int ikid;
     @Schema(title = "알림장 제목")
-    @NotBlank(message = "값을 입력해주세요")
     private String noticeTitle;
     @Schema(title = "알림장 내용")
-    @NotBlank(message = "값을 입력해주세요")
     private String noticeContents;
     @Schema(title = "중요 알림장")
     private int noticeCheck;

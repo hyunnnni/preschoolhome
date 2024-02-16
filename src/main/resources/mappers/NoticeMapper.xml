@@ -5,10 +5,17 @@
     <!--                 알림장 등록 글                 -->
     <insert id="insNotice" useGeneratedKeys="true" keyProperty="inotice">
         INSERT INTO t_notice_board
-        SET iteacher = #{iteacher}
-        , ikid = #{ikid}
-        , notice_title = #{noticeTitle}
-        , notice_contents = #{noticeContents}
+        SET ikid = #{ikid},
+        notice_title = #{noticeTitle},
+        notice_contents = #{noticeContents},
+        notice_check = #{noticeCheck}
+        <if test="writerIlevel == 1">
+            ,iparent = #{iparent}
+        </if>
+        <if test="writerIlevel == 2 || writerIlevel == 3">
+            ,iteacher = #{iteacher}
+        </if>
+
     </insert>
     <!--                 알림장 등록 사진                  -->
     <insert id="insNoticePics">
@@ -20,15 +27,22 @@
         </foreach>
     </insert>
     <!--                 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
-    <select id="selOtherfirebaseByLoginUser">
-        SELECT A.pr_firebase_token AS prFirebaseToken, A.iuser
+    <select id="selParFirebaseByLoginUser">
+        SELECT A.pr_firebase_token AS FirebaseToken
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
-        INNER JOIN t_memory_room AS C
+        INNER JOIN t_notice_board AS C
         ON B.ikid = C.ikid
-        WHERE C.imemory = #{imemory}
-
+        WHERE C.inotice in (
+        <foreach collection="inotices" item="inotice" separator=",">
+            #{inotice}
+        </foreach>
+    </select>
+    <!--                 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
+    <select id="selTeaFirebaseByLoginUser">
+        SELECT tc_firebase_token AS FirebaseToken
+        FROM t_teacher
     </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">
@@ -83,6 +97,7 @@
     </delete>
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardPar">
+
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
         B.iclass, A.created_at AS createdAt
         FROM t_notice_board AS A
@@ -93,6 +108,12 @@
         JOIN t_parent AS D
         ON C.iparent = D.iparent
         WHERE D.iparent = #{loginedIuser}
+        <if test="fromTo == 0">
+            <![CDATA[ AND A.iteacher >= 1 ]]>
+        </if>
+        <if test="fromTo == 1">
+            <![CDATA[ AND A.iparent >= 1 ]]>
+        </if>
         <if test="ikid > 0">
             AND c.ikid = #{ikid}
         </if>
@@ -104,6 +125,7 @@
         </if>
         ORDER BY A.created_at DESC
         LIMIT #{startIdx}, #{rowCount}
+
     </select>
     <!--                 학부모 유저 시점 원아 알림장 전체 개수 조회                  -->
     <select id="selNoticeParCnt">
@@ -116,6 +138,12 @@
         JOIN t_parent AS D
         ON C.iparent = D.iparent
         WHERE D.iparent = #{loginedIuser}
+        <if test="fromTo == 0">
+            <![CDATA[ AND A.iteacher >= 1 ]]>
+        </if>
+        <if test="fromTo == 1">
+            <![CDATA[ AND A.iparent >= 1 ]]>
+        </if>
         <if test="ikid > 0">
             AND c.ikid = #{ikid}
         </if>
@@ -138,6 +166,12 @@
         </if>
         <if test="iclass == 0">
             WHERE B.state = #{iclass}
+        </if>
+        <if test="fromTo == 0">
+            <![CDATA[ AND A.iparent >= 1 ]]>
+        </if>
+        <if test="fromTo == 1">
+            <![CDATA[ AND A.iteacher >= 1 ]]>
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}

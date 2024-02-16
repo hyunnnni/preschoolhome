@@ -5,6 +5,8 @@ import com.preschool.preschoolhome.memory.model.AllMemoryVo;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
 
 import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
+import com.preschool.preschoolhome.memory.model.SelMemoryVo;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,5 +29,12 @@ public class MemoryController {
     @GetMapping("/detail")
     public AllSelMemoryVo getMemory(int imemory){
         return null;
+    }
+
+
+    @GetMapping("/eidt")
+    @Operation(summary = "추억앨범 정보 불러오기", description = "추억앨범 수정 전 정보 불러오기")
+    public SelMemoryVo getMemoryEdit(@RequestParam int imemory){
+        return service.selMemory(imemory);
     }
 }

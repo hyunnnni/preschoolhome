@@ -99,6 +99,9 @@ public class NoticeController {
                                              @RequestParam
                                              @Schema(title = "년도 선택")
                                              String year,
+                                             @RequestParam
+                                             @Schema(title = "내가 받은 글 = 0(기본)/ 내가 쓴 글 = 1")
+                                             int fromTo,
                                              @RequestParam(required = false)
                                              @Schema(title = "검색어")
                                              String search){
@@ -106,6 +109,7 @@ public class NoticeController {
         dto.setPage(page);
         dto.setIkid(ikid);
         dto.setIclass(iclass);
+        dto.setFromTo(fromTo);
         dto.setSearch(search);
         dto.setYear(year);
         return service.getKidManagement(dto);
