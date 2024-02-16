@@ -40,7 +40,9 @@ logging:
 #      audit: off
 #      resultset: off
 #      connection: off
+
 ---
+
 spring:
   config:
     activate:
