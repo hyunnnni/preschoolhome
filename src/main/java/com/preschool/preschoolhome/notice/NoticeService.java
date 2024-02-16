@@ -91,10 +91,10 @@ public class NoticeService {
         List<String> otherTokens = new ArrayList<>();
 
         if(level == Const.PARENT) {
-            otherTokens = mapper.selParFirebaseByLoginUser(inotices);
+            otherTokens = mapper.selTeaFirebaseByLoginUser(writerIuser);
         }
         if(level == Const.TEACHER || level == Const.BOSS) {
-            otherTokens = mapper.selTeaFirebaseByLoginUser(inotices);
+            otherTokens = mapper.selParFirebaseByLoginUser(inotices);
         }
         try {
 
@@ -104,6 +104,9 @@ public class NoticeService {
                 NoticePushVo pushVo = new NoticePushVo();
                 pushVo.setNoticeTitle(dto.getNoticeTitle());
                 pushVo.setWriterIuser(writerIuser);
+                if(level == Const.PARENT){
+                    pushVo.setIkids(dto.getIkids());
+                }
                 pushVo.setCreatedAt(createdAt);
 
                 String body = objMapper.writeValueAsString(pushVo);
