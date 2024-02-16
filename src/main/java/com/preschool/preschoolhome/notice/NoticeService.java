@@ -42,7 +42,7 @@ public class NoticeService {
         if (level > Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (pics.size()>5){
+        if (pics.size()>Const.NOTICE_PIC){
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
 
@@ -173,7 +173,7 @@ public class NoticeService {
         NoticePicsInsDto picsDto = new NoticePicsInsDto();
         picsDto.setInotice(dto.getInotice());
         List<Integer> selpics = mapper.noticeSelPics(dto.getInotice());
-        if(pics.size() - selpics.size() > 5){
+        if( Const.NOTICE_PIC - selpics.size() < pics.size() ){
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
