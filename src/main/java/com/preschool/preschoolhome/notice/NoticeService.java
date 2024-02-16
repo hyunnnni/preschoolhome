@@ -303,10 +303,10 @@ public class NoticeService {
 
         String otherTokens = null;
         if(level == Const.PARENT) {
-            //otherTokens = mapper.selParFirebaseByLoginUser();
+            otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getInoticeComment());
         }
         if(level == Const.TEACHER || level == Const.BOSS) {
-            //otherTokens = mapper.selTeaFirebaseByLoginUser();
+            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getInoticeComment());
         }
         try {
 

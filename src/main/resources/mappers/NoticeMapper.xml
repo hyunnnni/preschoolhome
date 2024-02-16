@@ -35,9 +35,9 @@
         INNER JOIN t_notice_board AS C
         ON B.ikid = C.ikid
         WHERE C.inotice in (
-        <foreach collection="inotices" item="inotice" separator=",">
-            #{inotice}
-        </foreach>
+            <foreach collection="inotices" item="inotice" separator=",">
+                #{inotice}
+            </foreach>
     </select>
     <!--                 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUser">
@@ -242,13 +242,36 @@
         WHERE inotice = #{inotice}
     </select>
     <!--                 알림장 댓글 등록                 -->
-    <insert id="insNoticeComment">
+    <insert id="insNoticeComment" useGeneratedKeys="true" keyProperty="inoticeComment">
         INSERT INTO t_notice_comment
         SET inotice = #{inotice},
         notice_comment = #{noticeComment},
         iteacher = #{iteacher},
         iparent = #{iparent}
     </insert>
+    <!--                 알림장 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
+    <select id="selParFirebaseByLoginUserComment">
+        SELECT A.pr_firebase_token AS FirebaseToken
+        FROM t_parent AS A
+        INNER JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        INNER JOIN t_notice_board AS C
+        ON B.ikid = C.ikid
+        LEFT JOIN t_notice_comment as D
+        ON C.inotice = D.inotice
+        WHERE D.inotice_comment = #{inoticeComment}
+
+    </select>
+    <!--                 알림장 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
+    <select id="selTeaFirebaseByLoginUserComment">
+        SELECT tc_firebase_token AS FirebaseToken
+        FROM t_teacher as A
+        JOIN t_notice_board AS B
+        ON A.iteacher = B.iteacher
+        LEFT JOIN t_notice_comment as C
+        ON B.inotice = C.inotice
+        WHERE D.inotice_comment = #{inoticeComment}
+    </select>
     <!--                 알림장 댓글 삭제                 -->
     <delete id="delNoticeComment">
         DELETE

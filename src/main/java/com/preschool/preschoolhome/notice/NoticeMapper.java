@@ -53,6 +53,10 @@ public interface NoticeMapper {
     List<String> selNoticeDetailPics(int notice);
     //-------------------------------- 알림장 댓글 등록 --------------------------------
     int insNoticeComment (InsNoticeCommentDto dto);
+    //------------------------ 알림장 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회 ------------------------
+    String selParFirebaseByLoginUserComment(int inoticeComment);
+    //------------------------ 알림장 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 ------------------------
+    String selTeaFirebaseByLoginUserComment(int inoticeComment);
     //-------------------------------- 알림장 댓글 삭제 --------------------------------
     int delNoticeComment (DelNoticeCommentDto dto);
     //-------------------------------- 알림장 작성 시 원아 태그에 쓰일 모든 원아 정보 --------------------------------

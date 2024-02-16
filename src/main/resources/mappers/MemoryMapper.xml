@@ -74,11 +74,13 @@
             </if>
         </where>
     </select>
+
     <select id="iMemoryComment">
         SELECT COUNT(imemory_comment)
         FROM t_memory_comment
         WHERE imemory = #{imemory}
     </select>
+    <!-- 추억앨범에 걸린 원아 PK 불러오기 -->
     <select id="iMemoryIkid">
         SELECT ikid
         FROM t_memory

@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Range;
 @Data
 @Schema(title = "알림장 댓글 작성에 필요한 요청 데이터")
 public class InsNoticeCommentDto {
+    @JsonIgnore
+    private int inoticeComment;
     @Schema(title = "댓글을 작성할 알림장 pk")
     @Positive(message="잘못된 값입니다")
     private int inotice;
