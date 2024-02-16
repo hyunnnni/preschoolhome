@@ -31,7 +31,7 @@ public class NoticeController {
     //----------------------------- 선생님 알림장 등록 --------------------------------
 
     @Operation(summary = "선생님 알림장 등록", description = "선생님 알림장 등록")
-    @PostMapping
+    @PostMapping("/tea")
     public ResVo postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
             @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
