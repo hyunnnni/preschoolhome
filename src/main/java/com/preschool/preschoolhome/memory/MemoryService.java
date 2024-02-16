@@ -35,7 +35,7 @@ public class MemoryService {
                 list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
-            vo.setImemoryCnt(list.size());
+            vo.setImemoryCnt(mapper.allMemoryTeaCnt(dto));
         }
         if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
             List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
@@ -44,7 +44,7 @@ public class MemoryService {
                 list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
-            vo.setImemoryCnt(list.size());
+            vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
     }

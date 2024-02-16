@@ -75,7 +75,8 @@ public class AlbumService {
             List<AlbumSelVo> vo = mapper.selAllAlbum(dto);
             AllAlbumSelVo vo1 = new AllAlbumSelVo();
             vo1.setList(vo);
-            vo1.setAlbumCnt(vo.size());
+            int albumCnt = mapper.selAlbumCnt();
+            vo1.setAlbumCnt(albumCnt);
             return vo1;
         } catch (Exception e) {
             // 예외 발생 시 에러 메시지 띄우기
