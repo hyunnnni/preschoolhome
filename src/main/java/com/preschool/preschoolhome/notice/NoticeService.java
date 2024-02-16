@@ -173,7 +173,7 @@ public class NoticeService {
         NoticePicsInsDto picsDto = new NoticePicsInsDto();
         picsDto.setInotice(dto.getInotice());
         List<Integer> selpics = mapper.noticeSelPics(dto.getInotice());
-        if( Const.NOTICE_PIC - selpics.size() < pics.size() ){
+        if(Const.NOTICE_PIC - selpics.size() < pics.size() ){
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
