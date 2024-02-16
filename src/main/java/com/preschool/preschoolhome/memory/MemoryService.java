@@ -33,7 +33,7 @@ public class MemoryService {
         if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
             List<AllSelMemoryVo> list = mapper.allMemoryTea(dto);
             for (int i = 0; i < list.size(); i++) {
-                list.get(i).setMemoryComment(mapper.iMemoryComment(list.get(i).getImemory()));
+                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
                 list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
@@ -42,7 +42,7 @@ public class MemoryService {
         if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
             List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
             for (int i = 0; i < list.size(); i++) {
-                list.get(i).setMemoryComment(mapper.iMemoryComment(list.get(i).getImemory()));
+                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
                 list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
@@ -54,8 +54,7 @@ public class MemoryService {
     public AllSelMemoryVo memory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setIkids(mapper.iMemoryIkid(imemory));
-
-        vo.setMemoryComments(null);
+        vo.setMemoryComments(mapper.memoryComment(imemory));
         return vo;
     }
 

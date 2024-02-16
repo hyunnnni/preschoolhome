@@ -74,9 +74,10 @@
             </if>
         </where>
     </select>
-
-    <select id="iMemoryComment">
-        SELECT COUNT(imemory_comment)
+    <!-- 추억앨범에 걸린 댓글 불러오기 -->
+    <select id="memoryComment">
+        SELECT imemory_comment as imemoryComment, memory_comment as memoryComment
+        , created_at as createdAt
         FROM t_memory_comment
         WHERE imemory = #{imemory}
     </select>
