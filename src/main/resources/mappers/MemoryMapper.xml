@@ -93,7 +93,6 @@
         ON A.iteacher = B.iteacher
         WHERE A.imemory = #{imemory}
     </select>
-
     <!-- 수정 전 원래 있던 내용 불러오기 -->
     <select id="selMemory">
         SELECT memory_title AS memoryTitle , memory_contents AS memoryContents

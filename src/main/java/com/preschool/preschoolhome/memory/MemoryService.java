@@ -50,7 +50,11 @@ public class MemoryService {
     }
 
     public AllSelMemoryVo memory(int imemory){
-        return mapper.memory(imemory);
+        AllSelMemoryVo vo = mapper.memory(imemory);
+        vo.setIkids(mapper.iMemoryIkid(imemory));
+
+        vo.setMemoryComments(null);
+        return vo;
     }
 
 
