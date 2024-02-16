@@ -21,23 +21,6 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
-    <select id="allMemoryTeaCnt">
-        SELECT Count(A.imemory)
-        FROM t_memory A
-        JOIN t_memory_room B
-        ON A.imemory = B.imemory
-        JOIN t_kid C
-        ON B.ikid = C.ikid
-        <where>
-            <if test="iclass > 0">
-                C.iclass = #{iclass}
-            </if>
-            <if test="search != null and search != '' ">
-                (A.memory_title like concat ('%', #{search}, '%')
-                OR C.kid_nm like concat ('%', #{search}, '%'))
-            </if>
-        </where>
-    </select>
     <select id="allMemoryPar">
         SELECT A.imemory, C.ikid, A.memory_title as memoryTitle, A.memory_contents as memoryContents
         , A.teacher_nm as teacherNm, A.created_at as createdAt
@@ -57,23 +40,6 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
-    <select id="allMemoryParCnt">
-        SELECT Count(A.imemory)
-        FROM t_memory A
-        JOIN t_memory_room B
-        ON A.imemory = B.imemory
-        JOIN t_kid C
-        ON B.ikid = C.ikid
-        <where>
-            <if test="ikid > 0">
-                C.ikid = #{ikid}
-            </if>
-            <if test="search != null and search != '' ">
-                (A.memory_title like concat ('%', #{search}, '%')
-                OR C.kid_nm like concat ('%', #{search}, '%'))
-            </if>
-        </where>
-    </select>
     <select id="iMemoryComment">
         SELECT COUNT(imemory_comment)
         FROM t_memory_comment
@@ -83,6 +49,15 @@
         SELECT ikid
         FROM t_memory
         WHERE imemory = #{imemory}
+    </select>
+    <!-- 상세 내용 불러오기 -->
+    <select id="memory">
+        SELECT A.imemory, A.memory_title AS memoryTitle , A.memory_contents AS memoryContents
+        , A.created_at AS createdAt, B.teacher_nm as teacherNm
+        FROM t_memory A
+        JOIN t_teacher B
+        ON A.iteacher = B.iteacher
+        WHERE A.imemory = #{imemory}
     </select>
 
     <!-- 수정 전 원래 있던 내용 불러오기 -->
