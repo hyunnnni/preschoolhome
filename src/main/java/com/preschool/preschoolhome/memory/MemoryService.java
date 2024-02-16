@@ -3,17 +3,19 @@ package com.preschool.preschoolhome.memory;
 
 import com.google.rpc.context.AttributeContext;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
+import com.preschool.preschoolhome.common.exception.CommonErrorCode;
+import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 
-import com.preschool.preschoolhome.memory.model.AllMemoryVo;
-import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
-import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
-import com.preschool.preschoolhome.memory.model.SelMemoryVo;
+import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.memory.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -81,5 +83,30 @@ public class MemoryService {
     }
 
 
+    //------------------------------------- 추억 앨범 글 작성 시 전체 원아 조회 -------------------------------------
+    public List<MemorySelDto> getFromKids() {
+        return mapper.getFromKids();
+    }
+
+    //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
+    @Transactional
+    public ResVo delmemory (int imemory) {
+        int level = authenticationFacade.getLevelPk();
+
+        if (level < Const.TEACHER) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+
+        try {
+            mapper.delMemoryAll(imemory);
+            int delMemory = mapper.delMemory(imemory);
+            if (delMemory > 0) {
+                return new ResVo(Const.SUCCESS);
+            }
+        } catch (Exception e) {
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        return new ResVo(Const.FAIL);
+    }
 
 }

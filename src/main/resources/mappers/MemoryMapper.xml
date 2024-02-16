@@ -110,6 +110,33 @@
         where imemory = #{imemory}
     </select>
 
+    <!-- 추억 앨범 글 작성 시 원아 전체 조회 -->
+    <select id="getFromKids">
+        SELECT ikid, iclass, kid_nm AS kidNm
+        FROM t_kid
+        ORDER BY iclass
+    </select>
+
+    <!-- 추억 앨범 글 삭제 전 댓글, 사진, 방 삭제 -->
+    <delete id="delMemoryAll">
+        DELETE B, C, D
+        FROM t_memory AS A
+        LEFT JOIN t_memory_album AS B
+        ON A.imemory = B.imemory
+        LEFT JOIN t_memory_comment AS C
+        ON A.imemory = C.imemory
+        LEFT JOIN t_memory_room AS D
+        ON A.imemory = D.imemory
+        WHERE A.imemory = #{imemory}
+    </delete>
+
+    <!-- 추억 앨범 글 삭제  -->
+    <delete id="delMemory">
+        DELETE
+        FROM t_memory
+        WHERE imemory = #{imemory}
+    </delete>
+
 </mapper>
 
 
