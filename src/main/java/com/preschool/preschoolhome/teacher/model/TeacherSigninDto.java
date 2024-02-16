@@ -9,9 +9,9 @@ import lombok.Data;
 public class TeacherSigninDto {
     @JsonIgnore
     private int iteacher;
-    @Schema(title = "아이디")
+    @Schema(title = "아이디", example = "123")
     private String teacherUid;
-    @Schema(title = "비밀번호")
+    @Schema(title = "비밀번호", example = "123")
     private String teacherUpw;
 
 

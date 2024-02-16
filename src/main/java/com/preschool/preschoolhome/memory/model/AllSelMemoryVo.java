@@ -26,6 +26,6 @@ public class AllSelMemoryVo {
     @Schema(title = "댓글여부")
     private int memoryComment;
     @Schema(title = "댓글")
-    private List<String> memoryComments;
+    private List<MemoryCommentVo> memoryComments;
 
 }
