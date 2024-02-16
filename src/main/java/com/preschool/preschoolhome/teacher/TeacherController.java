@@ -162,6 +162,12 @@ public class TeacherController {
     public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent){
         return service.getTeacherParentEdit(iparent);
     }
+    //-------------------------------- 리프레시 토큰 --------------------------------
+    @GetMapping("/refresh-token")
+    public TeacherEntity getRefreshToken(HttpServletRequest req){
+        return service.getRefreshToken(req);
+    }
+
     //------------------------------ 3차 원장님이 선생님 등록 ------------------------------------
     @PostMapping("/signup")
     @Operation(summary = "원장님이 선생님 등록", description = "<strong>선생님 회원가입</strong><br><br>" +
@@ -172,6 +178,7 @@ public class TeacherController {
 
         return service.insTeacher(pic,dto);
     }
+    //-------------------------------- 파이어베이스 토큰 --------------------------------
     @PatchMapping("/firebase-token")
     public ResVo patchTeaFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
         return service.patchTeaFirebaseToken(dto);
