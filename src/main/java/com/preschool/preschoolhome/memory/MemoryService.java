@@ -49,6 +49,10 @@ public class MemoryService {
         return vo;
     }
 
+    public AllSelMemoryVo memory(int imemory){
+        return null;
+    }
+
 
     public SelMemoryVo selMemory(int imemory){
 

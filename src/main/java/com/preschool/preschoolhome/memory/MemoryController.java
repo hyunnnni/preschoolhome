@@ -34,7 +34,7 @@ public class MemoryController {
 
     @GetMapping("/detail")
     public AllSelMemoryVo getMemory(int imemory){
-        return null;
+        return service.memory(imemory);
     }
 
 
