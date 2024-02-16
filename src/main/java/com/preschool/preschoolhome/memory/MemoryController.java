@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.memory.model.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @Tag(name = "추억앨범", description = "추억앨범 관리")
 public class MemoryController {
     private final MemoryService service;
+    private final AuthenticationFacade authenticationFacade;
 
     @GetMapping
     @Operation(summary = "3차 추억 추억 앨범 전체 조회", description = "")
@@ -30,13 +32,17 @@ public class MemoryController {
     @GetMapping("/detail")
     @Operation(summary = "3차 추억 앨범 상세 조회", description = "")
     public AllSelMemoryVo getMemory(int imemory){
-        return null;
+        return service.memory(imemory);
     }
 
 
     @GetMapping("/eidt")
     @Operation(summary = "3차 추억앨범 정보 불러오기", description = "추억앨범 수정 전 정보 불러오기")
     public SelMemoryVo getMemoryEdit(@RequestParam int imemory){
+//        List<String> roles = authenticationFacade.getRoles();
+//        if(!(roles.get(0).equals("admin"))){
+//            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+//        }
         return service.selMemory(imemory);
     }
 
