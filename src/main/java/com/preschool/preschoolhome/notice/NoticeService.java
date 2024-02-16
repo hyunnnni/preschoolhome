@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.notice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
@@ -286,11 +287,50 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
         int level = authenticationFacade.getLevelPk();
+        int writerIuser = authenticationFacade.getLoginUserPk();
         dto.setIlevel(level);
 
         int result = mapper.insNoticeComment(dto);
         if (result == 0) {
             return new ResVo(Const.FAIL);
+        }
+
+        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
+        String createdAt = now.format(formatter); // 포맷 적용
+
+
+        String otherTokens = null;
+        if(level == Const.PARENT) {
+            //otherTokens = mapper.selParFirebaseByLoginUser();
+        }
+        if(level == Const.TEACHER || level == Const.BOSS) {
+            //otherTokens = mapper.selTeaFirebaseByLoginUser();
+        }
+        try {
+
+           if(otherTokens != null) {
+               NoticeCommentPushVo pushVo = new NoticeCommentPushVo();
+                pushVo.setNoticeComment(dto.getNoticeComment());
+                pushVo.setWriterIuser(writerIuser);
+                pushVo.setCreatedAt(createdAt);
+
+                String body = objMapper.writeValueAsString(pushVo);
+                log.info("body: {}", body);
+                Notification noti = Notification.builder()
+                        .setTitle("dm")
+                        .setBody(body)
+                        .build();
+
+                Message message = Message.builder()
+                        .setToken(otherTokens)
+                        .setNotification(noti)
+                        .build();
+
+                FirebaseMessaging.getInstance().sendAsync(message);
+            }
+        } catch (Exception e) {
+            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
         return new ResVo(result);
 
