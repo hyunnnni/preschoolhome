@@ -1,14 +1,12 @@
 package com.preschool.preschoolhome.teacher.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Schema(title = "3차 선생님 전체 or 선택조회")
 public class SelAllTeacherVo {
-    @JsonIgnore
+    @Schema(title = "선생님 명 수")
     private int iteacher;
     @Schema(title = "반 PK")
     private int iclass;
@@ -24,6 +22,7 @@ public class SelAllTeacherVo {
     private String tcMemo;
     @Schema(title = "선생님 사진")
     private String teacherProfile;
+
 
 
 }

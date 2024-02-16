@@ -84,7 +84,15 @@
         FROM t_memory
         WHERE imemory = #{imemory}
     </select>
-
+    <!-- 상세 내용 불러오기 -->
+    <select id="memory">
+        SELECT A.imemory, A.memory_title AS memoryTitle , A.memory_contents AS memoryContents
+        , A.created_at AS createdAt, B.teacher_nm as teacherNm
+        FROM t_memory A
+        JOIN t_teacher B
+        ON A.iteacher = B.iteacher
+        WHERE A.imemory = #{imemory}
+    </select>
     <!-- 수정 전 원래 있던 내용 불러오기 -->
     <select id="selMemory">
         SELECT memory_title AS memoryTitle , memory_contents AS memoryContents

@@ -95,7 +95,7 @@
     <!--           토큰            -->
     <update id="updParFirebaseToken">
         UPDATE t_parent
-        SET firebase_token = #{firebaseToken}
+        SET pr_firebase_token = #{firebaseToken}
         WHERE iparent = #{iuser}
     </update>
 </mapper>

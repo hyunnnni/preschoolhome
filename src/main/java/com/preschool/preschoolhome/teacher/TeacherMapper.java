@@ -50,7 +50,8 @@ public interface TeacherMapper {
     //------------------------ 선생님 정보 삭제 ------------------------
     int updIsDelTeacher (TeacherDelDto dto);
     //------------------------ 선생님 로그인 성공 시 정보 조회 ------------------------
-    TeacherEntity selTeacher(TeacherSigninDto dto);    //------------------------ 선생님 로그인 시 비밀번호 체크 ------------------------
+    TeacherEntity selTeacher(TeacherSigninDto dto);
+    //------------------------ 선생님 로그인 시 비밀번호 체크 ------------------------
     String checkTeacherInfo (String uid);
 
     //------------------------ 선생님이 부모님 정보 변경 ------------------------
@@ -62,6 +63,7 @@ public interface TeacherMapper {
     int teacherUpPic(TeacherInsDto dto);
     //----------------------- 3차 선생님 전체조회 or 반별 조회 ------------
     List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto);
+    int selTeacherCnt(int iteacher);
     //-------------------------------- 토큰 --------------------------------
     int updTeaFirebaseToken(UserFirebaseTokenPatchDto dto);
 }

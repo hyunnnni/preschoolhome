@@ -181,7 +181,7 @@ public class FullNoticeService {
 
         }
         selResult = mapper.selFullNoticePics(dto.getIfullNotice());
-        int picSize = 20;
+        int picSize = Const.FULL_NOTICE_PIC;
         if ((picSize - selResult) < dto.getFullPic().size()){
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }

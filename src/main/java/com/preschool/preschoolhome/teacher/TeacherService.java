@@ -5,9 +5,11 @@ import com.preschool.preschoolhome.common.exception.*;
 import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.security.JwtTokenProvider;
 import com.preschool.preschoolhome.common.security.MyPrincipal;
+import com.preschool.preschoolhome.common.security.MyUserDetails;
 import com.preschool.preschoolhome.common.utils.*;
 import com.preschool.preschoolhome.parent.model.*;
 import com.preschool.preschoolhome.teacher.model.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -244,7 +246,7 @@ public class TeacherService {
         if (level != Const.BOSS) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        try{
+        try {
             int affectedRows = mapper.updIsDelTeacher(dto);
             if (affectedRows > 0) {
                 return new ResVo(Const.SUCCESS);
@@ -340,12 +342,34 @@ public class TeacherService {
     }
 
     //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
-    public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto) {
-        if (dto.getPage() == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
+    public SelTeacherInfoVo selAllTeacher(SelAllTeacherDto dto) {
 
-        return mapper.selAllTeacher(dto);
+        List<SelAllTeacherVo> list = mapper.selAllTeacher(dto);
+        SelTeacherInfoVo vo = new SelTeacherInfoVo();
+        vo.setTeacherCnt(mapper.selTeacherCnt(dto.getIclass()));
+        vo.setList(list);
+
+        return vo;
+    }
+
+    //-------------------------------- 리프레시 토큰 --------------------------------
+    public TeacherEntity getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
+        Cookie cookie = cookieUtils.getCookie(req, "rt");
+        TeacherEntity vo = new TeacherEntity();
+        if (cookie == null) {
+            vo.setAccessToken(null);
+            return vo;
+        }
+        String token = cookie.getValue();
+        if (!jwtTokenProvider.isValidateToken(token)) {
+            vo.setAccessToken(null);
+            return vo;
+        }
+        MyUserDetails myUserDetails = (MyUserDetails) jwtTokenProvider.getUserDetailsFromToken(token);
+        MyPrincipal myPrincipal = myUserDetails.getMyPrincipal();
+        String at = jwtTokenProvider.generateAccessToken(myPrincipal);
+        vo.setAccessToken(at);
+        return vo;
     }
 
     //-------------------------------- 파이어베이스 토큰 --------------------------------

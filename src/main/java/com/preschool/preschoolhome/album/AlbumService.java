@@ -36,7 +36,7 @@ public class AlbumService {
         if (level < 2) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        if (dto.getAlbumPic().size() > 20) {
+        if (dto.getAlbumPic().size() > Const.ALBUM_PIC) {
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
         try {

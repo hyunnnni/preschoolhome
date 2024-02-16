@@ -42,4 +42,9 @@ public class Const {
     public static final int PICS_UP_FAIL = -3;//유치원 소식 사진 삭제 실패
 
     public static final int ONLY_CONTENTS = -2;//유치원 소식 수정 시 불러오기 내용만 불러와짐
+
+    public static final int MEMORY_PIC = 20;//추억앨범 사진 수
+    public static final int FULL_NOTICE_PIC = 10;//유치원 소식 사진 수
+    public static final int NOTICE_PIC = 5;//알림장 사진 수
+    public static final int ALBUM_PIC = 20;//활동 앨범 사진 수
 }
