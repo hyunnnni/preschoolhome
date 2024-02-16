@@ -10,10 +10,10 @@
         notice_contents = #{noticeContents},
         notice_check = #{noticeCheck}
         <if test="writerIlevel == 1">
-            ,iparent = #{iparent}
+            ,iparent = #{writerIuser}
         </if>
         <if test="writerIlevel == 2 || writerIlevel == 3">
-            ,iteacher = #{iteacher}
+            ,iteacher = #{writerIuser}
         </if>
 
     </insert>
