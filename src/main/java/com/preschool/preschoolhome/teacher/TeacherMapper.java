@@ -63,6 +63,7 @@ public interface TeacherMapper {
     int teacherUpPic(TeacherInsDto dto);
     //----------------------- 3차 선생님 전체조회 or 반별 조회 ------------
     List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto);
+    int selTeacherCnt(int iteacher);
     //-------------------------------- 토큰 --------------------------------
     int updTeaFirebaseToken(UserFirebaseTokenPatchDto dto);
 }

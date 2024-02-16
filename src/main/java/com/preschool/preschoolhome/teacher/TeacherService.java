@@ -246,7 +246,7 @@ public class TeacherService {
         if (level != Const.BOSS) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        try{
+        try {
             int affectedRows = mapper.updIsDelTeacher(dto);
             if (affectedRows > 0) {
                 return new ResVo(Const.SUCCESS);
@@ -342,13 +342,16 @@ public class TeacherService {
     }
 
     //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
-    public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto) {
-        if (dto.getPage() == 0) {
-            throw new RestApiException(AuthErrorCode.FAIL);
-        }
+    public SelTeacherInfoVo selAllTeacher(SelAllTeacherDto dto) {
 
-        return mapper.selAllTeacher(dto);
+        List<SelAllTeacherVo> list = mapper.selAllTeacher(dto);
+        SelTeacherInfoVo vo = new SelTeacherInfoVo();
+        vo.setTeacherCnt(mapper.selTeacherCnt(dto.getIclass()));
+        vo.setList(list);
+
+        return vo;
     }
+
     //-------------------------------- 리프레시 토큰 --------------------------------
     public TeacherEntity getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
         Cookie cookie = cookieUtils.getCookie(req, "rt");
@@ -368,6 +371,7 @@ public class TeacherService {
         vo.setAccessToken(at);
         return vo;
     }
+
     //-------------------------------- 파이어베이스 토큰 --------------------------------
     public ResVo patchTeaFirebaseToken(UserFirebaseTokenPatchDto dto) {
         int affectedRows = mapper.updTeaFirebaseToken(dto);

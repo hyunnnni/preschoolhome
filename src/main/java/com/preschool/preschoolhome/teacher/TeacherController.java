@@ -147,24 +147,27 @@ public class TeacherController {
             , @RequestBody TeacherSigninDto dto) {
         return service.teacherSignin(req, res, dto);
     }
+
     //-------------------------------- 선생님 부모정보 수정 --------------------------------
     @PutMapping("/parentedit")
     @Operation(summary = "선생님이 부모님 정보 수정")
-    public ResVo putTeacherParent(@RequestBody @Valid UpdTeacherParentDto dto){
+    public ResVo putTeacherParent(@RequestBody @Valid UpdTeacherParentDto dto) {
         return service.putTeacherParent(dto);
     }
+
     //-------------------------------- 선생님 부모정보 수정시 정보가져오기 --------------------------------
     @GetMapping("/parentedit")
     @Operation(summary = "수정 전 정보가져오기", description = "<strong>정보 불러오기</strong><br><br>" +
             "수정전 정보가져오기<br>" +
             "성공시 원래 정보 가져오기, 부모 PK 응답<br>" +
             "실패시 에러메세지송출 <br>")
-    public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent){
+    public TeacherParentBeforInfoVo getTeacherParentEdit(int iparent) {
         return service.getTeacherParentEdit(iparent);
     }
+
     //-------------------------------- 리프레시 토큰 --------------------------------
     @GetMapping("/refresh-token")
-    public TeacherEntity getRefreshToken(HttpServletRequest req){
+    public TeacherEntity getRefreshToken(HttpServletRequest req) {
         return service.getRefreshToken(req);
     }
 
@@ -174,10 +177,11 @@ public class TeacherController {
             "이상없을 경우 회원가입 성공<br>" +
             "성공시 선생님PK로 응답<br>" +
             "실패시 -1 or 에러메세지 송출 <br>")
-    public ResVo postTeacher( @RequestPart MultipartFile pic,@RequestPart @Valid TeacherInsDto dto){
+    public ResVo postTeacher(@RequestPart MultipartFile pic, @RequestPart @Valid TeacherInsDto dto) {
 
-        return service.insTeacher(pic,dto);
+        return service.insTeacher(pic, dto);
     }
+
     //-------------------------------- 파이어베이스 토큰 --------------------------------
     @PatchMapping("/firebase-token")
     public ResVo patchTeaFirebaseToken(@RequestBody UserFirebaseTokenPatchDto dto) {
@@ -189,7 +193,11 @@ public class TeacherController {
     @Operation(summary = "전체 선생님 정보 불러오기", description = "<strong>전체 선생님 불러오기</strong><br><br>" +
             "성공시 화면띄우기<br>" +
             "실패시 에러메세지 송출 <br>")
-    public List<SelAllTeacherVo> selAllTeacher(SelAllTeacherDto dto){
+    public SelTeacherInfoVo selAllTeacher(@RequestParam int page, @RequestParam(required = false,defaultValue = "0") int iclass) {
+        SelAllTeacherDto dto = new SelAllTeacherDto();
+        dto.setPage(page);
+        dto.setIclass(iclass);
+
         return service.selAllTeacher(dto);
     }
 

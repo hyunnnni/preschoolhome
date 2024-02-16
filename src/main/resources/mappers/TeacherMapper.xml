@@ -283,7 +283,7 @@
 
     <!--             선생님 전체 조회 or 반별 조회                 -->
     <select id="selAllTeacher">
-        select iclass, iteacher, teacher_nm as teacherNm, teacher_uid as teacherUid,tc_is_del as tcIsDel
+        select iclass, iteacher, teacher_nm as teacherNm, teacher_uid as teacherUid,tc_is_del as tcIsDel,
         tc_email as tcEmail, tc_memo as tcMemo, teacher_profile as teacherProfile
         from t_teacher
         <if test="iclass > 0 ">
@@ -291,6 +291,15 @@
         </if>
         LIMIT #{startIdx}, #{rowCount}
     </select>
+
+    <select id="selTeacherCnt">
+        select count(iteacher)
+        from t_teacher
+        <if test="iclass > 0 ">
+            where iclass = #{iclass}
+        </if>
+    </select>
+
     <!--           토큰            -->
     <update id="updTeaFirebaseToken">
         UPDATE t_teacher
