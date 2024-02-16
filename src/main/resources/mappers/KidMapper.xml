@@ -62,6 +62,7 @@
             </if>
         </where>
     </select>
+    <!--                원아 코드 조회                 -->
     <select id="kidAllCode1">
         SELECT code
         FROM t_kid
