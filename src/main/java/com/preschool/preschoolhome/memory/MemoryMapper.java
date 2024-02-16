@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.memory;
 
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryVo;
+import com.preschool.preschoolhome.memory.model.MemorySelDto;
 import com.preschool.preschoolhome.memory.model.SelMemoryVo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,5 +22,14 @@ public interface MemoryMapper {
     SelMemoryVo selMemory(int imemory);
     List<String> selMemoryPic(int imemory);
     String selImemory(int imemory);
+
+
+    //------------------------------------- 추억 앨범 글 작성 시 전체 원아 조회 -------------------------------------
+    List<MemorySelDto> getFromKids();
+    //------------------------------------- 추억 앨범 글 삭제 전 댓글, 사진, 방 삭제 -------------------------------------
+    int delMemoryAll(int imemory);
+    //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
+    int delMemory(int imemory);
+
 
 }
