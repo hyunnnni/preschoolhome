@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.notice;
 
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.common.utils.ResVoArray;
 import com.preschool.preschoolhome.notice.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,18 +31,22 @@ public class NoticeController {
 
     //----------------------------- 선생님 알림장 등록 --------------------------------
 
-    @Operation(summary = "선생님 알림장 등록", description = "선생님 알림장 등록")
+    @Operation(summary = "선생님 알림장 등록", description = """
+    선생님 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
+    응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/tea")
-    public ResVo postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
-            @RequestPart @Valid NoticeInsDto dto){
+    public ResVoArray postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
+                                       @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }
 
     //----------------------------- 학부모 알림장 등록 --------------------------------
 
-    @Operation(summary = "학부모 알림장 등록", description = "학부모 알림장 등록")
+    @Operation(summary = "학부모 알림장 등록", description = """
+    학부모 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
+    응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/par")
-    public ResVo postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
+    public ResVoArray postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
                                @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }

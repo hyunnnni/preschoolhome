@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResVo {
-    private int result;
+@Getter
+public class ResVoArray {
+    private List<Integer> result = new ArrayList<>();
 }

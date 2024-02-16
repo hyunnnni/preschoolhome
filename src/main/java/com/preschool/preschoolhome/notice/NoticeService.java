@@ -11,6 +11,7 @@ import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.common.utils.ResVoArray;
 import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class NoticeService {
 
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
-    public ResVo insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
+    public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
@@ -122,7 +123,7 @@ public class NoticeService {
             } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
-        return new ResVo(Const.SUCCESS);
+        return new ResVoArray(inotices);
 
     }
 
