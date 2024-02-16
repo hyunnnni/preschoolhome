@@ -88,8 +88,8 @@ public class KidController {
         return service.kidEdit(ikid);
     }
 
-    //-------------------------------- 졸업한 지 10년 된  원아 전체 삭제 --------------------------------
-    @Operation(summary = "졸업한 지 10년 된  원아 전체 삭제", description = "졸업한 지 10년 된  원아 전체 삭제")
+    //-------------------------------- 졸업한 지 50년 된  원아 전체 삭제 --------------------------------
+    @Operation(summary = "졸업한 지 50년 된  원아 전체 삭제", description = "졸업한 지 50년 된  원아 전체 삭제")
     @DeleteMapping
     public ResVo delAllGraduateKid(){
         return service.allGraduateKid();
