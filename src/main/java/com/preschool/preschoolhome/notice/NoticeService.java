@@ -88,25 +88,25 @@ public class NoticeService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
         String createdAt = now.format(formatter); // 포맷 적용
 
-        List<String> otherTokens = new ArrayList<>();
+        List<SelOtherTokens> otherTokens = new ArrayList<>();
 
         if(level == Const.PARENT) {
-            otherTokens = mapper.selTeaFirebaseByLoginUser(writerIuser);
+            otherTokens = mapper.selTeaFirebaseByLoginUser(inotices, dto.getIkids());
         }
         if(level == Const.TEACHER || level == Const.BOSS) {
             otherTokens = mapper.selParFirebaseByLoginUser(inotices);
         }
         try {
 
-
             otherTokens.removeAll(Collections.singletonList(null));
+            for (SelOtherTokens token : otherTokens) {
 
-            if(otherTokens.size() != 0) {
                 NoticePushVo pushVo = new NoticePushVo();
                 pushVo.setNoticeTitle(dto.getNoticeTitle());
                 pushVo.setWriterIuser(writerIuser);
-                //pushVo.setInotice();
-               // pushVo.setIkids(dto.getIkids());
+                pushVo.setInotice(token.getInotice());
+                pushVo.setIkid(token.getIkid());
+                pushVo.setKidNm(token.getKidNm());
                 pushVo.setCreatedAt(createdAt);
 
                 String body = objMapper.writeValueAsString(pushVo);
@@ -116,14 +116,14 @@ public class NoticeService {
                         .setBody(body)
                         .build();
 
-                MulticastMessage message = MulticastMessage.builder()
-                        .addAllTokens(otherTokens)
+                Message message = Message.builder()
+                        .setToken(token.getToken())
                         .setNotification(noti)
                         .build();
 
-                FirebaseMessaging.getInstance().sendEachForMulticast(message);
+                FirebaseMessaging.getInstance().sendAsync(message);
             }
-            } catch (Exception e) {
+        } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
         return new ResVoArray(inotices);

@@ -28,7 +28,7 @@
     </insert>
     <!--                 선생님이 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUser">
-        SELECT A.pr_firebase_token AS FirebaseToken, B.ikid, C.inotice
+        SELECT A.pr_firebase_token AS FirebaseToken, B.ikid, B.kid_nm AS kidNm C.inotice
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
@@ -41,7 +41,7 @@
     </select>
     <!--                 학부모가 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUser">
-        SELECT DISTINCT E.tc_firebase_token AS FirebaseToken, C.ikid,  D.inotice
+        SELECT DISTINCT E.tc_firebase_token AS FirebaseToken, C.ikid, C.kid_nm AS kidNm,  D.inotice
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
@@ -51,7 +51,11 @@
         ON C.ikid = D.ikid
         INNER JOIN t_teacher AS E
         ON C.iclass = E.iclass
-        WHERE C.ikid in (
+        WHERE D.inotice in (
+        <foreach collection="inotices" item="inotice" separator=",">
+            #{inotice}
+        </foreach>)
+        AND C.ikid in (
         <foreach collection="ikids" item="ikid" separator=",">
             #{ikid}
         </foreach>)

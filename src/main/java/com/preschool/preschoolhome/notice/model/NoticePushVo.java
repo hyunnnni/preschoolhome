@@ -11,4 +11,6 @@ public class NoticePushVo {
     private String noticeTitle;
     private String createdAt;
     private int inotice;
+    private int ikid;
+    private String kidNm;
 }
