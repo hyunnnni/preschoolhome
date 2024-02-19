@@ -10,7 +10,7 @@ public class MemoryAlbumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "imemory_pic", nullable = false)
-    private Long imemoryPic;
+    private Integer imemoryPic;
 
     @ManyToOne
     @JoinColumn(name = "imemory", nullable = false)

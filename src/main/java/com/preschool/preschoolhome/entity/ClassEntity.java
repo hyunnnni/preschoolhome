@@ -8,9 +8,9 @@ import lombok.Data;
 @Table(name = "t_class")
 public class ClassEntity extends CreatedAtEntity{
     @Id
-    @Column(columnDefinition = "BIGINT UNSIGNED")
+    @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long iclass;
+    private Integer iclass;
 
     @Column(length = 10, name = "class_nm", nullable = false)
     private String classNm;

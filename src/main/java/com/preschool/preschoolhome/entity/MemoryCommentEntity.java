@@ -9,9 +9,9 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "t_memory_comment")
 public class MemoryCommentEntity extends CreatedAtEntity {
     @Id
-    @Column(name = "imemory_comment", columnDefinition = "BIGINT UNSIGNED")
+    @Column(name = "imemory_comment", columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imemoryComment;
+    private Integer imemoryComment;
 
     @ManyToOne
     @JoinColumn(name = "imemory", nullable = false)
@@ -22,9 +22,9 @@ public class MemoryCommentEntity extends CreatedAtEntity {
 
     @ColumnDefault("0")
     @Column(nullable = false)
-    private Long iteacher;
+    private Integer iteacher;
 
     @ColumnDefault("0")
     @Column(nullable = false)
-    private Long iparent;
+    private Integer iparent;
 }

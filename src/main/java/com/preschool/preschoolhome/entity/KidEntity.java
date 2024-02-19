@@ -11,8 +11,8 @@ import java.util.Date;
 public class KidEntity extends CreatedAtEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
-    private Long ikid;
+    @Column(nullable = false, columnDefinition = "INT UNSIGNED")
+    private Integer ikid;
 
     @ManyToOne
     @JoinColumn(name = "iclass", nullable = false)
@@ -29,13 +29,13 @@ public class KidEntity extends CreatedAtEntity {
     private Date birth;
 
     @Column(nullable = false)
-    private Long gender;
+    private Integer gender;
 
     @Column(length = 100, nullable = false)
     private String address;
 
     @Column(nullable = false)
-    private Long state;
+    private Integer state;
 
     @Column(unique = true, length = 15, nullable = false)
     private String code;

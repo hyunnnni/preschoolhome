@@ -10,6 +10,6 @@ import java.io.Serializable;
 @Embeddable
 @EqualsAndHashCode
 public class MemoryRooms implements Serializable  {
-    private Long imemory;
-    private Long ikid;
+    private Integer imemory;
+    private Integer ikid;
 }
