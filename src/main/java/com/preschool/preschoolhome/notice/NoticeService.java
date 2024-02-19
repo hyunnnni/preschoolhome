@@ -114,7 +114,7 @@ public class NoticeService {
                     String body = objMapper.writeValueAsString(pushVo);
                     log.info("body: {}", body);
                     Notification noti = Notification.builder()
-                            .setTitle("dm")
+                            .setTitle("notice")
                             .setBody(body)
                             .build();
 
