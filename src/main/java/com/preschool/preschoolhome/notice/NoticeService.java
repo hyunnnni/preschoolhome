@@ -3,7 +3,6 @@ package com.preschool.preschoolhome.notice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.MulticastMessage;
 import com.google.firebase.messaging.Notification;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.RestApiException;
@@ -89,7 +88,7 @@ public class NoticeService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
         String createdAt = now.format(formatter); // 포맷 적용
 
-        List<SelOtherTokens> otherTokens = new ArrayList<>();
+        List<SelNoticeOtherTokens> otherTokens = new ArrayList<>();
 
         if(level == Const.PARENT) {
             otherTokens = mapper.selTeaFirebaseByLoginUser(inotices, dto.getIkids());
@@ -97,35 +96,38 @@ public class NoticeService {
         if(level == Const.TEACHER || level == Const.BOSS) {
             otherTokens = mapper.selParFirebaseByLoginUser(inotices);
         }
-        try {
 
-            otherTokens.removeAll(Collections.singletonList(null));
-            for (SelOtherTokens token : otherTokens) {
+        if (otherTokens != null) {
+            try {
 
-                NoticePushVo pushVo = new NoticePushVo();
-                pushVo.setNoticeTitle(dto.getNoticeTitle());
-                pushVo.setWriterIuser(writerIuser);
-                pushVo.setInotice(token.getInotice());
-                pushVo.setIkid(token.getIkid());
-                pushVo.setKidNm(token.getKidNm());
-                pushVo.setCreatedAt(createdAt);
+                otherTokens.removeAll(Collections.singletonList(null));
+                for (SelNoticeOtherTokens token : otherTokens) {
 
-                String body = objMapper.writeValueAsString(pushVo);
-                log.info("body: {}", body);
-                Notification noti = Notification.builder()
-                        .setTitle("dm")
-                        .setBody(body)
-                        .build();
+                    NoticePushVo pushVo = new NoticePushVo();
+                    pushVo.setNoticeTitle(dto.getNoticeTitle());
+                    pushVo.setWriterIuser(writerIuser);
+                    pushVo.setInotice(token.getInotice());
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setCreatedAt(createdAt);
 
-                Message message = Message.builder()
-                        .setToken(token.getToken())
-                        .setNotification(noti)
-                        .build();
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("dm")
+                            .setBody(body)
+                            .build();
 
-                FirebaseMessaging.getInstance().sendAsync(message);
+                    Message message = Message.builder()
+                            .setToken(token.getFirebaseToken())
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
+            } catch (Exception e) {
+                throw new RestApiException(AuthErrorCode.PUSH_FAIL);
             }
-        } catch (Exception e) {
-            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
         return new ResVoArray(inotices);
 

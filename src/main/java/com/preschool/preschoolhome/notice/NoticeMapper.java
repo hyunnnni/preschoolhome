@@ -13,9 +13,9 @@ public interface NoticeMapper {
     //------------------------ 알림장 등록 사진 ------------------------
     int insNoticePics(NoticePicsInsDto dto);
     //------------------------ 선생님이 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회 ------------------------
-    List<SelOtherTokens> selParFirebaseByLoginUser(List<Integer> inotices);
+    List<SelNoticeOtherTokens> selParFirebaseByLoginUser(List<Integer> inotices);
     //------------------------ 학부모가 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 ------------------------
-    List<SelOtherTokens> selTeaFirebaseByLoginUser(List<Integer> inotices, List<Integer> ikids);
+    List<SelNoticeOtherTokens> selTeaFirebaseByLoginUser(List<Integer> inotices, List<Integer> ikids);
     //------------------------ 알림장 수정 시 내용 조회 글 ------------------------
     NoticeUpdSelVo noticeEdit(int inotice, int ikid);
     //------------------------ 알림장 수정 시 내용 조회 사진 ------------------------
