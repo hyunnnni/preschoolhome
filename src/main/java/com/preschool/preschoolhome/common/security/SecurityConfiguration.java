@@ -35,35 +35,102 @@ public class SecurityConfiguration {
                 //폼 로그인 끔 -화면을 안써서
                 .csrf(csrf -> csrf.disable())
                 //스프링이 기본제공해주는 보안기법 - 화면상에서 보안해줘서 필요없음
-                .authorizeHttpRequests(auth -> auth.requestMatchers(
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST,
                         "/api/album"
-                        ,"/api/album/**"
                         ,"/api/full"
-                        ,"/api/full/edit"
                         ,"/api/kid"
-                        ,"/api/kid/**"
+                        ,"/api/kid/detail"
+                        ,"/api/notice/tea"
+                        ,"/api/memory"
+                        ,"/api/teacher"
+                        ).authenticated()
+                        //).hasAnyRole("TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.POST,
+                        "/api/teacher/signup"
+                        ).authenticated()
+                        //).hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST
+                        ,"/api/album/comment"
+                        ,"/api/notice/par"
+                        ,"/api/notice/comment"
+                        ).authenticated()
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.GET,
+                        "/api/album/edit"
+                        ,"/api/full/edit"
+                        ,"/api/kid/edit/{ikid}"
+                        ,"/api/kid/detail/edit/{ikid}"
+                        ,"/api/memory/edit"
+                        ,"/api/memory/tag"
+                        ,"/api/notice/tag"
+                        ,"/api/teacher/kid"
+                        ,"/api/teacher/parent"
+                        ,"/api/teacher/edit"
+                        ,"/api/teacher/parentedit"
+                        ).authenticated()
+                        //).hasAnyRole("TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.GET,
+                        "/api/teacher"
+                        ).authenticated()
+                        //).hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,
+                        "/api/album"
+                        ,"/api/album/listall"
+                        ,"/api/full/"
+                        ,"/api/full/listall"
+                        ,"/api/kid/{year}/{ikid}"
+                        ,"/api/main"
+                        ,"/api/memory"
+                        ,"/api/memory/detail"
+                        ,"/api/notice/edit"
                         ,"/api/notice"
-                        ,"/api/notice/**"
-                        ,"/api/preschool/kid"
+                        ,"/api/notice/detail"
                         ,"/api/parent/edit"
                         ,"/api/parent/putparent"
                         ,"/api/parent/kidadd"
+                        ,"/api/preschool/kid"
+                        ,"/api/preschool/teacher"
+                        ).authenticated()
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.PUT,
+                        "/api/album"
+                        ,"/api/full"
+                        ,"/api/kid"
+                        ,"/api/kid/detail"
+                        ,"/api/teacher"
+                        ,"/api/teacher/parent"
+                        ,"/api/teacher/parentedit"
+                        ).authenticated()
+                        //).hasAnyRole("TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.PUT,
+                        "/api/notice"
+                        ).authenticated()
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,
+                        "/api/kid/code/{ikid}"
                         ,"/api/teacher"
                         ,"/api/teacher/kid"
-                        ,"/api/teacher/stateorclass"
-                        ,"/api/teacher/parent"
+                        ).authenticated()
+                        //).hasAnyRole("TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,
+                        "/api/parent"
+                        ).authenticated()
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,
+                        "/api/album"
+                        ,"/api/kid"
+                        ,"/api/memory"
                         ,"/api/teacher/disconnect"
-                        ,"/api/teacher/edit"
-                        ,"/api/teacher/parentedit"
-                        ,"/api/memory/"
-                        ,"/api/memory/detail"
-                        ).hasAnyRole("PARENT","TEACHER","ADMIN")
-                        .requestMatchers(
-                        "/api/memory/edit"
-                        ,"api/memory/tag"
-                        ,"api/memory/del"
-                        ).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.PATCH,"/api/parent").hasAnyRole("PARENT","TEACHER","ADMIN")
+                        ).authenticated()
+                        //).hasAnyRole("TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,
+                       "/api/album/comment"
+                       ,"/api/full"
+                       ,"/api/memory/comment"
+                       ,"/api/notice/comment"
+                        ).authenticated()
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
