@@ -55,8 +55,14 @@ public class SecurityConfiguration {
                         ,"/api/teacher/disconnect"
                         ,"/api/teacher/edit"
                         ,"/api/teacher/parentedit"
-                        ,"/api/memory/edit"
+                        ,"/api/memory/"
+                        ,"/api/memory/detail"
                         ).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(
+                        "/api/memory/edit"
+                        ,"api/memory/tag"
+                        ,"api/memory/del"
+                        ).hasAnyRole("TEACHER","ADMIN")
                         .requestMatchers(HttpMethod.PATCH,"/api/parent").hasAnyRole("PARENT","TEACHER","ADMIN")
                         .anyRequest().permitAll()
                 )
