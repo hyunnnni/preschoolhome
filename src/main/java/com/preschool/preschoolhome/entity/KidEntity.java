@@ -11,7 +11,7 @@ import java.util.Date;
 public class KidEntity extends CreatedAtEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long ikid;
 
     @ManyToOne
