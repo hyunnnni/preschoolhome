@@ -21,5 +21,5 @@ public class SelFullNoticeUpdVo {
     @Schema(title = "유치원 소식 상단 공지 체크 : 1, 체크 해제 : 0")
     private int fullNoticeFix;
     @Schema(title = "유치원 소식 사진")
-    private List<String> fullPic;
+    private List<FullPicsVo> fullPic;
 }

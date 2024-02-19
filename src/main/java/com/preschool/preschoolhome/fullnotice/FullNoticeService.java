@@ -219,7 +219,7 @@ public class FullNoticeService {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        List<String> picList = mapper.selFullNoticeUpdPics(dto.getIfullNotice());
+        List<FullPicsVo> picList = mapper.selFullNoticeUpdPics(dto.getIfullNotice());
 
         vo.setFullPic(picList);
 

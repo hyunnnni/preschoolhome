@@ -58,7 +58,7 @@ public class MemoryService {
         return vo;
     }
 
-
+    //------------------------------------- 추억 앨범 수정시 원래정보 불러오기 ------------------------------
     public SelMemoryVo selMemory(int imemory){
 
         List<String> roles = authenticationFacade.getRoles();
