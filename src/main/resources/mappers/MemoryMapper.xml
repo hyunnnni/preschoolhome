@@ -112,6 +112,11 @@
         from t_memory
         where imemory = #{imemory}
     </select>
+    <select id="selMemoryKid">
+        SELECT ikid
+        FROM t_memory_room
+        WHERE imemory = #{imemory}
+    </select>
 
     <!-- 추억 앨범 글 작성 시 원아 전체 조회 -->
     <select id="getFromKids">
