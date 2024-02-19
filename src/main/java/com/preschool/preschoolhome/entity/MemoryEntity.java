@@ -8,9 +8,9 @@ import lombok.Data;
 @Table(name = "t_memory")
 public class MemoryEntity extends BaseEntity {
     @Id
-    @Column(columnDefinition = "BIGINT UNSIGNED")
+    @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY) //오토인클리먼트
-    private Long imemory;
+    private Integer imemory;
 
 
     @ManyToOne

@@ -9,9 +9,9 @@ import org.hibernate.annotations.ColumnDefault;
 @Table(name = "t_teacher")
 public class TeacherEntity extends CreatedAtEntity{
     @Id
-    @Column(columnDefinition = "BIGINT UNSIGNED")
+    @Column(columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long iteacher;
+    private Integer iteacher;
 
     @ManyToOne
     @JoinColumn(name = "iclass", nullable = false)
@@ -34,7 +34,7 @@ public class TeacherEntity extends CreatedAtEntity{
 
     @Column(length = 4, name = "tc_is_del", nullable = false)
     @ColumnDefault("0")
-    private Long tcIsDel;
+    private Integer tcIsDel;
 
     @Column(length = 30, name = "tc_email", nullable = false)
     private String tcEmail;
