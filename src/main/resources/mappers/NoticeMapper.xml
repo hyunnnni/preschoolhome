@@ -26,7 +26,7 @@
             #{inotice}, #{pic}
         </foreach>
     </insert>
-    <!--                 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
+    <!--                 선생님이 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUser">
         SELECT A.pr_firebase_token AS FirebaseToken
         FROM t_parent AS A
@@ -39,10 +39,20 @@
                 #{inotice}
             </foreach>
     </select>
-    <!--                 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
+    <!--                 학부모가 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUser">
-        SELECT tc_firebase_token AS FirebaseToken
-        FROM t_teacher
+        SELECT A.tc_firebase_token AS FirebaseToken
+        FROM t_parent AS A
+        INNER JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        INNER JOIN t_kid AS C
+        ON B.ikid = C.ikid
+        INNER JOIN t_teacher AS D
+        ON C.iclass = D.iclass
+        WHERE C.ikid in (
+        <foreach collection="ikids" item="ikid" separator=",">
+            #{ikid}
+        </foreach>)
     </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">

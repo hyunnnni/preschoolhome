@@ -343,7 +343,6 @@ public class TeacherService {
 
     //---------------------------- 3차 선생님 전체 or 선택조회 ---------------------
     public SelTeacherInfoVo selAllTeacher(SelAllTeacherDto dto) {
-
         List<SelAllTeacherVo> list = mapper.selAllTeacher(dto);
         SelTeacherInfoVo vo = new SelTeacherInfoVo();
         vo.setTeacherCnt(mapper.selTeacherCnt(dto.getIclass()));
