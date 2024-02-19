@@ -10,5 +10,5 @@ public class NoticePushVo {
     private int writerIuser;
     private String noticeTitle;
     private String createdAt;
-    private List<Integer> ikids;
+    private int inotice;
 }

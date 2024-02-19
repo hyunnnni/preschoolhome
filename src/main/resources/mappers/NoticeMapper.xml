@@ -28,7 +28,7 @@
     </insert>
     <!--                 선생님이 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUser">
-        SELECT A.pr_firebase_token AS FirebaseToken
+        SELECT A.pr_firebase_token AS FirebaseToken, B.ikid
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
@@ -41,7 +41,7 @@
     </select>
     <!--                 학부모가 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUser">
-        SELECT DISTINCT D.tc_firebase_token AS FirebaseToken
+        SELECT D.tc_firebase_token AS FirebaseToken
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent

@@ -98,15 +98,15 @@ public class NoticeService {
         }
         try {
 
+
             otherTokens.removeAll(Collections.singletonList(null));
 
             if(otherTokens.size() != 0) {
                 NoticePushVo pushVo = new NoticePushVo();
                 pushVo.setNoticeTitle(dto.getNoticeTitle());
                 pushVo.setWriterIuser(writerIuser);
-                if(level == Const.PARENT){
-                    pushVo.setIkids(dto.getIkids());
-                }
+                //pushVo.setInotice();
+               // pushVo.setIkids(dto.getIkids());
                 pushVo.setCreatedAt(createdAt);
 
                 String body = objMapper.writeValueAsString(pushVo);
