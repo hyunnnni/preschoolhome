@@ -41,5 +41,5 @@ public interface FullNoticeMapper {
     //-------------------------------- 유치원 소식 수정 시 불러오기 --------------------------------
     SelFullNoticeUpdVo selFullNoticeUpd(int ifullNotice);
     //-------------------------------- 유치원 소식 수정 시 사진 불러오기  --------------------------------
-    List<String> selFullNoticeUpdPics(int ifullNotice);
+    List<FullPicsVo> selFullNoticeUpdPics(int ifullNotice);
 }

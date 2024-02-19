@@ -136,7 +136,7 @@
     </select>
     <!--                 유치원 소식 수정 시 사진 불러오기                  -->
     <select id="selFullNoticeUpdPics">
-        SELECT full_pic
+        SELECT full_pic, ifull_pic
         FROM t_full_notice_pics
         WHERE ifull_notice = #{ifullNotice}
     </select>
