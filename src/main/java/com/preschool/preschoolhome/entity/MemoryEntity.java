@@ -12,9 +12,10 @@ public class MemoryEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //오토인클리먼트
     private Long imemory;
 
+
     @ManyToOne
-    @JoinColumn(name = "iparent",nullable = false)
-    private ParEntity parEntity;
+    @JoinColumn(name = "iteacher",nullable = false)
+    private TeacherEntity teacherEntity;
 
     @Column(length = 1000)
     private String contents;

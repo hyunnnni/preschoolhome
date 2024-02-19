@@ -36,13 +36,10 @@ public class MemoryController {
     }
 
 
-    @GetMapping("/eidt")
+    @GetMapping("/edit")
     @Operation(summary = "3차 추억앨범 수정 전 정보 불러오기", description = "추억앨범 수정 전 정보 불러오기")
     public SelMemoryVo getMemoryEdit(@RequestParam int imemory){
-//        List<String> roles = authenticationFacade.getRoles();
-//        if(!(roles.get(0).equals("admin"))){
-//            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
-//        }
+
         return service.selMemory(imemory);
     }
 

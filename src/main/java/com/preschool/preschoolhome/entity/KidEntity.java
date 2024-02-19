@@ -3,13 +3,15 @@ package com.preschool.preschoolhome.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
 @Table(name = "t_kid")
 public class KidEntity extends CreatedAtEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "BIGINT UNSIGNED")
     private Long ikid;
 
     @ManyToOne
@@ -24,7 +26,7 @@ public class KidEntity extends CreatedAtEntity {
 
     @Temporal(TemporalType.DATE)
     @Column(length = 10, nullable = false)
-    private java.util.Date birth;
+    private Date birth;
 
     @Column(nullable = false)
     private Long gender;

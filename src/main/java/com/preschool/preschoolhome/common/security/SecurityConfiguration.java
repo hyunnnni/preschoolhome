@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                         ,"/api/teacher/disconnect"
                         ,"/api/teacher/edit"
                         ,"/api/teacher/parentedit"
+                        ,"/api/memory/edit"
                         ).authenticated()
                         .requestMatchers(HttpMethod.PATCH,"/api/parent").authenticated()
                         .anyRequest().permitAll()
