@@ -275,6 +275,7 @@ public class TeacherService {
         }
 
         MyPrincipal myPrincipal = MyPrincipal.builder()
+                .loginUserNm(entity.getTeacherNm())
                 .iuser(entity.getIteacher())
                 .ilevel(entity.getIlevel())
                 .build();

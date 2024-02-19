@@ -47,4 +47,13 @@ public class AuthenticationFacade {
                 .getMyPrincipal()
                 .getRoles();
     }
+
+    public String getUserNm(){
+        MyUserDetails myUserDetails = getLoginUser();
+        return myUserDetails == null
+                ? null
+                : myUserDetails
+                .getMyPrincipal()
+                .getLoginUserNm();
+    }
 }

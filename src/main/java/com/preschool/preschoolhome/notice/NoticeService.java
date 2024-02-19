@@ -41,6 +41,7 @@ public class NoticeService {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        String loginUserNm = authenticationFacade.getUserNm();
         if (level > Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }

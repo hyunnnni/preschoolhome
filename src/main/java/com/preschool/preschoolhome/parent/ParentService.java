@@ -123,6 +123,7 @@ public class ParentService {
 
         }
         MyPrincipal myPrincipal = MyPrincipal.builder()
+                .loginUserNm(entity.getParentNm())
                 .iuser(entity.getIparent())
                 .ilevel(entity.getIlevel())
                 .build();
