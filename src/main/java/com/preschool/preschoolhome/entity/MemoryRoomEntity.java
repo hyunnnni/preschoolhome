@@ -12,12 +12,12 @@ public class MemoryRoomEntity {
 
     @ManyToOne
     @MapsId("ikid")
-    @JoinColumn(name = "ikid",columnDefinition = "BIGINT UNSIGNED", nullable = false)
+    @JoinColumn(name = "ikid",columnDefinition = "BIGINT UNSIGNED")
     private KidEntity kidEntity;
 
     @ManyToOne
     @MapsId("imemory")
-    @JoinColumn(name = "imemory", columnDefinition = "BIGINT UNSIGNED", nullable = false)
+    @JoinColumn(name = "imemory", columnDefinition = "BIGINT UNSIGNED")
     private MemoryEntity memoryEntity;
 
 
