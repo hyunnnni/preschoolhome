@@ -26,13 +26,13 @@ public class MemoryController {
     @GetMapping
     @Operation(summary = "3차 추억 추억 앨범 전체 조회", description = "")
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
-        return service.allMemory(dto);
+        return service.getAllMemory(dto);
     }
 
     @GetMapping("/detail")
     @Operation(summary = "3차 추억 앨범 상세 조회", description = "")
     public AllSelMemoryVo getMemory(int imemory){
-        return service.memory(imemory);
+        return service.getMemory(imemory);
     }
 
 
@@ -40,7 +40,7 @@ public class MemoryController {
     @Operation(summary = "3차 추억앨범 수정 전 정보 불러오기", description = "추억앨범 수정 전 정보 불러오기")
     public SelMemoryVo getMemoryEdit(@RequestParam int imemory){
 
-        return service.selMemory(imemory);
+        return service.getMemoryEdit(imemory);
     }
 
 

@@ -27,7 +27,7 @@ public class MemoryService {
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
 
-    public AllMemoryVo allMemory(AllSelMemoryDto dto){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
         if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
@@ -51,7 +51,7 @@ public class MemoryService {
         return vo;
     }
 
-    public AllSelMemoryVo memory(int imemory){
+    public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setIkids(mapper.iMemoryIkid(imemory));
         vo.setMemoryComments(mapper.memoryComment(imemory));
@@ -59,13 +59,13 @@ public class MemoryService {
     }
 
     //------------------------------------- 추억 앨범 수정시 원래정보 불러오기 ------------------------------
-    public SelMemoryVo selMemory(int imemory){
+    public SelMemoryVo getMemoryEdit(int imemory){
 
         List<String> roles = authenticationFacade.getRoles();
+
 //        if(!(roles.get(0).equals("ADMIN") || roles.get(0).equals("TEACHER"))){
 //            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
 //        }
-
 
         String exist = mapper.selImemory(imemory);
         if(exist ==null){
