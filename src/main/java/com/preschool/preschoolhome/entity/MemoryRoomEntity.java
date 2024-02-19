@@ -11,14 +11,16 @@ public class MemoryRoomEntity {
     private MemoryRooms memoryRooms;
 
     @ManyToOne
-    @MapsId("imemory")
-    @JoinColumn(name = "imemory", columnDefinition = "BIGINT UNSIGNED", nullable = false)
-    private MemoryEntity memoryPk;
-
-    @ManyToOne
     @MapsId("ikid")
     @JoinColumn(name = "ikid",columnDefinition = "BIGINT UNSIGNED", nullable = false)
-    private KidEntity kidPk;
+    private KidEntity kidEntity;
+
+    @ManyToOne
+    @MapsId("imemory")
+    @JoinColumn(name = "imemory", columnDefinition = "BIGINT UNSIGNED", nullable = false)
+    private MemoryEntity memoryEntity;
+
+
 
 
 }

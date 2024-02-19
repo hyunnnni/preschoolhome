@@ -16,6 +16,10 @@ public class MemoryEntity extends BaseEntity {
     @JoinColumn(name = "iparent",nullable = false)
     private ParEntity parEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "iteacher",nullable = false)
+    private TeacherEntity teacherEntity;
+
     @Column(length = 1000)
     private String contents;
 
