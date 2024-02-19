@@ -56,8 +56,8 @@ public class SecurityConfiguration {
                         ,"/api/teacher/edit"
                         ,"/api/teacher/parentedit"
                         ,"/api/memory/edit"
-                        ).authenticated()
-                        .requestMatchers(HttpMethod.PATCH,"/api/parent").authenticated()
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/api/parent").hasAnyRole("PARENT","TEACHER","ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
