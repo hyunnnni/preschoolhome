@@ -62,10 +62,10 @@ public class MemoryService {
     public SelMemoryVo selMemory(int imemory){
 
         List<String> roles = authenticationFacade.getRoles();
+
 //        if(!(roles.get(0).equals("ADMIN") || roles.get(0).equals("TEACHER"))){
 //            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
 //        }
-
 
         String exist = mapper.selImemory(imemory);
         if(exist ==null){
