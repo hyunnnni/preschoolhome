@@ -1,0 +1,21 @@
+package com.preschool.preschoolhome.entity;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "t_memory_album")
+public class MemoryAlbumEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "imemory_pic", nullable = false)
+    private Long imemoryPic;
+
+    @ManyToOne
+    @JoinColumn(name = "imemory", nullable = false)
+    private MemoryEntity memoryEntity;
+
+    @Column(name = "memory_pic", length = 2100, nullable = false)
+    private String memoryPic;
+}
