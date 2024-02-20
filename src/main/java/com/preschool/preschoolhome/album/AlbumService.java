@@ -234,14 +234,16 @@ public class AlbumService {
         picsDto.setIalbum(dto.getIalbum());
 
         String target = "/album/" + dto.getIalbum();
-        myFileUtils.delFolderTrigger(target);
+
         if (pics.size() != 0) {
+
+
             for (MultipartFile file : pics) {
                 String saveFileNm = myFileUtils.transferTo(file, target);
                 picsDto.getAlbumPic().add(saveFileNm);
             }
             int picsAffectedRows = mapper.insAlbumPic(picsDto);
-            if (picsAffectedRows == 0 || pics.size() > 20) {
+            if (picsAffectedRows == 0 || pics.size() > Const.ALBUM_PIC) {
                 throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
         }
