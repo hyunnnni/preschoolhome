@@ -75,7 +75,7 @@ public class FullNoticeService {
     }
 
 
-//-------------------------------- 유치원 소식 작성 --------------------------------
+//-------------------------------- 유치원 소식 등록 --------------------------------
 
     @Transactional
     public ResVo postFullNotice (InsFullNoticeDto dto){
@@ -85,6 +85,9 @@ public class FullNoticeService {
 
             if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
                 throw new RestApiException(AuthErrorCode.NO_PERMISSION);
+            }
+            if(dto.getFullPic().size() > Const.FULL_NOTICE_PIC) {
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
 
             Integer fix = mapper.selNoticeFix(dto.getIfullNotice());
@@ -101,9 +104,6 @@ public class FullNoticeService {
             }
             if (dto.getFullPic() == null) {
                 return new ResVo(Const.SUCCESS);
-            }
-            if(dto.getFullPic().size() > 20) {
-                throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
 
             pdto.setIfullNotice(dto.getIfullNotice());
