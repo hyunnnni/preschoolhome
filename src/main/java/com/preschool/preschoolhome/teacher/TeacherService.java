@@ -328,6 +328,9 @@ public class TeacherService {
 
     //----------------------------- 3차 원장님이 선생님 등록하기 ------------------
     public ResVo insTeacher(MultipartFile pic, TeacherInsDto dto) {
+        if(dto.getTeacherUid()!=null ){
+            throw new RestApiException(AuthErrorCode.ALREADY_EXIST_ID);
+        }
         int result = mapper.insTeacher(dto);
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
