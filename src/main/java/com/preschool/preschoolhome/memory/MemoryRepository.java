@@ -9,6 +9,5 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface MemoryRepository extends JpaRepository<MemoryEntity, Integer> {
-    @EntityGraph(attributePaths = {"teacherEntity"})
-    List<MemoryEntity> findAllByTeacherEntity(TeacherEntity teacherEntity, Pageable pageable);
+
 }
