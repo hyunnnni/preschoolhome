@@ -261,10 +261,16 @@
     <!--                 알림장 댓글 등록                 -->
     <insert id="insNoticeComment" useGeneratedKeys="true" keyProperty="inoticeComment">
         INSERT INTO t_notice_comment
-        SET inotice = #{inotice},
-        notice_comment = #{noticeComment},
-        iteacher = #{iteacher},
-        iparent = #{iparent}
+        <set>
+        inotice = #{inotice}
+        ,notice_comment = #{noticeComment}
+        <if test="iteacher > 0">
+            , iteacher = #{iteacher}
+        </if>
+        <if test="iparent > 0">
+            , iparent = #{iparent}
+        </if>
+        </set>
     </insert>
     <!--                 알림장 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUserComment">
@@ -287,7 +293,7 @@
         ON A.iteacher = B.iteacher
         LEFT JOIN t_notice_comment as C
         ON B.inotice = C.inotice
-        WHERE D.inotice_comment = #{inoticeComment}
+        WHERE C.inotice_comment = #{inoticeComment}
     </select>
     <!--                 알림장 댓글 삭제                 -->
     <delete id="delNoticeComment">

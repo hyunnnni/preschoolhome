@@ -307,39 +307,43 @@ public class NoticeService {
         String createdAt = now.format(formatter); // 포맷 적용
 
 
-        String otherTokens = null;
+        List<String> otherTokens = null;
         if(level == Const.PARENT) {
-            otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getInoticeComment());
+            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getInoticeComment());
         }
         if(level == Const.TEACHER || level == Const.BOSS) {
-            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getInoticeComment());
+            otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getInoticeComment());
         }
         try {
 
-           if(otherTokens != null) {
-               NoticeCommentPushVo pushVo = new NoticeCommentPushVo();
-                pushVo.setNoticeComment(dto.getNoticeComment());
-                pushVo.setWriterIuser(writerIuser);
-                pushVo.setCreatedAt(createdAt);
+            if (otherTokens != null) {
+                otherTokens.removeAll(Collections.singletonList(null));
+                for (String token : otherTokens) {
 
-                String body = objMapper.writeValueAsString(pushVo);
-                log.info("body: {}", body);
-                Notification noti = Notification.builder()
-                        .setTitle("dm")
-                        .setBody(body)
-                        .build();
+                    NoticeCommentPushVo pushVo = new NoticeCommentPushVo();
+                    pushVo.setNoticeComment(dto.getNoticeComment());
+                    pushVo.setWriterIuser(writerIuser);
+                    pushVo.setCreatedAt(createdAt);
 
-                Message message = Message.builder()
-                        .setToken(otherTokens)
-                        .setNotification(noti)
-                        .build();
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("dm")
+                            .setBody(body)
+                            .build();
 
-                FirebaseMessaging.getInstance().sendAsync(message);
+                    Message message = Message.builder()
+                            .setToken(token)
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
             }
-        } catch (Exception e) {
-            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
-        }
-        return new ResVo(result);
+            } catch(Exception e){
+                throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+            }
+            return new ResVo(result);
 
     }
 
