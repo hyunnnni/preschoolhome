@@ -44,20 +44,20 @@ public class SecurityConfiguration {
                         ,"/api/notice/tea"
                         ,"/api/memory"
                         ,"/api/teacher"
-                        ).authenticated()
+                        //).authenticated()
                         //).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.POST,
-                        "/api/teacher/signup"
-                        ).authenticated()
+                        //.requestMatchers(HttpMethod.POST
+                        ,"/api/teacher/signup"
+                        //).authenticated()
                         //).hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST
+                        //.requestMatchers(HttpMethod.POST
                         ,"/api/album/comment"
                         ,"/api/notice/par"
                         ,"/api/notice/comment"
                         ).authenticated()
                         //).hasAnyRole("PARENT","TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.GET,
-                        "/api/album/edit"
+                        .requestMatchers(HttpMethod.GET
+                        ,"/api/album/edit"
                         ,"/api/full/edit"
                         ,"/api/kid/edit/{ikid}"
                         ,"/api/kid/detail/edit/{ikid}"
@@ -68,14 +68,14 @@ public class SecurityConfiguration {
                         ,"/api/teacher/parent"
                         ,"/api/teacher/edit"
                         ,"/api/teacher/parentedit"
-                        ).authenticated()
+                        //).authenticated()
                         //).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.GET,
-                        "/api/teacher"
-                        ).authenticated()
+                        //.requestMatchers(HttpMethod.GET
+                        ,"/api/teacher"
+                        //).authenticated()
                         //).hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,
-                        "/api/album"
+                        //.requestMatchers(HttpMethod.GET
+                        ,"/api/album"
                         ,"/api/album/listall"
                         ,"/api/full/"
                         ,"/api/full/listall"
@@ -101,20 +101,20 @@ public class SecurityConfiguration {
                         ,"/api/teacher"
                         ,"/api/teacher/parent"
                         ,"/api/teacher/parentedit"
-                        ).authenticated()
+                        //).authenticated()
                         //).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.PUT,
-                        "/api/notice"
+                        //.requestMatchers(HttpMethod.PUT
+                        ,"/api/notice"
                         ).authenticated()
                         //).hasAnyRole("PARENT","TEACHER","ADMIN")
                         .requestMatchers(HttpMethod.PATCH,
                         "/api/kid/code/{ikid}"
                         ,"/api/teacher"
                         ,"/api/teacher/kid"
-                        ).authenticated()
+                        //).authenticated()
                         //).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.PATCH,
-                        "/api/parent"
+                        //.requestMatchers(HttpMethod.PATCH
+                        ,"/api/parent"
                         ).authenticated()
                         //).hasAnyRole("PARENT","TEACHER","ADMIN")
                         .requestMatchers(HttpMethod.DELETE,
@@ -122,13 +122,13 @@ public class SecurityConfiguration {
                         ,"/api/kid"
                         ,"/api/memory"
                         ,"/api/teacher/disconnect"
-                        ).authenticated()
+                        //).authenticated()
                         //).hasAnyRole("TEACHER","ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,
-                       "/api/album/comment"
-                       ,"/api/full"
-                       ,"/api/memory/comment"
-                       ,"/api/notice/comment"
+                        //.requestMatchers(HttpMethod.DELETE
+                        ,"/api/album/comment"
+                        ,"/api/full"
+                        ,"/api/memory/comment"
+                        ,"/api/notice/comment"
                         ).authenticated()
                         //).hasAnyRole("PARENT","TEACHER","ADMIN")
                         .anyRequest().permitAll()
