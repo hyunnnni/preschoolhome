@@ -304,7 +304,7 @@ public class MemoryService {
                 }
             }
         }
-        // 딥카피로 새로 기존의 아이들 삭제하고 추가된 아이들 셀렉
+
         List<Integer> newKid = new ArrayList<>();
         for (int ikid : dto.getIkids()) {
             newKid.add(ikid);
