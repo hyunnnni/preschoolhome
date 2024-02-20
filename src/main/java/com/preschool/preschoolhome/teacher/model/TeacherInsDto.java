@@ -2,13 +2,16 @@ package com.preschool.preschoolhome.teacher.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.aspectj.lang.annotation.RequiredTypes;
 
 @Data
 @Schema(title = "3차 선생님 회원가입")
 public class TeacherInsDto {
+
 
     @JsonIgnore
     private int iteacher;

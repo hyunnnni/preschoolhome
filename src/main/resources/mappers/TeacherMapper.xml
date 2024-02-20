@@ -273,7 +273,7 @@
         set teacher_uid =#{teacherUid},teacher_upw =#{teacherUpw},
         teacher_nm =#{teacherNm}, tc_email =#{tcEmail},
         iclass =#{iclass},
-        teacher_introduce =#{teacherIntroduce},role = 'TEACHER'
+        teacher_introduce =#{teacherIntroduce},tc_role = 'TEACHER',ilevel =2
     </insert>
     <update id="teacherUpPic">
         update t_teacher
