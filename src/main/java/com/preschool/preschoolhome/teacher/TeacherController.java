@@ -179,7 +179,7 @@ public class TeacherController {
             "실패시 -1 or 에러메세지 송출 <br>")
     public ResVo postTeacher(@RequestPart MultipartFile pic, @RequestPart @Valid TeacherInsDto dto) {
 
-        return service.insTeacher(pic, dto);
+        return service.postTeacher(pic, dto);
     }
 
     //-------------------------------- 파이어베이스 토큰 --------------------------------
