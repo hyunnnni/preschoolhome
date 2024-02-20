@@ -211,6 +211,33 @@ public class MemoryService {
         return new ResVo(dto.getImemory());
     }
 
+
+//------- 추억앨범 댓글등록 -----
+    public InsCommentVo postMemoryComment(InsCommentDto dto) {
+        if ((dto.getIparent() == 0) && dto.getIteacher() == 0 ||
+                (dto.getIteacher() > 0 && dto.getIteacher() > 0)) {
+            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+        }
+        int writerIuser = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        dto.setIlevel(level);
+
+        int result = mapper.insComment(dto);
+        if(result == 0){
+            InsCommentVo vo = new InsCommentVo();
+            vo.setResult(-1);
+        }
+        InsCommentVo vo = new InsCommentVo();
+        vo.setResult(1);
+
+        return null;
+
+
+
+
+    }
+
+
     public ResVo delMemoryComment(DelMemoryCommentDto dto){
 
         if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||

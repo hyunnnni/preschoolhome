@@ -184,6 +184,12 @@
             #{imemory}, #{pic}
         </foreach>)
     </insert>
+    <!--                 추억 앨범 댓글 등록                 -->
+    <insert id="insComment" useGeneratedKeys="true" keyProperty="imemoryComment">
+        insert into t_memory_comment
+        set imemory = #{imemory}, memory_commnet = #{memoryComment},
+        iteacher = #{iteacher}, iparent = #{iparent}
+    </insert>
     <!--                 추억 앨범 댓글 삭제                -->
     <delete id="delMemoryComment">
         DELETE

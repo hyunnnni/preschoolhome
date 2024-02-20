@@ -39,6 +39,8 @@ public interface MemoryMapper {
     int insMemoryRoomInvite(InsRoomInviteProcDto dto);
     //-------------------------------- 추억 앨범 사진 등록  --------------------------------
     int insMemoryPic(InsMemoryPicsDto picsDto);
+    //-------------------------------- 추억 앨범 댓글 등록 ----------------------------------
+    int insComment(InsCommentDto dto);
     //-------------------------------- 추억 앨범 댓글 삭제  --------------------------------
     int delMemoryComment(DelMemoryCommentDto dto);
 

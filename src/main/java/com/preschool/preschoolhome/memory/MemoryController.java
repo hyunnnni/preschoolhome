@@ -77,6 +77,14 @@ public class MemoryController {
         return service.postMemory(pics, dto);
     }
 
+    //-------------------------------- 추억 앨범 댓글 등록--------------------------------
+    @PutMapping("/comment")
+    @Operation(summary = "추억앨범 댓글 등록", description = "<strong>추억앨범 댓글 등록, 푸시기능</strong><br><br>")
+    public InsCommentVo postMemoryComment(InsCommentDto dto){
+        return service.postMemoryComment(dto);
+    }
+
+
     //-------------------------------- 추억 앨범 댓글 삭제 --------------------------------
     @DeleteMapping("/comment")
     @Valid
