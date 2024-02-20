@@ -29,6 +29,7 @@ public class Const {
 
 
     public static final int FAKE_IS_DEL = 1; //데이터 DELETE인 척 처리 시
+    public static final int IS_DEL_LEVEL = 4; //부모 계정 레벨 졸업부모로 수정
     public static final int UPD_STATE_FAIL = -3; // 재원상태/반 수정 실패
     public static final int UPD_IS_DEL_FAIL = -4; // isdel처리 실패
 
