@@ -120,7 +120,8 @@ public class MemoryService {
         }
         return new ResVo(Const.FAIL);
     }
-
+    //------------------------------------- 추억 앨범 글 등록 -------------------------------------
+    @Transactional
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
 
         int iuser = authenticationFacade.getLoginUserPk();
@@ -212,7 +213,7 @@ public class MemoryService {
     }
 
 
-//------- 추억앨범 댓글등록 -----
+    //------- 추억앨범 댓글등록 -----
     public InsCommentVo postMemoryComment(InsCommentDto dto) {
         if ((dto.getIparent() == 0) && dto.getIteacher() == 0 ||
                 (dto.getIteacher() > 0 && dto.getIteacher() > 0)) {
@@ -236,8 +237,8 @@ public class MemoryService {
 
 
     }
-
-
+    //------------------------------------- 추억 앨범 댓글 삭제 -------------------------------------
+    @Transactional
     public ResVo delMemoryComment(DelMemoryCommentDto dto){
 
         if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
