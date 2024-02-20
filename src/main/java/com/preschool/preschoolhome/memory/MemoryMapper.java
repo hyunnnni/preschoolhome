@@ -45,4 +45,14 @@ public interface MemoryMapper {
     int delMemoryComment(DelMemoryCommentDto dto);
 
 
+    //------------------------------------- 추억 앨범 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 -------------------------------------
+    List<SelMemoryOtherTokens> selTeaFirebaseParents(MemoryUpdDto dto);
+    //------------------------------------- 추억 앨범 글 수정 -------------------------------------
+    int updMemory(MemoryUpdDto dto);
+    //------------------------------------- 추억 앨범 수정 시 사진 삭제 -------------------------------------
+    int delMemoryPic(MemoryUpdDto dto);
+    //------------------------------------- 추억 앨범 사진 등록 -------------------------------------
+    int insPicsMemory(MemoryPicsInsDto dto);
+
+
 }

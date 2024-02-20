@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.preschool.preschoolhome.common.utils.Const.SUCCESS;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -113,7 +115,7 @@ public class MemoryService {
             mapper.delMemoryAll(imemory);
             int delMemory = mapper.delMemory(imemory);
             if (delMemory > 0) {
-                return new ResVo(Const.SUCCESS);
+                return new ResVo(SUCCESS);
             }
         } catch (Exception e) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
@@ -252,6 +254,103 @@ public class MemoryService {
             return new ResVo(Const.NO_INFORMATION);
         }
         return new ResVo(result);
+    }
+
+
+    //------------------------------------- 추억 앨범 글 수정 -------------------------------------
+    @Transactional
+    public ResVo putmemory(List<MultipartFile> pics, MemoryUpdDto dto) {
+        int writerIuser = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        String loginUserNm = authenticationFacade.getUserNm();
+        if (level < Const.TEACHER) {
+            throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
+        }
+
+        List<Integer> kids = mapper.selMemoryKid(dto.getImemory());
+        if (kids.size() > 0) {
+            // 글 수정
+            int updMemory = mapper.updMemory(dto);
+            if (updMemory == 0) {
+                throw new RestApiException(AuthErrorCode.FAIL);
+            }
+
+            // 사진 삭제
+            if (dto.getDelPics() != null) {
+                int delPicsAffectedRows = mapper.delMemoryPic(dto);
+                if (delPicsAffectedRows == 0) {
+                    throw new RestApiException(AuthErrorCode.PICS_FAIL);
+                }
+            }
+            //추가로 사진 업로드 하는 게 없다면 리턴
+            if (pics == null) {
+                return new ResVo(SUCCESS);
+            }
+
+            String target = "/memory/" + dto.getImemory();
+            myFileUtils.delFolderTrigger(target);
+
+            MemoryPicsInsDto picsDto = new MemoryPicsInsDto();
+            picsDto.setImemory(dto.getImemory());
+
+            if (pics.size() != 0) {
+                for (MultipartFile file : pics) {
+                    String saveFileNm = myFileUtils.transferTo(file, target);
+                    picsDto.getPics().add(saveFileNm);
+                }
+                int picsAffectedRows = mapper.insPicsMemory(picsDto);
+                if (picsAffectedRows == 0 || pics.size() > 20) {
+                    throw new RestApiException(AuthErrorCode.MANY_PIC);
+                }
+            }
+        }
+        // 딥카피로 새로 기존의 아이들 삭제하고 추가된 아이들 셀렉
+        List<Integer> newKid = new ArrayList<>();
+        for (int ikid : dto.getIkids()) {
+            newKid.add(ikid);
+        }
+
+        newKid.removeAll(kids);
+
+        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
+        String createdAt = now.format(formatter); // 포맷 적용
+
+
+        List<SelMemoryOtherTokens> otherTokens = mapper.selTeaFirebaseParents(dto);
+
+        try {
+            if (otherTokens != null) {
+                for (SelMemoryOtherTokens token : otherTokens) {
+                    MemoryPushVo pushVo = new MemoryPushVo();
+                    pushVo.setMemoryTitle(dto.getTitle());
+                    pushVo.setWriterIuser(writerIuser);
+                    pushVo.setCreatedAt(createdAt);
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setImemory(dto.getImemory());
+                    pushVo.setKidNm(loginUserNm);
+
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("putMemory")
+                            .setBody(body)
+                            .build();
+
+                    Message message = Message.builder()
+                            .setToken(token.getFirebaseToken())
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
+            }
+        } catch (Exception e) {
+            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+        }
+
+        return new ResVo(SUCCESS);
     }
 
 }
