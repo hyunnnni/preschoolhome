@@ -168,8 +168,8 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
 
-        if (dto.getInoticePic() != null) {
-            int affectedDelRows = mapper.delNoticePics(dto.getInoticePic());
+        if (dto.getDelPic() != null) {
+            int affectedDelRows = mapper.delNoticePics(dto.getDelPic());
             if (affectedDelRows == 0) {
                 throw new RestApiException(AuthErrorCode.FAIL);
             }

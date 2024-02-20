@@ -25,9 +25,6 @@ public class NoticeUpdDto {
     @Schema(title = "알림장 내용")
     @NotBlank(message = "값을 입력해주세요")
     private String noticeContents;
-    @Schema(title = "알림장 사진PK")
-    private List<Integer> inoticePic;
-    @Schema(title = "알림장 사진")
-    @JsonIgnore
-    List<String> noticePics;
+    @Schema(title = "알림장 삭제될 사진PK")
+    private List<Integer> delPic;
 }
