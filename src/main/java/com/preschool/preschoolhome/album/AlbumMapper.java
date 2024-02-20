@@ -41,5 +41,7 @@ public interface AlbumMapper {
     int insAlbumComment (AlbumCommentInsDto dto);
     //------------------------------------- 활동 앨범 댓글 삭제 -------------------------------------
     int delAlbumComment (AlbumDelCommentDto dto);
+    //------------------------------------- 활동 앨범 사진 조회 -------------------------------------
+    int selAlbumPics(int ialbum);
 
 }
