@@ -112,6 +112,7 @@
         from t_memory
         where imemory = #{imemory}
     </select>
+    <!-- 추억 앨범 기존에 태그된 원아 -->
     <select id="selMemoryKid">
         SELECT ikid
         FROM t_memory_room
@@ -244,12 +245,7 @@
         </foreach>
     </insert>
 
-    <!-- 추억 앨범 수정 시 기존에 태그된 원아 -->
-    <select id="selMemoryKid">
-        SELECT ikid
-        FROM t_memory_room
-        WHERE imemory = #{imemory}
-    </select>
+
 
 </mapper>
 

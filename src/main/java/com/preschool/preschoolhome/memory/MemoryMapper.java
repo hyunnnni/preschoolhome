@@ -13,16 +13,14 @@ public interface MemoryMapper {
     List<AllSelMemoryVo> allMemoryPar(AllSelMemoryDto dto);
     int allMemoryParCnt(AllSelMemoryDto dto);
 //    int iMemoryComment(int imemory);
+List<MemoryCommentVo> memoryComment(int imemory);
     List<Integer> iMemoryIkid(int imemory);
     AllSelMemoryVo memory(int imemory);
-    List<MemoryCommentVo> memoryComment(int imemory);
     // ---------------------- 수정전 정보 불러오기
     SelMemoryVo selMemory(int imemory);
     List<String> selMemoryPic(int imemory);
     String selImemory(int imemory);
     List<Integer> selMemoryKid(int imemory);
-
-
 
     //------------------------------------- 추억 앨범 글 작성 시 전체 원아 조회 -------------------------------------
     List<MemorySelDto> getFromKids();
