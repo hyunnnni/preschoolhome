@@ -203,6 +203,54 @@
         </if>
     </delete>
 
+    <!-- 추억 앨범 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 -->
+    <select id="selTeaFirebaseParents">
+        SELECT A.pr_firebase_token AS FirebaseToken
+        FROM t_parent AS A
+        INNER JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        INNER JOIN t_memory_room AS C
+        ON B.ikid = C.ikid
+        WHERE C.imemory = #{imemory} and B.ikid in (
+        <foreach collection="newKid" item="kid" separator=", ">
+            #{kid}
+        </foreach> )
+    </select>
+
+    <!-- 추억 앨범 글 수정 -->
+    <update id="updMemory">
+        UPDATE t_memory
+        SET memory_title = #{memoryTitle}
+        , memory_contents = #{memoryContents}
+        WHERE imemory = #{imemory}
+    </update>
+
+    <!-- 추억 앨범 수정 시 사진 삭제 -->
+    <delete id="delMemoryPic">
+        DELETE FROM t_memory_album
+        WHERE imemory_pic in
+        <foreach collection="delPics" item="imomoryPic" open="(" separator="," close=")">
+            #{imemoryPic}
+        </foreach>
+    </delete>
+
+    <!-- 추억 앨범 사진 등록 -->
+    <insert id="insPicsMemory">
+        INSERT INTO t_memory_album
+        ( imemory, memory_pic)
+        VALUES
+        <foreach collection="memoryPic" item="memoryPic" separator=", ">
+            ( #{imemory}, #{memoryPic} )
+        </foreach>
+    </insert>
+
+    <!-- 추억 앨범 수정 시 기존에 태그된 원아 -->
+    <select id="selMemoryKid">
+        SELECT ikid
+        FROM t_memory_room
+        WHERE imemory = #{imemory}
+    </select>
+
 </mapper>
 
 
