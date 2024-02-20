@@ -98,7 +98,9 @@ public class KidService {
                 codes = mapper.kidAllCode(code1);
                 dto.setCode(code);
             }
-        } while (codes == null);
+        } while (codes != null);
+
+
 
         int result = mapper.kidSignup(dto);
         if (result == 0) {
