@@ -24,7 +24,7 @@ public interface NoticeMapper {
     List<Integer> noticeSelPics(int inotice);
     int updNotice(NoticeUpdDto dto);
     //------------------------ 수정 시 알림장 사진 삭제 ------------------------
-    int delNoticePics(List<Integer> inoticePic);
+    int delNoticePics(List<Integer> delPic);
 
     //------------------------ 알림장 글 삭제 ------------------------
     int delNotice(int inotice);

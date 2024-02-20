@@ -43,8 +43,6 @@ public interface TeacherMapper {
     int delDisconnent(DelDisconnectDto dto);
     //------------------------ 선생님 정보 수정 전 불러오기 ------------------------
     TeacherEditVo selTeacherEdit (int iteacher);
-    //------------------------ 선생님 회원가입 시 아이디 중복 체크 ( 3차에 쓰셈 )------------------------
-    int selTeaUid(String teacherUid);
     //------------------------ 선생님 정보 수정 ------------------------
     int updTeacher (TeacherPatchDto dto);
     //------------------------ 선생님 정보 삭제 ------------------------

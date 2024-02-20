@@ -82,6 +82,7 @@
         FROM t_notice_pics
         WHERE inotice = #{inotice}
     </select>
+    <!--                 알림장 수정 시 사진 조회                  -->
     <select id="noticeSelPics">
         SELECT inotice_pic
         FROM t_notice_pics
@@ -91,7 +92,7 @@
     <delete id="delNoticePics">
         DELETE FROM t_notice_pics
         WHERE inotice_pic in
-        <foreach collection="inoticePic" item="pk" open="(" separator="," close=")">
+        <foreach collection="delPic" item="pk" open="(" separator="," close=")">
             #{pk}
         </foreach>
     </delete>

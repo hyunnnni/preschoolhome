@@ -194,13 +194,6 @@
         WHERE iteacher = #{iteacher}
     </select>
 
-    <!-- 선생님 회원가입 시 아이디 중복 체크 (3차에 쓰셈) -->
-    <select id="selTeaUid">
-        SELECT COUNT(teacher_uid)
-        FROM t_teacher
-        WHERE teacher_uid = #{teacherUid}
-    </select>
-
     <!-- 선생님 정보 수정 -->
     <update id="updTeacher">
         UPDATE t_teacher
