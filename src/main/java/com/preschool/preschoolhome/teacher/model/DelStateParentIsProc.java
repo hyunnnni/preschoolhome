@@ -9,6 +9,10 @@ import lombok.Data;
 public class DelStateParentIsProc {
     @Schema(title = "삭제 처리")
     private int prIsDel = Const.FAKE_IS_DEL;
+    @Schema(title = "레벨 수정")
+    private int prLevel = Const.IS_DEL_LEVEL;
+    @Schema(title = "롤 수정")
+    private String prRole = "GRADUATE";
     @Schema(title = "부모 PK")
     private int iparent;
 }

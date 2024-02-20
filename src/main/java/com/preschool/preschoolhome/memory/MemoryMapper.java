@@ -39,6 +39,9 @@ List<MemoryCommentVo> memoryComment(int imemory);
     int insMemoryPic(InsMemoryPicsDto picsDto);
     //-------------------------------- 추억 앨범 댓글 등록 ----------------------------------
     int insComment(InsCommentDto dto);
+
+    String selTeaFirebaseByLoginUserComment(int imemory);
+    String selParFirebaseByLoginUserComment(int imemory);
     //-------------------------------- 추억 앨범 댓글 삭제  --------------------------------
     int delMemoryComment(DelMemoryCommentDto dto);
 

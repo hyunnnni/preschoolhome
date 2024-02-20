@@ -215,8 +215,9 @@ public class MemoryService {
     }
 
 
-    //------- 추억앨범 댓글등록 -----
-    public InsCommentVo postMemoryComment(InsCommentDto dto) {
+    //------- 추억앨범 댓글등록 push기능 -----
+    @Transactional
+    public ResVo postMemoryComment(InsCommentDto dto) {
         if ((dto.getIparent() == 0) && dto.getIteacher() == 0 ||
                 (dto.getIteacher() > 0 && dto.getIteacher() > 0)) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
@@ -226,19 +227,51 @@ public class MemoryService {
         dto.setIlevel(level);
 
         int result = mapper.insComment(dto);
-        if(result == 0){
-            InsCommentVo vo = new InsCommentVo();
-            vo.setResult(-1);
+        if (result == 0) {
+            return new ResVo(-1);
         }
-        InsCommentVo vo = new InsCommentVo();
-        vo.setResult(1);
 
-        return null;
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String createdAt = now.format(formatter);
 
+        String otherTokens = null;
+        if (level == Const.PARENT) {
+            otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getImemoryComment());
+        }
+        if (level == Const.TEACHER || level == Const.BOSS) {
+            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getImemoryComment());
+        }
+        try {
+            if (otherTokens != null) {
+                MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
+                pushVo.setMemoryComment(dto.getMemoryComment());
+                pushVo.setWriterIuser(writerIuser);
+                pushVo.setCreatedAt(createdAt);
 
+                String body = objMapper.writeValueAsString(pushVo);
+                log.info("body: {}", body);
+                Notification noti = Notification.builder()
+                        .setTitle("moemoryComment")
+                        .setBody(body)
+                        .build();
 
+                Message message = Message.builder()
+                        .setToken(otherTokens)
+                        .setNotification(noti)
+                        .build();
+
+                FirebaseMessaging.getInstance().sendAsync(message);
+            }
+
+        } catch (Exception e) {
+            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+        }
+        return new ResVo(result);
 
     }
+
+
     //------------------------------------- 추억 앨범 댓글 삭제 -------------------------------------
     @Transactional
     public ResVo delMemoryComment(DelMemoryCommentDto dto){

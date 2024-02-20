@@ -76,7 +76,7 @@ public class MemoryController {
     //-------------------------------- 추억 앨범 댓글 등록--------------------------------
     @PutMapping("/comment")
     @Operation(summary = "추억앨범 댓글 등록", description = "<strong>추억앨범 댓글 등록, 푸시기능</strong><br><br>")
-    public InsCommentVo postMemoryComment(InsCommentDto dto){
+    public ResVo postMemoryComment(InsCommentDto dto){
         return service.postMemoryComment(dto);
     }
 

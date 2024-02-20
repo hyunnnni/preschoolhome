@@ -8,6 +8,6 @@ import lombok.Data;
 public class MemorySelDto {
     private int ikid;
     private int iclass;
-    private int kidNm;
+    private String kidNm;
 
 }
