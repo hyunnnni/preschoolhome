@@ -1,4 +1,4 @@
-package com.preschool.preschoolhome.memory.model;
+package com.preschool.preschoolhome.memory;
 
 import com.preschool.preschoolhome.entity.MemoryEntity;
 import com.preschool.preschoolhome.entity.TeacherEntity;
