@@ -176,7 +176,6 @@ public class NoticeService {
         }
 
         String target = "/notice/" + dto.getInotice();
-        myFileUtils.delFolderTrigger(target);
 
         NoticePicsInsDto picsDto = new NoticePicsInsDto();
         picsDto.setInotice(dto.getInotice());

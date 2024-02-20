@@ -188,7 +188,7 @@ public class FullNoticeService {
 
         pdto.setIfullNotice(dto.getIfullNotice());
         String target = "/fullnotice/" + dto.getIfullNotice();
-        myFileUtils.delFolderTrigger(target);
+
         for (MultipartFile file : dto.getFullPic()) {
             String saverFileNm = mfu.transferTo(file, target);
             pdto.getFullPic().add(saverFileNm);
