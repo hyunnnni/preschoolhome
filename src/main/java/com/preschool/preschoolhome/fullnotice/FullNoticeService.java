@@ -180,7 +180,7 @@ public class FullNoticeService {
             return new ResVo(Const.SUCCESS);
 
         }
-        selResult = mapper.selFullNoticePics(dto.getIfullNotice());
+        selResult = mapper.selFullNoticePics(dto.getIfullNotice());//위에서 사진 삭제가 진행된 후 남은 사진 수를 조회하는 작업
         int picSize = Const.FULL_NOTICE_PIC;
         if ((picSize - selResult) < dto.getFullPic().size()){
             throw new RestApiException(AuthErrorCode.MANY_PIC);
