@@ -44,9 +44,6 @@ public class NoticeService {
         if (level > Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (pics.size()>Const.NOTICE_PIC){
-            throw new RestApiException(AuthErrorCode.MANY_PIC);
-        }
 
         NoticeInsProcDto pdto = NoticeInsProcDto.builder()
                 .writerIuser(writerIuser)
@@ -69,6 +66,9 @@ public class NoticeService {
 
 
         if (pics != null) {
+            if (pics.size()>Const.NOTICE_PIC){
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
+            }
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
             for(int inotice : inotices) {
                 String target = "/notice/" + inotice;
