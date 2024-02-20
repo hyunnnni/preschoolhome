@@ -100,8 +100,6 @@ public class KidService {
             }
         } while (codes != null);
 
-
-
         int result = mapper.kidSignup(dto);
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
