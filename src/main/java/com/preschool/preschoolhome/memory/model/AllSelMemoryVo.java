@@ -13,6 +13,8 @@ public class AllSelMemoryVo {
     private int imemory;
     @Schema(title = "원아 PK")
     private List<Integer> ikids;
+    @Schema(title = "원아이름")
+    private String kidNm;
     @Schema(title = "추억앨범 제목")
     private String memoryTitle;
     @Schema(title = "추억앨범 내용")

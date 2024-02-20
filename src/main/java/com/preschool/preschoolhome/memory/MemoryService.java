@@ -40,9 +40,11 @@ public class MemoryService {
     private final ObjectMapper objMapper;
 
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+        int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
-        if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
+        //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
+        if(level == 2 || level == 3){
             List<AllSelMemoryVo> list = mapper.allMemoryTea(dto);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
@@ -51,7 +53,8 @@ public class MemoryService {
             vo.setList(list);
             vo.setImemoryCnt(mapper.allMemoryTeaCnt(dto));
         }
-        if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
+        //if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
+        if(level == 1 || level == 4){
             List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));

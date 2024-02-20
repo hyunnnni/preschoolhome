@@ -3,8 +3,8 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.memory.MemoryMapper">
     <select id="allMemoryTea">
-        SELECT A.imemory, C.ikid, A.memory_title as memoryTitle, A.memory_contents as memoryContents
-        , A.teacher_nm as teacherNm, A.created_at as createdAt
+        SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
+        , A.iteacher, A.created_at as createdAt
         FROM t_memory A
         JOIN t_memory_room B
         ON A.imemory = B.imemory
@@ -39,15 +39,15 @@
         </where>
     </select>
     <select id="allMemoryPar">
-        SELECT A.imemory, C.ikid, A.memory_title as memoryTitle, A.memory_contents as memoryContents
-        , A.teacher_nm as teacherNm, A.created_at as createdAt
+        SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
+        , A.iteacher, A.created_at as createdAt
         FROM t_memory A
         JOIN t_memory_room B
         ON A.imemory = B.imemory
         JOIN t_kid C
         ON B.ikid = C.ikid
         <where>
-        <if test="ikid > 0">
+        <if test="ikids != null">
             C.ikid = #{ikid}
         </if>
         <if test="search != null and search != '' ">
@@ -65,7 +65,7 @@
         JOIN t_kid C
         ON B.ikid = C.ikid
         <where>
-            <if test="ikid > 0">
+            <if test="ikids != null">
                 C.ikid = #{ikid}
             </if>
             <if test="search != null and search != '' ">
@@ -84,7 +84,7 @@
     <!-- 추억앨범에 걸린 원아 PK 불러오기 -->
     <select id="iMemoryIkid">
         SELECT ikid
-        FROM t_memory
+        FROM t_memory_room
         WHERE imemory = #{imemory}
     </select>
     <!-- 상세 내용 불러오기 -->
