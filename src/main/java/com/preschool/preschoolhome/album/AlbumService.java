@@ -216,38 +216,39 @@ public class AlbumService {
         }
         // 글 수정
         int updAfftectedRows = mapper.updAlbum(dto);
+        if (updAfftectedRows == 0) {
+            return new ResVo(FAIL);
+        }
 
         // 사진 삭제
-        if (dto.getDelPics() != null) {
+        int selResult = mapper.selAlbumPics(dto.getIalbum());
+        AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
+        if (selResult > 0 && dto.getDelPics() != null) {
             int delPicsAffectedRows = mapper.delAlbumPic(dto.getDelPics());
             if (delPicsAffectedRows == 0) {
                 throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
         }
-        //추가로 사진 업로드 하는 게 없다면 리턴
-        if (pics == null) {
-            return new ResVo(Const.SUCCESS);
+
+        selResult = mapper.selAlbumPics(dto.getIalbum());
+        int picSize = Const.ALBUM_PIC;
+        if ((picSize - selResult) < pics.size()){
+            throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
 
-        // 사진 등록
-        AlbumPicsInsDto picsDto = new AlbumPicsInsDto();
         picsDto.setIalbum(dto.getIalbum());
-
         String target = "/album/" + dto.getIalbum();
 
-        if (pics.size() != 0) {
-
-
-            for (MultipartFile file : pics) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                picsDto.getAlbumPic().add(saveFileNm);
-            }
-            int picsAffectedRows = mapper.insAlbumPic(picsDto);
-            if (picsAffectedRows == 0 || pics.size() > Const.ALBUM_PIC) {
-                throw new RestApiException(AuthErrorCode.MANY_PIC);
-            }
+        for (MultipartFile file : pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getAlbumPic().add(saveFileNm);
         }
-        return new ResVo(SUCCESS);
+        int picsAffectedRows = mapper.insAlbumPic(picsDto);
+        if (picsAffectedRows == 0) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+        }
+
+        return new ResVo(dto.getIalbum());
     }
 
     //------------------------------------- 활동 앨범 수정 시 정보 조회 -------------------------------------

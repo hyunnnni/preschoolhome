@@ -156,6 +156,13 @@
         </if>
     </delete>
 
+    <!-- 활동 앨범 기존 사진 조회 -->
+    <select id="selAlbumPics">
+        SELECT COUNT(ialbum)
+        FROM t_album_pics
+        WHERE ialbum = #{ialbum}
+    </select>
+
 </mapper>
 
 
