@@ -282,10 +282,6 @@ public class MemoryService {
                     throw new RestApiException(AuthErrorCode.PICS_FAIL);
                 }
             }
-            //추가로 사진 업로드 하는 게 없다면 리턴
-            if (pics == null) {
-                return new ResVo(SUCCESS);
-            }
 
             String target = "/memory/" + dto.getImemory();
             myFileUtils.delFolderTrigger(target);
