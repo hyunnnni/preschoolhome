@@ -4,12 +4,14 @@
 <mapper namespace="com.preschool.preschoolhome.memory.MemoryMapper">
     <select id="allMemoryTea">
         SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
-        , A.iteacher, A.created_at as createdAt
+        , A.iteacher, D.teacher_nm as teacherNm, A.created_at as createdAt
         FROM t_memory A
         JOIN t_memory_room B
         ON A.imemory = B.imemory
         JOIN t_kid C
         ON B.ikid = C.ikid
+        JOIN t_teacher D
+        ON A.iteacher = D.iteacher
         <where>
         <if test="iclass > 0">
             C.iclass = #{iclass}
@@ -40,12 +42,14 @@
     </select>
     <select id="allMemoryPar">
         SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
-        , A.iteacher, A.created_at as createdAt
+        , A.iteacher, D.teacher_nm as teacherNm, A.created_at as createdAt
         FROM t_memory A
         JOIN t_memory_room B
         ON A.imemory = B.imemory
         JOIN t_kid C
         ON B.ikid = C.ikid
+        JOIN t_teacher D
+        ON A.iteacher = D.iteacher
         <where>
         <if test="ikids != null">
             C.ikid = #{ikid}
