@@ -78,6 +78,7 @@ public class NoticeService {
                     picsDto.getPics().add(saveFileNm);
                 }
                 int result2 = mapper.insNoticePics(picsDto);
+                picsDto.getPics().clear();
                 if (result2 == 0) {
                     throw new RestApiException(AuthErrorCode.PICS_FAIL);
                 }
