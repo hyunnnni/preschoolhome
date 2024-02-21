@@ -175,7 +175,10 @@ public class NoticeService {
                 throw new RestApiException(AuthErrorCode.FAIL);
             }
         }
+        if (pics == null) {
+            return new ResVo(dto.getInotice());
 
+        }
         String target = "/notice/" + dto.getInotice();
 
         NoticePicsInsDto picsDto = new NoticePicsInsDto();
@@ -194,7 +197,7 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
-        return new ResVo(Const.SUCCESS);
+        return new ResVo(dto.getInotice());
     }
 
     //-------------------------------- 알림장 삭제 --------------------------------

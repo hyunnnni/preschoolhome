@@ -231,7 +231,7 @@ public class AlbumService {
             }
         }
         if (pics == null) {
-            return new ResVo(SUCCESS);
+            return new ResVo(dto.getIalbum());
         }
 
         selResult = mapper.selAlbumPics(dto.getIalbum());
