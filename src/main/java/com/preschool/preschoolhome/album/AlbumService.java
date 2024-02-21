@@ -217,8 +217,9 @@ public class AlbumService {
         // 글 수정
         int updAfftectedRows = mapper.updAlbum(dto);
         if (updAfftectedRows == 0) {
-            return new ResVo(FAIL);
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
+
 
         // 사진 삭제
         int selResult = mapper.selAlbumPics(dto.getIalbum());
@@ -239,9 +240,11 @@ public class AlbumService {
         picsDto.setIalbum(dto.getIalbum());
         String target = "/album/" + dto.getIalbum();
 
-        for (MultipartFile file : pics) {
-            String saveFileNm = myFileUtils.transferTo(file, target);
-            picsDto.getAlbumPic().add(saveFileNm);
+        if (pics != null) {
+            for (MultipartFile file : pics) {
+                String saveFileNm = myFileUtils.transferTo(file, target);
+                picsDto.getAlbumPic().add(saveFileNm);
+            }
         }
         int picsAffectedRows = mapper.insAlbumPic(picsDto);
         if (picsAffectedRows == 0) {
