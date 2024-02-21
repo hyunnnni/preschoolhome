@@ -198,22 +198,12 @@
     <update id="updTeacher">
         UPDATE t_teacher
         SET teacher_nm = #{teacherNm}
-        , ilevel = #{ilevel}
         , iclass = #{iclass}
         , teacher_uid = #{teacherUid}
         , teacher_upw = #{teacherUpw}
         , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
         , teacher_introduce = #{teacherIntroduce}
-        , tc_role =
-        <choose>
-            <when test="loginIlevel == 3">
-                #{tcRole}
-            </when>
-            <otherwise>
-                tc_role
-            </otherwise>
-        </choose>
         WHERE iteacher = #{iteacher}
     </update>
 
