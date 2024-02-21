@@ -177,7 +177,7 @@ public class FullNoticeService {
             }
         }
         if (dto.getFullPic() == null) {
-            return new ResVo(Const.SUCCESS);
+            return new ResVo(dto.getIfullNotice());
 
         }
         selResult = mapper.selFullNoticePics(dto.getIfullNotice());//위에서 사진 삭제가 진행된 후 남은 사진 수를 조회하는 작업
