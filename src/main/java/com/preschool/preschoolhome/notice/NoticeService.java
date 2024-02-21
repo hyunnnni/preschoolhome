@@ -19,6 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,9 +38,10 @@ public class NoticeService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
+
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
-    public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
+    public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) throws IOException {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
@@ -70,14 +75,52 @@ public class NoticeService {
                 throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            for(int inotice : inotices) {
-                String target = "/notice/" + inotice;
-                picsDto.setInotice(inotice);
-                for (MultipartFile file : pics) {
-                    String saveFileNm = myFileUtils.transferTo(file, target);
-                    picsDto.getPics().add(saveFileNm);
+            List<String> fileNms = null;
+            String folderPath = null;
+            List<File> originFile = new ArrayList<>();
+            int result2 = 0;
+
+            for (int i = 0; i < inotices.size(); i++) {
+                String target = "/notice/" + inotices.get(i);
+                picsDto.setInotice(inotices.get(i));
+
+                if(i == 0) {
+                    for (MultipartFile file : pics) {
+                        String fileNm = myFileUtils.getRandomFileNm(file);
+                        folderPath = myFileUtils.makeFolders(target);
+                        File saveFile = new File(folderPath, fileNm);
+                        saveFile.exists();
+                        originFile.add(saveFile);
+                        fileNms.add(fileNm);
+                        try {
+                            file.transferTo(saveFile);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        picsDto.getPics().add(fileNm);
+                    }
+                    result2 = mapper.insNoticePics(picsDto);
+                    if (result2 == 0) {
+                        throw new RestApiException(AuthErrorCode.PICS_FAIL);
+                    }
+                    picsDto.getPics().clear();
+                    break;
                 }
-                int result2 = mapper.insNoticePics(picsDto);
+
+                folderPath = myFileUtils.makeFolders(target);
+                for (int j = 0; j < originFile.size(); j++) {
+                    File copyFile = new File(folderPath, fileNms.get(j));
+                    Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    picsDto.getPics().add(fileNms.get(j));
+                }
+                result2 = mapper.insNoticePics(picsDto);
+                if (result2 == 0) {
+                    throw new RestApiException(AuthErrorCode.PICS_FAIL);
+                }
+                picsDto.getPics().clear();
+
+                result2 = mapper.insNoticePics(picsDto);
                 picsDto.getPics().clear();
                 if (result2 == 0) {
                     throw new RestApiException(AuthErrorCode.PICS_FAIL);

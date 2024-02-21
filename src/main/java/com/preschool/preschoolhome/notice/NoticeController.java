@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -36,7 +37,7 @@ public class NoticeController {
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/tea")
     public ResVoArray postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
-                                       @RequestPart @Valid NoticeInsDto dto){
+                                       @RequestPart @Valid NoticeInsDto dto) throws IOException {
         return service.insNotice(pics, dto);
     }
 
@@ -47,7 +48,7 @@ public class NoticeController {
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/par")
     public ResVoArray postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
-                               @RequestPart @Valid NoticeInsDto dto){
+                               @RequestPart @Valid NoticeInsDto dto) throws IOException{
         return service.insNotice(pics, dto);
     }
 
