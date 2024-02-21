@@ -64,4 +64,6 @@ public interface TeacherMapper {
     int selTeacherCnt(int iteacher);
     //-------------------------------- 토큰 --------------------------------
     int updTeaFirebaseToken(UserFirebaseTokenPatchDto dto);
+    //----------------------- 선생님 정보 수정 시 PK 확인 ------------
+    List<Integer> selTeacherPk();
 }

@@ -11,6 +11,7 @@ public enum AuthErrorCode implements ErrorCode {
 
     NOT_CORRECT_INFORMATION(HttpStatus.BAD_REQUEST,"잘못된 요청입니다."),
     CHECK_CODE(HttpStatus.BAD_REQUEST,"식별코드를 확인해주세요."),
+    NOTEXIST_TEACHER(HttpStatus.BAD_REQUEST,"해당 선생님이 없습니다."),
     CHECK_DUPLICATION_ID(HttpStatus.BAD_REQUEST,"아이디 중복체크를 해주세요."),
     NOT_ENTER_ID(HttpStatus.BAD_REQUEST,"아이디를 입력하세요."),
     DELETE_ID(HttpStatus.BAD_REQUEST,"삭제된 계정입니다. 회원가입을 진행해주세요."),

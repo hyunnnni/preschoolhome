@@ -86,9 +86,7 @@ public class FullNoticeService {
             if (!(dto.getIlevel() == Const.TEACHER || dto.getIlevel() == Const.BOSS)) {
                 throw new RestApiException(AuthErrorCode.NO_PERMISSION);
             }
-            if(dto.getFullPic().size() > Const.FULL_NOTICE_PIC) {
-                throw new RestApiException(AuthErrorCode.MANY_PIC);
-            }
+
 
             Integer fix = mapper.selNoticeFix(dto.getIfullNotice());
 
@@ -102,8 +100,13 @@ public class FullNoticeService {
             if (result == 0) {
                 throw new RestApiException(AuthErrorCode.FAIL);
             }
+
             if (dto.getFullPic() == null) {
-                return new ResVo(Const.SUCCESS);
+                return new ResVo(dto.getIfullNotice());
+            }
+
+            if(dto.getFullPic().size() > Const.FULL_NOTICE_PIC) {
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
 
             pdto.setIfullNotice(dto.getIfullNotice());

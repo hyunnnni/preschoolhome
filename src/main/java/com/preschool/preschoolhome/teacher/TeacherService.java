@@ -222,6 +222,12 @@ public class TeacherService {
         if (teacherProfile == null) {
             return new ResVo(Const.SUCCESS);
         }
+
+        List<Integer> selPk = mapper.selTeacherPk();
+        if (!(selPk.contains(dto.getIteacher()))){
+            throw new RestApiException(AuthErrorCode.NOTEXIST_TEACHER);
+        }
+
         try {
             String path = "/user/" + dto.getIteacher();
             myFileUtils.delFolderTrigger(path);

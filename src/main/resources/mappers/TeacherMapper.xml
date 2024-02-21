@@ -254,10 +254,14 @@
 
     <insert id="insTeacher" keyProperty="iteacher" useGeneratedKeys="true">
         insert into t_teacher
-        set teacher_uid =#{teacherUid},teacher_upw =#{teacherUpw},
-        teacher_nm =#{teacherNm}, tc_email =#{tcEmail},
-        iclass =#{iclass},
-        teacher_introduce =#{teacherIntroduce},tc_role = 'TEACHER',ilevel =2
+        set teacher_uid = #{teacherUid}
+        , teacher_upw = #{teacherUpw}
+        , teacher_nm = #{teacherNm}
+        , tc_email = #{tcEmail}
+        , iclass = #{iclass}
+        , teacher_introduce = #{teacherIntroduce}
+        , tc_role = 'TEACHER'
+        , ilevel = 2
     </insert>
     <update id="teacherUpPic">
         update t_teacher
@@ -301,4 +305,10 @@
             #{iteacher}
         </foreach>)
     </update>
+
+    <!-- 선생님 정보 수정 시 PK 확인 -->
+    <select id="selTeacherPk">
+        SELECT iteacher
+        FROM t_teacher
+    </select>
 </mapper>
