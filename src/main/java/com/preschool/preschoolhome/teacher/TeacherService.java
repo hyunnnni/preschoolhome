@@ -220,7 +220,7 @@ public class TeacherService {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
         if (teacherProfile == null) {
-            throw new RestApiException(AuthErrorCode.PICS_NULL);
+            return new ResVo(Const.SUCCESS);
         }
         try {
             String path = "/user/" + dto.getIteacher();
