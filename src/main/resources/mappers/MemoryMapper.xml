@@ -51,7 +51,7 @@
         JOIN t_teacher D
         ON A.iteacher = D.iteacher
         <where>
-        <if test="ikids != null">
+        <if test="ikid > 0">
             C.ikid = #{ikid}
         </if>
         <if test="search != null and search != '' ">
@@ -69,7 +69,7 @@
         JOIN t_kid C
         ON B.ikid = C.ikid
         <where>
-            <if test="ikids != null">
+            <if test="ikid > 0">
                 C.ikid = #{ikid}
             </if>
             <if test="search != null and search != '' ">
