@@ -210,7 +210,7 @@ public class TeacherService {
     }
 
     //-------------------------------- 선생님 정보 수정  --------------------------------
-
+    @Transactional
     public ResVo putTeacher(MultipartFile teacherProfile, TeacherPatchDto dto) {
 
         int level = authenticationFacade.getLevelPk();
@@ -298,6 +298,7 @@ public class TeacherService {
     }
 
     //-------------------------------- 선생님이 부모 마이페이지 정보수정 --------------------------------
+    @Transactional
     public ResVo putTeacherParent(UpdTeacherParentDto dto) {
         int level = authenticationFacade.getLevelPk();
         if (level < 2) {
@@ -327,10 +328,14 @@ public class TeacherService {
     }
 
     //----------------------------- 3차 원장님이 선생님 등록하기 ------------------
+    @Transactional
     public ResVo postTeacher(MultipartFile pic, TeacherInsDto dto) {
         int result = mapper.insTeacher(dto);
         if (result == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
+        }
+        if (pic == null) {
+            return new ResVo(dto.getIteacher());
         }
         String path = "/teacher/" + dto.getIteacher();
         String savedPicFileNm = myFileUtils.transferTo(pic, path);
