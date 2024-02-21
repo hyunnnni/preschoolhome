@@ -14,6 +14,7 @@
        select iteacher, teacher_nm as teacherNm, iclass,
        teacher_profile as teacherProfile, teacher_introduce as teacherIntroduce
        from t_teacher
+       WHERE tc_is_del = 0
        ORDER BY iclass ASC
    </select>
 

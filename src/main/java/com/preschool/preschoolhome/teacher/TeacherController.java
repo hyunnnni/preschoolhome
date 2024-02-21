@@ -132,7 +132,7 @@ public class TeacherController {
             -1 : 실패<br>
             1: 성공
             """)
-    public ResVo delTeacher(TeacherDelDto dto) {
+    public ResVo delTeacher(@RequestBody TeacherDelDto dto) {
         return service.delTeacher(dto);
     }
 

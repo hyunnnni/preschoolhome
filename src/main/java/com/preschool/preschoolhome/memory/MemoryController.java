@@ -52,7 +52,7 @@ public class MemoryController {
     @GetMapping("/tag")
     @Operation(summary = "3차 추억 앨범 작성 시 보내고 싶은 원아 태그에 쓰일 모든 원아 정보", description = """
         여러 원아에게 추억 앨범을 보내고 싶을 때 선택할 수 있는 원아들 정보 조회""")
-    public List<MemorySelDto> getFromKids() {
+    public List<MemorySelVo> getFromKids() {
         return service.getFromKids();
     }
 

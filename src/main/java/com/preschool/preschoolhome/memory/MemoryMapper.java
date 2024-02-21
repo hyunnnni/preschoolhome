@@ -23,7 +23,7 @@ List<MemoryCommentVo> memoryComment(int imemory);
     List<Integer> selMemoryKid(int imemory);
 
     //------------------------------------- 추억 앨범 글 작성 시 전체 원아 조회 -------------------------------------
-    List<MemorySelDto> getFromKids();
+    List<MemorySelVo> getFromKids();
     //------------------------------------- 추억 앨범 글 삭제 전 댓글, 사진, 방 삭제 -------------------------------------
     int delMemoryAll(int imemory);
     //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
