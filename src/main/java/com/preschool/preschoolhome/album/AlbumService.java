@@ -230,22 +230,24 @@ public class AlbumService {
                 throw new RestApiException(AuthErrorCode.PICS_FAIL);
             }
         }
+        if (pics == null) {
+            return new ResVo(SUCCESS);
+        }
 
         selResult = mapper.selAlbumPics(dto.getIalbum());
         int picSize = Const.ALBUM_PIC;
-        if ((picSize - selResult) < pics.size()){
+        if ((picSize - selResult) < pics.size()) {
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
 
         picsDto.setIalbum(dto.getIalbum());
         String target = "/album/" + dto.getIalbum();
 
-        if (pics != null) {
-            for (MultipartFile file : pics) {
-                String saveFileNm = myFileUtils.transferTo(file, target);
-                picsDto.getAlbumPic().add(saveFileNm);
-            }
+        for (MultipartFile file : pics) {
+            String saveFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getAlbumPic().add(saveFileNm);
         }
+
         int picsAffectedRows = mapper.insAlbumPic(picsDto);
         if (picsAffectedRows == 0) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
