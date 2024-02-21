@@ -21,9 +21,6 @@ public class TeacherPatchDto {
             message = "형식이 맞지 않습니다. 확인해주세요.")
     private String teacherNm;
 
-    @Schema(title = "해당 선생님의 등급")
-    private int ilevel;
-
     @Schema(title = "반 PK")
     @Positive(message = "잘못된 값입니다.")
     private int iclass;
@@ -51,6 +48,4 @@ public class TeacherPatchDto {
     @NotBlank(message = "소개글을 입력해주세요.")
     private String teacherIntroduce;
 
-    @Schema(title = "선생님 권한")
-    private String tcRole;
 }
