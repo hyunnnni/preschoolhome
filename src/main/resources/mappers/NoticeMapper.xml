@@ -28,16 +28,18 @@
     </insert>
     <!--                 선생님이 알림장 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUser">
-        SELECT A.pr_firebase_token AS FirebaseToken, B.ikid, B.kid_nm AS kidNm C.inotice
+        SELECT A.pr_firebase_token AS FirebaseToken, B.ikid, C.kid_nm AS kidNm, D.inotice
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
-        INNER JOIN t_notice_board AS C
+        INNER JOIN t_kid AS C
         ON B.ikid = C.ikid
-        WHERE C.inotice in (
+        INNER JOIN t_notice_board AS D
+        ON C.ikid = D.ikid
+        WHERE D.inotice IN (
             <foreach collection="inotices" item="inotice" separator=",">
                 #{inotice}
-            </foreach>
+            </foreach>)
     </select>
     <!--                 학부모가 알림장 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUser">

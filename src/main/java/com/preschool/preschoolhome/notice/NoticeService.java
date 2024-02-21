@@ -75,7 +75,7 @@ public class NoticeService {
                 throw new RestApiException(AuthErrorCode.MANY_PIC);
             }
             NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            List<String> fileNms = null;
+            List<String> fileNms = new ArrayList<>();
             String folderPath = null;
             List<File> originFile = new ArrayList<>();
             int result2 = 0;
