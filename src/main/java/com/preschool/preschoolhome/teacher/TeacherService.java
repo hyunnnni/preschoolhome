@@ -337,7 +337,7 @@ public class TeacherService {
         if (pic == null) {
             return new ResVo(dto.getIteacher());
         }
-        String path = "/teacher/" + dto.getIteacher();
+        String path = "/user/" + dto.getIteacher();
         String savedPicFileNm = myFileUtils.transferTo(pic, path);
         dto.setTeacherProfile(savedPicFileNm);
         int result2 = mapper.teacherUpPic(dto);
