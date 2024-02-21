@@ -80,7 +80,6 @@ public class SecurityConfiguration {
                         ,"/api/full/"
                         ,"/api/full/listall"
                         ,"/api/kid/{year}/{ikid}"
-                        ,"/api/main"
                         ,"/api/memory"
                         ,"/api/memory/detail"
                         ,"/api/notice/edit"
@@ -90,7 +89,6 @@ public class SecurityConfiguration {
                         ,"/api/parent/putparent"
                         ,"/api/parent/kidadd"
                         ,"/api/preschool/kid"
-                        ,"/api/preschool/teacher"
                         ).authenticated()
                         //).hasAnyRole("PARENT","TEACHER","ADMIN")
                         .requestMatchers(HttpMethod.PUT,
