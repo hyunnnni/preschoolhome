@@ -305,4 +305,10 @@
             #{iteacher}
         </foreach>)
     </update>
+
+    <!-- 선생님 정보 수정 시 PK 확인 -->
+    <select id="selTeacherPk">
+        SELECT iteacher
+        FROM t_teacher
+    </select>
 </mapper>
