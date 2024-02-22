@@ -60,6 +60,7 @@ public class NoticeService {
                 .build();
 
         int result;
+
         List<Integer> inotices = new ArrayList<>();
         for(Integer kid : dto.getIkids()){
             pdto.setIkid(kid);
@@ -69,7 +70,7 @@ public class NoticeService {
             }
             inotices.add(pdto.getInotice());
         }
-        
+
         try {
             if (pics != null && pics.size() <= Const.NOTICE_PIC) {
                 NoticePicsInsDto picsDto = new NoticePicsInsDto();
