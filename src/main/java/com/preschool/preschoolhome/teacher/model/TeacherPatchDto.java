@@ -26,7 +26,7 @@ public class TeacherPatchDto {
     private int iclass;
 
     @Schema(title = "선생님 ID")
-    @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
+    @Pattern(regexp = "^[가-힣|a-z|A-Z|0-9]*$",
             message = "형식이 맞지 않습니다. 확인해주세요.")
     private String teacherUid;
 
