@@ -264,8 +264,10 @@ public class NoticeService {
             Integer result1 = mapper.selNoticeBoardPicCheck(check.getInotice());
             Integer result2 = mapper.selNoticeBoardCmtCheck(check.getInotice());
 
-            if (result1 != null && result2 != null) {
+            if (result1 != null && result1 > 0) {
                 check.setPicCheck(Const.SUCCESS);
+            }
+            if(result2 != null && result2 > 0){
                 check.setCmtCheck(Const.SUCCESS);
             }
         }
