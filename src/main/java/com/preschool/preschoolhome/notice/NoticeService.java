@@ -69,19 +69,11 @@ public class NoticeService {
             }
             inotices.add(pdto.getInotice());
         }
-
+        
         try {
-
-
-            if (pics != null) {
-                if (pics.size() > Const.NOTICE_PIC) {
-                    throw new RestApiException(AuthErrorCode.MANY_PIC);
-                }
+            if (pics != null && pics.size() <= Const.NOTICE_PIC) {
                 NoticePicsInsDto picsDto = new NoticePicsInsDto();
-                List<String> fileNms = new ArrayList<>();
-                String folderPath = null;
                 List<File> originFile = new ArrayList<>();
-                int result2 = 0;
 
                 for (int i = 0; i < inotices.size(); i++) {
                     String target = "/notice/" + inotices.get(i);
@@ -90,34 +82,24 @@ public class NoticeService {
                     if (i == 0) {
                         for (MultipartFile file : pics) {
                             String fileNm = myFileUtils.getRandomFileNm(file);
-                            folderPath = myFileUtils.makeFolders(target);
-                            File saveFile = new File(folderPath, fileNm);
+                            File saveFile = new File(myFileUtils.makeFolders(target), fileNm);
                             File subFile = new File(myFileUtils.makeFolders("/notice/sub"), fileNm);
-                            saveFile.exists();
-                            try {
-                                file.transferTo(saveFile);
-                                Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                                originFile.add(subFile);
-                                fileNms.add(fileNm);
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            file.transferTo(saveFile);
+                            Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                            originFile.add(subFile);
                             picsDto.getPics().add(fileNm);
                         }
-                        result2 = mapper.insNoticePics(picsDto);
-                        picsDto.getPics().clear();
-                        continue;
+                    } else {
+                        String folderPath = myFileUtils.makeFolders(target);
+                        for (int j = 0; j < originFile.size(); j++) {
+                            File copyFile = new File(folderPath, originFile.get(j).getName());
+                            Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            picsDto.getPics().add(originFile.get(j).getName());
+                        }
                     }
-
-                    folderPath = myFileUtils.makeFolders(target);
-                    for (int j = 0; j < originFile.size(); j++) {
-                        File copyFile = new File(folderPath, fileNms.get(j));
-                        copyFile.exists();
-                        Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        picsDto.getPics().add(fileNms.get(j));
-                    }
-                    result2 = mapper.insNoticePics(picsDto);
+                    mapper.insNoticePics(picsDto);
                     picsDto.getPics().clear();
                 }
             }
