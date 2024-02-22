@@ -21,7 +21,7 @@ public class SelAllNoticeVo {
     @Schema(title = "해당 알림장에 댓글 포함 1: 유/0 : 무")
     private int cmtCheck;
     @Schema(title = "해당 알림장 중요 1: 유/0 : 무")
-    private int noticeFix;
+    private int noticeCheck;
     @Schema(title = "알림장 업로드일")
     private String createdAt;
 }
