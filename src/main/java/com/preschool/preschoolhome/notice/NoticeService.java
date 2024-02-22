@@ -89,9 +89,11 @@ public class NoticeService {
                         String fileNm = myFileUtils.getRandomFileNm(file);
                         folderPath = myFileUtils.makeFolders(target);
                         File saveFile = new File(folderPath, fileNm);
+                        File subFile = new File(myFileUtils.makeFolders("/notice/sub"),fileNm);
+                        Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                         saveFile.exists();
-                        originFile.add(saveFile);
-                        fileNms.add(fileNm);
+                        originFile.add(subFile);
+
                         try {
                             file.transferTo(saveFile);
 
