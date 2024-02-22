@@ -37,7 +37,7 @@ public class NoticeController {
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/tea")
     public ResVoArray postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
-                                       @RequestPart @Valid NoticeInsDto dto) throws IOException {
+                                       @RequestPart @Valid NoticeInsDto dto) {
         return service.insNotice(pics, dto);
     }
 
@@ -48,7 +48,7 @@ public class NoticeController {
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
     @PostMapping("/par")
     public ResVoArray postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
-                               @RequestPart @Valid NoticeInsDto dto) throws IOException{
+                               @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
     }
 

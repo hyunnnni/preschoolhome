@@ -14,6 +14,7 @@ import com.preschool.preschoolhome.common.utils.ResVoArray;
 import com.preschool.preschoolhome.notice.model.*;
 import com.preschool.preschoolhome.notice.model.NoticeUpdSelVo;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class NoticeService {
 
     //-------------------------------- 알림장 등록 --------------------------------
     @Transactional
-    public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) throws IOException {
+    public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
@@ -69,65 +70,59 @@ public class NoticeService {
             inotices.add(pdto.getInotice());
         }
 
+        try {
 
-        if (pics != null) {
-            if (pics.size()>Const.NOTICE_PIC){
-                throw new RestApiException(AuthErrorCode.MANY_PIC);
-            }
-            NoticePicsInsDto picsDto = new NoticePicsInsDto();
-            List<String> fileNms = new ArrayList<>();
-            String folderPath = null;
-            List<File> originFile = new ArrayList<>();
-            int result2 = 0;
 
-            for (int i = 0; i < inotices.size(); i++) {
-                String target = "/notice/" + inotices.get(i);
-                picsDto.setInotice(inotices.get(i));
+            if (pics != null) {
+                if (pics.size() > Const.NOTICE_PIC) {
+                    throw new RestApiException(AuthErrorCode.MANY_PIC);
+                }
+                NoticePicsInsDto picsDto = new NoticePicsInsDto();
+                List<String> fileNms = new ArrayList<>();
+                String folderPath = null;
+                List<File> originFile = new ArrayList<>();
+                int result2 = 0;
 
-                if(i == 0) {
-                    for (MultipartFile file : pics) {
-                        String fileNm = myFileUtils.getRandomFileNm(file);
-                        folderPath = myFileUtils.makeFolders(target);
-                        File saveFile = new File(folderPath, fileNm);
-                        File subFile = new File(myFileUtils.makeFolders("/notice/sub"),fileNm);
-                        Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                        saveFile.exists();
-                        originFile.add(subFile);
+                for (int i = 0; i < inotices.size(); i++) {
+                    String target = "/notice/" + inotices.get(i);
+                    picsDto.setInotice(inotices.get(i));
 
-                        try {
-                            file.transferTo(saveFile);
+                    if (i == 0) {
+                        for (MultipartFile file : pics) {
+                            String fileNm = myFileUtils.getRandomFileNm(file);
+                            folderPath = myFileUtils.makeFolders(target);
+                            File saveFile = new File(folderPath, fileNm);
+                            File subFile = new File(myFileUtils.makeFolders("/notice/sub"), fileNm);
+                            saveFile.exists();
+                            try {
+                                file.transferTo(saveFile);
+                                Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                                originFile.add(subFile);
+                                fileNms.add(fileNm);
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            picsDto.getPics().add(fileNm);
                         }
-                        picsDto.getPics().add(fileNm);
+                        result2 = mapper.insNoticePics(picsDto);
+                        picsDto.getPics().clear();
+                        continue;
+                    }
+
+                    folderPath = myFileUtils.makeFolders(target);
+                    for (int j = 0; j < originFile.size(); j++) {
+                        File copyFile = new File(folderPath, fileNms.get(j));
+                        copyFile.exists();
+                        Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        picsDto.getPics().add(fileNms.get(j));
                     }
                     result2 = mapper.insNoticePics(picsDto);
-                    if (result2 == 0) {
-                        throw new RestApiException(AuthErrorCode.PICS_FAIL);
-                    }
                     picsDto.getPics().clear();
-                    break;
-                }
-
-                folderPath = myFileUtils.makeFolders(target);
-                for (int j = 0; j < originFile.size(); j++) {
-                    File copyFile = new File(folderPath, fileNms.get(j));
-                    Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    picsDto.getPics().add(fileNms.get(j));
-                }
-                result2 = mapper.insNoticePics(picsDto);
-                if (result2 == 0) {
-                    throw new RestApiException(AuthErrorCode.PICS_FAIL);
-                }
-                picsDto.getPics().clear();
-
-                result2 = mapper.insNoticePics(picsDto);
-                picsDto.getPics().clear();
-                if (result2 == 0) {
-                    throw new RestApiException(AuthErrorCode.PICS_FAIL);
                 }
             }
+        } catch (Exception e) {
+            throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
         LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
