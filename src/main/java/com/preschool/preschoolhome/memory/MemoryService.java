@@ -250,11 +250,8 @@ public class MemoryService {
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
 
-        if(level == Const.TEACHER || level == Const.BOSS){
+        if(level != Const.TEACHER || level != Const.BOSS){
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
-        }
-        if (pics.size()>Const.ALBUM_PIC){
-            throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
         if (pics.size() == Const.ZERO) {
             throw new RestApiException(AuthErrorCode.PICS_NULL);
@@ -276,18 +273,25 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
 
-        InsMemoryPicsDto picsDto = new InsMemoryPicsDto();
-        picsDto.setImemory(dto.getImemory());
-        String target = "/memory/" + dto.getImemory();
+        if( pics != null ) {
 
-        for (MultipartFile file : pics) {
-            String saverFileNm = myFileUtils.transferTo(file, target);
-            picsDto.getMemoryPics().add(saverFileNm);
-        }
-        int picResult = mapper.insMemoryPic(picsDto);
+            if (pics.size() > Const.ALBUM_PIC) {
+                throw new RestApiException(AuthErrorCode.MANY_PIC);
+            }
 
-        if (picResult < 1) {
-            throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            InsMemoryPicsDto picsDto = new InsMemoryPicsDto();
+            picsDto.setImemory(dto.getImemory());
+            String target = "/memory/" + dto.getImemory();
+
+            for (MultipartFile file : pics) {
+                String saverFileNm = myFileUtils.transferTo(file, target);
+                picsDto.getMemoryPics().add(saverFileNm);
+            }
+            int picResult = mapper.insMemoryPic(picsDto);
+
+            if (picResult < 1) {
+                throw new RestApiException(AuthErrorCode.PICS_FAIL);
+            }
         }
 
         LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
