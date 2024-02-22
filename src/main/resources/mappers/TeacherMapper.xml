@@ -204,6 +204,7 @@
         , tc_email = #{tcEmail}
         , teacher_profile = #{teacherProfile}
         , teacher_introduce = #{teacherIntroduce}
+        , tc_role = #{tcRole}
         WHERE iteacher = #{iteacher}
     </update>
 

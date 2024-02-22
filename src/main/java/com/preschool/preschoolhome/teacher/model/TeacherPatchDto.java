@@ -40,6 +40,9 @@ public class TeacherPatchDto {
             message = "이메일 양식을 확인해주세요.")
     private String tcEmail;
 
+    @Schema(title = "선생님 권한")
+    private String tcRole;
+
     @Schema(title = "선생님 프로필 사진")
     @JsonIgnore
     private String teacherProfile;

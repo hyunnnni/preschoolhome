@@ -14,7 +14,7 @@ public class MemoryCommentEntity extends CreatedAtEntity {
     private Integer imemoryComment;
 
     @ManyToOne
-    @JoinColumn(name = "imemory", nullable = false)
+    @JoinColumn(name = "imemory", columnDefinition = "INT UNSIGNED")
     private MemoryEntity memoryEntity;
 
     @Column(name = "memory_comment", length = 300)
