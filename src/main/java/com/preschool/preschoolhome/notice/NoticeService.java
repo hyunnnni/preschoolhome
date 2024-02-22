@@ -260,10 +260,13 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        for (SelAllNoticeVo picCheck : voList) {
-            Integer result = mapper.selNoticeBoardPicCheck(picCheck.getInotice());
-            if (result != null) {
-                picCheck.setPicCheck(Const.SUCCESS);
+        for (SelAllNoticeVo check : voList) {
+            Integer result1 = mapper.selNoticeBoardPicCheck(check.getInotice());
+            Integer result2 = mapper.selNoticeBoardCmtCheck(check.getInotice());
+
+            if (result1 != null && result2 != null) {
+                check.setPicCheck(Const.SUCCESS);
+                check.setCmtCheck(Const.SUCCESS);
             }
         }
         AllNoticeVo vo = new AllNoticeVo();

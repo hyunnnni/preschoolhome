@@ -41,6 +41,8 @@ public interface NoticeMapper {
     int selNoticeTeaCnt(SelAllNoticeDto dto);
     //------------------------ 알림장 전체 조회 시 해당 알림장의 사진 유/무 체크 ------------------------
     Integer selNoticeBoardPicCheck(int inotice);
+    //------------------------ 알림장 전체 조회 시 해당 알림장의 댓글 유/무 체크 ------------------------
+    Integer selNoticeBoardCmtCheck(int inotice);
     //------------------------ 알림장 상세 조회 ------------------------
     SelDetailNoticeVo selNoticeDetail(int inotice);
     //------------------------ 알림장 댓글 정보 조회 ------------------------
