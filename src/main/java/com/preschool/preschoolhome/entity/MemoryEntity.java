@@ -2,6 +2,10 @@ package com.preschool.preschoolhome.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +24,9 @@ public class MemoryEntity extends BaseEntity {
     @Column(length = 1000)
     private String contents;
 
-
+    @ToString.Exclude
+    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.PERSIST)
+    private List<MemoryAlbumEntity> memoryAlbumEntityList = new ArrayList();
 
 
 }

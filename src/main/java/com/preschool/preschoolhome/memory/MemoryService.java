@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import com.google.rpc.context.AttributeContext;
 import com.preschool.preschoolhome.common.exception.AuthErrorCode;
 import com.preschool.preschoolhome.common.exception.CommonErrorCode;
 import com.preschool.preschoolhome.common.exception.PreschoolErrorCode;
@@ -15,9 +14,14 @@ import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.entity.KidEntity;
+import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
+import com.preschool.preschoolhome.entity.MemoryEntity;
+import com.preschool.preschoolhome.entity.TeacherEntity;
 import com.preschool.preschoolhome.memory.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.K;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.preschool.preschoolhome.common.utils.Const.SUCCESS;
 
@@ -35,6 +40,9 @@ import static com.preschool.preschoolhome.common.utils.Const.SUCCESS;
 @RequiredArgsConstructor
 public class MemoryService {
     private final MemoryMapper mapper;
+    private final MemoryRepository repository;
+    private final TeacherRepository teacherRepository;
+    private final KidRepository kidRepository;
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
@@ -101,8 +109,18 @@ public class MemoryService {
 
 
     //------------------------------------- 추억 앨범 글 작성 시 전체 원아 조회 -------------------------------------
-    public List<MemorySelDto> getFromKids() {
-        return mapper.getFromKids();
+    public List<MemorySelVo> getFromKids() {
+
+
+        List<MemorySelVo> list = kidRepository.findAll().stream().map(item ->
+                MemorySelVo.builder()
+                        .ikid(item.getIkid())
+                        .iclass(item.getClassEntity().getIclass())
+                        .kidNm(item.getKidNm())
+                        .build()).collect(Collectors.toList());
+
+        //List<MemorySelVo> list = mapper.getFromKids();
+        return list;
     }
 
     //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
@@ -125,6 +143,105 @@ public class MemoryService {
         }
         return new ResVo(Const.FAIL);
     }
+    /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------
+    @Transactional
+    public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
+
+        int iuser = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        String loginUserNm = authenticationFacade.getUserNm();
+
+        if(level == Const.TEACHER || level == Const.BOSS){
+            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+        }
+        if (pics.size()>Const.ALBUM_PIC){
+            throw new RestApiException(AuthErrorCode.MANY_PIC);
+        }
+        if (pics.size() == Const.ZERO) {
+            throw new RestApiException(AuthErrorCode.PICS_NULL);
+        }
+
+        TeacherEntity teacherEntity= teacherRepository.getReferenceById(authenticationFacade.getLoginUserPk());
+
+        MemoryEntity memoryEntity = new MemoryEntity();
+        memoryEntity.setContents(dto.getMemoryContent());
+        memoryEntity.setTeacherEntity(teacherEntity);
+
+        repository.save(memoryEntity);
+
+
+        InsRoomInviteProcDto pdto = InsRoomInviteProcDto.builder()
+                .imemory(dto.getImemory())
+                .ikids(dto.getIkids())
+                .build();
+
+        int invite = mapper.insMemoryRoomInvite(pdto);
+        if (invite == Const.ZERO) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+
+        InsMemoryPicsDto picsDto = new InsMemoryPicsDto();
+        picsDto.setImemory(memoryEntity.getImemory());
+        String target = "/memory/" + memoryEntity.getImemory();
+
+        for (MultipartFile file : pics) {
+            String saverFileNm = myFileUtils.transferTo(file, target);
+            picsDto.getMemoryPics().add(saverFileNm);
+        }
+        List<MemoryAlbumEntity> memoryAlbumEntityList = picsDto.getMemoryPics()
+                .stream()
+                .map(item -> MemoryAlbumEntity.builder()
+                        .memoryEntity(memoryEntity)
+                        .memoryPic(item)
+                        .build()
+                ).collect(Collectors.toList());
+        memoryEntity.getMemoryAlbumEntityList().addAll(memoryAlbumEntityList);
+
+
+
+        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
+        String createdAt = now.format(formatter); // 포맷 적용
+
+        List<SelMemoryOtherTokens> otherTokens = new ArrayList<>();
+        otherTokens = mapper.selParFirebaseByLoginUser(dto.getIkids());
+
+        if (otherTokens != null) {
+            try {
+
+                otherTokens.removeAll(Collections.singletonList(null));
+                for (SelMemoryOtherTokens token : otherTokens) {
+
+                    MemoryPushVo pushVo = new MemoryPushVo();
+                    pushVo.setMemoryTitle(dto.getMemoryTitle());
+                    pushVo.setWriterIuser(iuser);
+                    pushVo.setCreatedAt(createdAt);
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setImemory(dto.getImemory());
+                    pushVo.setKidNm(loginUserNm);
+
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("postMemory")
+                            .setBody(body)
+                            .build();
+
+                    Message message = Message.builder()
+                            .setToken(token.getFirebaseToken())
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
+            } catch (Exception e) {
+                throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+            }
+        }
+
+        return new ResVo(dto.getImemory());
+    }*/
     //------------------------------------- 추억 앨범 글 등록 -------------------------------------
     @Transactional
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){

@@ -1,11 +1,17 @@
 package com.preschool.preschoolhome.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "t_memory_album")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemoryAlbumEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
