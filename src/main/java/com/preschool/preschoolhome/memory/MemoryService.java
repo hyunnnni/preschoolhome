@@ -406,7 +406,7 @@ public class MemoryService {
         int result = mapper.delMemoryComment(dto);
 
         if (result == 0) {
-            return new ResVo(Const.NO_INFORMATION);
+            return new ResVo(Const.FAIL);
         }
         return new ResVo(result);
     }

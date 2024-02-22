@@ -168,7 +168,7 @@
         WHERE C.ikid in (
         <foreach collection="ikids" item="ikid" separator=",">
             #{ikid}
-        </foreach>
+        </foreach>)
     </select>
     <!--                 태그된 부모들 추억 앨범 글에 초대                -->
     <insert id="insMemoryRoomInvite">
@@ -181,7 +181,7 @@
     </insert>
     <!--                 추억 앨범 사진 등록                -->
     <insert id="insMemoryPic">
-        INSERT INTO t_memory_pics
+        INSERT INTO t_memory_album
         ( imemory, memory_pic )
         VALUES
         (
@@ -208,7 +208,7 @@
         </if>
     </delete>
 
-    <!-- 추억 앨범 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회 -->
+    <!-- 추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회 -->
     <select id="selTeaFirebaseParents">
         SELECT A.pr_firebase_token AS FirebaseToken
         FROM t_parent AS A
