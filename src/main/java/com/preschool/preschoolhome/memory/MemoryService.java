@@ -250,7 +250,7 @@ public class MemoryService {
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
 
-        if(level != Const.TEACHER || level != Const.BOSS){
+        if(level != Const.TEACHER && level != Const.BOSS){
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (pics.size() == Const.ZERO) {
