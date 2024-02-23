@@ -12,8 +12,6 @@ public class DataVo {
     private String sigunCd;
     private String facltNm;
     private String telNo;
-    private String appontDate;
-    private String dataStdDate;
     private String refineLotNoAddr;
     private String refineRoadnmAddr;
     private String refineZipCd;
@@ -35,14 +33,6 @@ public class DataVo {
     @JsonGetter("telNo")
     public String getTelNo() {
         return telNo;
-    }
-    @JsonGetter("appontDate")
-    public String getAppontDate() {
-        return appontDate;
-    }
-    @JsonGetter("dataStdDate")
-    public String getDataStdDate() {
-        return dataStdDate;
     }
     @JsonGetter("refineLotNoAddr")
     public String getRefineLotNoAddr() {
@@ -80,14 +70,6 @@ public class DataVo {
     @JsonSetter("TELNO")
     public void setTelNo(String telNo) {
         this.telNo = telNo;
-    }
-    @JsonSetter("APPONT_DE")
-    public void setAppontDate(String appontDate) {
-        this.appontDate = appontDate;
-    }
-    @JsonSetter("DATA_STD_DE")
-    public void setDataStdDate(String dataStdDate) {
-        this.dataStdDate = dataStdDate;
     }
     @JsonSetter("REFINE_LOTNO_ADDR")
     public void setRefineLotNoAddr(String refineLotNoAddr) {
