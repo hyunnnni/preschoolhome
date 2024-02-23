@@ -6,6 +6,13 @@ app:
     access-token-expiry: 7200000
     refresh-token-expiry: 1296000000
 
+openapi:
+  hospital:
+    base-url: https://openapi.gg.go.kr
+    data-url: TbChildnatnPrvntncltnmdnstM
+    service-key: 9a050a22944b4287afc298b853071295
+
+
 file:
   dir: D:/download/preschool/
 

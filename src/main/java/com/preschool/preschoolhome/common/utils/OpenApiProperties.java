@@ -8,11 +8,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "openapi")
 public class OpenApiProperties {
 
-    private final Apartment apartment = new Apartment();
+    private final Hospital hospital = new Hospital();
 
     @Getter
     @Setter
-    public static class Apartment {
+    public static class Hospital {
         private String baseUrl;
         private String dataUrl;
         private String serviceKey;
