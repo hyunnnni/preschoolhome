@@ -84,7 +84,7 @@ public class MemoryController {
     //-------------------------------- 추억 앨범 댓글 삭제 --------------------------------
     @DeleteMapping("/comment")
     @Valid
-    @Operation(summary = "3차 추억 앨범 삭제")
+    @Operation(summary = "3차 추억 앨범 댓글 삭제")
     public ResVo delMemoryComment(@RequestParam
                                   @Positive(message="잘못된 값입니다")
                                   @Schema(title = "삭제하고 싶은 댓글 pk")

@@ -250,10 +250,10 @@ public class MemoryService {
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
 
-        if(level == Const.TEACHER || level == Const.BOSS){
+        if(level != Const.TEACHER && level != Const.BOSS){
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (pics.size()>Const.ALBUM_PIC){
+        if (pics.size() > Const.ALBUM_PIC) {
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
         if (pics.size() == Const.ZERO) {
@@ -276,6 +276,7 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
 
+
         InsMemoryPicsDto picsDto = new InsMemoryPicsDto();
         picsDto.setImemory(dto.getImemory());
         String target = "/memory/" + dto.getImemory();
@@ -289,6 +290,7 @@ public class MemoryService {
         if (picResult < 1) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
+
 
         LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
@@ -404,7 +406,7 @@ public class MemoryService {
         int result = mapper.delMemoryComment(dto);
 
         if (result == 0) {
-            return new ResVo(Const.NO_INFORMATION);
+            return new ResVo(Const.FAIL);
         }
         return new ResVo(result);
     }

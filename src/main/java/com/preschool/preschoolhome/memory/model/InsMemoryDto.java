@@ -17,7 +17,7 @@ public class InsMemoryDto {
     private String memoryTitle;
 
     @Schema(title = "추억 앨범 내용")
-    private String memoryContent;
+    private String memoryContents;
 
     @JsonIgnore
     private int iteacher;

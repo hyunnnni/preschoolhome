@@ -26,7 +26,7 @@ public class TeacherPatchDto {
     private int iclass;
 
     @Schema(title = "선생님 ID")
-    @Pattern(regexp = "^[가-힣|a-z|A-Z]*$",
+    @Pattern(regexp = "^[가-힣|a-z|A-Z|0-9]*$",
             message = "형식이 맞지 않습니다. 확인해주세요.")
     private String teacherUid;
 
@@ -39,6 +39,9 @@ public class TeacherPatchDto {
     @Pattern(regexp = "^[a-z|A-Z|0-9|_|-]+@([a-z|0-9]{3,}\\.[a-z]{2,}|[a-z|0-9]{3,}\\.[a-z]{2,}\\.[a-z]{2,})$",
             message = "이메일 양식을 확인해주세요.")
     private String tcEmail;
+
+    @Schema(title = "선생님 권한")
+    private String tcRole;
 
     @Schema(title = "선생님 프로필 사진")
     @JsonIgnore
