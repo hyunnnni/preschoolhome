@@ -42,7 +42,7 @@ public class ApiService {
                 .queryParam("Key",openApiProperties.getHospital().getServiceKey())
                 .queryParam("pIndex",dto.getPage())
                 .queryParam("size",dto.getSize());
-        if (dto.getSigunNm() != null) {queryParam("SIGUN_NM",dto.getSigunNm());}
+        if (dto.getSigunNm().isEmpty()) {queryParam("SIGUN_NM",dto.getSigunNm());}
         return ub.build();
         }
         ).retrieve()
