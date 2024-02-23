@@ -35,16 +35,16 @@ public class ApiService {
                 .baseUrl(openApiProperties.getHospital().getBaseUrl())
                 .build();
 
-        String json = webClient.get().uri(uriBuilder -> {
-                UriBuilder ub = uriBuilder  //baseurl뒤부터 주소 셋팅
+        String json = webClient.get().uri(uriBuilder ->
+                uriBuilder  //baseurl뒤부터 주소 셋팅
                 .path(openApiProperties.getHospital().getDataUrl())
                 .queryParam("Type","json")
                 .queryParam("Key",openApiProperties.getHospital().getServiceKey())
                 .queryParam("pIndex",dto.getPage())
-                .queryParam("size",dto.getSize());
-        if (dto.getSigunNm().isEmpty()) {queryParam("SIGUN_NM",dto.getSigunNm());}
-        return ub.build();
-        }
+                .queryParam("size",dto.getSize())
+                .queryParam("SIGUN_NM",dto.getSigunNm())
+                .build()
+
         ).retrieve()
           .bodyToMono(String.class)
           .block();
