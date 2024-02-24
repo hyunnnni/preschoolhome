@@ -50,7 +50,8 @@ public class SecurityConfiguration {
                         //.requestMatchers(HttpMethod.POST
                         ,"/api/teacher/signup"
                         //).authenticated()
-                        //).hasAnyRole("ADMIN")
+                        //).hasAnyRole("ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.POST
                         ,"/api/album/comment"
                         ,"/api/notice/par"
@@ -94,7 +95,7 @@ public class SecurityConfiguration {
                         ,"/api/parent/kidadd"
                         ,"/api/preschool/kid"
                         ).authenticated())
-                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PUT,
                         "/api/album"
@@ -132,7 +133,7 @@ public class SecurityConfiguration {
                         //).authenticated())
                         //).hasAnyRole("TEACHER","ADMIN"))
                         //.authorizeHttpRequests(auth -> auth
-                        //.requestMatchers(HttpMethod.DELETE
+                        ///.requestMatchers(HttpMethod.DELETE
                         ,"/api/album/comment"
                         ,"/api/full"
                         ,"/api/memory/comment"
