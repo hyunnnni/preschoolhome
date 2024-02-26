@@ -269,6 +269,12 @@
             ( #{imemory}, #{memoryPic} )
         </foreach>
     </insert>
+    <!-- 추억 앨범 삭제 전 글 확인 -->
+    <select id="selDelAlbum">
+        SELECT count(imemory)
+        FROM t_memory
+        WHERE imemory = #{imemory}
+    </select>
 
 </mapper>
 

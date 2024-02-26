@@ -49,6 +49,7 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
+
     /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         if(level == 2 || level == 3){
@@ -201,23 +202,24 @@ public class MemoryService {
 
     //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
     @Transactional
-    public ResVo delmemory (int imemory) {
+    public ResVo delmemory(int imemory) {
         int level = authenticationFacade.getLevelPk();
-
         if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+        int selDel = mapper.selDelAlbum(imemory);
+        if (selDel == 0) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
 
         try {
-            mapper.delMemoryAll(imemory);
-            int delMemory = mapper.delMemory(imemory);
-            if (delMemory > 0) {
-                return new ResVo(SUCCESS);
-            }
+            MemoryEntity memoryEntity = repository.getReferenceById(imemory);
+            repository.delete(memoryEntity);
+            return new ResVo(SUCCESS);
+
         } catch (Exception e) {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
-        return new ResVo(Const.FAIL);
     }
     /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------
     @Transactional
