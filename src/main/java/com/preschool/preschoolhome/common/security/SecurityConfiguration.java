@@ -44,18 +44,21 @@ public class SecurityConfiguration {
                         ,"/api/notice/tea"
                         ,"/api/memory"
                         ,"/api/teacher"
-                        //).authenticated()
-                        //).hasAnyRole("TEACHER","ADMIN")
+                        //).authenticated())
+                        //).hasAnyRole("TEACHER","ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.POST
                         ,"/api/teacher/signup"
                         //).authenticated()
-                        //).hasAnyRole("ADMIN")
+                        //).hasAnyRole("ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.POST
                         ,"/api/album/comment"
                         ,"/api/notice/par"
                         ,"/api/notice/comment"
-                        ).authenticated()
-                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        ).authenticated())
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET
                         ,"/api/album/edit"
                         ,"/api/full/edit"
@@ -68,12 +71,14 @@ public class SecurityConfiguration {
                         ,"/api/teacher/parent"
                         ,"/api/teacher/edit"
                         ,"/api/teacher/parentedit"
-                        //).authenticated()
-                        //).hasAnyRole("TEACHER","ADMIN")
+                        //).authenticated())
+                        //).hasAnyRole("TEACHER","ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.GET
                         ,"/api/teacher"
-                        //).authenticated()
-                        //).hasAnyRole("ADMIN")
+                        //).authenticated())
+                        //).hasAnyRole("ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.GET
                         ,"/api/album"
                         ,"/api/album/listall"
@@ -89,8 +94,9 @@ public class SecurityConfiguration {
                         ,"/api/parent/putparent"
                         ,"/api/parent/kidadd"
                         ,"/api/preschool/kid"
-                        ).authenticated()
-                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        ).authenticated())
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PUT,
                         "/api/album"
                         ,"/api/full"
@@ -99,30 +105,35 @@ public class SecurityConfiguration {
                         ,"/api/teacher"
                         ,"/api/teacher/parent"
                         ,"/api/teacher/parentedit"
-                        //).authenticated()
-                        //).hasAnyRole("TEACHER","ADMIN")
+                        //).authenticated())
+                        //).hasAnyRole("TEACHER","ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.PUT
                         ,"/api/notice"
-                        ).authenticated()
-                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        ).authenticated())
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PATCH,
                         "/api/kid/code/{ikid}"
                         ,"/api/teacher"
                         ,"/api/teacher/kid"
-                        //).authenticated()
-                        //).hasAnyRole("TEACHER","ADMIN")
+                        //).authenticated())
+                        //).hasAnyRole("TEACHER","ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.PATCH
                         ,"/api/parent"
-                        ).authenticated()
-                        //).hasAnyRole("PARENT","TEACHER","ADMIN")
+                        ).authenticated())
+                        //).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.DELETE,
                         "/api/album"
                         ,"/api/kid"
                         ,"/api/memory"
                         ,"/api/teacher/disconnect"
-                        //).authenticated()
-                        //).hasAnyRole("TEACHER","ADMIN")
-                        //.requestMatchers(HttpMethod.DELETE
+                        //).authenticated())
+                        //).hasAnyRole("TEACHER","ADMIN"))
+                        //.authorizeHttpRequests(auth -> auth
+                        ///.requestMatchers(HttpMethod.DELETE
                         ,"/api/album/comment"
                         ,"/api/full"
                         ,"/api/memory/comment"
