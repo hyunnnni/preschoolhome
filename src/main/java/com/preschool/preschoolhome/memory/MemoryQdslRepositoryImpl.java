@@ -1,9 +1,11 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
 import com.preschool.preschoolhome.entity.MemoryEntity;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
+import com.preschool.preschoolhome.memory.model.DelMemoryCommentDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumEntity;
+import static com.preschool.preschoolhome.entity.QMemoryCommentEntity.memoryCommentEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
 import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
 import static com.preschool.preschoolhome.entity.QKidEntity.kidEntity;
@@ -68,5 +71,17 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     private BooleanExpression whereTargetUser(int targetIuser){
         return targetIuser == 0 ? null : memoryEntity.teacherEntity.iteacher.eq(targetIuser);
+    }
+
+    @Override
+    public ResVo delMemoryComment(DelMemoryCommentDto dto) {
+        long executedNum = jpaQueryFactory.delete(memoryCommentEntity)
+                .where(memoryCommentEntity.imemoryComment.eq(dto.getImemoryComment()), whereTargetUser(dto))
+                .execute();
+        log.info("executedNum : {}" ,executedNum);
+        return new ResVo((int)executedNum);
+    }
+    private BooleanExpression whereTargetUser(DelMemoryCommentDto dto) {
+        return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
     }
 }

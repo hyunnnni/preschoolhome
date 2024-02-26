@@ -43,6 +43,7 @@ public class MemoryService {
     private final MemoryMapper mapper;
     private final MemoryRepository repository;
     private final TeacherRepository teacherRepository;
+    private final MemoryCommentRepository commentRepository;
     private final KidRepository kidRepository;
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
@@ -477,12 +478,20 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
 
-        int result = mapper.delMemoryComment(dto);
+        /*int result = mapper.delMemoryComment(dto);
 
         if (result == 0) {
             return new ResVo(Const.FAIL);
         }
-        return new ResVo(result);
+        return new ResVo(result);*/
+
+        try {
+            ResVo resVo = commentRepository.delMemoryComment(dto);
+            return resVo;
+
+        }catch (Exception e){
+            return new ResVo(Const.FAIL);
+        }
     }
 
 
