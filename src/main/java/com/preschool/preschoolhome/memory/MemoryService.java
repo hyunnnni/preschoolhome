@@ -47,55 +47,49 @@ public class MemoryService {
     private final ObjectMapper objMapper;
 
 
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
-        if (level == 2 || level == 3) {
+        int iuser = authenticationFacade.getLoginUserPk();
 
             final List<MemoryEntity> list = repository.selMemoryAll(dto, pageable);
 
             final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
             final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
-            //function 파라미터와 리턴타입이 있음
-            //consumer 파라미터만 있음 void
-            //Predicate 파라미터 있고 리턴타입이 불린 //조건을 주고 true만 리턴  ex(item -> item %2==0)
-            //supplier 파라미터가 없고 리턴타입만 있음
-            return list.stream().map(item -> {
-                AllMemoryVo vo = new AllMemoryVo();
-                List<MemoryCommentEntity> eachCommentList = cmtList.stream()
-                .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
-                .collect(Collectors.toList());
 
-                List<AllSelMemoryVo> vo1 = AllSelMemoryVo.builder()
-                                .imemory(item.getImemory())
-                                .memoryContents(item.getContents())
-                                .createdAt(item.getCreatedAt().toString())
-                                .iteacher(item.getTeacherEntity().getIteacher())
-                                .teacherNm(item.getTeacherEntity().getTeacherNm())
-                                .memoryPic(picList.stream()
-                                        .filter(pic ->      //filter는 타입은 같음 list 사이즈만 다름
-                                                pic.getMemoryEntity().getImemory() == item.getImemory()
-                                        ).map(pic -> pic.getMemoryPic()
-                                        ).collect(Collectors.toList()) //List
-                                )
-                                .memoryComments(eachCommentList.stream().map(cmt -> {
-                                    return MemoryCommentVo.builder()
-                                            .imemoryComment(cmt.getImemoryComment())
-                                            .memoryComment(cmt.getMemoryComment())
-                                            .build();
-                                }).collect(Collectors.toList()))
+            AllMemoryVo vo = new AllMemoryVo();
 
-                                .build().collect(Collectors.toList());
-                vo.setList(vo1);
-                        return vo;
+            List<AllSelMemoryVo> vo1 = list.stream().map(item -> {
 
+               List<MemoryCommentVo> eachCommentList = cmtList.stream()
+                            .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
+                            .map(cmt ->
+                                 MemoryCommentVo.builder()
+                                        .iuser(iuser)
+                                        .memoryComment(cmt.getMemoryComment())
+                                        .createdAt(cmt.getCreatedAt().toString())
+                                        .build()
+                            ).collect(Collectors.toList());
+                    List<String> eachPicList = picList.stream()
+                            .filter(pic -> pic.getMemoryEntity().getImemory() == item.getImemory())
+                            .map(pic -> pic.getMemoryPic())
+                            .collect(Collectors.toList());
 
+                    return AllSelMemoryVo.builder()
+                            .imemory(item.getImemory())
+                            .memoryContents(item.getContents())
+                            .createdAt(item.getCreatedAt().toString())
+                            .iteacher(item.getTeacherEntity().getIteacher())
+                            .teacherNm(item.getTeacherEntity().getTeacherNm())
+                            .memoryPic(eachPicList)
+                            .memoryComments(eachCommentList)
+                            .build();
+                }).collect(Collectors.toList());
 
-
-        }
-        return null;
+            vo.setList(vo1);
+            vo.setImemoryCnt(list.size());
+            return vo;
     }
-    }*/
 
         /*AllMemoryVo vo = new AllMemoryVo();
 
@@ -120,7 +114,7 @@ public class MemoryService {
         return vo;
     }*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -145,7 +139,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }
+    }*/
 
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
