@@ -50,6 +50,19 @@ public class ApiService {
           .bodyToMono(String.class)
           .block();
 
+        String json2 = webClient.get().uri(uriBuilder ->
+                        uriBuilder  //baseurl뒤부터 주소 셋팅
+                                .path(openApiProperties.getHospital().getDataUrl())
+                                .queryParam("Type","json")
+                                .queryParam("Key",openApiProperties.getHospital().getServiceKey())
+                                .queryParam("pIndex",dto.getPage())
+                                .queryParam("pSize",1000)
+                                .queryParam("SIGUN_NM",dto.getSigunNm())
+                                .build()
+
+                ).retrieve()
+                .bodyToMono(String.class)
+                .block();
 
 
         ObjectMapper om  =new ObjectMapper()
@@ -58,7 +71,12 @@ public class ApiService {
 
         try {
             JsonNode jsonNode = om.readTree(json); //문자열을 트리형식으로 정렬
+            JsonNode jsonNode2 = om.readTree(json2); //문자열을 트리형식으로 정렬
             List<DataVo> dataList = om.convertValue(jsonNode
+                            .at("/TbChildnatnPrvntncltnmdnstM/1/row")
+                    , new TypeReference<List<DataVo>>() {});
+
+            List<DataVo> dataList2 = om.convertValue(jsonNode2
                             .at("/TbChildnatnPrvntncltnmdnstM/1/row")
                     , new TypeReference<List<DataVo>>() {});
            /* List<DataVo> dataList = om.convertValue(jsonNode
@@ -71,7 +89,7 @@ public class ApiService {
 
             TotalDataVo totalData = TotalDataVo.builder()
                     .dataList(dataList)
-                    .totalData(dataList.size())
+                    .totalData(dataList2.size())
                     .build();
 
             return totalData;
