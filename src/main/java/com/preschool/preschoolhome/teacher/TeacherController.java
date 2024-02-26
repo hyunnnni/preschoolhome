@@ -193,10 +193,12 @@ public class TeacherController {
     @Operation(summary = "전체 선생님 정보 불러오기", description = "<strong>전체 선생님 불러오기</strong><br><br>" +
             "성공시 화면띄우기<br>" +
             "실패시 에러메세지 송출 <br>")
-    public SelTeacherInfoVo selAllTeacher(@RequestParam int page, @RequestParam(required = false,defaultValue = "0") int iclass) {
+    public SelTeacherInfoVo selAllTeacher(@RequestParam int page, @RequestParam(required = false,defaultValue = "0") int iclass
+    ,@RequestParam(required = false,defaultValue = "0") int tcIsDel) {
         SelAllTeacherDto dto = new SelAllTeacherDto();
         dto.setPage(page);
         dto.setIclass(iclass);
+        dto.setTcIsDel(tcIsDel);
 
         return service.selAllTeacher(dto);
     }
