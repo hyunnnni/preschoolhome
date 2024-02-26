@@ -2,11 +2,17 @@ package com.preschool.preschoolhome.memory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Data
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Schema(title = "추억앨범 조회")
 public class AllSelMemoryVo {
     @Schema(title = "추억앨범 PK")

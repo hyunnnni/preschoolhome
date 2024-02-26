@@ -59,7 +59,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     }
 
     @Override
-    public List<MemoryAlbumEntity> selFeedPicsAll(List<MemoryEntity> feedEntityList) {
+    public List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> feedEntityList) {
         return jpaQueryFactory.select(Projections.fields(MemoryAlbumEntity.class
                 , memoryAlbumEntity.memoryEntity
                 , memoryAlbumEntity.memoryPic))

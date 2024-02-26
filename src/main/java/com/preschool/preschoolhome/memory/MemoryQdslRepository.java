@@ -13,7 +13,7 @@ import java.util.List;
 public interface MemoryQdslRepository {
     List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable);
 
-    List<MemoryAlbumEntity> selFeedPicsAll(List<MemoryEntity> feedEntityList);
+    List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> feedEntityList);
 
     ResVo delMemoryComment(DelMemoryCommentDto dto);
 }
