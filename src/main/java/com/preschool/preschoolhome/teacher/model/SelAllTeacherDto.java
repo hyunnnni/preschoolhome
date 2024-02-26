@@ -13,6 +13,8 @@ public class SelAllTeacherDto {
     private int page;
     @Schema(title ="퇴사한 선생님 조회")
     private int tcIsDel;
+    @Schema(title = "검색기능")
+    private String search;
     @JsonIgnore
     private int startIdx;
     @JsonIgnore

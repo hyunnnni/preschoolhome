@@ -286,8 +286,11 @@
             <if test="tcIsDel == 1">
                 tc_is_del = #{tcIsDel}
             </if>
-
+            <if test="tcIsDel == 0">
+                tc_is_del = 0
+            </if>
         </where>
+
         LIMIT #{startIdx}, #{rowCount}
     </select>
 
