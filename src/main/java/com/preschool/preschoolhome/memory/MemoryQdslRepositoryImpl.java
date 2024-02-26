@@ -76,12 +76,12 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     @Override
     public ResVo delMemoryComment(DelMemoryCommentDto dto) {
         long executedNum = jpaQueryFactory.delete(memoryCommentEntity)
-                .where(memoryCommentEntity.imemoryComment.eq(dto.getImemoryComment()), whereTargetUser(dto))
+                .where(memoryCommentEntity.imemoryComment.eq(dto.getImemoryComment()), whereTargetUserComDel(dto))
                 .execute();
         log.info("executedNum : {}" ,executedNum);
         return new ResVo((int)executedNum);
     }
-    private BooleanExpression whereTargetUser(DelMemoryCommentDto dto) {
+    private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
         return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
     }
 }
