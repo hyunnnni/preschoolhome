@@ -21,7 +21,10 @@ public class MemoryEntity extends BaseEntity {
     @JoinColumn(name = "iteacher",nullable = false)
     private TeacherEntity teacherEntity;
 
-    @Column(length = 1000)
+    @Column(length = 100,name = "memoryTitle")
+    private String title;
+
+    @Column(length = 1000, name = "memoryContents")
     private String contents;
 
     @ToString.Exclude

@@ -17,6 +17,7 @@ import java.util.List;
 import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
 import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
+import static com.preschool.preschoolhome.entity.QKidEntity.kidEntity;
 
 
 @Slf4j
@@ -30,6 +31,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.select(memoryEntity) //.selectfrom(feedEntity)
                 .from(memoryEntity)
                 .join(memoryEntity.teacherEntity)
+                .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
                 .where(whereTargetUser(dto.getIkid()))
                 .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
 
@@ -37,12 +39,15 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
+        if(dto.getSearch() != null){
+            jpaQuery.where(memoryEntity.title.eq(("% dto.getSearch %"))
+            , kidEntity.kidNm.eq(("% dto.getSearch %")));
+        }
         if(dto.getIclass() > 0){
-            jpaQuery.join(memoryEntity.teacherEntity)
-                    .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher));
-        } else {
-            jpaQuery.where(whereTargetUser(dto.getTargetIuser()));//(whereTargetUser(targetIuser),whereTargetUser(targetIuser)) 쉼표로 and조건 사용가능
-
+            jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
+        }
+        if(dto.getIkid() > 0){
+            jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
         }
 
 
