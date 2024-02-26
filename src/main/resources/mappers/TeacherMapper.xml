@@ -273,7 +273,7 @@
     <!--             선생님 전체 조회 or 반별 조회                 -->
     <select id="selAllTeacher">
         select iclass, iteacher, teacher_nm as teacherNm, teacher_uid as teacherUid,tc_is_del as tcIsDel,
-        tc_email as tcEmail, teacher_profile as teacherProfile
+        tc_email as tcEmail, teacher_profile as teacherProfile, teacher_introduce as teacherIntroduce
         from t_teacher
         <where>
         <if test="iclass > 0 ">
