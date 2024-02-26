@@ -55,7 +55,7 @@ public class ApiService {
                                 .path(openApiProperties.getHospital().getDataUrl())
                                 .queryParam("Type","json")
                                 .queryParam("Key",openApiProperties.getHospital().getServiceKey())
-                                .queryParam("pIndex",dto.getPage())
+                                .queryParam("pIndex",1)
                                 .queryParam("pSize",684)
                                 .queryParam("SIGUN_NM",dto.getSigunNm())
                                 .build()
@@ -65,7 +65,7 @@ public class ApiService {
                 .block();
 
 
-        ObjectMapper om  =new ObjectMapper()
+        ObjectMapper om  = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
                         ,false);
 
@@ -79,7 +79,8 @@ public class ApiService {
             List<DataVo> dataList2 = om.convertValue(jsonNode2
                             .at("/TbChildnatnPrvntncltnmdnstM/1/row")
                     , new TypeReference<List<DataVo>>() {});
-           /* List<DataVo> dataList = om.convertValue(jsonNode
+
+            /* List<DataVo> dataList = om.convertValue(jsonNode
                             .path("/TbChildnatnPrvntncltnmdnstM")
                             .path(1)
                             .path("row")
