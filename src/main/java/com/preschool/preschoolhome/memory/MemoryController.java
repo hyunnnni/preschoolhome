@@ -29,13 +29,13 @@ public class MemoryController {
     private final AuthenticationFacade authenticationFacade;
 
     @GetMapping
-    @Operation(summary = "3차 추억 추억 앨범 전체 조회", description = "")
+    @Operation(summary = "3차 추억 추억 앨범 전체 조회")
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         return service.getAllMemory(dto);
     }
 
     @GetMapping("/detail")
-    @Operation(summary = "3차 추억 앨범 상세 조회", description = "")
+    @Operation(summary = "3차 추억 앨범 상세 조회")
     public AllSelMemoryVo getMemory(int imemory){
         return service.getMemory(imemory);
     }

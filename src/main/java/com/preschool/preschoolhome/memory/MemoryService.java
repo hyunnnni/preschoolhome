@@ -74,6 +74,7 @@ public class MemoryService {
         return vo;
     }
 
+
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setIkids(mapper.iMemoryIkid(imemory));
