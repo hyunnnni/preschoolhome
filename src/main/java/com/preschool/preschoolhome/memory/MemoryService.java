@@ -47,7 +47,7 @@ public class MemoryService {
     private final ObjectMapper objMapper;
 
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
 
@@ -89,7 +89,7 @@ public class MemoryService {
             vo.setList(vo1);
             vo.setImemoryCnt(list.size());
             return vo;
-    }
+    }*/
 
         /*AllMemoryVo vo = new AllMemoryVo();
 
@@ -114,7 +114,7 @@ public class MemoryService {
         return vo;
     }*/
 
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -139,7 +139,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }*/
+    }
 
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
