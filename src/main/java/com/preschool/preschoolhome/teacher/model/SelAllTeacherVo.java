@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Schema(title = "3차 선생님 전체 or 선택조회")
 public class SelAllTeacherVo {
-    @Schema(title = "선생님 명 수")
+    @Schema(title = "선생님 PK")
     private int iteacher;
     @Schema(title = "반 PK")
     private int iclass;
