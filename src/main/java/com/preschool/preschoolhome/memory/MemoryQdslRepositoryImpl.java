@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
+import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
 
 
 @Slf4j
@@ -36,6 +37,15 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
+        if(dto.getIclass() > 0){
+            jpaQuery.join(memoryEntity.teacherEntity)
+                    .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher));
+        } else {
+            jpaQuery.where(whereTargetUser(dto.getTargetIuser()));//(whereTargetUser(targetIuser),whereTargetUser(targetIuser)) 쉼표로 and조건 사용가능
+
+        }
+
+
         return jpaQuery.fetch();
 
     }
@@ -52,6 +62,6 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
 
     private BooleanExpression whereTargetUser(int targetIuser){
-        return targetIuser ==0 ? null : memoryEntity.teacherEntity.iteacher.eq(targetIuser);
+        return targetIuser == 0 ? null : memoryEntity.teacherEntity.iteacher.eq(targetIuser);
     }
 }
