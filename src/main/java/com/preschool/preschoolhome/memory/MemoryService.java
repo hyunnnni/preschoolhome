@@ -14,10 +14,7 @@ import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.MyFileUtils;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
-import com.preschool.preschoolhome.entity.KidEntity;
-import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
-import com.preschool.preschoolhome.entity.MemoryEntity;
-import com.preschool.preschoolhome.entity.TeacherEntity;
+import com.preschool.preschoolhome.entity.*;
 import com.preschool.preschoolhome.memory.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,58 +47,57 @@ public class MemoryService {
     private final ObjectMapper objMapper;
 
 
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
-        if(level == 2 || level == 3){
+        if (level == 2 || level == 3) {
 
-        final List<MemoryEntity> list = repository.selMemoryAll(dto, pageable);
+            final List<MemoryEntity> list = repository.selMemoryAll(dto, pageable);
 
-        final List<MemoryAlbumEntity> picList = repository.selFeedPicsAll(list);
+            final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
-        final List<MemoryCommentSelVo> cmtList = commentMapper.selFeedCommentEachTop4(list);
-        //function 파라미터와 리턴타입이 있음
-        //consumer 파라미터만 있음 void
-        //Predicate 파라미터 있고 리턴타입이 불린 //조건을 주고 true만 리턴  ex(item -> item %2==0)
-        //supplier 파라미터가 없고 리턴타입만 있음
-        return list.stream().map(item -> {
-                    List<FeedCommentSelVo> eachCommentList = cmtList.stream()
-                            .filter(cmt -> cmt.getIfeed() == item.getIfeed())
-                            .collect(Collectors.toList());
+            final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
+            //function 파라미터와 리턴타입이 있음
+            //consumer 파라미터만 있음 void
+            //Predicate 파라미터 있고 리턴타입이 불린 //조건을 주고 true만 리턴  ex(item -> item %2==0)
+            //supplier 파라미터가 없고 리턴타입만 있음
+            return list.stream().map(item -> {
+                AllMemoryVo vo = new AllMemoryVo();
+                List<MemoryCommentEntity> eachCommentList = cmtList.stream()
+                .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
+                .collect(Collectors.toList());
 
-                    int isMoreComment = 0;
-                    if(eachCommentList.size() == 4){
-                        isMoreComment = 1;
-                        eachCommentList.remove(eachCommentList.size() - 1);
-                    }
+                List<AllSelMemoryVo> vo1 = AllSelMemoryVo.builder()
+                                .imemory(item.getImemory())
+                                .memoryContents(item.getContents())
+                                .createdAt(item.getCreatedAt().toString())
+                                .iteacher(item.getTeacherEntity().getIteacher())
+                                .teacherNm(item.getTeacherEntity().getTeacherNm())
+                                .memoryPic(picList.stream()
+                                        .filter(pic ->      //filter는 타입은 같음 list 사이즈만 다름
+                                                pic.getMemoryEntity().getImemory() == item.getImemory()
+                                        ).map(pic -> pic.getMemoryPic()
+                                        ).collect(Collectors.toList()) //List
+                                )
+                                .memoryComments(eachCommentList.stream().map(cmt -> {
+                                    return MemoryCommentVo.builder()
+                                            .imemoryComment(cmt.getImemoryComment())
+                                            .memoryComment(cmt.getMemoryComment())
+                                            .build();
+                                }).collect(Collectors.toList()))
 
-                    return FeedSelVo.builder()
-                            .ifeed(item.getIfeed().intValue())
-                            .contents(item.getContents())
-                            .location(item.getContents())
-                            .createdAt(item.getCreatedAt().toString())
-                            .writerIuser(item.getUserEntity().getIuser().intValue())
-                            .writerNm(item.getUserEntity().getNm())
-                            .writerPic(item.getUserEntity().getPic())
-                            .pics(picList.stream()
-                                    .filter(pic ->      //filter는 타입은 같음 list 사이즈만 다름
-                                            pic.getFeedEntity().getIfeed() == item.getIfeed()
-                                    ).map(pic -> pic.getPic()
-                                    ).collect(Collectors.toList()) //List
-                            )
-                            .isFav(dto.getIsFavList() == 1
-                                    ? 1
-                                    : favList.stream().anyMatch(fav -> fav.getFeedEntity().getIfeed() == item.getIfeed())
-                                    ? 1
-                                    : 0)
-                            .comments(eachCommentList)
-                            .isMoreComment(isMoreComment)
-                            .build();
+                                .build().collect(Collectors.toList());
+                vo.setList(vo1);
+                        return vo;
 
-                }
-        ).collect(Collectors.toList());
+
+
+
+        }
+        return null;
     }
+    }*/
 
-        AllMemoryVo vo = new AllMemoryVo();
+        /*AllMemoryVo vo = new AllMemoryVo();
 
             List<AllSelMemoryVo> list = repository.selMemoryAll(dto, pageable);
             for (int i = 0; i < list.size(); i++) {

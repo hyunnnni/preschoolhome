@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.memory;
 
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
+import com.preschool.preschoolhome.entity.MemoryCommentEntity;
 import com.preschool.preschoolhome.entity.MemoryEntity;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
 import com.preschool.preschoolhome.memory.model.DelMemoryCommentDto;
@@ -59,12 +60,23 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     }
 
     @Override
-    public List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> feedEntityList) {
+    public List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> memoryEntityList) {
         return jpaQueryFactory.select(Projections.fields(MemoryAlbumEntity.class
                 , memoryAlbumEntity.memoryEntity
                 , memoryAlbumEntity.memoryPic))
                 .from(memoryAlbumEntity)
-                .where(memoryAlbumEntity.memoryEntity.in(feedEntityList))
+                .where(memoryAlbumEntity.memoryEntity.in(memoryEntityList))
+                .fetch();
+    }
+
+    @Override
+    public List<MemoryCommentEntity> selMemoryCommentAll(List<MemoryEntity> memoryEntityList) {
+        return jpaQueryFactory.select(Projections.fields(MemoryCommentEntity.class
+            , memoryCommentEntity.memoryEntity
+            , memoryCommentEntity.imemoryComment
+            , memoryCommentEntity.memoryComment))
+                .from(memoryCommentEntity)
+                .where(memoryCommentEntity.memoryEntity.in(memoryEntityList))
                 .fetch();
     }
 

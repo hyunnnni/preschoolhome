@@ -25,6 +25,8 @@ public class AllSelMemoryVo {
     private String memoryTitle;
     @Schema(title = "추억앨범 내용")
     private String memoryContents;
+    @Schema(title = "작성자 PK")
+    private int iteacher;
     @Schema(title = "작성자")
     private String teacherNm;
     @Schema(title = "추억앨범 사진")
