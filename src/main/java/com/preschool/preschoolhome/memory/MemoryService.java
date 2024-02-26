@@ -50,10 +50,57 @@ public class MemoryService {
 
     /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
+        if(level == 2 || level == 3){
 
+        final List<MemoryEntity> list = repository.selMemoryAll(dto, pageable);
+
+        final List<MemoryAlbumEntity> picList = repository.selFeedPicsAll(list);
+
+        final List<MemoryCommentSelVo> cmtList = commentMapper.selFeedCommentEachTop4(list);
+        //function 파라미터와 리턴타입이 있음
+        //consumer 파라미터만 있음 void
+        //Predicate 파라미터 있고 리턴타입이 불린 //조건을 주고 true만 리턴  ex(item -> item %2==0)
+        //supplier 파라미터가 없고 리턴타입만 있음
+        return list.stream().map(item -> {
+                    List<FeedCommentSelVo> eachCommentList = cmtList.stream()
+                            .filter(cmt -> cmt.getIfeed() == item.getIfeed())
+                            .collect(Collectors.toList());
+
+                    int isMoreComment = 0;
+                    if(eachCommentList.size() == 4){
+                        isMoreComment = 1;
+                        eachCommentList.remove(eachCommentList.size() - 1);
+                    }
+
+                    return FeedSelVo.builder()
+                            .ifeed(item.getIfeed().intValue())
+                            .contents(item.getContents())
+                            .location(item.getContents())
+                            .createdAt(item.getCreatedAt().toString())
+                            .writerIuser(item.getUserEntity().getIuser().intValue())
+                            .writerNm(item.getUserEntity().getNm())
+                            .writerPic(item.getUserEntity().getPic())
+                            .pics(picList.stream()
+                                    .filter(pic ->      //filter는 타입은 같음 list 사이즈만 다름
+                                            pic.getFeedEntity().getIfeed() == item.getIfeed()
+                                    ).map(pic -> pic.getPic()
+                                    ).collect(Collectors.toList()) //List
+                            )
+                            .isFav(dto.getIsFavList() == 1
+                                    ? 1
+                                    : favList.stream().anyMatch(fav -> fav.getFeedEntity().getIfeed() == item.getIfeed())
+                                    ? 1
+                                    : 0)
+                            .comments(eachCommentList)
+                            .isMoreComment(isMoreComment)
+                            .build();
+
+                }
+        ).collect(Collectors.toList());
+    }
 
         AllMemoryVo vo = new AllMemoryVo();
-        if(level == 2 || level == 3){
+
             List<AllSelMemoryVo> list = repository.selMemoryAll(dto, pageable);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
@@ -74,7 +121,7 @@ public class MemoryService {
         }
         return vo;
     }*/
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -99,7 +146,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }
+    }*/
 
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
