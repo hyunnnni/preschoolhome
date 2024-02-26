@@ -18,8 +18,6 @@ public class SelAllTeacherVo {
     private int tcIsDel;
     @Schema(title = "선생님 email")
     private String tcEmail;
-    @Schema(title = "선생님 메모")
-    private String tcMemo;
     @Schema(title = "선생님 사진")
     private String teacherProfile;
 
