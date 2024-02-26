@@ -56,7 +56,7 @@ public class ApiService {
                                 .queryParam("Type","json")
                                 .queryParam("Key",openApiProperties.getHospital().getServiceKey())
                                 .queryParam("pIndex",dto.getPage())
-                                .queryParam("pSize",1000)
+                                .queryParam("pSize",300)
                                 .queryParam("SIGUN_NM",dto.getSigunNm())
                                 .build()
 
