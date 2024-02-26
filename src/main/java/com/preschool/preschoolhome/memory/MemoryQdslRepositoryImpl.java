@@ -25,6 +25,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     @Override
     public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
+
         JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.select(memoryEntity) //.selectfrom(feedEntity)
                 .from(memoryEntity)
                 .join(memoryEntity.teacherEntity)
