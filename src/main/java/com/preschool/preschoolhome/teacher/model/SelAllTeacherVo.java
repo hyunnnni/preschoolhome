@@ -20,6 +20,8 @@ public class SelAllTeacherVo {
     private String tcEmail;
     @Schema(title = "선생님 사진")
     private String teacherProfile;
+    @Schema(title = "선생님 소개글")
+    private String teacherIntroduce;
 
 
 
