@@ -26,14 +26,16 @@ import java.util.List;
 @Tag(name = "추억앨범", description = "추억앨범 관리")
 public class MemoryController {
     private final MemoryService service;
-    private final AuthenticationFacade authenticationFacade;
 
+
+    //-------------------------------- 추억 추억 앨범 전체 조회 --------------------------------
     @GetMapping
     @Operation(summary = "3차 추억 추억 앨범 전체 조회", description = "")
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         return service.getAllMemory(dto);
     }
 
+    //-------------------------------- 추억 앨범 상세 조회 --------------------------------
     @GetMapping("/detail")
     @Operation(summary = "3차 추억 앨범 상세 조회", description = "")
     public AllSelMemoryVo getMemory(int imemory){
@@ -41,6 +43,7 @@ public class MemoryController {
     }
 
 
+    //-------------------------------- 추억앨범 수정 전 정보 불러오기 --------------------------------
     @GetMapping("/edit")
     @Operation(summary = "3차 추억앨범 수정 전 정보 불러오기", description = "추억앨범 수정 전 정보 불러오기")
     public SelMemoryVo getMemoryEdit(@RequestParam int imemory){
@@ -48,7 +51,7 @@ public class MemoryController {
         return service.getMemoryEdit(imemory);
     }
 
-
+    //-------------------------------- 추억 앨범 작성 시 보내고 싶은 원아 태그에 쓰일 모든 원아 정보 --------------------------------
     @GetMapping("/tag")
     @Operation(summary = "3차 추억 앨범 작성 시 보내고 싶은 원아 태그에 쓰일 모든 원아 정보", description = """
         여러 원아에게 추억 앨범을 보내고 싶을 때 선택할 수 있는 원아들 정보 조회""")
@@ -56,12 +59,14 @@ public class MemoryController {
         return service.getFromKids();
     }
 
+    //-------------------------------- 추억 앨범 글 삭제 --------------------------------
     @DeleteMapping
     @Operation(summary = "3차 추억 앨범 글 삭제", description = """
         추억 앨범의 사진, 댓글 모두 삭제""")
     public ResVo delmemory (int imemory) {
         return service.delmemory(imemory);
     }
+
 
     //-------------------------------- 추억 앨범 등록 --------------------------------
     @PostMapping
@@ -104,6 +109,7 @@ public class MemoryController {
         return service.delMemoryComment(dto);
     }
 
+    //-------------------------------- 추억 앨범 글 수정 --------------------------------
     @PutMapping
     @Operation(summary = "3차 추억 앨범 글 수정", description = """
         추억 앨범 글, 사진, 원아 수정 및 새로 추가한 원아들에게 알림 푸시""")
