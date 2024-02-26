@@ -121,7 +121,7 @@ public class MemoryService {
         }
         return vo;
     }*/
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -146,7 +146,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }*/
+    }
 
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
