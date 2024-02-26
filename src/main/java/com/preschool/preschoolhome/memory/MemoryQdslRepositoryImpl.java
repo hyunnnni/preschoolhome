@@ -37,22 +37,6 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
         return jpaQuery.fetch();
 
-        /*return feedList.stream().map(item ->
-                FeedSelVo.builder()
-                        .ifeed(item.getIfeed().intValue())
-                        .contents(item.getContents())
-                        .location(item.getContents())
-                        .createdAt(item.getCreatedAt().toString())
-                        .writerIuser(item.getUserEntity().getIuser().intValue())
-                        .writerNm(item.getUserEntity().getNm())
-                        .writerPic(item.getUserEntity().getPic())
-                        .pics(item.getFeedPicsEntityList().stream().map(pic ->
-                                pic.getPic()).collect(Collectors.toList()))
-                        .isFav(item.getFeedFavList().stream().anyMatch(fav ->
-                                fav.getUserEntity().getIuser() == dto.getLoginedIuser()
-                        )? 1 : 0)
-
-                        .build()).collect(Collectors.toList());*/
     }
 
     @Override
@@ -64,7 +48,6 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .where(memoryAlbumEntity.memoryEntity.in(feedEntityList))
                 .fetch();
     }
-
 
 
     private BooleanExpression whereTargetUser(int targetIuser){
