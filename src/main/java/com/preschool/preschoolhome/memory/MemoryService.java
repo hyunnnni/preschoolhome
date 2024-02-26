@@ -120,7 +120,7 @@ public class MemoryService {
         return vo;
     }*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
