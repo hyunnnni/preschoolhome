@@ -275,9 +275,19 @@
         select iclass, iteacher, teacher_nm as teacherNm, teacher_uid as teacherUid,tc_is_del as tcIsDel,
         tc_email as tcEmail, tc_memo as tcMemo, teacher_profile as teacherProfile
         from t_teacher
+        <where>
         <if test="iclass > 0 ">
-            where iclass = #{iclass}
+            iclass = #{iclass}
         </if>
+
+        <if test="search != null and search != '' ">
+            teacher_nm like concat ('%', #{search}, '%')
+        </if>
+            <if test="tcIsDel == 1">
+                tc_is_del = #{tcIsDel}
+            </if>
+
+        </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
 

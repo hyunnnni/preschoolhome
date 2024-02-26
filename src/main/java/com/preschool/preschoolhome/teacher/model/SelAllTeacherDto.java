@@ -11,7 +11,8 @@ public class SelAllTeacherDto {
     private int iclass;
     @Schema(title = "페이징 시 필요한 데이터")
     private int page;
-
+    @Schema(title ="퇴사한 선생님 조회")
+    private int tcIsDel;
     @JsonIgnore
     private int startIdx;
     @JsonIgnore
