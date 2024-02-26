@@ -1,7 +1,6 @@
 package com.preschool.preschoolhome.memory;
 
 
-import com.preschool.preschoolhome.common.security.AuthenticationFacade;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.memory.model.*;
 
@@ -17,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Slf4j
@@ -31,8 +31,8 @@ public class MemoryController {
     //-------------------------------- 추억 추억 앨범 전체 조회 --------------------------------
     @GetMapping
     @Operation(summary = "3차 추억 추억 앨범 전체 조회")
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
-        return service.getAllMemory(dto);
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto){//, Pageable pageable){
+        return service.getAllMemory(dto);//,pageable);
     }
 
     //-------------------------------- 추억 앨범 상세 조회 --------------------------------

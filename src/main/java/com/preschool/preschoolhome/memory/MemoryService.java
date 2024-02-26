@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,12 +48,13 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
+
 
         AllMemoryVo vo = new AllMemoryVo();
         if(level == 2 || level == 3){
-            List<AllSelMemoryVo> list = mapper.allMemoryTea(dto);
+            List<AllSelMemoryVo> list = repository.selMemoryAll(dto, pageable);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
                 list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
