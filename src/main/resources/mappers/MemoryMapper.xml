@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.preschool.preschoolhome.memory.MemoryMapper">
+    <!--                   추억앨범 전체 조회 선생님 기준                      -->
     <select id="allMemoryTea">
         SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
         , A.iteacher, D.teacher_nm as teacherNm, A.created_at as createdAt
@@ -23,6 +24,8 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
+
+    <!--                   추억앨범 전체 조회 선생님 기준(글 개수)                      -->
     <select id="allMemoryTeaCnt">
         SELECT Count(A.imemory)
         FROM t_memory A
@@ -40,6 +43,7 @@
             </if>
         </where>
     </select>
+    <!--                   추억앨범 전체 조회 학부모 기준                      -->
     <select id="allMemoryPar">
         SELECT A.imemory, C.ikid, C.kid_nm as kidNm, A.memory_title as memoryTitle, A.memory_contents as memoryContents
         , A.iteacher, D.teacher_nm as teacherNm, A.created_at as createdAt
@@ -61,6 +65,7 @@
         </where>
         LIMIT #{startIdx}, #{rowCount}
     </select>
+    <!--                   추억앨범 전체 조회 선생님 기준(글 개수)                      -->
     <select id="allMemoryParCnt">
         SELECT Count(A.imemory)
         FROM t_memory A
@@ -78,20 +83,20 @@
             </if>
         </where>
     </select>
-    <!-- 추억앨범에 걸린 댓글 불러오기 -->
+    <!--                    추억앨범에 걸린 댓글 불러오기                    -->
     <select id="memoryComment">
         SELECT imemory_comment as imemoryComment, memory_comment as memoryComment
         , created_at as createdAt
         FROM t_memory_comment
         WHERE imemory = #{imemory}
     </select>
-    <!-- 추억앨범에 걸린 원아 PK 불러오기 -->
+    <!--                    추억앨범에 걸린 원아 PK 불러오기                    -->
     <select id="iMemoryIkid">
         SELECT ikid
         FROM t_memory_room
         WHERE imemory = #{imemory}
     </select>
-    <!-- 상세 내용 불러오기 -->
+    <!--                    상세 내용 불러오기                    -->
     <select id="memory">
         SELECT A.imemory, A.memory_title AS memoryTitle , A.memory_contents AS memoryContents
         , A.created_at AS createdAt, B.teacher_nm as teacherNm
@@ -100,37 +105,37 @@
         ON A.iteacher = B.iteacher
         WHERE A.imemory = #{imemory}
     </select>
-    <!-- 수정 전 원래 있던 내용 불러오기 -->
+    <!--                    수정 전 원래 있던 내용 불러오기                    -->
     <select id="selMemory">
         SELECT memory_title AS memoryTitle , memory_contents AS memoryContents
         FROM t_memory
         WHERE imemory = #{imemory}
     </select>
+    <!--                   추억앨범 사진 조회                     -->
     <select id="selMemoryPic">
         select memory_pic as memoryPic
         from t_memory_album
         where imemory = #{imemory}
     </select>
+    <!--                   추억앨범 pk 조회                      -->
     <select id="selImemory">
         select imemory
         from t_memory
         where imemory = #{imemory}
     </select>
-    <!-- 추억 앨범 기존에 태그된 원아 -->
+    <!--                    추억 앨범 기존에 태그된 원아                    -->
     <select id="selMemoryKid">
         SELECT ikid
         FROM t_memory_room
         WHERE imemory = #{imemory}
     </select>
-
-    <!-- 추억 앨범 글 작성 시 원아 전체 조회 -->
+    <!--                    추억 앨범 글 작성 시 원아 전체 조회                    -->
     <select id="getFromKids">
         SELECT ikid, iclass, kid_nm AS kidNm
         FROM t_kid
         ORDER BY iclass
     </select>
-
-    <!-- 추억 앨범 글 삭제 전 댓글, 사진, 방 삭제 -->
+    <!--                    추억 앨범 글 삭제 전 댓글, 사진, 방 삭제                    -->
     <delete id="delMemoryAll">
         DELETE B, C, D
         FROM t_memory AS A
@@ -142,14 +147,12 @@
         ON A.imemory = D.imemory
         WHERE A.imemory = #{imemory}
     </delete>
-
-    <!-- 추억 앨범 글 삭제  -->
+    <!--                    추억 앨범 글 삭제                     -->
     <delete id="delMemory">
         DELETE
         FROM t_memory
         WHERE imemory = #{imemory}
     </delete>
-
     <!--                 추억 앨범 글 등록                -->
     <insert id="insMemory" useGeneratedKeys="true" keyProperty="imemory">
         INSERT INTO t_memory
@@ -207,8 +210,29 @@
             iparent = #{iparent}
         </if>
     </delete>
-
-    <!-- 추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회 -->
+    <!--                 추억앨범 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
+    <select id="selParFirebaseByLoginUserComment">
+        SELECT A.pr_firebase_token AS FirebaseToken
+        FROM t_parent AS A
+        INNER JOIN t_parent_kid AS B
+        ON A.iparent = B.iparent
+        INNER JOIN t_memory AS C
+        ON B.ikid = C.ikid
+        LEFT JOIN t_memory_comment as D
+        ON C.inotice = D.inotice
+        WHERE D.inotice_comment = #{imemory}
+    </select>
+    <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
+    <select id="selTeaFirebaseByLoginUserComment">
+        SELECT tc_firebase_token AS FirebaseToken
+        FROM t_teacher as A
+        JOIN t_memory AS B
+        ON A.iteacher = B.iteacher
+        LEFT JOIN t_memory_comment as C
+        ON B.imemory = C.imemory
+        WHERE C.t_memory_comment = #{imemory}
+    </select>
+    <!--        추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회         -->
     <select id="selTeaFirebaseParents">
         SELECT A.pr_firebase_token AS FirebaseToken
         FROM t_parent AS A
@@ -221,16 +245,14 @@
             #{kid}
         </foreach> )
     </select>
-
-    <!-- 추억 앨범 글 수정 -->
+    <!--                    추억 앨범 글 수정                    -->
     <update id="updMemory">
         UPDATE t_memory
         SET memory_title = #{memoryTitle}
         , memory_contents = #{memoryContents}
         WHERE imemory = #{imemory}
     </update>
-
-    <!-- 추억 앨범 수정 시 사진 삭제 -->
+    <!--                    추억 앨범 수정 시 사진 삭제                    -->
     <delete id="delMemoryPic">
         DELETE FROM t_memory_album
         WHERE imemory_pic in
@@ -238,8 +260,7 @@
             #{imemoryPic}
         </foreach>
     </delete>
-
-    <!-- 추억 앨범 사진 등록 -->
+    <!--                    추억 앨범 사진 등록                    -->
     <insert id="insPicsMemory">
         INSERT INTO t_memory_album
         ( imemory, memory_pic)
@@ -248,8 +269,6 @@
             ( #{imemory}, #{memoryPic} )
         </foreach>
     </insert>
-
-
 
 </mapper>
 
