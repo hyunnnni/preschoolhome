@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.preschool.preschoolhome.common.utils.OpenApiProperties;
 import com.preschool.preschoolhome.openApi.medel.DataDto;
 import com.preschool.preschoolhome.openApi.medel.DataVo;
+import com.preschool.preschoolhome.openApi.medel.TotalDataVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class ApiService {
     private final OpenApiProperties openApiProperties;
 
-    public List<DataVo> getData(DataDto dto){
+    public TotalDataVo getData(DataDto dto){
 
         DefaultUriBuilderFactory factory =
                 new DefaultUriBuilderFactory(openApiProperties.getHospital().getBaseUrl());
@@ -49,6 +50,19 @@ public class ApiService {
           .bodyToMono(String.class)
           .block();
 
+        String json2 = webClient.get().uri(uriBuilder ->
+                        uriBuilder  //baseurl뒤부터 주소 셋팅
+                                .path(openApiProperties.getHospital().getDataUrl())
+                                .queryParam("Type","json")
+                                .queryParam("Key",openApiProperties.getHospital().getServiceKey())
+                                .queryParam("pIndex",dto.getPage())
+                                .queryParam("pSize",684)
+                                .queryParam("SIGUN_NM",dto.getSigunNm())
+                                .build()
+
+                ).retrieve()
+                .bodyToMono(String.class)
+                .block();
 
 
         ObjectMapper om  =new ObjectMapper()
@@ -57,7 +71,12 @@ public class ApiService {
 
         try {
             JsonNode jsonNode = om.readTree(json); //문자열을 트리형식으로 정렬
+            JsonNode jsonNode2 = om.readTree(json2); //문자열을 트리형식으로 정렬
             List<DataVo> dataList = om.convertValue(jsonNode
+                            .at("/TbChildnatnPrvntncltnmdnstM/1/row")
+                    , new TypeReference<List<DataVo>>() {});
+
+            List<DataVo> dataList2 = om.convertValue(jsonNode2
                             .at("/TbChildnatnPrvntncltnmdnstM/1/row")
                     , new TypeReference<List<DataVo>>() {});
            /* List<DataVo> dataList = om.convertValue(jsonNode
@@ -67,7 +86,14 @@ public class ApiService {
                     , new TypeReference<List<DataVo>>() {});*/
 
             log.info("dataList:{}",dataList);
-            return dataList;
+
+            TotalDataVo totalData = TotalDataVo.builder()
+                    .dataList(dataList)
+                    .totalData(dataList2.size())
+                    .build();
+
+            return totalData;
+
         }catch (Exception e){
             e.printStackTrace();
         }
