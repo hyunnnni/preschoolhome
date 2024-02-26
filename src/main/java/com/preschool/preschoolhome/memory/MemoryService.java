@@ -47,6 +47,31 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
+        int level = authenticationFacade.getLevelPk();
+
+        AllMemoryVo vo = new AllMemoryVo();
+        if(level == 2 || level == 3){
+            List<AllSelMemoryVo> list = mapper.allMemoryTea(dto);
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
+                list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
+            }
+            vo.setList(list);
+            vo.setImemoryCnt(mapper.allMemoryTeaCnt(dto));
+        }
+        //if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
+        if(level == 1 || level == 4){
+            List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
+                list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
+            }
+            vo.setList(list);
+            vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
+        }
+        return vo;
+    }*/
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
@@ -73,7 +98,6 @@ public class MemoryService {
         }
         return vo;
     }
-
 
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);

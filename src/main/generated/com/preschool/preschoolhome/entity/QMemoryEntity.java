@@ -30,6 +30,8 @@ public class QMemoryEntity extends EntityPathBase<MemoryEntity> {
 
     public final QTeacherEntity teacherEntity;
 
+    public final StringPath title = createString("title");
+
     public QMemoryEntity(String variable) {
         this(MemoryEntity.class, forVariable(variable), INITS);
     }
