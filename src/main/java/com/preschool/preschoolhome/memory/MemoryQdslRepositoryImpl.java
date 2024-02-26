@@ -29,7 +29,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .from(memoryEntity)
                 .join(memoryEntity.teacherEntity)
                 .where(whereTargetUser(dto.getIkid()))
-                .fetchJoin() //피드하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
+                .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
 
                 .orderBy(memoryEntity.imemory.desc())
                 .offset(pageable.getOffset())
