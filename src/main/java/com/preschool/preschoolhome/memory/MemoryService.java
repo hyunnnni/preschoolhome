@@ -311,7 +311,7 @@ public class MemoryService {
         return new ResVo(dto.getImemory());
     }*/
     //------------------------------------- 추억 앨범 글 등록 -------------------------------------
-    @Transactional
+
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
 
         int iuser = authenticationFacade.getLoginUserPk();
