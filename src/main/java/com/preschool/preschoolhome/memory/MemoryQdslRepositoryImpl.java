@@ -42,10 +42,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        if(dto.getSearch() != null){
-            jpaQuery.where(memoryEntity.title.like(("%" + dto.getSearch() + "%"))
-                    .or(kidEntity.kidNm.like(("%" + dto.getSearch() + "%"))));
-        }
+
         if(dto.getIclass() > 0){
             jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
 
@@ -53,7 +50,10 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         if(dto.getIkid() > 0){
             jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
         }
-
+        if(dto.getSearch() != null){
+            jpaQuery.where(memoryEntity.title.like(("%" + dto.getSearch() + "%"))
+                    .or(kidEntity.kidNm.like(("%" + dto.getSearch() + "%"))));
+        }
 
         return jpaQuery.fetch();
 
