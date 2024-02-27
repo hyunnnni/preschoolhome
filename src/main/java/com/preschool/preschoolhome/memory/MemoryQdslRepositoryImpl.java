@@ -103,11 +103,4 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
     }
 
-    @Override
-    public ResVo selDel(int imemory) {
-        long executedNum = jpaQueryFactory.delete(memoryEntity)
-                .where(memoryEntity.imemory.eq(imemory)).execute();
-
-        return new ResVo((int)executedNum);
-    }
 }

@@ -198,12 +198,18 @@ public class MemoryService {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
 
+        int selDel = mapper.selDelAlbum(imemory);
+        if (selDel == 0) {
+            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
+        }
+
         try {
-            ResVo resVo = repository.selDel(imemory);
-            return resVo;
+            MemoryEntity memoryEntity = repository.getReferenceById(imemory);
+            repository.delete(memoryEntity);
+            return new ResVo(SUCCESS);
 
         } catch (Exception e) {
-            return new ResVo(Const.FAIL);
+            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
     /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------

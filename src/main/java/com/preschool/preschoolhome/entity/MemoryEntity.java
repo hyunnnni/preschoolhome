@@ -32,12 +32,11 @@ public class MemoryEntity extends BaseEntity {
     private List<MemoryAlbumEntity> memoryAlbumEntityList = new ArrayList();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "imemoryComment",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.ALL)
     private List<MemoryCommentEntity> memoryCommentEntityList = new ArrayList();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.ALL)
-    private List<MemoryRoomEntity> memoryRomeEntityList = new ArrayList();
-
+    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.ALL)
+    private List<MemoryRoomEntity> memoryRoomEntityList = new ArrayList();
 
 }

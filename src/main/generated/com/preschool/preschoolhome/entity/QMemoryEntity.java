@@ -30,7 +30,7 @@ public class QMemoryEntity extends EntityPathBase<MemoryEntity> {
 
     public final ListPath<MemoryCommentEntity, QMemoryCommentEntity> memoryCommentEntityList = this.<MemoryCommentEntity, QMemoryCommentEntity>createList("memoryCommentEntityList", MemoryCommentEntity.class, QMemoryCommentEntity.class, PathInits.DIRECT2);
 
-    public final ListPath<MemoryRoomEntity, QMemoryRoomEntity> memoryRomeEntityList = this.<MemoryRoomEntity, QMemoryRoomEntity>createList("memoryRomeEntityList", MemoryRoomEntity.class, QMemoryRoomEntity.class, PathInits.DIRECT2);
+    public final ListPath<MemoryRoomEntity, QMemoryRoomEntity> memoryRoomEntityList = this.<MemoryRoomEntity, QMemoryRoomEntity>createList("memoryRoomEntityList", MemoryRoomEntity.class, QMemoryRoomEntity.class, PathInits.DIRECT2);
 
     public final QTeacherEntity teacherEntity;
 
