@@ -20,5 +20,4 @@ public interface MemoryQdslRepository {
 
     ResVo delMemoryComment(DelMemoryCommentDto dto);
 
-    ResVo selDel(int imemory);
 }
