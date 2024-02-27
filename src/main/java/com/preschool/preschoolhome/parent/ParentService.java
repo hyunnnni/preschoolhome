@@ -222,6 +222,7 @@ public class ParentService {
         Cookie cookie = cookieUtils.getCookie(req, "rt");
         ParentKid vo = mapper.selParent(iparent);
         vo.setKidList(mapper.selKid(iparent));
+        vo.setIparent(iparent);
         if (cookie == null) {
             vo.setResult(Const.FAIL);
             vo.setAccessToken(null);
