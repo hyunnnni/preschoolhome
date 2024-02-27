@@ -33,7 +33,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     @Override
     public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
 
-        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectFrom(memoryEntity) //.selectfrom(feedEntity)
+        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectFrom(memoryEntity)
                 .join(memoryEntity.teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
                 .where(whereTargetUser(dto.getIkid()))
@@ -51,6 +51,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         if(dto.getIkid() > 0){
             jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
         }
+
         if(dto.getSearch() != null){
             jpaQuery.where(memoryEntity.title.like(("%" + dto.getSearch() + "%"))
                     .or(kidEntity.kidNm.like(("%" + dto.getSearch() + "%"))));
