@@ -369,8 +369,9 @@ public class TeacherService {
 
     //-------------------------------- 리프레시 토큰 --------------------------------
     public TeacherEntity getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
+        int iteacher = authenticationFacade.getLoginUserPk();
         Cookie cookie = cookieUtils.getCookie(req, "rt");
-        TeacherEntity vo = new TeacherEntity();
+        TeacherEntity vo = mapper.selTeacherBy(iteacher);
         if (cookie == null) {
             vo.setAccessToken(null);
             return vo;
@@ -384,6 +385,8 @@ public class TeacherService {
         MyPrincipal myPrincipal = myUserDetails.getMyPrincipal();
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         vo.setAccessToken(at);
+
+
         return vo;
     }
 

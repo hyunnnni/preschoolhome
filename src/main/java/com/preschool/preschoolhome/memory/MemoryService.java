@@ -46,7 +46,7 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
-    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
@@ -90,7 +90,7 @@ public class MemoryService {
             vo.setImemoryCnt(list.size());
             return vo;
     }
-
+*/
         /*AllMemoryVo vo = new AllMemoryVo();
 
             List<AllSelMemoryVo> list = repository.selMemoryAll(dto, pageable);
@@ -114,7 +114,7 @@ public class MemoryService {
         return vo;
     }*/
 
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -139,7 +139,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }*/
+    }
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
@@ -193,11 +193,12 @@ public class MemoryService {
 
     //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
     @Transactional
-    public ResVo delmemory(int imemory) {
+    public ResVo delMemory(int imemory) {
         int level = authenticationFacade.getLevelPk();
         if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
+
         int selDel = mapper.selDelAlbum(imemory);
         if (selDel == 0) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
@@ -312,7 +313,7 @@ public class MemoryService {
         return new ResVo(dto.getImemory());
     }*/
     //------------------------------------- 추억 앨범 글 등록 -------------------------------------
-
+    @Transactional
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
 
         int iuser = authenticationFacade.getLoginUserPk();

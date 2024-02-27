@@ -23,6 +23,7 @@ public interface ParentMapper {
     int insParentKidTable(ParentKid dto);
     //-------------------------------- 원래정보 불러오기 --------------------------------
     ParentBeforInfoVo selBeforeInfo(int iparent);
+    ParentKid selParent(int iparent);
     //-------------------------------- 마이페이지 정보수정 --------------------------------
     int putParent(UpParentDto dto);
     //-------------------------------- 부모 탈퇴 --------------------------------

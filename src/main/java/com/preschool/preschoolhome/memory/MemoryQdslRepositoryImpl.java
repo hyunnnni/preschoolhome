@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
 import com.preschool.preschoolhome.entity.MemoryCommentEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumEntity;
 import static com.preschool.preschoolhome.entity.QMemoryCommentEntity.memoryCommentEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
+import static com.preschool.preschoolhome.entity.QMemoryRoomEntity.memoryRoomEntity;
 import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
 import static com.preschool.preschoolhome.entity.QKidEntity.kidEntity;
 
@@ -32,20 +34,20 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     @Override
     public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
 
-        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectFrom(memoryEntity) //.selectfrom(feedEntity)
+        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectFrom(memoryEntity)
+                .join(memoryRoomEntity)
+                .on(memoryRoomEntity.memoryRooms.imemory.eq(memoryEntity.imemory))
+                .join(kidEntity)
+                .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
                 .join(memoryEntity.teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
-                .where(whereTargetUser(dto.getIkid()))
                 .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
 
                 .orderBy(memoryEntity.imemory.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        if(dto.getSearch() != null){
-            jpaQuery.where(memoryEntity.title.like(("%" + dto.getSearch() + "%"))
-                    .or(kidEntity.kidNm.like(("%" + dto.getSearch() + "%"))));
-        }
+
         if(dto.getIclass() > 0){
             jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
 
@@ -54,6 +56,10 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
             jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
         }
 
+        if(dto.getSearch() != null){
+            jpaQuery.where(memoryEntity.title.like("%" + dto.getSearch() + "%")
+                    .or(kidEntity.kidNm.like("%" + dto.getSearch() + "%")));
+        }
 
         return jpaQuery.fetch();
 
@@ -96,4 +102,5 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
         return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
     }
+
 }
