@@ -74,6 +74,10 @@
         from t_parent
         where iparent = #{iparent}
     </select>
+    <select id="selParent">
+        select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
+        from t_parent
+    </select>
     <!--           마이페이지 정보수정            -->
     <update id="putParent">
         update t_parent

@@ -18,6 +18,12 @@ public class ParentKid {
     @Schema(title = "아이 정보")
     private List<SelKid> kidList;
 
+    @Schema(title = "이름")
+    private String parentNm;
+    @Schema(title = "이메일")
+    private String prEmail;
+    @Schema(title = "번호")
+    private String phoneNb;
 
     private int result;
     private String firebaseToken;

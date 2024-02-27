@@ -219,7 +219,7 @@ public class ParentService {
     //-------------------------------- 리프레시 토큰 --------------------------------
     public ParentKid getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
         Cookie cookie = cookieUtils.getCookie(req, "rt");
-        ParentKid vo = new ParentKid();
+        ParentKid vo = mapper.selParent();
         if (cookie == null) {
             vo.setResult(Const.FAIL);
             vo.setAccessToken(null);
