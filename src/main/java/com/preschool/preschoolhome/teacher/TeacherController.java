@@ -194,11 +194,14 @@ public class TeacherController {
             "성공시 화면띄우기<br>" +
             "실패시 에러메세지 송출 <br>")
     public SelTeacherInfoVo selAllTeacher(@RequestParam int page, @RequestParam(required = false,defaultValue = "0") int iclass
-    ,@RequestParam(required = false,defaultValue = "0") int tcIsDel) {
+    ,@RequestParam(required = false,defaultValue = "0") int tcIsDel,@RequestParam(required = false)String search) {
+
         SelAllTeacherDto dto = new SelAllTeacherDto();
         dto.setPage(page);
         dto.setIclass(iclass);
         dto.setTcIsDel(tcIsDel);
+        dto.setSearch(search);
+        log.info("dto, {}", dto);
 
         return service.selAllTeacher(dto);
     }

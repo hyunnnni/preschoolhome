@@ -287,20 +287,18 @@
         from t_teacher
         <where>
         <if test="iclass > 0 ">
-            iclass = #{iclass}
+            and iclass = #{iclass}
         </if>
-
         <if test="search != null and search != '' ">
-            teacher_nm like concat ('%', #{search}, '%')
+            and teacher_nm like concat ('%', #{search}, '%')
         </if>
             <if test="tcIsDel == 1">
-                tc_is_del = #{tcIsDel}
+               and tc_is_del = #{tcIsDel}
             </if>
             <if test="tcIsDel == 0">
-                tc_is_del = 0
+               and tc_is_del = 0
             </if>
         </where>
-
         LIMIT #{startIdx}, #{rowCount}
     </select>
 

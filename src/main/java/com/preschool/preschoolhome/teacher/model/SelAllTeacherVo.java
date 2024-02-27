@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.teacher.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import lombok.Data;
 
 @Data

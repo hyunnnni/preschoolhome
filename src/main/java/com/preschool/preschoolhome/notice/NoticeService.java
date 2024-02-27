@@ -75,6 +75,7 @@ public class NoticeService {
                 NoticePicsInsDto picsDto = new NoticePicsInsDto();
                 List<File> originFile = new ArrayList<>();
 
+
                 for (int i = 0; i < inotices.size(); i++) {
                     String target = "/notice/" + inotices.get(i);
                     picsDto.setInotice(inotices.get(i));
@@ -102,6 +103,7 @@ public class NoticeService {
                     mapper.insNoticePics(picsDto);
                     picsDto.getPics().clear();
                 }
+                myFileUtils.delFolderTrigger("/notice/sub");
             }
         } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
