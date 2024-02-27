@@ -57,8 +57,8 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         }
 
         if(dto.getSearch() != null){
-            jpaQuery.where(memoryEntity.title.like(("%" + dto.getSearch() + "%"))
-                    .or(kidEntity.kidNm.like(("%" + dto.getSearch() + "%"))));
+            jpaQuery.where(memoryEntity.title.like("%" + dto.getSearch() + "%")
+                    .or(kidEntity.kidNm.like("%" + dto.getSearch() + "%")));
         }
 
         return jpaQuery.fetch();
