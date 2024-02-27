@@ -46,8 +46,8 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
 
-
-    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
 
@@ -89,7 +89,7 @@ public class MemoryService {
             vo.setList(vo1);
             vo.setImemoryCnt(list.size());
             return vo;
-    }*/
+    }
 
         /*AllMemoryVo vo = new AllMemoryVo();
 
@@ -114,7 +114,7 @@ public class MemoryService {
         return vo;
     }*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
@@ -139,8 +139,8 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
         }
         return vo;
-    }
-
+    }*/
+    //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     public AllSelMemoryVo getMemory(int imemory){
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setIkids(mapper.iMemoryIkid(imemory));
@@ -148,7 +148,7 @@ public class MemoryService {
         return vo;
     }
 
-    //------------------------------------- 추억 앨범 수정시 원래정보 불러오기 ------------------------------
+    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory){
 
         List<String> roles = authenticationFacade.getRoles();
@@ -306,7 +306,7 @@ public class MemoryService {
         return new ResVo(dto.getImemory());
     }*/
     //------------------------------------- 추억 앨범 글 등록 -------------------------------------
-    @Transactional
+
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
 
         int iuser = authenticationFacade.getLoginUserPk();
@@ -400,7 +400,7 @@ public class MemoryService {
     }
 
 
-    //------- 추억앨범 댓글등록 push기능 -----
+    //---------------------------- 추억앨범 댓글등록 push기능 --------------------------------
     @Transactional
     public ResVo postMemoryComment(InsCommentDto dto) {
         if ((dto.getIparent() == 0) && dto.getIteacher() == 0 ||
@@ -457,7 +457,7 @@ public class MemoryService {
     }
 
 
-    //------------------------------------- 추억 앨범 댓글 삭제 -------------------------------------
+    //------------------------------------- 추억 앨범 댓글 삭제 JPA-------------------------------------
     @Transactional
     public ResVo delMemoryComment(DelMemoryCommentDto dto){
 
