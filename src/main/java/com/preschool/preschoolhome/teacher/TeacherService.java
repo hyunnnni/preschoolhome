@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -23,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TeacherService {
@@ -358,7 +359,9 @@ public class TeacherService {
 
         List<SelAllTeacherVo> list = mapper.selAllTeacher(dto);
         SelTeacherInfoVo vo = new SelTeacherInfoVo();
+        log.info("list, {}", list);
         vo.setTeacherCnt(mapper.selTeacherCnt(dto.getIclass()));
+        log.info("list, {}", list);
         vo.setList(list);
 
         return vo;
