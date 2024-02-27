@@ -41,7 +41,6 @@ public class NoticeService {
 
 
     //-------------------------------- 알림장 등록 --------------------------------
-    @Transactional
     public ResVoArray insNotice(List<MultipartFile> pics, NoticeInsDto dto) {
 
         int writerIuser = authenticationFacade.getLoginUserPk();
