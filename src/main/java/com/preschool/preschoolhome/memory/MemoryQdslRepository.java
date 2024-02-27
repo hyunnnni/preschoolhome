@@ -19,4 +19,6 @@ public interface MemoryQdslRepository {
     List<MemoryCommentEntity> selMemoryCommentAll(List<MemoryEntity> memoryEntityList);
 
     ResVo delMemoryComment(DelMemoryCommentDto dto);
+
+    ResVo selDel(int imemory);
 }
