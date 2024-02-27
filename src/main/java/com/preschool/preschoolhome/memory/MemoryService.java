@@ -192,23 +192,18 @@ public class MemoryService {
 
     //------------------------------------- 추억 앨범 글 삭제 -------------------------------------
     @Transactional
-    public ResVo delmemory(int imemory) {
+    public ResVo delMemory(int imemory) {
         int level = authenticationFacade.getLevelPk();
         if (level < Const.TEACHER) {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
-        int selDel = mapper.selDelAlbum(imemory);
-        if (selDel == 0) {
-            throw new RestApiException(AuthErrorCode.NO_INFORMATION);
-        }
 
         try {
-            MemoryEntity memoryEntity = repository.getReferenceById(imemory);
-            repository.delete(memoryEntity);
-            return new ResVo(SUCCESS);
+            ResVo resVo = repository.selDel(imemory);
+            return resVo;
 
         } catch (Exception e) {
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
+            return new ResVo(Const.FAIL);
         }
     }
     /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------
@@ -311,7 +306,7 @@ public class MemoryService {
         return new ResVo(dto.getImemory());
     }*/
     //------------------------------------- 추억 앨범 글 등록 -------------------------------------
-
+    @Transactional
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
 
         int iuser = authenticationFacade.getLoginUserPk();
