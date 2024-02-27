@@ -115,6 +115,7 @@ public class ParentService {
         }
         ParentKid pk = new ParentKid();
         dto.setIparent(entity.getIparent());
+        pk = mapper.selParent(dto.getIparent());
         pk.setKidList(mapper.selKid(dto.getIparent()));
 
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
@@ -218,8 +219,10 @@ public class ParentService {
     }
     //-------------------------------- 리프레시 토큰 --------------------------------
     public ParentKid getRefreshToken(HttpServletRequest req) {//at를 다시 만들어줌
+        int iparent = authenticationFacade.getLoginUserPk();
         Cookie cookie = cookieUtils.getCookie(req, "rt");
-        ParentKid vo = mapper.selParent();
+        ParentKid vo = mapper.selParent(iparent);
+        vo.setKidList(mapper.selKid(iparent));
         if (cookie == null) {
             vo.setResult(Const.FAIL);
             vo.setAccessToken(null);

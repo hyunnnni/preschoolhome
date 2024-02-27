@@ -228,6 +228,7 @@
         , teacher_profile as teacherProfile, created_at as createdAt
         , tc_firebase_token as firebaseToken, tc_is_del as tcIsDel
         from t_teacher
+        where iteacher = #{iteacher}
     </select>
 
     <!--           선생님 로그인 시 비밀번호 체크            -->

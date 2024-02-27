@@ -49,7 +49,7 @@ public interface TeacherMapper {
     int updIsDelTeacher (TeacherDelDto dto);
     //------------------------ 선생님 로그인 성공 시 정보 조회 ------------------------
     TeacherEntity selTeacher(TeacherSigninDto dto);
-    TeacherEntity selTeacherBy();
+    TeacherEntity selTeacherBy(int iteacher);
     //------------------------ 선생님 로그인 시 비밀번호 체크 ------------------------
     String checkTeacherInfo (String uid);
 

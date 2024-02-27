@@ -26,6 +26,6 @@ public class ParentKid {
     private String phoneNb;
 
     private int result;
-    private String firebaseToken;
+    private String prFirebaseToken;
     private String accessToken;
 }

@@ -74,9 +74,13 @@
         from t_parent
         where iparent = #{iparent}
     </select>
+    <!--           원래정보 불러오기            -->
     <select id="selParent">
-        select uid, parent_nm as parentNm, phone_nb as phoneNb, pr_email AS prEmail
+        select uid, parent_nm as parentNm, phone_nb as phoneNb
+        , pr_email AS prEmail, pr_firebase_token as prFirebaseToken
+
         from t_parent
+        where iparent = #{iparent}
     </select>
     <!--           마이페이지 정보수정            -->
     <update id="putParent">
