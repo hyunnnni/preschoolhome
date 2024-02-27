@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
 import com.preschool.preschoolhome.entity.MemoryCommentEntity;
@@ -95,5 +96,13 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     }
     private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
         return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
+    }
+
+    @Override
+    public ResVo selDel(int imemory) {
+        long executedNum = jpaQueryFactory.delete(memoryEntity)
+                .where(memoryEntity.imemory.eq(imemory)).execute();
+
+        return new ResVo((int)executedNum);
     }
 }
