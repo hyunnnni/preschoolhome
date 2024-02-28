@@ -285,9 +285,9 @@ public class TeacherService {
                 .loginUserNm(entity.getTeacherNm())
                 .iuser(entity.getIteacher())
                 .ilevel(entity.getIlevel())
+                .role(entity.getRole())
                 .build();
 
-        myPrincipal.getRoles().add(entity.getRole());
 
         String at = jwtTokenProvider.generateAccessToken(myPrincipal);
         String rt = jwtTokenProvider.generateRefreshToken(myPrincipal);

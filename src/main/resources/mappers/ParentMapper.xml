@@ -36,7 +36,7 @@
     </insert>
     <!--           부모님 로그인 성공 시 정보 조회            -->
     <select id="checkParentsId">
-        SELECT uid, upw, iparent, ilevel, pr_is_del as prIsDel
+        SELECT uid, upw, iparent, ilevel, pr_is_del as prIsDel, pr_role as role
         from t_parent
         where uid = #{uid} and upw = #{upw}
     </select>
