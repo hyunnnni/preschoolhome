@@ -157,8 +157,8 @@ public class MemoryService {
 //            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
 //        }
 
-        String exist = mapper.selImemory(imemory);
-        if(exist ==null){
+        Integer pk = mapper.selImemory(imemory);
+        if(pk ==null){
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
         if(imemory < 0 ){
