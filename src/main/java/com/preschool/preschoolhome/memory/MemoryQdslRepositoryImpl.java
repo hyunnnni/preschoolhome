@@ -8,6 +8,7 @@ import com.preschool.preschoolhome.entity.MemoryCommentEntity;
 import com.preschool.preschoolhome.entity.MemoryEntity;
 import com.preschool.preschoolhome.memory.model.AllSelMemoryDto;
 import com.preschool.preschoolhome.memory.model.DelMemoryCommentDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -34,7 +35,13 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     @Override
     public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
 
-        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectFrom(memoryEntity)
+//        jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
+//                .from(memoryRoomEntity)
+//                .join(memoryRoomEntity.memoryEntity).fetchJoin()
+//                .where(memoryRoomEntity.memoryEntity.imemory.eq(10))
+
+        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectDistinct(memoryEntity)
+                .from(memoryEntity)
                 .join(memoryRoomEntity)
                 .on(memoryRoomEntity.memoryRooms.imemory.eq(memoryEntity.imemory))
                 .join(kidEntity)
@@ -45,10 +52,13 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
                 .orderBy(memoryEntity.imemory.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .where(whereClausSelMemoryAll(dto.getIclass(), dto.getIkid(), dto.getSearch()));
 
+// select * from memory; // 1, 5, 7
+// select * from memory_room where imemory in (1, 5, 7)
 
-        if(dto.getIclass() > 0){
+        /*if(dto.getIclass() > 0){
             jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
 
         }
@@ -60,8 +70,26 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
             jpaQuery.where(memoryEntity.title.like("%" + dto.getSearch() + "%")
                     .or(kidEntity.kidNm.like("%" + dto.getSearch() + "%")));
         }
-
+*/
         return jpaQuery.fetch();
+
+    }
+
+    private BooleanBuilder whereClausSelMemoryAll(int iclass, int ikid, String search) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if(iclass > 0){
+//            jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
+            builder.and(kidEntity.classEntity.iclass.eq(iclass));
+        }
+        if(ikid > 0){
+            //jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
+            builder.and(kidEntity.ikid.eq(ikid));
+        }
+        if(search != null){
+            builder.and((memoryEntity.title.like("%" + search + "%")
+                    .or(kidEntity.kidNm.like("%" + search + "%"))));
+        }
+        return builder;
 
     }
 
