@@ -41,11 +41,11 @@ public class SecurityConfiguration {
                         ,"/api/full"
                         ,"/api/kid"
                         ,"/api/kid/detail"
-                        ,"/api/notice/tea"
+
                         ,"/api/memory"
                         ,"/api/teacher"
                         //).authenticated())
-                        ).hasAnyRole("TEACHER","ADMIN","PARENT"))
+                        ).hasAnyRole("TEACHER","ADMIN"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST
                         ,"/api/teacher/signup"
@@ -55,13 +55,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST
                         ,"/api/album/comment"
                         ,"/api/notice/comment"
+                        ,"/api/notice/par"
+                        ,"/api/notice/tea"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN"))
-                        .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST
-                        ,"/api/notice/par"
-                        //).authenticated())
-                        ).hasAnyRole("PARENT"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET
                         ,"/api/album/edit"
