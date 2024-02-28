@@ -570,6 +570,16 @@ public class MemoryService {
             newKid.add(ikid);
         }
 
+        InsRoomInviteProcDto pdto = InsRoomInviteProcDto.builder()
+                .imemory(dto.getImemory())
+                .ikids(dto.getIkids())
+                .build();
+
+        int invite = mapper.insMemoryRoomInvite(pdto);
+        if (invite == Const.ZERO) {
+            throw new RestApiException(AuthErrorCode.FAIL);
+        }
+
         newKid.removeAll(kids);
 
         LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
