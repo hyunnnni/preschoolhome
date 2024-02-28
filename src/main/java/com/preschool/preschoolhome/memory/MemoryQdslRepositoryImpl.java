@@ -57,20 +57,6 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
 // select * from memory; // 1, 5, 7
 // select * from memory_room where imemory in (1, 5, 7)
-
-        /*if(dto.getIclass() > 0){
-            jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
-
-        }
-        if(dto.getIkid() > 0){
-            jpaQuery.where(kidEntity.ikid.eq(dto.getIkid()));
-        }
-
-        if(dto.getSearch() != null){
-            jpaQuery.where(memoryEntity.title.like("%" + dto.getSearch() + "%")
-                    .or(kidEntity.kidNm.like("%" + dto.getSearch() + "%")));
-        }
-*/
         return jpaQuery.fetch();
 
     }
@@ -78,7 +64,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     private BooleanBuilder whereClausSelMemoryAll(int iclass, int ikid, String search) {
         BooleanBuilder builder = new BooleanBuilder();
         if(iclass > 0){
-//            jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
+            //jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
             builder.and(kidEntity.classEntity.iclass.eq(iclass));
         }
         if(ikid > 0){
@@ -86,6 +72,8 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
             builder.and(kidEntity.ikid.eq(ikid));
         }
         if(search != null){
+            //jpaQuery.where(memoryEntity.title.like("%" + dto.getSearch() + "%")
+                    //.or(kidEntity.kidNm.like("%" + dto.getSearch() + "%")));
             builder.and((memoryEntity.title.like("%" + search + "%")
                     .or(kidEntity.kidNm.like("%" + search + "%"))));
         }

@@ -48,7 +48,7 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
-    /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
@@ -92,9 +92,9 @@ public class MemoryService {
             vo.setImemoryCnt(list.size());
             return vo;
     }
-*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         AllMemoryVo vo = new AllMemoryVo();
         //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
@@ -119,7 +119,7 @@ public class MemoryService {
         }
         return vo;
     }
-
+*/
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     public AllSelMemoryVo getMemory(int imemory) {
         AllSelMemoryVo vo = mapper.memory(imemory);
@@ -157,29 +157,26 @@ public class MemoryService {
     //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory) {
 
-
-        Optional<MemoryEntity> optEntity = repository.findById(imemory); //optional로 하는이유가 null check 하기위해
+        Optional<MemoryEntity> optEntity = repository.findById(imemory);
         MemoryEntity entity = optEntity.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
         List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
 
-
-        Optional<MemoryEntity> findMemoryEntityOpt = repository.findById(imemory);
-
-
-        MemoryEntity findMemoryEntity = findMemoryEntityOpt.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
-        List<MemoryRoomEntity> memoryRoomEntityList = findMemoryEntity.getMemoryRoomEntityList();
-
-
         SelMemoryVo vo = new SelMemoryVo();
-        vo.setIkid(memoryRoomEntityList.stream().map(kidRoom ->
-                kidRoom.getKidEntity().getIkid().intValue()
-        ).collect(Collectors.toList()));
+        vo.setMemoryTitle(entity.getTitle());
+        vo.setMemoryContents(entity.getContents());
 
-        vo.setMemoryPic(pics.stream().map(pic ->
-                pic.getMemoryPic()).collect(Collectors.toList()));
+        List<Integer> ikidList = optEntity.map(MemoryEntity::getMemoryRoomEntityList)
+                .orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION))
+                .stream()
+                .map(kidRoom -> kidRoom.getKidEntity().getIkid().intValue())
+                .collect(Collectors.toList());
+        vo.setIkid(ikidList);
 
-        vo.setMemoryTitle(optEntity.get().getTitle());
-        vo.setMemoryContents(optEntity.get().getContents());
+        List<String> memoryPicList = pics.stream()
+                .map(MemoryAlbumEntity::getMemoryPic)
+                .collect(Collectors.toList());
+        vo.setMemoryPic(memoryPicList);
+
         return vo;
     }
 
