@@ -11,7 +11,10 @@ openapi:
     base-url: https://openapi.gg.go.kr
     data-url: TbChildnatnPrvntncltnmdnstM
     service-key: 9a050a22944b4287afc298b853071295
-
+  nighthospital:
+    base-url: https://openapi.gg.go.kr
+    data-url: ChildNightTreatHosptl
+    service-key: 77f861f78b57459498accc929c01edef
 
 file:
   dir: D:/download/preschool/
