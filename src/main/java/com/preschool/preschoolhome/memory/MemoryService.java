@@ -24,11 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.preschool.preschoolhome.common.utils.Const.SUCCESS;
@@ -114,12 +116,12 @@ public class MemoryService {
         return vo;
     }*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
         //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
-        if(level == 2 || level == 3){
+        if (level == 2 || level == 3) {
             List<AllSelMemoryVo> list = mapper.allMemoryTea(dto);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
@@ -129,7 +131,7 @@ public class MemoryService {
             vo.setImemoryCnt(mapper.allMemoryTeaCnt(dto));
         }
         //if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
-        if(level == 1 || level == 4){
+        if (level == 1 || level == 4) {
             List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
@@ -140,39 +142,67 @@ public class MemoryService {
         }
         return vo;
     }
+
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
-    public AllSelMemoryVo getMemory(int imemory){
+    public AllSelMemoryVo getMemory(int imemory) {
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setIkids(mapper.iMemoryIkid(imemory));
         vo.setMemoryComments(mapper.memoryComment(imemory));
         return vo;
     }
 
-    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
-    public SelMemoryVo getMemoryEdit(int imemory){
-
-        List<String> roles = authenticationFacade.getRoles();
-
-//        if(!(roles.get(0).equals("ADMIN") || roles.get(0).equals("TEACHER"))){
-//            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+    //    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
+//    public SelMemoryVo getMemoryEdit(int imemory){
+//
+//        List<String> roles = authenticationFacade.getRoles();
+//
+////        if(!(roles.get(0).equals("ADMIN") || roles.get(0).equals("TEACHER"))){
+////            throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+////        }
+//
+//        Integer pk = mapper.selImemory(imemory);
+//        if(pk ==null){
+//            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
 //        }
-
+//        if(imemory < 0 ){
+//            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
+//        }
+//        SelMemoryVo memory = mapper.selMemory(imemory);
+//        List<String> pics = mapper.selMemoryPic(imemory);
+//        memory.setMemoryPic(pics);
+//        memory.setIkid(mapper.selMemoryKid(imemory));
+//
+//
+//
+//
+//        return memory;
+//    }
+    public SelMemoryVo getMemoryEdit(int imemory) {
         Integer pk = mapper.selImemory(imemory);
-        if(pk ==null){
+        if (pk == null) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
-        if(imemory < 0 ){
+        if (imemory < 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
-        SelMemoryVo memory = mapper.selMemory(imemory);
-        List<String> pics = mapper.selMemoryPic(imemory);
-        memory.setMemoryPic(pics);
-        memory.setIkid(mapper.selMemoryKid(imemory));
 
+        Optional<MemoryEntity> optEntity = repository.findById(imemory); //optional로 하는이유가 null check 하기위해
+        MemoryEntity entity = optEntity.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
+        List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
 
+        Optional<KidEntity> optKidEntity = kidRepository.findById(imemory);
 
+        SelMemoryVo vo = new SelMemoryVo();
+        vo.setIkid(optKidEntity.stream().map(kid ->
+                kid.getIkid().intValue()
+        ).collect(Collectors.toList()));
 
-        return memory;
+        vo.setMemoryPic(pics.stream().map(pic ->
+                pic.getMemoryPic()).collect(Collectors.toList()));
+
+        vo.setMemoryTitle(optEntity.get().getTitle());
+        vo.setMemoryContents(optEntity.get().getContents());
+        return vo;
     }
 
 
@@ -213,6 +243,7 @@ public class MemoryService {
             throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
+
     /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------
     @Transactional
     public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
@@ -312,15 +343,15 @@ public class MemoryService {
 
         return new ResVo(dto.getImemory());
     }*/
-    //------------------------------------- 추억 앨범 글 등록 -------------------------------------
+//------------------------------------- 추억 앨범 글 등록 -------------------------------------
     @Transactional
-    public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto){
+    public ResVo postMemory(List<MultipartFile> pics, InsMemoryDto dto) {
 
         int iuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
 
-        if(level != Const.TEACHER && level != Const.BOSS){
+        if (level != Const.TEACHER && level != Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
         if (pics.size() > Const.ALBUM_PIC) {
@@ -332,7 +363,7 @@ public class MemoryService {
 
         dto.setIteacher(iuser);
         int result = mapper.insMemory(dto);
-        if(result == Const.ZERO){
+        if (result == Const.ZERO) {
             throw new RestApiException(AuthErrorCode.POST_FAIL);
         }
 
@@ -466,7 +497,7 @@ public class MemoryService {
 
     //------------------------------------- 추억 앨범 댓글 삭제 JPA-------------------------------------
     @Transactional
-    public ResVo delMemoryComment(DelMemoryCommentDto dto){
+    public ResVo delMemoryComment(DelMemoryCommentDto dto) {
 
         if ((dto.getIparent() == 0 && dto.getIteacher() == 0) ||
                 (dto.getIparent() > 0 && dto.getIteacher() > 0)) {
@@ -484,7 +515,7 @@ public class MemoryService {
             ResVo resVo = commentRepository.delMemoryComment(dto);
             return resVo;
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return new ResVo(Const.FAIL);
         }
     }
