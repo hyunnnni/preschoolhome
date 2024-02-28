@@ -125,9 +125,9 @@ public class MemoryService {
     public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
-        if(level == 1 || level ==4){
-
-        }
+        //if(level == 1 || level ==4){
+            //pk로 허용됐는지 조회 후 뜨로우
+        //}
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setMemoryPic(mapper.iMemoryPic(imemory));
         vo.setKids(mapper.iMemoryIkid(imemory));
