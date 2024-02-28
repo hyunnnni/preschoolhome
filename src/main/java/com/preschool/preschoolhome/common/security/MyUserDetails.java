@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @Data
@@ -19,9 +20,8 @@ public class MyUserDetails implements UserDetails {
         if (myPrincipal == null) {
             return null;
         }
-        return  this.myPrincipal.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .collect(Collectors.toList());
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + this.myPrincipal.getRole()));
+
 
     }
     @Override

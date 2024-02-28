@@ -118,7 +118,6 @@ public class MemoryService {
 
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
-        List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
         //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
         if (level == 2 || level == 3) {
@@ -570,6 +569,16 @@ public class MemoryService {
         List<Integer> newKid = new ArrayList<>();
         for (int ikid : dto.getIkids()) {
             newKid.add(ikid);
+        }
+
+        InsRoomInviteProcDto pdto = InsRoomInviteProcDto.builder()
+                .imemory(dto.getImemory())
+                .ikids(dto.getIkids())
+                .build();
+
+        int invite = mapper.insMemoryRoomInvite(pdto);
+        if (invite == Const.ZERO) {
+            throw new RestApiException(AuthErrorCode.FAIL);
         }
 
         newKid.removeAll(kids);
