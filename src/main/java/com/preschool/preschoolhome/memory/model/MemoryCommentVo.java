@@ -11,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemoryCommentVo {
     private int imemoryComment;
-    private int iuser;
-    private int imemory;
+    private String WriterNm;
     private String memoryComment;
     private String createdAt;
 }

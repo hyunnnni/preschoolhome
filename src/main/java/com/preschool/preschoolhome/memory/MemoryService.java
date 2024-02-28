@@ -102,6 +102,7 @@ public class MemoryService {
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryPic(mapper.iMemoryPic(list.get(i).getImemory()));
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
+                list.get(i).getMemoryComments().get(i).setWriterNm();
                 list.get(i).setKids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
