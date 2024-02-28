@@ -177,12 +177,10 @@ public class MemoryService {
 //
 //        return memory;
 //    }
+    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory) {
         Integer pk = mapper.selImemory(imemory);
         if (pk == null) {
-            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-        }
-        if (imemory < 0) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
         }
 
@@ -191,6 +189,7 @@ public class MemoryService {
         List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
 
         Optional<KidEntity> optKidEntity = kidRepository.findById(imemory);
+
 
         SelMemoryVo vo = new SelMemoryVo();
         vo.setIkid(optKidEntity.stream().map(kid ->
