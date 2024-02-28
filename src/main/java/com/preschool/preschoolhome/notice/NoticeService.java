@@ -131,6 +131,7 @@ public class NoticeService {
                     NoticePushVo pushVo = new NoticePushVo();
                     pushVo.setNoticeTitle(dto.getNoticeTitle());
                     pushVo.setWriterIuser(writerIuser);
+                    pushVo.setWriterNm(loginUserNm);
                     pushVo.setInotice(token.getInotice());
                     pushVo.setIkid(token.getIkid());
                     pushVo.setKidNm(token.getKidNm());

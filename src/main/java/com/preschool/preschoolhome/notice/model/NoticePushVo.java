@@ -11,7 +11,7 @@ public class NoticePushVo {
     @Schema(title = "알림장 업로드한 유저 pk")
     private int writerIuser;
     @Schema(title = "알림장 업로드한 유저 이름")
-    private int writerNm;
+    private String writerNm;
     @Schema(title = "알림장 이름")
     private String noticeTitle;
     @Schema(title = "알림장 작성 시 푸시알림이 가는 날짜")

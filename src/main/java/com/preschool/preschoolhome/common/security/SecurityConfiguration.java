@@ -41,7 +41,6 @@ public class SecurityConfiguration {
                         ,"/api/full"
                         ,"/api/kid"
                         ,"/api/kid/detail"
-
                         ,"/api/memory"
                         ,"/api/teacher"
                         //).authenticated())
