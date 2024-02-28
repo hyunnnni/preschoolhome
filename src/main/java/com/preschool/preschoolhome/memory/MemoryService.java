@@ -157,8 +157,6 @@ public class MemoryService {
     //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory) {
 
-
-
         Optional<MemoryEntity> optEntity = repository.findById(imemory); //optional로 하는이유가 null check 하기위해
         MemoryEntity entity = optEntity.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
         List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
