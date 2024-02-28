@@ -157,6 +157,7 @@ public class MemoryService {
     //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory) {
 
+
         Optional<MemoryEntity> optEntity = repository.findById(imemory); //optional로 하는이유가 null check 하기위해
         MemoryEntity entity = optEntity.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
         List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
@@ -500,7 +501,7 @@ public class MemoryService {
 
     //------------------------------------- 추억 앨범 글 수정 -------------------------------------
     @Transactional
-    public ResVo putmemory(List<MultipartFile> pics, MemoryUpdDto dto) {
+    public ResVo putMemory(List<MultipartFile> pics, MemoryUpdDto dto) {
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
@@ -508,7 +509,7 @@ public class MemoryService {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
 
-        List<Integer> kids = mapper.selMemoryKid(dto.getImemory());
+        List<Integer> kids = mapper.selMemoryKid(dto.getImemory()); //전체 아이들 셀렉
         if (kids.size() > 0) {
             // 글 수정
             int updMemory = mapper.updMemory(dto);
@@ -525,7 +526,6 @@ public class MemoryService {
             }
 
             String target = "/memory/" + dto.getImemory();
-            myFileUtils.delFolderTrigger(target);
 
             MemoryPicsInsDto picsDto = new MemoryPicsInsDto();
             picsDto.setImemory(dto.getImemory());
@@ -533,7 +533,7 @@ public class MemoryService {
             if (pics.size() != 0) {
                 for (MultipartFile file : pics) {
                     String saveFileNm = myFileUtils.transferTo(file, target);
-                    picsDto.getPics().add(saveFileNm);
+                    picsDto.getMemoryPics().add(saveFileNm);
                 }
                 int picsAffectedRows = mapper.insPicsMemory(picsDto);
                 if (picsAffectedRows == 0 || pics.size() > 20) {
@@ -541,11 +541,7 @@ public class MemoryService {
                 }
             }
         }
-
-        List<Integer> newKid = new ArrayList<>();
-        for (int ikid : dto.getIkids()) {
-            newKid.add(ikid);
-        }
+        mapper.delKidRoom(dto.getImemory());
 
         InsRoomInviteProcDto pdto = InsRoomInviteProcDto.builder()
                 .imemory(dto.getImemory())
@@ -557,44 +553,50 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
 
-        newKid.removeAll(kids);
+        for (Integer kid : kids) {
+            dto.getIkids().removeAll(Collections.singleton(kid));
+        }
 
         LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
         String createdAt = now.format(formatter); // 포맷 적용
 
+        if (dto.getIkids().size() != 0) {
 
-        List<SelMemoryOtherTokens> otherTokens = mapper.selTeaFirebaseParents(dto);
+            List<SelMemoryOtherTokens> otherTokens = mapper.selTeaFirebaseParents(dto);
 
-        try {
-            if (otherTokens != null) {
-                for (SelMemoryOtherTokens token : otherTokens) {
-                    MemoryPushVo pushVo = new MemoryPushVo();
-                    pushVo.setMemoryTitle(dto.getTitle());
-                    pushVo.setWriterIuser(writerIuser);
-                    pushVo.setCreatedAt(createdAt);
-                    pushVo.setIkid(token.getIkid());
-                    pushVo.setKidNm(token.getKidNm());
-                    pushVo.setImemory(dto.getImemory());
-                    pushVo.setKidNm(loginUserNm);
+            try {
+                if (otherTokens != null) {
+                    for (SelMemoryOtherTokens token : otherTokens) {
+                        MemoryPushVo pushVo = new MemoryPushVo();
+                        pushVo.setMemoryTitle(dto.getMemoryTitle());
+                        pushVo.setWriterIuser(writerIuser);
+                        pushVo.setCreatedAt(createdAt);
+                        pushVo.setIkid(token.getIkid());
+                        pushVo.setKidNm(token.getKidNm());
+                        pushVo.setImemory(dto.getImemory());
+                        pushVo.setKidNm(loginUserNm);
 
-                    String body = objMapper.writeValueAsString(pushVo);
-                    log.info("body: {}", body);
-                    Notification noti = Notification.builder()
-                            .setTitle("putMemory")
-                            .setBody(body)
-                            .build();
+                        String body = objMapper.writeValueAsString(pushVo);
+                        log.info("body: {}", body);
+                        Notification noti = Notification.builder()
+                                .setTitle("putMemory")
+                                .setBody(body)
+                                .build();
 
-                    Message message = Message.builder()
-                            .setToken(token.getFirebaseToken())
-                            .setNotification(noti)
-                            .build();
+                        Message message = Message.builder()
+                                .setToken(token.getFirebaseToken())
+                                .setNotification(noti)
+                                .build();
 
-                    FirebaseMessaging.getInstance().sendAsync(message);
+                        FirebaseMessaging.getInstance().sendAsync(message);
+                    }
                 }
+
+            } catch (Exception e) {
+                throw new RestApiException(AuthErrorCode.PUSH_FAIL);
+
             }
-        } catch (Exception e) {
-            throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
 
         return new ResVo(SUCCESS);

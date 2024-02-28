@@ -113,7 +113,7 @@ public class MemoryController {
     @PutMapping
     @Operation(summary = "3차 추억 앨범 글 수정", description = """
         추억 앨범 글, 사진, 원아 수정 및 새로 추가한 원아들에게 알림 푸시""")
-    public ResVo putmemory(@RequestPart List<MultipartFile> pics, @RequestPart MemoryUpdDto dto) {
-        return service.putmemory(pics, dto);
+    public ResVo putMemory(@RequestPart(required = false) List<MultipartFile> pics, @RequestPart MemoryUpdDto dto) {
+        return service.putMemory(pics, dto);
     }
 }

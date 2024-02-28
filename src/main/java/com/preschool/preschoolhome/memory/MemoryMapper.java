@@ -63,5 +63,7 @@ public interface MemoryMapper {
     int insPicsMemory(MemoryPicsInsDto dto);
     //------------------------------------- 추억 앨범 삭제 전 글 확인 -------------------------------------
     int selDelAlbum (int imemory);
+    //------------------------------------- 추억 앨범 수정 시 선택 해제 원아 room에서 지우기 -------------------------------------
+    int delKidRoom (int imemory);
 
 }
