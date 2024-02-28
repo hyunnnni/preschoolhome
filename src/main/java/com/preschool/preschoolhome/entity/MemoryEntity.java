@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class MemoryEntity extends BaseEntity {
     private List<MemoryCommentEntity> memoryCommentEntityList = new ArrayList();
 
     @ToString.Exclude
+    @BatchSize(size = 1000)
     @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.ALL)
     private List<MemoryRoomEntity> memoryRoomEntityList = new ArrayList();
 
