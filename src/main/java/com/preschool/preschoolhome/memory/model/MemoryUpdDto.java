@@ -10,11 +10,12 @@ import java.util.List;
 public class MemoryUpdDto {
     @Schema(title = "삭제된 사진이 있다면 그 사진의 pk들")
     private List<Integer> delPics;
-    @JsonIgnore
     @Schema(title = "삭제할 글PK")
     private int imemory;
-    @JsonIgnore
-    private String title;
+    @Schema(title = "글 제목")
+    private String memoryTitle;
+    @Schema(title = "글 내용")
+    private String memoryContents;
     @Schema(title = "원아 PK")
     private List<Integer> ikids;
 }

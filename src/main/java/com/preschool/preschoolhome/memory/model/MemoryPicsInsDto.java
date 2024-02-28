@@ -11,5 +11,5 @@ public class MemoryPicsInsDto {
     @Schema(title = "추억 앨범 글 PK")
     private int imemory;
     @Schema(title = "추억 앨범 사진")
-    private List<String> pics = new ArrayList<>();
+    private List<String> memoryPics = new ArrayList<>();
 }

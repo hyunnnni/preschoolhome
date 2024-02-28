@@ -240,10 +240,11 @@
         ON A.iparent = B.iparent
         INNER JOIN t_memory_room AS C
         ON B.ikid = C.ikid
-        WHERE C.imemory = #{imemory} and B.ikid in (
-        <foreach collection="newKid" item="kid" separator=", ">
+        WHERE C.imemory = #{imemory}
+        and B.ikid in
+        <foreach collection="ikids" item="kid" open="(" separator="," close=")">
             #{kid}
-        </foreach> )
+        </foreach>
     </select>
     <!--                    추억 앨범 글 수정                    -->
     <update id="updMemory">
@@ -256,7 +257,7 @@
     <delete id="delMemoryPic">
         DELETE FROM t_memory_album
         WHERE imemory_pic in
-        <foreach collection="delPics" item="imomoryPic" open="(" separator="," close=")">
+        <foreach collection="delPics" item="imemoryPic" open="(" separator="," close=")">
             #{imemoryPic}
         </foreach>
     </delete>
@@ -265,7 +266,7 @@
         INSERT INTO t_memory_album
         ( imemory, memory_pic)
         VALUES
-        <foreach collection="memoryPic" item="memoryPic" separator=", ">
+        <foreach collection="memoryPics" item="memoryPic" separator=", ">
             ( #{imemory}, #{memoryPic} )
         </foreach>
     </insert>
@@ -276,6 +277,11 @@
         WHERE imemory = #{imemory}
     </select>
 
+    <!-- 추억 앨범 수정 시 선택 해제 원아 room에서 지우기 -->
+    <delete id="delKidRoom">
+        DELETE FROM t_memory_room
+        WHERE imemory = #{imemory}
+    </delete>
 </mapper>
 
 
