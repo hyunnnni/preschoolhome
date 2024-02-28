@@ -118,7 +118,6 @@ public class MemoryService {
 
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
-        List<String> roles = authenticationFacade.getRoles();
         AllMemoryVo vo = new AllMemoryVo();
         //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
         if (level == 2 || level == 3) {
