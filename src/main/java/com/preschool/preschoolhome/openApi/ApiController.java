@@ -2,6 +2,7 @@ package com.preschool.preschoolhome.openApi;
 
 import com.preschool.preschoolhome.openApi.medel.HospitalDto;
 import com.preschool.preschoolhome.openApi.medel.TotalHospitalVo;
+import com.preschool.preschoolhome.openApi.medel.TotalNightHospitalVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ApiController {
 
     @Operation(summary = "오픈API 경기도 예방접종 병원")
     @GetMapping("/nighthospital")
-    public TotalHospitalVo getnighthospital(HospitalDto dto){
+    public TotalNightHospitalVo getnighthospital(HospitalDto dto){
         return service.getnightHospital(dto);
     }
 }
