@@ -27,7 +27,7 @@ public interface MemoryMapper {
     //------------------------------------- 추억앨범 사진 조회 -------------------------------------
     List<String> selMemoryPic(int imemory);
     //------------------------------------- 추억앨범 pk 조회  -------------------------------------
-    String selImemory(int imemory);
+    Integer selImemory(int imemory);
     //------------------------------------- 추억 앨범 기존에 태그된 원아 -------------------------------------
     List<Integer> selMemoryKid(int imemory);
 
