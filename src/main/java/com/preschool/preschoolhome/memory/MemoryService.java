@@ -48,7 +48,7 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
-    /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
@@ -92,9 +92,9 @@ public class MemoryService {
             vo.setImemoryCnt(list.size());
             return vo;
     }
-*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
         AllMemoryVo vo = new AllMemoryVo();
         //if(roles.get(0).equals("TEACHER") || roles.get(0).equals("ADMIN")){
@@ -119,7 +119,7 @@ public class MemoryService {
         }
         return vo;
     }
-
+*/
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     public AllSelMemoryVo getMemory(int imemory) {
         AllSelMemoryVo vo = mapper.memory(imemory);
