@@ -47,7 +47,7 @@ public class MemoryService {
     private final MyFileUtils myFileUtils;
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
-
+    private final MemoryRoomRepository memoryRoomRepository;
     /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
@@ -179,21 +179,24 @@ public class MemoryService {
 //    }
     //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
     public SelMemoryVo getMemoryEdit(int imemory) {
-        Integer pk = mapper.selImemory(imemory);
-        if (pk == null) {
-            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-        }
+
+
 
         Optional<MemoryEntity> optEntity = repository.findById(imemory); //optional로 하는이유가 null check 하기위해
         MemoryEntity entity = optEntity.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
         List<MemoryAlbumEntity> pics = entity.getMemoryAlbumEntityList();
 
-        Optional<KidEntity> optKidEntity = kidRepository.findById(imemory);
+
+        Optional<MemoryEntity> findMemoryEntityOpt = repository.findById(imemory);
+
+
+        MemoryEntity findMemoryEntity = findMemoryEntityOpt.orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION));
+        List<MemoryRoomEntity> memoryRoomEntityList = findMemoryEntity.getMemoryRoomEntityList();
 
 
         SelMemoryVo vo = new SelMemoryVo();
-        vo.setIkid(optKidEntity.stream().map(kid ->
-                kid.getIkid().intValue()
+        vo.setIkid(memoryRoomEntityList.stream().map(kidRoom ->
+                kidRoom.getKidEntity().getIkid().intValue()
         ).collect(Collectors.toList()));
 
         vo.setMemoryPic(pics.stream().map(pic ->
