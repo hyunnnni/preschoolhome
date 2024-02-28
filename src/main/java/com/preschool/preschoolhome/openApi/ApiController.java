@@ -25,7 +25,7 @@ public class ApiController {
         return service.getHospital(dto);
     }
 
-    @Operation(summary = "오픈API 경기도 예방접종 병원")
+    @Operation(summary = "오픈API 경기도 야간진료 병원")
     @GetMapping("/nighthospital")
     public TotalNightHospitalVo getnighthospital(HospitalDto dto){
         return service.getnightHospital(dto);
