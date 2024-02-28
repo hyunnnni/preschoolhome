@@ -95,6 +95,8 @@
         WHERE imemory = #{imemory}
     </select>
     <!--                    추억앨범에 걸린 댓글 작성자                    -->
+
+
     <!--                    추억앨범에 걸린 원아 PK 불러오기                    -->
     <select id="iMemoryIkid">
         SELECT B.ikid, B.kid_nm as kidNm

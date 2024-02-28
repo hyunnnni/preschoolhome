@@ -102,7 +102,6 @@ public class MemoryService {
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).setMemoryPic(mapper.iMemoryPic(list.get(i).getImemory()));
                 list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
-                list.get(i).getMemoryComments().get(i).setWriterNm();
                 list.get(i).setKids(mapper.iMemoryIkid(list.get(i).getImemory()));
             }
             vo.setList(list);
@@ -124,10 +123,21 @@ public class MemoryService {
 
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     public AllSelMemoryVo getMemory(int imemory) {
+        int pk = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+        if(level == 1 || level ==4){
+
+        }
         AllSelMemoryVo vo = mapper.memory(imemory);
         vo.setMemoryPic(mapper.iMemoryPic(imemory));
         vo.setKids(mapper.iMemoryIkid(imemory));
-        vo.setMemoryComments(mapper.memoryComment(imemory));
+        List<MemoryCommentVo> cmtList = mapper.memoryComment(imemory);
+        //for (int i = 0; i < cmtList.size(); i++) {
+            //cmtList.get(i).setWriterNm();
+        //}
+        vo.setMemoryComments(cmtList);
+
+
         return vo;
     }
 
