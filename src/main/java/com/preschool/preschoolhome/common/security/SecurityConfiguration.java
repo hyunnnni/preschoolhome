@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                         ,"/api/memory"
                         ,"/api/teacher"
                         //).authenticated())
-                        ).hasAnyRole("TEACHER","ADMIN"))
+                        ).hasAnyRole("TEACHER","ADMIN","PARENT"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST
                         ,"/api/teacher/signup"
@@ -70,7 +70,6 @@ public class SecurityConfiguration {
                         ,"/api/kid/detail/edit/**"
                         ,"/api/memory/edit"
                         ,"/api/memory/tag"
-                        ,"/api/notice/tag"
                         ,"/api/teacher/kid"
                         ,"/api/teacher/parent"
                         ,"/api/teacher/edit"
@@ -93,6 +92,7 @@ public class SecurityConfiguration {
                         ,"/api/memory/detail"
                         ,"/api/notice/edit"
                         ,"/api/notice"
+                        ,"/api/notice/tag"
                         ,"/api/notice/detail"
                         ,"/api/parent/edit"
                         ,"/api/parent/putparent"
