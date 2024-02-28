@@ -2,12 +2,10 @@ package com.preschool.preschoolhome.openApi.medel;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 
 @ToString
-public class DataVo {
+public class HospitalVo {
     private String sigunNm;
     private String sigunCd;
     private String facltNm;

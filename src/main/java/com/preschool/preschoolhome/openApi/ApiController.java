@@ -1,8 +1,7 @@
 package com.preschool.preschoolhome.openApi;
 
-import com.preschool.preschoolhome.openApi.medel.DataDto;
-import com.preschool.preschoolhome.openApi.medel.DataVo;
-import com.preschool.preschoolhome.openApi.medel.TotalDataVo;
+import com.preschool.preschoolhome.openApi.medel.HospitalDto;
+import com.preschool.preschoolhome.openApi.medel.TotalHospitalVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,7 +20,13 @@ public class ApiController {
 
     @Operation(summary = "오픈API 경기도 예방접종 병원")
     @GetMapping("/hospital")
-    public TotalDataVo getData(DataDto dto){
-        return service.getData(dto);
+    public TotalHospitalVo gethospital(HospitalDto dto){
+        return service.getHospital(dto);
+    }
+
+    @Operation(summary = "오픈API 경기도 예방접종 병원")
+    @GetMapping("/nighthospital")
+    public TotalHospitalVo getnighthospital(HospitalDto dto){
+        return service.getnightHospital(dto);
     }
 }
