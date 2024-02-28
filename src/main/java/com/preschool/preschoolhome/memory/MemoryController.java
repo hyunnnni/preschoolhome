@@ -31,7 +31,7 @@ public class MemoryController {
     //-------------------------------- 추억 앨범 전체 조회 --------------------------------
     @GetMapping
     @Operation(summary = "3차 추억 앨범 전체 조회")
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable){
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, @RequestParam(required = false) Pageable pageable){
         return service.getAllMemory(dto, pageable);
     }
 
