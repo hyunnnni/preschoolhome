@@ -509,7 +509,7 @@ public class MemoryService {
             throw new RestApiException(PreschoolErrorCode.ACCESS_RESTRICTIONS);
         }
 
-        List<Integer> kids = mapper.selMemoryKid(dto.getImemory());
+        List<Integer> kids = mapper.selMemoryKid(dto.getImemory()); //전체 아이들 셀렉
         if (kids.size() > 0) {
             // 글 수정
             int updMemory = mapper.updMemory(dto);
@@ -526,7 +526,6 @@ public class MemoryService {
             }
 
             String target = "/memory/" + dto.getImemory();
-            myFileUtils.delFolderTrigger(target);
 
             MemoryPicsInsDto picsDto = new MemoryPicsInsDto();
             picsDto.setImemory(dto.getImemory());
