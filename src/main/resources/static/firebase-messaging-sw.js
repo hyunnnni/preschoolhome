@@ -48,9 +48,9 @@ messaging.onBackgroundMessage(function (payload) {
   self.registration.showNotification(title, notificationOptions);
 });
 
-// self.addEventListener("notificationclick", function (event) {
-//   console.log("notification click");
-//   const url = "http://112.222.157.156:5224";
-//   event.notification.close();
-//   event.waitUntil(clients.openWindow(url));
-// });
+self.addEventListener("notificationclick", function (event) {
+  console.log("notification click");
+  const url = "http://localhost:3000";
+  event.notification.close();
+  event.waitUntil(clients.openWindow(url));
+});

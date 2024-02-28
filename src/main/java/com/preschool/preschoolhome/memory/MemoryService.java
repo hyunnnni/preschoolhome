@@ -93,28 +93,6 @@ public class MemoryService {
             return vo;
     }
 */
-        /*AllMemoryVo vo = new AllMemoryVo();
-
-            List<AllSelMemoryVo> list = repository.selMemoryAll(dto, pageable);
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
-                list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
-            }
-            vo.setList(list);
-            vo.setImemoryCnt(mapper.allMemoryTeaCnt(dto));
-        }
-        //if(roles.get(0).equals("USER") || roles.get(0).equals("GRADUATE")){
-        if(level == 1 || level == 4){
-            List<AllSelMemoryVo> list = mapper.allMemoryPar(dto);
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setMemoryComments(mapper.memoryComment(list.get(i).getImemory()));
-                list.get(i).setIkids(mapper.iMemoryIkid(list.get(i).getImemory()));
-            }
-            vo.setList(list);
-            vo.setImemoryCnt(mapper.allMemoryParCnt(dto));
-        }
-        return vo;
-    }*/
 
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
         int level = authenticationFacade.getLevelPk();
