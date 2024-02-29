@@ -15,7 +15,7 @@ public class ParentEntity extends CreatedAtEntity{
 
     @ManyToOne
     @JoinColumn(name = "irelation", nullable = false)
-    private ClassEntity relationEntity;
+    private RelationEntity relationEntity;
 
     @Column(length = 10, name = "parent_nm", nullable = false)
     private String parentNm;

@@ -121,7 +121,7 @@ public class MemoryService {
     }
 
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
-    public AllSelMemoryVo getMemory(int imemory) {
+    /*public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
 
@@ -148,8 +148,16 @@ public class MemoryService {
 
         List<MemoryCommentEntity> memoryCommentList = commentRepository.findAllByMemoryEntity(memory);
 
-
-
+        List<MemoryCommentVo> commentVos = memoryCommentList.stream()
+                .map(cmt -> {
+                    return MemoryCommentVo.builder()
+                            .imemoryComment(cmt.getImemoryComment())
+                            .createdAt(cmt.getCreatedAt().toString())
+                            .memoryComment(cmt.getMemoryComment())
+                            .teacherNm(cmt.getTeacher().getTeacherNm())
+                            .parentNm(cmt.getParent().getParentNm())
+                            .build();
+        }).collect(Collectors.toList());
 
         AllSelMemoryVo vo = AllSelMemoryVo
                 .builder()
@@ -159,7 +167,7 @@ public class MemoryService {
                 .memoryPic(pics)
                 .createdAt(memory.getCreatedAt().toString())
                 .kids(kids)
-                //.memoryComments(memoryCommentList)
+                .memoryComments(commentVos)
                 .build();
 
 
@@ -171,9 +179,9 @@ public class MemoryService {
 
 
         return vo;
-    }
+    }*/
 
-    /*public AllSelMemoryVo getMemory(int imemory) {
+    public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         //if(level == 1 || level ==4){
@@ -190,7 +198,7 @@ public class MemoryService {
 
 
         return vo;
-    }*/
+    }
 
     //    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
 //    public SelMemoryVo getMemoryEdit(int imemory){

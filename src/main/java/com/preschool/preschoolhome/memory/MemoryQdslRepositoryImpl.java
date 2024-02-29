@@ -23,6 +23,7 @@ import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumE
 import static com.preschool.preschoolhome.entity.QMemoryCommentEntity.memoryCommentEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
 import static com.preschool.preschoolhome.entity.QMemoryRoomEntity.memoryRoomEntity;
+import static com.preschool.preschoolhome.entity.QParentEntity.parentEntity;
 import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
 import static com.preschool.preschoolhome.entity.QKidEntity.kidEntity;
 
@@ -118,15 +119,21 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     @Override
     public List<MemoryCommentEntity> findAllByMemoryEntity(MemoryEntity memoryEntity) {
-        //jpaQueryFactory.selectFrom(memoryCommentEntity)
 
-                //.where(memoryCommentEntity.imemoryComment.eq(dto.getImemoryComment()), whereTargetUserComDel(dto))
-                //.execute();
-        return null;
+        return jpaQueryFactory.selectFrom(memoryCommentEntity)
+                .leftJoin(parentEntity)
+                .on(memoryCommentEntity.parent.iparent.eq(parentEntity.iparent))
+                .leftJoin(teacherEntity).fetchJoin()
+                .on(memoryCommentEntity.teacher.iteacher.eq(teacherEntity.iteacher))
+                .where(memoryCommentEntity.memoryEntity.imemory.eq(memoryEntity.getImemory()))
+                .fetch();
+
     }
 
     private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
-        return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
+        return dto.getIparent() > 0
+                ? memoryCommentEntity.parent.iparent.eq(dto.getIparent())
+                : memoryCommentEntity.teacher.iteacher.eq(dto.getIteacher());
     }
 
 }
