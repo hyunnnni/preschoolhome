@@ -121,7 +121,7 @@ public class MemoryService {
     }
 
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
-    /*public AllSelMemoryVo getMemory(int imemory) {
+    public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
 
@@ -135,9 +135,21 @@ public class MemoryService {
                         pic.getMemoryPic())
                 .collect(Collectors.toList());
 
-        memory.getMemoryRoomEntityList().stream().map(memoryroom ->
+        List<MemoryRoomEntity> memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
 
-                memoryroom.getMemoryRooms()).collect(Collectors.toList());
+        List<KidsVo> kids = memoryRoomList.stream()
+                .map(memoryroom ->{
+                    return KidsVo.builder()
+                            .ikid(memoryroom.getKidEntity().getIkid())
+                            .kidNm(memoryroom.getKidEntity().getKidNm())
+                            .build();
+                        })
+                .collect(Collectors.toList());
+
+        List<MemoryCommentEntity> memoryCommentList = commentRepository.findAllByMemoryEntity(memory);
+
+
+
 
         AllSelMemoryVo vo = AllSelMemoryVo
                 .builder()
@@ -146,8 +158,8 @@ public class MemoryService {
                 .memoryContents(memory.getContents())
                 .memoryPic(pics)
                 .createdAt(memory.getCreatedAt().toString())
-                .kids()
-                .memoryComments()
+                .kids(kids)
+                //.memoryComments(memoryCommentList)
                 .build();
 
 
@@ -159,9 +171,9 @@ public class MemoryService {
 
 
         return vo;
-    }*/
+    }
 
-    public AllSelMemoryVo getMemory(int imemory) {
+    /*public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         //if(level == 1 || level ==4){
@@ -178,7 +190,7 @@ public class MemoryService {
 
 
         return vo;
-    }
+    }*/
 
     //    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
 //    public SelMemoryVo getMemoryEdit(int imemory){
