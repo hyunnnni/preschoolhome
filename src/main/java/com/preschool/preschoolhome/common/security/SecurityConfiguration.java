@@ -84,8 +84,6 @@ public class SecurityConfiguration {
                         ,"/api/full/"
                         ,"/api/full/listall"
                         ,"/api/kid/**"
-                        ,"/api/memory"
-                        ,"/api/memory/detail"
                         ,"/api/notice/edit"
                         ,"/api/notice"
                         ,"/api/notice/tag"
@@ -96,6 +94,12 @@ public class SecurityConfiguration {
                         ,"/api/preschool/kid"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                         .authorizeHttpRequests(auth -> auth
+                         .requestMatchers(HttpMethod.GET
+                        ,"/api/memory"
+                        ,"/api/memory/detail"
+                        //).authenticated())
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PUT,
                         "/api/album"

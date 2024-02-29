@@ -18,7 +18,6 @@ import com.preschool.preschoolhome.entity.*;
 import com.preschool.preschoolhome.memory.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -122,6 +121,39 @@ public class MemoryService {
     }
 
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
+    /*public AllSelMemoryVo getMemory(int imemory) {
+        int pk = authenticationFacade.getLoginUserPk();
+        int level = authenticationFacade.getLevelPk();
+
+        //if(level == 1 || level ==4){
+        //pk로 허용됐는지 조회 후 뜨로우
+        //}
+        List<MemoryEntity> memory = repository.findAllByImemory(imemory);
+
+        memory.stream().map(memory1 -> AllSelMemoryVo
+                        .builder()
+                        .imemory(memory)
+                        .memoryTitle()
+                        .memoryContents()
+                        .memoryPic()
+                        .memoryComments()
+                        .teacherNm()
+                        .kids()
+                .build())
+                .collect(Collectors.toList());
+
+        vo.setMemoryPic(mapper.iMemoryPic(imemory));
+        vo.setKids(mapper.iMemoryIkid(imemory));
+        List<MemoryCommentVo> cmtList = mapper.memoryComment(imemory);
+        //for (int i = 0; i < cmtList.size(); i++) {
+        //cmtList.get(i).setWriterNm();
+        //}
+        vo.setMemoryComments(cmtList);
+
+
+        return vo;
+    }*/
+
     public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
