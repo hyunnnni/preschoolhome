@@ -141,6 +141,7 @@ public class ParentService {
 
         pk.setAccessToken(at);
         pk.setResult(Const.SUCCESS);
+        pk.setRole(entity.getRole());
         return pk;
     }
     //-------------------------------- 수정 시 기존 정보 불러오기 --------------------------------

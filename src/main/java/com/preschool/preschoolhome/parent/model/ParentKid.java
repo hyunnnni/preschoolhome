@@ -28,4 +28,5 @@ public class ParentKid {
     private int result;
     private String prFirebaseToken;
     private String accessToken;
+    private String role;
 }
