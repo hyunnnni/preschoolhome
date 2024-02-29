@@ -132,7 +132,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PATCH
                         ,"/api/parent"
                         //).authenticated())
-                        ).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.DELETE,
                         "/api/album"
