@@ -69,7 +69,6 @@ public class SecurityConfiguration {
                         ,"/api/teacher/kid"
                         ,"/api/teacher/parent"
                         ,"/api/teacher/edit"
-                        ,"/api/teacher/parentedit"
                         //).authenticated())
                         ).hasAnyRole("TEACHER","ADMIN"))
                         .authorizeHttpRequests(auth -> auth
@@ -83,21 +82,21 @@ public class SecurityConfiguration {
                         ,"/api/album/listall"
                         ,"/api/full/"
                         ,"/api/full/listall"
-                        ,"/api/kid/**"
                         ,"/api/notice/edit"
-                        ,"/api/notice"
-                        ,"/api/notice/tag"
-                        ,"/api/notice/detail"
-                        ,"/api/parent/edit"
-                        ,"/api/parent/putparent"
                         ,"/api/parent/kidadd"
                         ,"/api/preschool/kid"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN"))
-                         .authorizeHttpRequests(auth -> auth
-                         .requestMatchers(HttpMethod.GET
+                        .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET
+                        ,"/api/kid/**"
+                        ,"/api/notice"
+                        ,"/api/notice/tag"
                         ,"/api/memory"
                         ,"/api/memory/detail"
+                        ,"/api/notice/detail"
+                        ,"/api/parent/edit"
+                        ,"/api/teacher/parentedit"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
@@ -117,6 +116,12 @@ public class SecurityConfiguration {
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN"))
                         .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.PUT
+                        ,"/api/parent/putparent"
+                        ,"/api/parent/edit"
+                        //).authenticated())
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
+                        .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PATCH,
                         "/api/kid/code/{ikid}"
                         ,"/api/teacher"
@@ -127,7 +132,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PATCH
                         ,"/api/parent"
                         //).authenticated())
-                        ).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.DELETE,
                         "/api/album"

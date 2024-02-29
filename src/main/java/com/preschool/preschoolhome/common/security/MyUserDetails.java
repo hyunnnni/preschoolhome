@@ -22,7 +22,6 @@ public class MyUserDetails implements UserDetails {
         }
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + this.myPrincipal.getRole()));
 
-
     }
     @Override
     public String getPassword() {
