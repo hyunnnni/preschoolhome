@@ -20,12 +20,12 @@ public class MemoryCommentEntity extends CreatedAtEntity {
     @Column(name = "memory_comment", length = 300)
     private String memoryComment;
 
-    @ColumnDefault("0")
+
     @ManyToOne
     @Column(nullable = false)
     private TeacherEntity teacher;
 
-    @ColumnDefault("0")
+
     @ManyToOne
     @Column(nullable = false)
     private ParentEntity parent;
