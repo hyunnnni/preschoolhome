@@ -84,8 +84,6 @@ public class SecurityConfiguration {
                         ,"/api/full/"
                         ,"/api/full/listall"
                         ,"/api/notice/edit"
-                        ,"/api/parent/edit"
-                        ,"/api/parent/putparent"
                         ,"/api/parent/kidadd"
                         ,"/api/preschool/kid"
                         //).authenticated())
@@ -98,6 +96,7 @@ public class SecurityConfiguration {
                         ,"/api/memory"
                         ,"/api/memory/detail"
                         ,"/api/notice/detail"
+                        ,"/api/parent/edit"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
