@@ -122,18 +122,18 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
         return jpaQueryFactory.selectFrom(memoryCommentEntity)
                 .leftJoin(parentEntity)
-                .on(memoryCommentEntity.iparent.eq(parentEntity.iparent))
+                .on(memoryCommentEntity.parent.iparent.eq(parentEntity.iparent))
                 .leftJoin(teacherEntity).fetchJoin()
-                .on(teacherEntity.iteacher.eq(memoryCommentEntity.iteacher))
+                .on(memoryCommentEntity.teacher.iteacher.eq(teacherEntity.iteacher))
                 .where(memoryCommentEntity.memoryEntity.imemory.eq(memoryEntity.getImemory()))
                 .fetch();
-
-
 
     }
 
     private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
-        return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
+        return dto.getIparent() > 0
+                ? memoryCommentEntity.parent.iparent.eq(dto.getIparent())
+                : memoryCommentEntity.teacher.iteacher.eq(dto.getIteacher());
     }
 
 }

@@ -29,13 +29,13 @@ public class QMemoryCommentEntity extends EntityPathBase<MemoryCommentEntity> {
 
     public final NumberPath<Integer> imemoryComment = createNumber("imemoryComment", Integer.class);
 
-    public final NumberPath<Integer> iparent = createNumber("iparent", Integer.class);
-
-    public final NumberPath<Integer> iteacher = createNumber("iteacher", Integer.class);
-
     public final StringPath memoryComment = createString("memoryComment");
 
     public final QMemoryEntity memoryEntity;
+
+    public final QParentEntity parent;
+
+    public final QTeacherEntity teacher;
 
     public QMemoryCommentEntity(String variable) {
         this(MemoryCommentEntity.class, forVariable(variable), INITS);
@@ -56,6 +56,8 @@ public class QMemoryCommentEntity extends EntityPathBase<MemoryCommentEntity> {
     public QMemoryCommentEntity(Class<? extends MemoryCommentEntity> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.memoryEntity = inits.isInitialized("memoryEntity") ? new QMemoryEntity(forProperty("memoryEntity"), inits.get("memoryEntity")) : null;
+        this.parent = inits.isInitialized("parent") ? new QParentEntity(forProperty("parent"), inits.get("parent")) : null;
+        this.teacher = inits.isInitialized("teacher") ? new QTeacherEntity(forProperty("teacher"), inits.get("teacher")) : null;
     }
 
 }
