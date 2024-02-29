@@ -123,7 +123,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         return jpaQueryFactory.selectFrom(memoryCommentEntity)
                 .leftJoin(parentEntity)
                 .on(memoryCommentEntity.parent.iparent.eq(parentEntity.iparent))
-                .leftJoin(teacherEntity).fetchJoin()
+                .leftJoin(teacherEntity)
                 .on(memoryCommentEntity.teacher.iteacher.eq(teacherEntity.iteacher))
                 .where(memoryCommentEntity.memoryEntity.imemory.eq(memoryEntity.getImemory()))
                 .fetch();

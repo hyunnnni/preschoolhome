@@ -29,16 +29,16 @@ public class MemoryEntity extends BaseEntity {
     private String contents;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.PERSIST)
     private List<MemoryAlbumEntity> memoryAlbumEntityList = new ArrayList();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.PERSIST)
     private List<MemoryCommentEntity> memoryCommentEntityList = new ArrayList();
 
     @ToString.Exclude
     @BatchSize(size = 1000)
-    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.PERSIST)
     private List<MemoryRoomEntity> memoryRoomEntityList = new ArrayList();
 
 }

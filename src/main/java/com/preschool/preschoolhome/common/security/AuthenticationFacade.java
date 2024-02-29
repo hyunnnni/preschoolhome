@@ -38,6 +38,15 @@ public class AuthenticationFacade {
                 .getIlevel();
     }
 
+    public String getRole(){
+        MyUserDetails myUserDetails = getLoginUser();
+        return myUserDetails == null
+                ? null
+                : myUserDetails
+                .getMyPrincipal()
+                .getRole();
+    }
+
     public String getUserNm(){
         MyUserDetails myUserDetails = getLoginUser();
         return myUserDetails == null

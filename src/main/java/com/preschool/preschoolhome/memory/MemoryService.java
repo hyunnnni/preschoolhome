@@ -119,11 +119,11 @@ public class MemoryService {
 
         return vo;
     }
-
+@Transactional
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
-    /*public AllSelMemoryVo getMemory(int imemory) {
+    public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
-        int level = authenticationFacade.getLevelPk();
+        String role = authenticationFacade.getRole();
 
         //if(level == 1 || level ==4){
         //pk로 허용됐는지 조회 후 뜨로우
@@ -150,13 +150,17 @@ public class MemoryService {
 
         List<MemoryCommentVo> commentVos = memoryCommentList.stream()
                 .map(cmt -> {
-                    return MemoryCommentVo.builder()
+                    MemoryCommentVo vo = MemoryCommentVo.builder()
                             .imemoryComment(cmt.getImemoryComment())
                             .createdAt(cmt.getCreatedAt().toString())
                             .memoryComment(cmt.getMemoryComment())
-                            .teacherNm(cmt.getTeacher().getTeacherNm())
-                            .parentNm(cmt.getParent().getParentNm())
                             .build();
+
+                    vo.setTeacherNm(cmt.getTeacher() == null ? null : cmt.getTeacher().getTeacherNm());
+                    vo.setParentNm(cmt.getParent() == null ? null : cmt.getParent().getParentNm());
+
+
+                    return vo;
         }).collect(Collectors.toList());
 
         AllSelMemoryVo vo = AllSelMemoryVo
@@ -165,23 +169,17 @@ public class MemoryService {
                 .memoryTitle(memory.getTitle())
                 .memoryContents(memory.getContents())
                 .memoryPic(pics)
+                .iteacher(memory.getTeacherEntity().getIteacher())
+                .teacherNm(memory.getTeacherEntity().getTeacherNm())
                 .createdAt(memory.getCreatedAt().toString())
                 .kids(kids)
                 .memoryComments(commentVos)
                 .build();
 
-
-        List<MemoryCommentVo> cmtList = mapper.memoryComment(imemory);
-        //for (int i = 0; i < cmtList.size(); i++) {
-        //cmtList.get(i).setWriterNm();
-        //}
-        vo.setMemoryComments(cmtList);
-
-
         return vo;
-    }*/
+    }
 
-    public AllSelMemoryVo getMemory(int imemory) {
+    /*public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         //if(level == 1 || level ==4){
@@ -199,7 +197,7 @@ public class MemoryService {
 
         return vo;
     }
-
+*/
     //    //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
 //    public SelMemoryVo getMemoryEdit(int imemory){
 //
