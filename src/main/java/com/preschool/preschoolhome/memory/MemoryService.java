@@ -128,22 +128,29 @@ public class MemoryService {
         //if(level == 1 || level ==4){
         //pk로 허용됐는지 조회 후 뜨로우
         //}
-        List<MemoryEntity> memory = repository.findAllByImemory(imemory);
+        MemoryEntity memory = repository.findAllByImemory(imemory);
 
-        memory.stream().map(memory1 -> AllSelMemoryVo
-                        .builder()
-                        .imemory(memory)
-                        .memoryTitle()
-                        .memoryContents()
-                        .memoryPic()
-                        .memoryComments()
-                        .teacherNm()
-                        .kids()
-                .build())
+        List<String> pics = memory.getMemoryAlbumEntityList().stream()
+                        .map(pic ->
+                        pic.getMemoryPic())
                 .collect(Collectors.toList());
 
-        vo.setMemoryPic(mapper.iMemoryPic(imemory));
-        vo.setKids(mapper.iMemoryIkid(imemory));
+        memory.getMemoryRoomEntityList().stream().map(memoryroom ->
+
+                memoryroom.getMemoryRooms()).collect(Collectors.toList());
+
+        AllSelMemoryVo vo = AllSelMemoryVo
+                .builder()
+                .imemory(memory.getImemory())
+                .memoryTitle(memory.getTitle())
+                .memoryContents(memory.getContents())
+                .memoryPic(pics)
+                .createdAt(memory.getCreatedAt().toString())
+                .kids()
+                .memoryComments()
+                .build();
+
+
         List<MemoryCommentVo> cmtList = mapper.memoryComment(imemory);
         //for (int i = 0; i < cmtList.size(); i++) {
         //cmtList.get(i).setWriterNm();
