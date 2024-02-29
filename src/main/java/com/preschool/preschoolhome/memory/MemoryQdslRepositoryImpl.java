@@ -115,6 +115,16 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         log.info("executedNum : {}" ,executedNum);
         return new ResVo((int)executedNum);
     }
+
+    @Override
+    public List<MemoryCommentEntity> findAllByMemoryEntity(MemoryEntity memoryEntity) {
+        //jpaQueryFactory.selectFrom(memoryCommentEntity)
+
+                //.where(memoryCommentEntity.imemoryComment.eq(dto.getImemoryComment()), whereTargetUserComDel(dto))
+                //.execute();
+        return null;
+    }
+
     private BooleanExpression whereTargetUserComDel(DelMemoryCommentDto dto) {
         return dto.getIparent() > 0 ? memoryCommentEntity.iparent.eq(dto.getIparent()):memoryCommentEntity.iteacher.eq(dto.getIteacher());
     }

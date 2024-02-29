@@ -20,4 +20,6 @@ public interface MemoryQdslRepository {
 
     ResVo delMemoryComment(DelMemoryCommentDto dto);
 
+    List<MemoryCommentEntity> findAllByMemoryEntity(MemoryEntity memoryEntity);
+
 }
