@@ -46,7 +46,4 @@ public class TeacherInsDto {
     @NotBlank
     private String tcEmail;
 
-    @Schema(title ="권한")
-    @JsonIgnore
-    private String role;
 }

@@ -247,7 +247,7 @@ public class TeacherService {
         return new ResVo(Const.SUCCESS);
     }
 
-    //-------------------------------- 선생님 정보 삭제 --------------------------------
+    //-------------------------------- 선생님 퇴직 or 재직으로 되돌리기 --------------------------------
     public ResVo delTeacher(TeacherDelDto dto) {
         int level = authenticationFacade.getLevelPk();
         if (level != Const.BOSS) {

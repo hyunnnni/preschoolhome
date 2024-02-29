@@ -14,7 +14,6 @@ public class SelAllTeacherDto {
     @Schema(title = "페이징 시 필요한 데이터")
     private int page;
     @Schema(title ="퇴사한 선생님 조회")
-    @Valid()
     private int tcIsDel;
     @Schema(title = "검색기능")
     private String search;

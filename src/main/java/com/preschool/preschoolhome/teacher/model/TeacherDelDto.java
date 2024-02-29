@@ -11,7 +11,7 @@ import java.util.List;
 public class TeacherDelDto {
     @Schema(title = "선생님PK(여러 개 선택 가능)")
     private List<Integer> iteachers;
-    @Schema(title = "삭제 처리")
+    @Schema(title = "삭제 처리 or 재직 되돌리기")
     private int tcIsDel;
     @JsonIgnore
     private int ilevel;
