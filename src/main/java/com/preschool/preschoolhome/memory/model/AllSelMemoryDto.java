@@ -10,9 +10,9 @@ import lombok.Data;
 public class AllSelMemoryDto {
     @Schema(title = "페이징 시 필요한 데이터")
     private int page;
-    @Schema(title = "반PK")
+    @Schema(title = "반PK(선생님일 때)")
     private int iclass;
-    @Schema(title = "원아PK")
+    @Schema(title = "원아PK(부모님일 때)")
     private int ikid;
     @Schema(title = "연도")
     private int year;
