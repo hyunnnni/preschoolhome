@@ -301,7 +301,7 @@ public class KidService {
         return vo;
     }
 
-    //-------------------------------- 졸업한 지 10년 된  원아 전체 삭제 --------------------------------
+    //-------------------------------- 졸업한 지 50년 된  원아 전체 삭제 --------------------------------
     @Transactional
     public ResVo allGraduateKid() {
         int level = authenticationFacade.getLevelPk();
