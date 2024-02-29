@@ -22,11 +22,11 @@ public class MemoryCommentEntity extends CreatedAtEntity {
 
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "iteacher", columnDefinition = "INT UNSIGNED")
     private TeacherEntity teacher;
 
 
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name = "iparent", columnDefinition = "INT UNSIGNED")
     private ParentEntity parent;
 }
