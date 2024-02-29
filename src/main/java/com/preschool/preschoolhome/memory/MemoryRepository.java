@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface MemoryRepository extends JpaRepository<MemoryEntity, Integer>,MemoryQdslRepository {
     @EntityGraph(attributePaths = {"teacherEntity"})
-    List<MemoryEntity> findAllByImemory(int imemory);
+    MemoryEntity findAllByImemory(int imemory);
 
 
 
