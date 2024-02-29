@@ -21,10 +21,12 @@ public class MemoryCommentEntity extends CreatedAtEntity {
     private String memoryComment;
 
     @ColumnDefault("0")
+    @ManyToOne
     @Column(nullable = false)
-    private Integer iteacher;
+    private TeacherEntity teacher;
 
     @ColumnDefault("0")
+    @ManyToOne
     @Column(nullable = false)
-    private Integer iparent;
+    private ParentEntity parent;
 }
