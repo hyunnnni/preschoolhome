@@ -14,6 +14,8 @@ public class AllSelMemoryDto {
     private int iclass;
     @Schema(title = "원아PK")
     private int ikid;
+    @Schema(title = "연도")
+    private int year;
     @Schema(title = "검색기능")
     private String search;
     @JsonIgnore
