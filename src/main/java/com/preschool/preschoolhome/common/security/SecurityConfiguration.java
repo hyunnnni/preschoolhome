@@ -107,8 +107,6 @@ public class SecurityConfiguration {
                         ,"/api/kid"
                         ,"/api/kid/detail"
                         ,"/api/teacher"
-                        ,"/api/teacher/parent"
-                        ,"/api/teacher/parentedit"
                         //).authenticated())
                         ).hasAnyRole("TEACHER","ADMIN"))
                         .authorizeHttpRequests(auth -> auth
@@ -116,6 +114,13 @@ public class SecurityConfiguration {
                         ,"/api/notice"
                         //).authenticated())
                         ).hasAnyRole("PARENT","TEACHER","ADMIN"))
+                        .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.PUT
+                        ,"/api/notice"
+                        ,"/api/teacher/parent"
+                        ,"/api/teacher/parentedit"
+                        //).authenticated())
+                        ).hasAnyRole("PARENT","TEACHER","ADMIN","GRADUATE"))
                         .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.PATCH,
                         "/api/kid/code/{ikid}"
