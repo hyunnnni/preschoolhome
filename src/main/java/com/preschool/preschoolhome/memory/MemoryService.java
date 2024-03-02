@@ -119,8 +119,9 @@ public class MemoryService {
 
         return vo;
     }
-@Transactional
+
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
+    @Transactional
     public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         String role = authenticationFacade.getRole();
@@ -128,6 +129,7 @@ public class MemoryService {
         //if(level == 1 || level ==4){
         //pk로 허용됐는지 조회 후 뜨로우
         //}
+
         MemoryEntity memory = repository.findAllByImemory(imemory);
 
         List<String> pics = memory.getMemoryAlbumEntityList().stream()
