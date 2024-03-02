@@ -48,7 +48,8 @@ public class MemoryService {
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
     /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    @Transactional
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
 
