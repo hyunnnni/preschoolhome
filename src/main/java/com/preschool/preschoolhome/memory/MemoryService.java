@@ -93,7 +93,7 @@ public class MemoryService {
     }
 */
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         AllMemoryVo vo = new AllMemoryVo();
         if (level == 2 || level == 3) {
