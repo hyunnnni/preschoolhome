@@ -34,7 +34,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
+    public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto) {
 
 //        jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
 //                .from(memoryRoomEntity)
@@ -50,10 +50,9 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .join(memoryEntity.teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
                 .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
-
                 .orderBy(memoryEntity.imemory.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .offset(dto.getPage())
+                .limit(Const.PAGE_ROWCOUNT)
                 .where(whereClausSelMemoryAll(dto.getIclass(), dto.getIkid(), dto.getSearch()));
 
 // select * from memory; // 1, 5, 7
