@@ -79,6 +79,7 @@ public class MemoryService {
 
                     return AllSelMemoryVo.builder()
                             .imemory(item.getImemory())
+                            .memoryTitle(item.getTitle())
                             .memoryContents(item.getContents())
                             .createdAt(item.getCreatedAt().toString())
                             .iteacher(item.getTeacherEntity().getIteacher())

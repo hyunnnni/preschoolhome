@@ -17,7 +17,7 @@
         <if test="iclass > 0">
             C.iclass = #{iclass}
         </if>
-        <if test="year != null">
+        <if test="year > 0">
            year(A.created_at) = #{year}
         </if>
         <if test="search != null and search != '' ">
@@ -42,7 +42,7 @@
             <if test="iclass > 0">
                 C.iclass = #{iclass}
             </if>
-            <if test="year != null">
+            <if test="year > 0">
                 year(A.created_at) = #{year}
             </if>
             <if test="search != null and search != '' ">
@@ -66,7 +66,7 @@
         <if test="ikid > 0">
             C.ikid = #{ikid}
         </if>
-        <if test="year != null">
+        <if test="year > 0">
             year(A.created_at) = #{year}
         </if>
         <if test="search != null and search != '' ">
@@ -90,7 +90,7 @@
             <if test="ikid > 0">
                 C.ikid = #{ikid}
             </if>
-            <if test="year != null">
+            <if test="year > 0">
                 year(A.created_at) = #{year}
             </if>
             <if test="search != null and search != '' ">
