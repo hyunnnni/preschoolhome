@@ -328,6 +328,7 @@ public class NoticeService {
         }
         int level = authenticationFacade.getLevelPk();
         int writerIuser = authenticationFacade.getLoginUserPk();
+        String loginUserNm = authenticationFacade.getUserNm();
         dto.setIlevel(level);
 
         int result = mapper.insNoticeComment(dto);
@@ -340,7 +341,7 @@ public class NoticeService {
         String createdAt = now.format(formatter); // 포맷 적용
 
 
-        List<String> otherTokens = null;
+        List<SelNoticeOtherTokens> otherTokens = null;
         if(level == Const.PARENT) {
             otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getInoticeComment());
         }
@@ -351,12 +352,16 @@ public class NoticeService {
 
             if (otherTokens != null) {
                 otherTokens.removeAll(Collections.singletonList(null));
-                for (String token : otherTokens) {
+                for (SelNoticeOtherTokens token : otherTokens) {
 
                     NoticeCommentPushVo pushVo = new NoticeCommentPushVo();
+                    pushVo.setInotice(dto.getInotice());
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setCmtWriterNm(loginUserNm);
                     pushVo.setNoticeComment(dto.getNoticeComment());
-                    pushVo.setWriterIuser(writerIuser);
-                    pushVo.setCreatedAt(createdAt);
+                    pushVo.setCmtWriterIuser(writerIuser);
+                    pushVo.setCmtCreatedAt(createdAt);
 
                     String body = objMapper.writeValueAsString(pushVo);
                     log.info("body: {}", body);
@@ -366,7 +371,7 @@ public class NoticeService {
                             .build();
 
                     Message message = Message.builder()
-                            .setToken(token)
+                            .setToken(token.getFirebaseToken())
                             .setNotification(noti)
                             .build();
 

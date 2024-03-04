@@ -282,7 +282,7 @@
     </insert>
     <!--                 알림장 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUserComment">
-        SELECT A.pr_firebase_token AS FirebaseToken
+        SELECT A.pr_firebase_token AS FirebaseToken, E.ikid, E.kid_nm AS kidNm
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
@@ -290,17 +290,21 @@
         ON B.ikid = C.ikid
         LEFT JOIN t_notice_comment as D
         ON C.inotice = D.inotice
+        JOIN t_kid AS E
+        ON B.ikid = E.ikid
         WHERE D.inotice_comment = #{inoticeComment}
 
     </select>
     <!--                 알림장 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
     <select id="selTeaFirebaseByLoginUserComment">
-        SELECT tc_firebase_token AS FirebaseToken
+        SELECT tc_firebase_token AS FirebaseToken, D.ikid, D.kid_nm AS kidNm
         FROM t_teacher as A
         JOIN t_notice_board AS B
         ON A.iteacher = B.iteacher
         LEFT JOIN t_notice_comment as C
         ON B.inotice = C.inotice
+        JOIN t_kid AS D
+        ON B.ikid = D.ikid
         WHERE C.inotice_comment = #{inoticeComment}
     </select>
     <!--                 알림장 댓글 삭제                 -->

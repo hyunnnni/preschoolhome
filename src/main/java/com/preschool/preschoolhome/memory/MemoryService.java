@@ -16,6 +16,7 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.*;
 import com.preschool.preschoolhome.memory.model.*;
+import com.preschool.preschoolhome.notice.model.SelNoticeOtherTokens;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -59,9 +60,12 @@ public class MemoryService {
 
             final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
 
+
+
             AllMemoryVo vo = new AllMemoryVo();
 
             List<AllSelMemoryVo> vo1 = list.stream().map(item -> {
+               List<MemoryRoomEntity> memoryroomList = memoryRoomRepository.findAllByMemoryEntity(item);
 
                List<MemoryCommentVo> eachCommentList = cmtList.stream()
                             .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
@@ -76,8 +80,15 @@ public class MemoryService {
                             .filter(pic -> pic.getMemoryEntity().getImemory() == item.getImemory())
                             .map(pic -> pic.getMemoryPic())
                             .collect(Collectors.toList());
+                List<KidsVo> kids =memoryroomList.stream().map(kid -> {
+                    return KidsVo.builder()
+                            .ikid(kid.getKidEntity().getIkid())
+                            .kidNm(kid.getKidEntity().getKidNm())
+                            .build();
+                }).collect(Collectors.toList());
 
-                    return AllSelMemoryVo.builder()
+
+                return AllSelMemoryVo.builder()
                             .imemory(item.getImemory())
                             .memoryTitle(item.getTitle())
                             .memoryContents(item.getContents())
@@ -85,6 +96,7 @@ public class MemoryService {
                             .iteacher(item.getTeacherEntity().getIteacher())
                             .teacherNm(item.getTeacherEntity().getTeacherNm())
                             .memoryPic(eachPicList)
+                            .kids(kids)
                             .memoryComments(eachCommentList)
                             .build();
                 }).collect(Collectors.toList());
@@ -495,6 +507,7 @@ public class MemoryService {
         }
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        String loginUserNm = authenticationFacade.getUserNm();
         dto.setIlevel(level);
 
         int result = mapper.insComment(dto);
@@ -506,7 +519,7 @@ public class MemoryService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String createdAt = now.format(formatter);
 
-        String otherTokens = null;
+        List<SelMemoryOtherTokens> otherTokens = null;
         if (level == Const.PARENT) {
             otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getImemoryComment());
         }
@@ -515,26 +528,33 @@ public class MemoryService {
         }
         try {
             if (otherTokens != null) {
-                MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
-                pushVo.setMemoryComment(dto.getMemoryComment());
-                pushVo.setWriterIuser(writerIuser);
-                pushVo.setCreatedAt(createdAt);
+                otherTokens.removeAll(Collections.singletonList(null));
+                for (SelMemoryOtherTokens token : otherTokens) {
 
-                String body = objMapper.writeValueAsString(pushVo);
-                log.info("body: {}", body);
-                Notification noti = Notification.builder()
-                        .setTitle("moemoryComment")
-                        .setBody(body)
-                        .build();
+                    MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
+                    pushVo.setImemory(dto.getImemory());
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setMemoryComment(dto.getMemoryComment());
+                    pushVo.setCmtWriterIuser(writerIuser);
+                    pushVo.setCmtWriterNm(loginUserNm);
+                    pushVo.setCmtCreatedAt(createdAt);
 
-                Message message = Message.builder()
-                        .setToken(otherTokens)
-                        .setNotification(noti)
-                        .build();
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("moemoryComment")
+                            .setBody(body)
+                            .build();
 
-                FirebaseMessaging.getInstance().sendAsync(message);
+                    Message message = Message.builder()
+                            .setToken(token.getFirebaseToken())
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
             }
-
         } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }
