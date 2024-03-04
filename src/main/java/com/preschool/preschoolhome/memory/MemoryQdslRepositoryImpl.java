@@ -64,6 +64,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     private BooleanBuilder whereClausSelMemoryAll(int iclass, int ikid, String search) {
         BooleanBuilder builder = new BooleanBuilder();
+
         if(iclass > 0){
             //jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
             builder.and(kidEntity.classEntity.iclass.eq(iclass));
