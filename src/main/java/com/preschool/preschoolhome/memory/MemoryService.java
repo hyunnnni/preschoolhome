@@ -48,7 +48,7 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
-    /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
     @Transactional
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
@@ -104,10 +104,10 @@ public class MemoryService {
             vo.setList(vo1);
             vo.setImemoryCnt(list.size());
             return vo;
-    }*/
+    }
 
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         AllMemoryVo vo = new AllMemoryVo();
         if (level == 2 || level == 3) {
@@ -132,7 +132,7 @@ public class MemoryService {
         }
 
         return vo;
-    }
+    }*/
 
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
     @Transactional
