@@ -14,16 +14,16 @@
         JOIN t_teacher D
         ON A.iteacher = D.iteacher
         <where>
-        <if test="iclass > 0">
-            C.iclass = #{iclass}
-        </if>
-        <if test="year > 0">
-           year(A.created_at) = #{year}
-        </if>
-        <if test="search != null and search != '' ">
-            (A.memory_title like concat ('%', #{search}, '%')
-            OR C.kid_nm like concat ('%', #{search}, '%'))
-        </if>
+            <if test="iclass > 0">
+                C.iclass = #{iclass}
+            </if>
+            <if test="year > 0">
+                year(A.created_at) = #{year}
+            </if>
+            <if test="search != null and search != '' ">
+                (A.memory_title like concat ('%', #{search}, '%')
+                OR C.kid_nm like concat ('%', #{search}, '%'))
+            </if>
         </where>
         GROUP BY a.imemory
         ORDER BY a.imemory desc
@@ -63,16 +63,16 @@
         JOIN t_teacher D
         ON A.iteacher = D.iteacher
         <where>
-        <if test="ikid > 0">
-            C.ikid = #{ikid}
-        </if>
-        <if test="year > 0">
-            year(A.created_at) = #{year}
-        </if>
-        <if test="search != null and search != '' ">
-            (A.memory_title like concat ('%', #{search}, '%')
-            OR C.kid_nm like concat ('%', #{search}, '%'))
-        </if>
+            <if test="ikid > 0">
+                C.ikid = #{ikid}
+            </if>
+            <if test="year > 0">
+                year(A.created_at) = #{year}
+            </if>
+            <if test="search != null and search != '' ">
+                (A.memory_title like concat ('%', #{search}, '%')
+                OR C.kid_nm like concat ('%', #{search}, '%'))
+            </if>
         </where>
         GROUP BY a.imemory
         ORDER BY a.imemory desc

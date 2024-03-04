@@ -22,7 +22,12 @@ public class QMemoryEntity extends EntityPathBase<MemoryEntity> {
 
     public static final QMemoryEntity memoryEntity = new QMemoryEntity("memoryEntity");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
     public final StringPath contents = createString("contents");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
     public final NumberPath<Integer> imemory = createNumber("imemory", Integer.class);
 
@@ -35,6 +40,9 @@ public class QMemoryEntity extends EntityPathBase<MemoryEntity> {
     public final QTeacherEntity teacherEntity;
 
     public final StringPath title = createString("title");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
 
     public QMemoryEntity(String variable) {
         this(MemoryEntity.class, forVariable(variable), INITS);
