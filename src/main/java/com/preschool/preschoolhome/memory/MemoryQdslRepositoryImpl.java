@@ -50,10 +50,11 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
                 .join(memoryEntity.teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
                 .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
-                .orderBy(memoryEntity.imemory.desc())
+                .where(whereClausSelMemoryAll(dto.getIclass(), dto.getIkid(), dto.getSearch()))
                 .offset(dto.getPage())
                 .limit(Const.PAGE_ROWCOUNT)
-                .where(whereClausSelMemoryAll(dto.getIclass(), dto.getIkid(), dto.getSearch()));
+                .orderBy(memoryEntity.imemory.desc());
+
 
 // select * from memory; // 1, 5, 7
 // select * from memory_room where imemory in (1, 5, 7)
