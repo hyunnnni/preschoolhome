@@ -144,9 +144,6 @@ public class MemoryService {
         int pk = authenticationFacade.getLoginUserPk();
         String role = authenticationFacade.getRole();
 
-        if(role.equals("TEACHER")||role.equals("ADMIN")){
-
-        }
 
         MemoryEntity memory = repository.findAllByImemory(imemory);
 
@@ -155,8 +152,14 @@ public class MemoryService {
                         pic.getMemoryPic())
                 .collect(Collectors.toList());
 
-        List<MemoryRoomEntity> memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
+        List<MemoryRoomEntity> memoryRoomList = new ArrayList<>();
+        if(role.equals("TEACHER")||role.equals("ADMIN")){
+            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
+        }
+        if(role.equals("PARENT")||role.equals("GRADUATE")){
+            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
 
+        }
         List<KidsVo> kids = memoryRoomList.stream()
                 .map(memoryroom -> {
                     return KidsVo.builder()
