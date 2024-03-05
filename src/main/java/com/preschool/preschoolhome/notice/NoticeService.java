@@ -228,10 +228,18 @@ public class NoticeService {
 
     //-------------------------------- 알림장 삭제 --------------------------------
     @Transactional
-    public ResVo delNotice(int inotice) {
+    public ResVo delNotice(int inotice, int loginUser) {
+        int level = authenticationFacade.getLevelPk();
 
-        int result = mapper.delAllNotice(inotice);
-        int result2 = mapper.delNotice(inotice);
+
+        DelNoticeDto dto = DelNoticeDto.builder()
+                .inotice(inotice)
+                .loginUser(loginUser)
+                .level(level)
+                .build();
+
+        int result = mapper.delAllNotice(dto);
+        int result2 = mapper.delNotice(dto);
         if (result2 == 0) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }

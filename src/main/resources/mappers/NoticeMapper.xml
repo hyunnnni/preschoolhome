@@ -106,13 +106,25 @@
         ON A.inotice = B.inotice
         LEFT JOIN t_notice_comment C
         ON A.inotice = C.inotice
-        WHERE A.inotice = #{inotice}
+        WHERE A.inotice = #{inotice} and
+        <if test="level == 1 || level == 4">
+            A.iparent =#{loginUser}
+        </if>
+        <if test="level == 2 || level == 3">
+            A.iteacher =#{loginUser}
+        </if>
     </delete>
     <!--             알림장 글 삭제                 -->
     <delete id="delNotice">
         DELETE
         FROM t_notice_board
-        WHERE inotice = #{inotice}
+        WHERE inotice = #{inotice} and
+        <if test="level == 1 || level == 4">
+            iparent =#{loginUser}
+        </if>
+        <if test="level == 2 || level == 3">
+            iteacher =#{loginUser}
+        </if>
     </delete>
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardPar">

@@ -72,10 +72,13 @@ public class NoticeController {
 
     //-------------------------------- 알림장 삭제 --------------------------------
 
-    @Operation(summary = "알림장 삭제", description = "알림장 삭제")
+    @Operation(summary = "알림장 삭제", description = """
+        알림장 삭제<br>
+        inotice : 삭제할 알림장 pk<br>
+        loginUser : 삭제를 요청하는 유저의 pk""")
     @DeleteMapping
-    public ResVo deleteDelNotice(int inotice){
-        return service.delNotice(inotice);
+    public ResVo deleteDelNotice(int inotice, int loginUser){
+        return service.delNotice(inotice, loginUser);
     }
 
     //-------------------------------- 알림장 접근 유저에 따라 다르게 전체 조회 --------------------------------
