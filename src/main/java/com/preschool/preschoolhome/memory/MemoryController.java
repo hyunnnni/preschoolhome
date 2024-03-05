@@ -64,7 +64,7 @@ public class MemoryController {
     @DeleteMapping
     @Operation(summary = "3차 추억 앨범 글 삭제", description = """
         추억 앨범의 사진, 댓글 모두 삭제""")
-    public ResVo delmemory (int imemory) {
+    public ResVo delmemory (@RequestParam int imemory) {
         return service.delMemory(imemory);
     }
 

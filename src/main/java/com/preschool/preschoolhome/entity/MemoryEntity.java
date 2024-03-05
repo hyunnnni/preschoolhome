@@ -18,7 +18,6 @@ public class MemoryEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //오토인클리먼트
     private Integer imemory;
 
-
     @ManyToOne
     @JoinColumn(name = "iteacher",nullable = false)
     private TeacherEntity teacherEntity;
@@ -30,16 +29,16 @@ public class MemoryEntity extends BaseEntity {
     private String contents;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemoryAlbumEntity> memoryAlbumEntityList = new ArrayList();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "memoryEntity",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemoryCommentEntity> memoryCommentEntityList = new ArrayList();
 
-    @ToString.Exclude
     @BatchSize(size = 1000)
-    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MemoryRoomEntity> memoryRoomEntityList = new ArrayList();
 
     public LocalDateTime createdAt() {

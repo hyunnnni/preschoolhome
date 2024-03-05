@@ -51,62 +51,63 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
+    private final MemoryAlbumRepository albumRepository;
+
     //------------------------------------- 추억 앨범 전체 조회 ------------------------------
     @Transactional
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
 
-            final List<MemoryEntity> list = repository.selMemoryAll(dto);
+        final List<MemoryEntity> list = repository.selMemoryAll(dto);
 
-            final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
+        final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
-            final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
-
-
-
-            AllMemoryVo vo = new AllMemoryVo();
-
-            List<AllSelMemoryVo> vo1 = list.stream().map(item -> {
-               List<MemoryRoomEntity> memoryroomList = memoryRoomRepository.findAllByMemoryEntity(item);
-
-               List<MemoryCommentVo> eachCommentList = cmtList.stream()
-                            .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
-                            .map(cmt ->
-                                 MemoryCommentVo.builder()
-                                        .imemoryComment(cmt.getImemoryComment())
-                                        .memoryComment(cmt.getMemoryComment())
-                                        .createdAt(cmt.getCreatedAt().toString())
-                                        .build()
-                            ).collect(Collectors.toList());
-                    List<String> eachPicList = picList.stream()
-                            .filter(pic -> pic.getMemoryEntity().getImemory() == item.getImemory())
-                            .map(pic -> pic.getMemoryPic())
-                            .collect(Collectors.toList());
-                List<KidsVo> kids =memoryroomList.stream().map(kid -> {
-                    return KidsVo.builder()
-                            .ikid(kid.getKidEntity().getIkid())
-                            .kidNm(kid.getKidEntity().getKidNm())
-                            .build();
-                }).collect(Collectors.toList());
+        final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
 
 
-                return AllSelMemoryVo.builder()
-                            .imemory(item.getImemory())
-                            .memoryTitle(item.getTitle())
-                            .memoryContents(item.getContents())
-                            .createdAt(item.getCreatedAt().toString())
-                            .iteacher(item.getTeacherEntity().getIteacher())
-                            .teacherNm(item.getTeacherEntity().getTeacherNm())
-                            .memoryPic(eachPicList)
-                            .kids(kids)
-                            .memoryComments(eachCommentList)
-                            .build();
-                }).collect(Collectors.toList());
+        AllMemoryVo vo = new AllMemoryVo();
 
-            vo.setList(vo1);
-            vo.setImemoryCnt(list.size());
-            return vo;
+        List<AllSelMemoryVo> vo1 = list.stream().map(item -> {
+            List<MemoryRoomEntity> memoryroomList = memoryRoomRepository.findAllByMemoryEntity(item);
+
+            List<MemoryCommentVo> eachCommentList = cmtList.stream()
+                    .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
+                    .map(cmt ->
+                            MemoryCommentVo.builder()
+                                    .imemoryComment(cmt.getImemoryComment())
+                                    .memoryComment(cmt.getMemoryComment())
+                                    .createdAt(cmt.getCreatedAt().toString())
+                                    .build()
+                    ).collect(Collectors.toList());
+            List<String> eachPicList = picList.stream()
+                    .filter(pic -> pic.getMemoryEntity().getImemory() == item.getImemory())
+                    .map(pic -> pic.getMemoryPic())
+                    .collect(Collectors.toList());
+            List<KidsVo> kids = memoryroomList.stream().map(kid -> {
+                return KidsVo.builder()
+                        .ikid(kid.getKidEntity().getIkid())
+                        .kidNm(kid.getKidEntity().getKidNm())
+                        .build();
+            }).collect(Collectors.toList());
+
+
+            return AllSelMemoryVo.builder()
+                    .imemory(item.getImemory())
+                    .memoryTitle(item.getTitle())
+                    .memoryContents(item.getContents())
+                    .createdAt(item.getCreatedAt().toString())
+                    .iteacher(item.getTeacherEntity().getIteacher())
+                    .teacherNm(item.getTeacherEntity().getTeacherNm())
+                    .memoryPic(eachPicList)
+                    .kids(kids)
+                    .memoryComments(eachCommentList)
+                    .build();
+        }).collect(Collectors.toList());
+
+        vo.setList(vo1);
+        vo.setImemoryCnt(list.size());
+        return vo;
     }
 
 
@@ -150,19 +151,19 @@ public class MemoryService {
         MemoryEntity memory = repository.findAllByImemory(imemory);
 
         List<String> pics = memory.getMemoryAlbumEntityList().stream()
-                        .map(pic ->
+                .map(pic ->
                         pic.getMemoryPic())
                 .collect(Collectors.toList());
 
         List<MemoryRoomEntity> memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
 
         List<KidsVo> kids = memoryRoomList.stream()
-                .map(memoryroom ->{
+                .map(memoryroom -> {
                     return KidsVo.builder()
                             .ikid(memoryroom.getKidEntity().getIkid())
                             .kidNm(memoryroom.getKidEntity().getKidNm())
                             .build();
-                        })
+                })
                 .collect(Collectors.toList());
 
         List<MemoryCommentEntity> memoryCommentList = commentRepository.findAllByMemoryEntity(memory);
@@ -180,7 +181,7 @@ public class MemoryService {
 
 
                     return vo;
-        }).collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         AllSelMemoryVo vo = AllSelMemoryVo
                 .builder()
@@ -298,14 +299,15 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
 
-        try {
-            MemoryEntity memoryEntity = repository.getReferenceById(imemory);
-            repository.delete(memoryEntity);
-            return new ResVo(SUCCESS);
 
-        } catch (Exception e) {
-            throw new RestApiException(CommonErrorCode.INTERNAL_SERVER_ERROR);
-        }
+
+        MemoryEntity memoryEntity = repository.getReferenceById(imemory);
+        memoryRoomRepository.deleteByMemoryEntity(imemory);
+        commentRepository.deleteByMemoryEntity(imemory);
+        albumRepository.deleteByMemoryEntity(imemory);
+        repository.delete(memoryEntity);
+        return new ResVo(SUCCESS);
+
     }
 
     /*//------------------------------------- 추억 앨범 글 등록 JPA -------------------------------------
