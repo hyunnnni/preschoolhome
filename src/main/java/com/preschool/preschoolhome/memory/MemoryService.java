@@ -1,6 +1,7 @@
 package com.preschool.preschoolhome.memory;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
@@ -26,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -454,9 +457,12 @@ public class MemoryService {
         }
 
 
-        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
-        String createdAt = now.format(formatter); // 포맷 적용
+        ZoneId utcZone = ZoneId.of("UTC");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
+        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        String createdAt = zdt.format(formatter);
 
         List<SelMemoryOtherTokens> otherTokens = new ArrayList<>();
         otherTokens = mapper.selParFirebaseByLoginUser(dto.getIkids());
@@ -515,9 +521,12 @@ public class MemoryService {
             return new ResVo(-1);
         }
 
-        LocalDateTime now = LocalDateTime.now();
+        ZoneId utcZone = ZoneId.of("UTC");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String createdAt = now.format(formatter);
+        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
+        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        String createdAt = zdt.format(formatter);
 
         List<SelMemoryOtherTokens> otherTokens = null;
         if (level == Const.PARENT) {

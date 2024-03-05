@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,9 +111,12 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
-        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
-        String createdAt = now.format(formatter); // 포맷 적용
+        ZoneId utcZone = ZoneId.of("UTC");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
+        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        String createdAt = zdt.format(formatter);
 
         List<SelNoticeOtherTokens> otherTokens = new ArrayList<>();
 
@@ -336,10 +341,12 @@ public class NoticeService {
             return new ResVo(Const.FAIL);
         }
 
-        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
-        String createdAt = now.format(formatter); // 포맷 적용
-
+        ZoneId utcZone = ZoneId.of("UTC");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
+        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+        String createdAt = zdt.format(formatter);
 
         List<SelNoticeOtherTokens> otherTokens = null;
         if(level == Const.PARENT) {
