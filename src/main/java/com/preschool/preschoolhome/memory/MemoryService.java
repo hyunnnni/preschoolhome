@@ -456,12 +456,8 @@ public class MemoryService {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
-
-        ZoneId utcZone = ZoneId.of("UTC");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().toString(), formatter);        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
-        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
-        String createdAt = zdt.format(formatter);
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<SelMemoryOtherTokens> otherTokens = new ArrayList<>();
         otherTokens = mapper.selParFirebaseByLoginUser(dto.getIkids());
@@ -520,11 +516,8 @@ public class MemoryService {
             return new ResVo(-1);
         }
 
-        ZoneId utcZone = ZoneId.of("UTC");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().toString(), formatter);        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
-        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
-        String createdAt = zdt.format(formatter);
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<SelMemoryOtherTokens> otherTokens = null;
         if (level == Const.PARENT) {
@@ -654,9 +647,8 @@ public class MemoryService {
             dto.getIkids().removeAll(Collections.singleton(kid));
         }
 
-        LocalDateTime now = LocalDateTime.now(); // 현재 날짜 구하기
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // 포맷 정의
-        String createdAt = now.format(formatter); // 포맷 적용
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         if (dto.getIkids().size() != 0) {
 
