@@ -144,9 +144,9 @@ public class MemoryService {
         int pk = authenticationFacade.getLoginUserPk();
         String role = authenticationFacade.getRole();
 
-        //if(level == 1 || level ==4){
-        //pk로 허용됐는지 조회 후 뜨로우
-        //}
+        if(role.equals("TEACHER")||role.equals("ADMIN")){
+
+        }
 
         MemoryEntity memory = repository.findAllByImemory(imemory);
 
@@ -178,8 +178,6 @@ public class MemoryService {
 
                     vo.setTeacherNm(cmt.getTeacher() == null ? null : cmt.getTeacher().getTeacherNm());
                     vo.setParentNm(cmt.getParent() == null ? null : cmt.getParent().getParentNm());
-
-
                     return vo;
                 }).collect(Collectors.toList());
 
