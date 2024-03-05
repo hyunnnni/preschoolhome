@@ -459,8 +459,7 @@ public class MemoryService {
 
         ZoneId utcZone = ZoneId.of("UTC");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
-        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().toString(), formatter);        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
         ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
         String createdAt = zdt.format(formatter);
 
@@ -523,8 +522,7 @@ public class MemoryService {
 
         ZoneId utcZone = ZoneId.of("UTC");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
-        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
+        LocalDateTime dateTime = LocalDateTime.parse(LocalDateTime.now().toString(), formatter);        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
         ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
         String createdAt = zdt.format(formatter);
 
