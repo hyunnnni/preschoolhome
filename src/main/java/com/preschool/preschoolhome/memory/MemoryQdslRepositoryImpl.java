@@ -3,6 +3,7 @@ package com.preschool.preschoolhome.memory;
 
 import com.preschool.preschoolhome.common.utils.Const;
 import com.preschool.preschoolhome.common.utils.ResVo;
+import com.preschool.preschoolhome.entity.CreatedAtEntity;
 import com.preschool.preschoolhome.entity.MemoryAlbumEntity;
 import com.preschool.preschoolhome.entity.MemoryCommentEntity;
 import com.preschool.preschoolhome.entity.MemoryEntity;
@@ -17,8 +18,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Year;
 import java.util.List;
 
+import static com.preschool.preschoolhome.entity.QCreatedAtEntity.createdAtEntity;
 import static com.preschool.preschoolhome.entity.QMemoryAlbumEntity.memoryAlbumEntity;
 import static com.preschool.preschoolhome.entity.QMemoryCommentEntity.memoryCommentEntity;
 import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
@@ -34,27 +37,20 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable) {
+    public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto) {
 
-//        jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
-//                .from(memoryRoomEntity)
-//                .join(memoryRoomEntity.memoryEntity).fetchJoin()
-//                .where(memoryRoomEntity.memoryEntity.imemory.eq(10))
-
-        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectDistinct(memoryEntity)
-                .from(memoryEntity)
-                .join(memoryRoomEntity)
-                .on(memoryRoomEntity.memoryRooms.imemory.eq(memoryEntity.imemory))
+        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
+                .from(memoryRoomEntity)
+                .join(memoryRoomEntity.memoryEntity)
                 .join(kidEntity)
                 .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
                 .join(memoryEntity.teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
-                .fetchJoin() //앨범하나당 유저정보(글쓴이)는 한명이라 페치조인으로 정보 다 들고오기
+                .where(whereClausSelMemoryAll(dto.getYear(),dto.getIclass(), dto.getIkid(), dto.getSearch()))
+                .offset(dto.getStartIdx())
+                .limit(Const.PAGE_ROWCOUNT)
+                .orderBy(memoryEntity.imemory.desc());
 
-                .orderBy(memoryEntity.imemory.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .where(whereClausSelMemoryAll(dto.getIclass(), dto.getIkid(), dto.getSearch()));
 
 // select * from memory; // 1, 5, 7
 // select * from memory_room where imemory in (1, 5, 7)
@@ -62,8 +58,13 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     }
 
-    private BooleanBuilder whereClausSelMemoryAll(int iclass, int ikid, String search) {
+    private BooleanBuilder whereClausSelMemoryAll(int year,int iclass, int ikid, String search) {
         BooleanBuilder builder = new BooleanBuilder();
+        if(year > 0){
+//            builder.and(memoryEntity._super.createdAt.year().eq(year));
+            builder.and(memoryEntity.createdAt.year().eq(year));
+        }
+
         if(iclass > 0){
             //jpaQuery.where(kidEntity.classEntity.iclass.eq(dto.getIclass()));
             builder.and(kidEntity.classEntity.iclass.eq(iclass));
@@ -97,7 +98,8 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         return jpaQueryFactory.select(Projections.fields(MemoryCommentEntity.class
             , memoryCommentEntity.memoryEntity
             , memoryCommentEntity.imemoryComment
-            , memoryCommentEntity.memoryComment))
+            , memoryCommentEntity.memoryComment
+            , memoryCommentEntity.createdAt))
                 .from(memoryCommentEntity)
                 .where(memoryCommentEntity.memoryEntity.in(memoryEntityList))
                 .fetch();

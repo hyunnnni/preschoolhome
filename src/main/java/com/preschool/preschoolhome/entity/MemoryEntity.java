@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,4 +42,7 @@ public class MemoryEntity extends BaseEntity {
     @OneToMany(mappedBy = "memoryEntity", cascade = CascadeType.PERSIST)
     private List<MemoryRoomEntity> memoryRoomEntityList = new ArrayList();
 
+    public LocalDateTime createdAt() {
+        return super.getCreatedAt();
+    }
 }

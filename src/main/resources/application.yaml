@@ -93,5 +93,7 @@ spring:
         format_sql: true
     open-in-view: false
     generate-ddl: true
+
+
 file:
   dir: /home/download/

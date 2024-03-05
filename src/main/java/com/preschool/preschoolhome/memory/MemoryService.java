@@ -16,6 +16,7 @@ import com.preschool.preschoolhome.common.utils.MyFileUtils;
 import com.preschool.preschoolhome.common.utils.ResVo;
 import com.preschool.preschoolhome.entity.*;
 import com.preschool.preschoolhome.memory.model.*;
+import com.preschool.preschoolhome.notice.model.SelNoticeOtherTokens;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,26 +48,30 @@ public class MemoryService {
     private final AuthenticationFacade authenticationFacade;
     private final ObjectMapper objMapper;
     private final MemoryRoomRepository memoryRoomRepository;
-    /*//------------------------------------- 추억 앨범 전체 조회 ------------------------------
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+    //------------------------------------- 추억 앨범 전체 조회 ------------------------------
+    @Transactional
+    public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         int iuser = authenticationFacade.getLoginUserPk();
 
-            final List<MemoryEntity> list = repository.selMemoryAll(dto, pageable);
+            final List<MemoryEntity> list = repository.selMemoryAll(dto);
 
             final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
             final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
 
+
+
             AllMemoryVo vo = new AllMemoryVo();
 
             List<AllSelMemoryVo> vo1 = list.stream().map(item -> {
+               List<MemoryRoomEntity> memoryroomList = memoryRoomRepository.findAllByMemoryEntity(item);
 
                List<MemoryCommentVo> eachCommentList = cmtList.stream()
                             .filter(cmt -> cmt.getMemoryEntity().getImemory() == item.getImemory())
                             .map(cmt ->
                                  MemoryCommentVo.builder()
-                                        .iuser(iuser)
+                                        .imemoryComment(cmt.getImemoryComment())
                                         .memoryComment(cmt.getMemoryComment())
                                         .createdAt(cmt.getCreatedAt().toString())
                                         .build()
@@ -75,14 +80,23 @@ public class MemoryService {
                             .filter(pic -> pic.getMemoryEntity().getImemory() == item.getImemory())
                             .map(pic -> pic.getMemoryPic())
                             .collect(Collectors.toList());
+                List<KidsVo> kids =memoryroomList.stream().map(kid -> {
+                    return KidsVo.builder()
+                            .ikid(kid.getKidEntity().getIkid())
+                            .kidNm(kid.getKidEntity().getKidNm())
+                            .build();
+                }).collect(Collectors.toList());
 
-                    return AllSelMemoryVo.builder()
+
+                return AllSelMemoryVo.builder()
                             .imemory(item.getImemory())
+                            .memoryTitle(item.getTitle())
                             .memoryContents(item.getContents())
                             .createdAt(item.getCreatedAt().toString())
                             .iteacher(item.getTeacherEntity().getIteacher())
                             .teacherNm(item.getTeacherEntity().getTeacherNm())
                             .memoryPic(eachPicList)
+                            .kids(kids)
                             .memoryComments(eachCommentList)
                             .build();
                 }).collect(Collectors.toList());
@@ -91,9 +105,9 @@ public class MemoryService {
             vo.setImemoryCnt(list.size());
             return vo;
     }
-*/
 
-    public AllMemoryVo getAllMemory(AllSelMemoryDto dto, Pageable pageable) {
+
+    /*public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
         int level = authenticationFacade.getLevelPk();
         AllMemoryVo vo = new AllMemoryVo();
         if (level == 2 || level == 3) {
@@ -118,9 +132,10 @@ public class MemoryService {
         }
 
         return vo;
-    }
-@Transactional
+    }*/
+
     //-------------------------------- 추억 앨범 상세 조회 JPA --------------------------------
+    @Transactional
     public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         String role = authenticationFacade.getRole();
@@ -128,6 +143,7 @@ public class MemoryService {
         //if(level == 1 || level ==4){
         //pk로 허용됐는지 조회 후 뜨로우
         //}
+
         MemoryEntity memory = repository.findAllByImemory(imemory);
 
         List<String> pics = memory.getMemoryAlbumEntityList().stream()
@@ -491,6 +507,7 @@ public class MemoryService {
         }
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
+        String loginUserNm = authenticationFacade.getUserNm();
         dto.setIlevel(level);
 
         int result = mapper.insComment(dto);
@@ -502,7 +519,7 @@ public class MemoryService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String createdAt = now.format(formatter);
 
-        String otherTokens = null;
+        List<SelMemoryOtherTokens> otherTokens = null;
         if (level == Const.PARENT) {
             otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getImemoryComment());
         }
@@ -511,26 +528,33 @@ public class MemoryService {
         }
         try {
             if (otherTokens != null) {
-                MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
-                pushVo.setMemoryComment(dto.getMemoryComment());
-                pushVo.setWriterIuser(writerIuser);
-                pushVo.setCreatedAt(createdAt);
+                otherTokens.removeAll(Collections.singletonList(null));
+                for (SelMemoryOtherTokens token : otherTokens) {
 
-                String body = objMapper.writeValueAsString(pushVo);
-                log.info("body: {}", body);
-                Notification noti = Notification.builder()
-                        .setTitle("moemoryComment")
-                        .setBody(body)
-                        .build();
+                    MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
+                    pushVo.setImemory(dto.getImemory());
+                    pushVo.setIkid(token.getIkid());
+                    pushVo.setKidNm(token.getKidNm());
+                    pushVo.setMemoryComment(dto.getMemoryComment());
+                    pushVo.setCmtWriterIuser(writerIuser);
+                    pushVo.setCmtWriterNm(loginUserNm);
+                    pushVo.setCmtCreatedAt(createdAt);
 
-                Message message = Message.builder()
-                        .setToken(otherTokens)
-                        .setNotification(noti)
-                        .build();
+                    String body = objMapper.writeValueAsString(pushVo);
+                    log.info("body: {}", body);
+                    Notification noti = Notification.builder()
+                            .setTitle("moemoryComment")
+                            .setBody(body)
+                            .build();
 
-                FirebaseMessaging.getInstance().sendAsync(message);
+                    Message message = Message.builder()
+                            .setToken(token.getFirebaseToken())
+                            .setNotification(noti)
+                            .build();
+
+                    FirebaseMessaging.getInstance().sendAsync(message);
+                }
             }
-
         } catch (Exception e) {
             throw new RestApiException(AuthErrorCode.PUSH_FAIL);
         }

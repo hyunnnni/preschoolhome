@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface MemoryQdslRepository {
-    List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto, Pageable pageable);
+    List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto);
 
     List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> memoryEntityList);
 
