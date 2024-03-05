@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.preschool.preschoolhome.common.utils.ResVo;
@@ -56,7 +57,7 @@ public class FullNoticeController {
     }
 
     //-------------------------------- 유치원 소식 작성 --------------------------------
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "3차 유치원 소식 작성", description = """
             사진 개수 제한 기능 추가<br>
             리스트 안 result 값이<br>
@@ -99,7 +100,7 @@ public class FullNoticeController {
     }
 
     //-------------------------------- 유치원 소식 수정 --------------------------------
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "3차 유치원 소식 수정", description = """
             사진 개수 제한 기능 추가<br>
             리스트 안 result 값이<br>

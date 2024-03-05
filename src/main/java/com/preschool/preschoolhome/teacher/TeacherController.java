@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -117,7 +118,7 @@ public class TeacherController {
     }
 
     //-------------------------------- 선생님 정보 수정 --------------------------------
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "3차 선생님 정보 수정", description = """
             -1 : 하나의 값도 변경되지 않음<br>
             1 : 성공
@@ -172,7 +173,7 @@ public class TeacherController {
     }
 
     //------------------------------ 3차 원장님이 선생님 등록 ------------------------------------
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "원장님이 선생님 등록", description = "<strong>선생님 회원가입</strong><br><br>" +
             "이상없을 경우 회원가입 성공<br>" +
             "성공시 선생님PK로 응답<br>" +

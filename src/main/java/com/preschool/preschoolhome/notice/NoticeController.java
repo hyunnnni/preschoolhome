@@ -16,9 +16,11 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,7 +37,7 @@ public class NoticeController {
     @Operation(summary = "선생님 알림장 등록", description = """
     선생님 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
-    @PostMapping("/tea")
+    @PostMapping(value = "/tea", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVoArray postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
                                        @RequestPart @Valid NoticeInsDto dto) {
         return service.insNotice(pics, dto);
@@ -46,7 +48,7 @@ public class NoticeController {
     @Operation(summary = "학부모 알림장 등록", description = """
     학부모 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
     응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
-    @PostMapping("/par")
+    @PostMapping(value = "/par", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVoArray postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
                                @RequestPart @Valid NoticeInsDto dto){
         return service.insNotice(pics, dto);
@@ -62,7 +64,7 @@ public class NoticeController {
 
     //-------------------------------- 알림장 수정 --------------------------------
     @Operation(summary = "알림장 수정", description = "알림장 수정")
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVo putUpdNotice(@RequestPart(required = false) List<MultipartFile> pics,
                               @RequestPart @Valid NoticeUpdDto dto){
         return service.updNotice(pics, dto);

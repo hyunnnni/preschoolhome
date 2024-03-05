@@ -13,6 +13,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,7 +70,7 @@ public class MemoryController {
 
 
     //-------------------------------- 추억 앨범 등록 --------------------------------
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "3차 추억 앨범 등록", description = """
             선생님만 등록 가능<br>
             사진 최대 20장 등록 가능<br>
@@ -110,7 +111,7 @@ public class MemoryController {
     }
 
     //-------------------------------- 추억 앨범 글 수정 --------------------------------
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "3차 추억 앨범 글 수정", description = """
         추억 앨범 글, 사진, 원아 수정 및 새로 추가한 원아들에게 알림 푸시""")
     public ResVo putMemory(@RequestPart(required = false) List<MultipartFile> pics, @RequestPart MemoryUpdDto dto) {

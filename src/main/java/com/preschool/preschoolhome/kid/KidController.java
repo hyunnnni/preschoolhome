@@ -75,7 +75,7 @@ public class KidController {
 
     //-------------------------------- 원아 프로필 수정 --------------------------------
     @Operation(summary = "원아 프로필 수정", description = "원아 프로필 수정")
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVo putKidProfile(@RequestPart MultipartFile pic,@Valid @RequestPart KidUpdDto dto){
         return service.kidUpdProfile(pic, dto);
     }
