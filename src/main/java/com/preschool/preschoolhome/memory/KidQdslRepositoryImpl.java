@@ -33,6 +33,6 @@ public class KidQdslRepositoryImpl implements KidQdslRepository {
                 .join(parentkidEntity.kidEntity)
                 .on(parentkidEntity.kidEntity.iparent.eq(parentEntity.iparent))
                 .where(dto.getYear(),dto.getIclass(), dto.getIkid(), dto.getSearch());
-        */
+        */return null;
     }
 }
