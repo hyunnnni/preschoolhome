@@ -114,9 +114,8 @@ public class ParentService {
             throw new RestApiException(AuthErrorCode.DELETE_ID);
         }
         ParentKid pk = mapper.selParent(entity.getIparent());
-        dto.setIparent(entity.getIparent());
-        pk.setKidList(mapper.selKid(dto.getIparent()));
-        pk.setIparent(dto.getIparent());
+        pk.setKidList(mapper.selKid(entity.getIparent()));
+        pk.setIparent(entity.getIparent());
         if (dto.getUid() != null && dto.getUpw() != null && dto.getUpw().equals(entity.getUpw())) {
             pk.setIparent(entity.getIparent());
 //            pk.setKidList(entity.getIkid());
