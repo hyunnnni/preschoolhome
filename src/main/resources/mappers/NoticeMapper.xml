@@ -235,7 +235,7 @@
     <!--                 알림장 상세 조회                  -->
     <select id="selNoticeDetail">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents
-        , A.created_at AS createdAt, B.kid_nm AS kidNm, B.iclass
+        , A.created_at AS createdAt, A.ikid, B.kid_nm AS kidNm, B.iclass
         FROM t_notice_board AS A
         JOIN t_kid AS B
         ON A.ikid = B.ikid

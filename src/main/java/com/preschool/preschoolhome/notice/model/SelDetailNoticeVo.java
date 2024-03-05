@@ -24,4 +24,6 @@ public class SelDetailNoticeVo {
     private String kidNm;
     @Schema(title = "알림장을 받는 아이 반")
     private int iclass;
+    @Schema(title = "알림장을 받는 아이 pk")
+    private int ikid;
 }
