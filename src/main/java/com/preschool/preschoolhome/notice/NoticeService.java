@@ -111,12 +111,8 @@ public class NoticeService {
             throw new RestApiException(AuthErrorCode.PICS_FAIL);
         }
 
-        ZoneId utcZone = ZoneId.of("UTC");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
-        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
-        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
-        String createdAt = zdt.format(formatter);
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<SelNoticeOtherTokens> otherTokens = new ArrayList<>();
 
@@ -341,12 +337,9 @@ public class NoticeService {
             return new ResVo(Const.FAIL);
         }
 
-        ZoneId utcZone = ZoneId.of("UTC");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse("2017-09-07 11:00:00", formatter);
-        ZonedDateTime utcDateTime = dateTime.atZone(utcZone);
-        ZonedDateTime zdt = utcDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
-        String createdAt = zdt.format(formatter);
+
+        ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<SelNoticeOtherTokens> otherTokens = null;
         if(level == Const.PARENT) {
