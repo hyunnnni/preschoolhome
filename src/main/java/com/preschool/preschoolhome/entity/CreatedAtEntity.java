@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class) // 엔터티 적용 전에 콜백으로 AuditingEntityListener를 호출해 공통적으로 처리
 public class CreatedAtEntity {
     @CreatedDate
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 

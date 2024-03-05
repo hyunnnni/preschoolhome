@@ -9,16 +9,16 @@ import lombok.Data;
 public class TeacherEntity {
     private int iteacher;
     private int ilevel;
-    private String role;
     private int iclass;
+    private String teacherNm;
     private String teacherUid;
     private String teacherUpw;
-    private String teacherNm;
     private String tcEmail;
     private String teacherIntroduce;
     private String teacherProfile;
-    private String accessToken;
-    private String firebaseToken;
     private String createdAt;
+    private String firebaseToken;
     private int tcIsDel;
+    private String role;
+    private String accessToken;
 }

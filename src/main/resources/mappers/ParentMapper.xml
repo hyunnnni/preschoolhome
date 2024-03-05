@@ -78,7 +78,7 @@
     <select id="selParent">
         select uid, parent_nm as parentNm, phone_nb as phoneNb
         , pr_email AS prEmail, pr_firebase_token as prFirebaseToken
-
+        , pr_role as role
         from t_parent
         where iparent = #{iparent}
     </select>

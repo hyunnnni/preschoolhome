@@ -1,5 +1,6 @@
 package com.preschool.preschoolhome.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
@@ -14,5 +15,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity extends CreatedAtEntity {
     @LastModifiedDate
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     private LocalDateTime updatedAt;
 }
