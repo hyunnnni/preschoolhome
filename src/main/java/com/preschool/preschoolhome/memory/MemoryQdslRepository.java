@@ -14,6 +14,7 @@ import java.util.List;
 public interface MemoryQdslRepository {
     List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto);
 
+    MemoryEntity findAllByKidPksAndImemory(List<Integer> kidPks, int imemory);
     List<MemoryAlbumEntity> selMemoryPicsAll(List<MemoryEntity> memoryEntityList);
 
     List<MemoryCommentEntity> selMemoryCommentAll(List<MemoryEntity> memoryEntityList);

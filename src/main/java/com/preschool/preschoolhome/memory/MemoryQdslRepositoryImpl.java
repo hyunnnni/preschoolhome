@@ -59,6 +59,21 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     }
 
+    @Override
+    public MemoryEntity findAllByKidPksAndImemory(List<Integer> kidPks, int imemory) {
+         return jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
+                .from(memoryRoomEntity)
+                .join(memoryRoomEntity.memoryEntity)
+                .on(memoryRoomEntity.memoryEntity.imemory.eq(memoryEntity.imemory))
+                .join(kidEntity)
+                .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
+                .join(memoryEntity.teacherEntity)
+                .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
+                .where(kidEntity.ikid.in(kidPks))
+                .orderBy(memoryEntity.imemory.desc())
+                .fetchOne();
+    }
+
     private BooleanBuilder whereClausSelMemoryAll(int year,int iclass, int ikid, String search) {
         BooleanBuilder builder = new BooleanBuilder();
         if(year > 0){

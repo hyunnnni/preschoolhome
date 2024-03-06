@@ -143,23 +143,29 @@ public class MemoryService {
     public AllSelMemoryVo getMemory(int imemory) {
         int pk = authenticationFacade.getLoginUserPk();
         String role = authenticationFacade.getRole();
+        List<MemoryRoomEntity> memoryRoomList = new ArrayList<>();
+        MemoryEntity memory = new MemoryEntity();
 
+        if (role.equals("TEACHER") || role.equals("ADMIN")) {
+            memory = repository.findAllByImemory(imemory);
+            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
 
-        MemoryEntity memory = repository.findAllByImemory(imemory);
+        }
 
+        if (role.equals("PARENT") || role.equals("GRADUATE")) {
+            List<KidEntity> kidEntities = kidRepository.selKidByIparent(pk);
+            List<Integer> kidPks = kidEntities.stream()
+                    .map(kid -> kid.getIkid().intValue())
+                    .collect(Collectors.toList());
+
+            memory = repository.findAllByKidPksAndImemory(kidPks, imemory);
+            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
+        }
         List<String> pics = memory.getMemoryAlbumEntityList().stream()
                 .map(pic ->
                         pic.getMemoryPic())
                 .collect(Collectors.toList());
 
-        List<MemoryRoomEntity> memoryRoomList = new ArrayList<>();
-        if(role.equals("TEACHER")||role.equals("ADMIN")){
-            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
-        }
-        if(role.equals("PARENT")||role.equals("GRADUATE")){
-            memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
-
-        }
         List<KidsVo> kids = memoryRoomList.stream()
                 .map(memoryroom -> {
                     return KidsVo.builder()
@@ -299,7 +305,6 @@ public class MemoryService {
         if (selDel == 0) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
         }
-
 
 
         MemoryEntity memoryEntity = repository.getReferenceById(imemory);

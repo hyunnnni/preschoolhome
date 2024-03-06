@@ -17,7 +17,7 @@ import static com.preschool.preschoolhome.entity.QMemoryEntity.memoryEntity;
 import static com.preschool.preschoolhome.entity.QMemoryRoomEntity.memoryRoomEntity;
 import static com.preschool.preschoolhome.entity.QParentEntity.parentEntity;
 import static com.preschool.preschoolhome.entity.QTeacherEntity.teacherEntity;
-
+import static com.preschool.preschoolhome.entity.QParentKidEntity.parentKidEntity;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,12 +27,11 @@ public class KidQdslRepositoryImpl implements KidQdslRepository {
 
     @Override
     public List<KidEntity> selKidByIparent(int iparent) {
-
-        /*return jpaQueryFactory.select(parentkidEntity.kidEntity)
-                .from(parentkidEntity)
-                .join(parentkidEntity.kidEntity)
-                .on(parentkidEntity.kidEntity.iparent.eq(parentEntity.iparent))
-                .where(dto.getYear(),dto.getIclass(), dto.getIkid(), dto.getSearch());
-        */return null;
+         return jpaQueryFactory.select(parentKidEntity.kidEntity)
+                .from(parentKidEntity)
+                .join(parentKidEntity.kidEntity)
+                .on(parentKidEntity.parentEntity.iparent.eq(iparent))
+                .where(parentKidEntity.parentEntity.iparent.eq(iparent))
+                .fetch();
     }
 }
