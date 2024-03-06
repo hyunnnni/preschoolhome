@@ -130,14 +130,18 @@
     </delete>
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardPar">
-        SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
+        SELECT distinct A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
         B.iclass, A.created_at AS createdAt, A.notice_check AS noticeCheck
         <choose>
             <when test="fromTo == 0">
-                , A.iteacher AS writerIuser, E.teacher_nm AS writerNm
+                , A.iparent, D.parent_nm AS parentNm
             </when>
             <when test="fromTo == 1">
-                , A.iparent AS writerIuser, D.parent_nm AS writerNm
+                , A.iteacher, E.teacher_nm AS teacherNm
+            </when>
+            <when test="fromTo == 3">
+                , A.iparent, D.parent_nm AS parentNm
+                , A.iteacher, E.teacher_nm AS teacherNm
             </when>
         </choose>
         FROM t_notice_board AS A
@@ -145,21 +149,22 @@
         ON A.ikid = B.ikid
         JOIN t_parent_kid AS C
         ON B.ikid = C.ikid
-        JOIN t_parent AS D
-        ON C.iparent = D.iparent
-        <if test="fromTo == 0">
-            JOIN t_teacher AS E
+        left JOIN t_parent AS D
+        ON A.iparent = D.iparent
+        <if test="fromTo == 0 || fromTo == 3">
+            left JOIN t_teacher AS E
             ON A.iteacher = E.iteacher
         </if>
-        WHERE D.iparent = #{loginedIuser}
+        <where>
         <if test="fromTo == 0">
             <![CDATA[ AND A.iteacher >= 1 ]]>
         </if>
         <if test="fromTo == 1">
             <![CDATA[ AND A.iparent >= 1 ]]>
+            AND D.iparent = #{loginedIuser}
         </if>
         <if test="ikid > 0">
-            AND c.ikid = #{ikid}
+            AND B.ikid = #{ikid}
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
@@ -167,6 +172,7 @@
         <if test="search != null and search != '' ">
             AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
+        </where>
         ORDER BY A.created_at DESC
         LIMIT #{startIdx}, #{rowCount}
 
@@ -189,7 +195,7 @@
             <![CDATA[ AND A.iparent >= 1 ]]>
         </if>
         <if test="ikid > 0">
-            AND c.ikid = #{ikid}
+            AND B.ikid = #{ikid}
         </if>
         <if test="year != null">
             AND year(A.created_at) = #{year}
@@ -197,14 +203,45 @@
         <if test="search != null and search != '' ">
             AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
+
     </select>
     <!--                 선생님 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardTea">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents,
         B.kid_nm AS kidNm, B.iclass, A.created_at AS createdAt, A.notice_check AS noticeCheck
+        <choose>
+            <when test="fromTo == 0">
+                , A.iparent, D.parent_nm AS parentNm
+            </when>
+            <when test="fromTo == 1">
+                , A.iteacher, E.teacher_nm AS teacherNm
+            </when>
+            <when test="fromTo == 3">
+                , A.iparent, D.parent_nm AS parentNm
+                , A.iteacher, E.teacher_nm AS teacherNm
+            </when>
+        </choose>
         FROM t_notice_board AS A
         JOIN t_kid AS B
         ON A.ikid = B.ikid
+        <if test="fromTo == 0">
+            JOIN t_parent_kid AS C
+            ON B.ikid = C.ikid
+            JOIN t_parent AS D
+            ON A.iparent = D.iparent
+        </if>
+        <if test="fromTo == 1">
+            JOIN t_teacher AS E
+            ON A.iteacher = E.iteacher
+        </if>
+        <if test="fromTo == 3">
+            JOIN t_parent_kid AS C
+            ON B.ikid = C.ikid
+            JOIN t_parent AS D
+            ON A.iparent = D.iparent
+            JOIN t_teacher AS E
+            ON A.iteacher = E.iteacher
+        </if>
         <if test="iclass > 0">
             WHERE B.iclass = #{iclass} and B.state = 0
         </if>
@@ -268,7 +305,7 @@
         <choose>
             <when test="iparent > 0">
                 JOIN t_parent_kid AS C
-                ON B.ikid = C.ikid
+                ON A.ikid = C.ikid
                 JOIN t_parent AS D
                 ON C.iparent = D.iparent
             </when>

@@ -257,8 +257,6 @@ public class NoticeService {
         dto.setLoginedIuser(iuser);
         dto.setIlevel(level);
 
-
-
         List<SelAllNoticeVo> voList = new ArrayList<>();
         int noticeCnt = 0;
         if (dto.getIlevel() == 1) {

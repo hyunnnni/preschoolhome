@@ -25,7 +25,11 @@ public class SelAllNoticeVo {
     @Schema(title = "알림장 업로드일")
     private String createdAt;
     @Schema(title = "알림장 작성자 pk")
-    private int writerIuser;
+    private int iparent;
     @Schema(title = "알림장 작성자 이름")
-    private String writerNm;
+    private String parentNm;
+    @Schema(title = "알림장 작성자 pk")
+    private int iteacher;
+    @Schema(title = "알림장 작성자 이름")
+    private String teacherNm;
 }

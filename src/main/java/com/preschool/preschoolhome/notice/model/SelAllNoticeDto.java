@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Min;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.List;
+
 @Data
 @Schema(title = "알림장 조회 접근 유저에 따라 다르게 조회에 필요한 데이터")
 public class SelAllNoticeDto {
