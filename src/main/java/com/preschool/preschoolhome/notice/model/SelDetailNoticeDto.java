@@ -12,5 +12,13 @@ public class SelDetailNoticeDto {
     private int inotice;
     @JsonIgnore
     private int ilevel;
+    @JsonIgnore
+    private int iteacher;
+    @JsonIgnore
+    private String teacherNm;
+    @JsonIgnore
+    private int iparent;
+    @JsonIgnore
+    private String parentNm;
 
 }

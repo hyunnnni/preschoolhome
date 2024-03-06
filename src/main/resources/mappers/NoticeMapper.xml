@@ -248,11 +248,53 @@
     <select id="selNoticeDetail">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents
         , A.created_at AS createdAt, A.ikid, B.kid_nm AS kidNm, B.iclass
+        <choose>
+            <when test="ilevel == 1">
+                , D.iparent AS writerIuser, D.parent_nm AS writerName
+            </when>
+            <when test="ilevel == 2 || ilevel == 3">
+                , E.iteacher AS writerIuser, E.teacher_nm AS writerName
+            </when>
+        </choose>
         FROM t_notice_board AS A
         JOIN t_kid AS B
         ON A.ikid = B.ikid
+        <choose>
+            <when test="ilevel == 1">
+                JOIN t_parent_kid AS C
+                ON B.ikid = C.ikid
+                JOIN t_parent AS D
+                ON C.iparent = D.iparent
+            </when>
+            <when test="ilevel == 2 || ilevel == 3">
+                JOIN t_teacher AS E
+                ON A.iteacher = E.iteacher
+            </when>
+        </choose>
         WHERE A.inotice = #{inotice}
     </select>
+    <select id="selNoticeParWho">
+        SELECT  A.iparent, D.parent_nm AS parentNm
+        FROM t_notice_board AS A
+        join t_parent_kid as C
+        on A.ikid = C.ikid
+        join t_parent as D
+        on C.iparent = D.iparent
+        <if test="inotice > 0">
+            WHERE A.inotice = #{inotice}
+        </if>
+        group BY A.iparent;
+    </select>
+    <select id="selNoticeTeaWho">
+        SELECT  A.iteacher, B.teacher_nm AS teacherNm
+        FROM t_notice_board AS A
+        JOIN t_teacher AS B
+        ON A.iteacher = B.iteacher
+        <if test="inotice > 0">
+            WHERE A.inotice = #{inotice}
+        </if>
+    </select>
+
     <!--                 알림장 댓글 정보 조회                 -->
     <select id="selNoticeDetailCom">
         SELECT inotice_comment AS inoticeComment, notice_comment AS noticeComment,

@@ -295,7 +295,20 @@ public class NoticeService {
         int level = authenticationFacade.getLevelPk();
         dto.setIlevel(level);
 
-        SelDetailNoticeVo vo = mapper.selNoticeDetail(dto.getInotice());
+        NoticeWhoDto whoDto = new NoticeWhoDto();
+        whoDto.setInotice(dto.getInotice());
+        NoticeWhoVo noticeParVos = mapper.selNoticeParWho(whoDto);
+        NoticeWhoVo noticeTeaVos = mapper.selNoticeTeaWho(whoDto);
+        SelDetailNoticeVo vo = mapper.selNoticeDetail(dto);
+        if (noticeParVos.getIparent() != 0) {
+            vo.setIparent(noticeParVos.getIparent());
+            vo.setParentNm(noticeParVos.getParentNm());
+        }
+        if (noticeTeaVos.getIteacher() != 0) {
+            vo.setIteacher(noticeTeaVos.getIteacher());
+            vo.setTeacherNm(noticeTeaVos.getTeacherNm());
+        }
+
 
         if (vo == null) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);

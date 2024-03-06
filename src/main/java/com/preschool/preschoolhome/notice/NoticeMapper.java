@@ -30,8 +30,10 @@ public interface NoticeMapper {
     int delNotice(DelNoticeDto dto);
     //------------------------ 알림장 삭제 댓글, 사진 ------------------------
     int delAllNotice(DelNoticeDto dto);
-    //------------------------ 알림장 삭제 할 원아 ------------------------
-    int selNoticeKid(int inotice);
+
+    //------------------------ 학부모 유저 시점 원아 알림장 전체 조회 ------------------------
+    NoticeWhoVo selNoticeParWho(NoticeWhoDto dto);
+    NoticeWhoVo selNoticeTeaWho(NoticeWhoDto dto);
 
     //------------------------ 학부모 유저 시점 원아 알림장 전체 조회 ------------------------
     List<SelAllNoticeVo> selAllNoticeBoardPar(SelAllNoticeDto dto);
@@ -46,7 +48,7 @@ public interface NoticeMapper {
     //------------------------ 알림장 전체 조회 시 해당 알림장의 댓글 유/무 체크 ------------------------
     Integer selNoticeBoardCmtCheck(int inotice);
     //------------------------ 알림장 상세 조회 ------------------------
-    SelDetailNoticeVo selNoticeDetail(int inotice);
+    SelDetailNoticeVo selNoticeDetail(SelDetailNoticeDto dto);
     //------------------------ 알림장 댓글 정보 조회 ------------------------
     List<SelNoticeComment> selNoticeDetailCom(int inotice);
     //------------------------ 알림장 작성자 pk로 이름 조회(관리자) ------------------------
