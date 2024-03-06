@@ -27,4 +27,6 @@ public class NoticeUpdDto {
     private String noticeContents;
     @Schema(title = "알림장 삭제될 사진PK")
     private List<Integer> delPic;
+    @Schema(title = "알림장 긴급체크")
+    private int noticeCheck;
 }
