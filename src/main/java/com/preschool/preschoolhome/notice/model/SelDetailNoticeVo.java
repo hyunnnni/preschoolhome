@@ -26,4 +26,13 @@ public class SelDetailNoticeVo {
     private int iclass;
     @Schema(title = "알림장을 받는 아이 pk")
     private int ikid;
+    @Schema(title = "알림장 작성자 pk")
+    private int iparent;
+    @Schema(title = "알림장 작성자 이름")
+    private String parentNm;
+    @Schema(title = "알림장 작성자 pk")
+    private int iteacher;
+    @Schema(title = "알림장 작성자 이름")
+    private String teacherNm;
+
 }

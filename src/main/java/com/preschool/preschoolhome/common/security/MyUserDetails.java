@@ -20,8 +20,9 @@ public class MyUserDetails implements UserDetails {
         if (myPrincipal == null) {
             return null;
         }
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + this.myPrincipal.getRole()));
-
+        return Collections.singleton
+                (new SimpleGrantedAuthority
+                        ("ROLE_" + this.myPrincipal.getRole()));
     }
     @Override
     public String getPassword() {
