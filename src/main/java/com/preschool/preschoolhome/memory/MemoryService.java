@@ -421,7 +421,7 @@ public class MemoryService {
         if (level != Const.TEACHER && level != Const.BOSS) {
             throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
         }
-        if (pics.size() > Const.ALBUM_PIC) {
+        if (pics.size() > Const.MEMORY_PIC) {
             throw new RestApiException(AuthErrorCode.MANY_PIC);
         }
         if (pics.size() == Const.ZERO) {

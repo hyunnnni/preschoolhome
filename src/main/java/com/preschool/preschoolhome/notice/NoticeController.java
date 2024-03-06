@@ -36,7 +36,8 @@ public class NoticeController {
 
     @Operation(summary = "선생님 알림장 등록", description = """
     선생님 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
-    응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
+    응답값 result 리스트 < 업로드 성공한 알림장의 PK ><br>
+    리스트 < -1 >만 있다면 사진 파일이 이상하다는 뜻 다른 파일로 업로드 부탁""")
     @PostMapping(value = "/tea", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVoArray postInsNoticeTea(@RequestPart(required = false) List<MultipartFile> pics,
                                        @RequestPart @Valid NoticeInsDto dto) {
@@ -47,7 +48,8 @@ public class NoticeController {
 
     @Operation(summary = "학부모 알림장 등록", description = """
     학부모 알림장 등록 관리자 권한 때문에 2개로 나눔<br>
-    응답값 result 리스트 < 업로드 성공한 알림장의 PK >""")
+    응답값 result 리스트 < 업로드 성공한 알림장의 PK ><br>
+    리스트 < -1 >만 있다면 사진 파일이 이상하다는 뜻 다른 파일로 업로드 부탁""")
     @PostMapping(value = "/par", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResVoArray postInsNoticePar(@RequestPart(required = false) List<MultipartFile> pics,
                                @RequestPart @Valid NoticeInsDto dto){

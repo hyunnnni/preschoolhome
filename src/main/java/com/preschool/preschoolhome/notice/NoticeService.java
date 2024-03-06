@@ -88,7 +88,12 @@ public class NoticeService {
                             File saveFile = new File(myFileUtils.makeFolders(target), fileNm);//원하는 pk로 폴더를 생성 후 해당 파일을 저장할거라는 경로
                             File subFile = new File(myFileUtils.makeFolders("/notice/sub"), fileNm);//sub란 폴더에 해당 파일을 저장할거라는 경로
 
-                            file.transferTo(saveFile);//파일이 존재하는 체크하는 작업
+                            if(saveFile.exists()){
+                                ResVoArray vo = new ResVoArray();
+                                vo.getResult().add(Const.FILE_FAIL);
+                                return vo;
+                            }
+                            file.transferTo(saveFile);//메모리에 있는 파일 내용을 옮겨준다
                             Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);//save사진파일을 sub사진파일에 복제하는 작업
 
                             originFile.add(subFile);//그리고 복제한 파일 경로를 리스트로 저장
