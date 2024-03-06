@@ -250,25 +250,17 @@
     <select id="selNoticeDetail">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents
         , A.created_at AS createdAt, A.ikid, B.kid_nm AS kidNm, B.iclass
-        <choose>
-            <when test="ilevel == 1">
-                , D.iparent AS writerIuser, D.parent_nm AS writerName
-            </when>
-            <when test="ilevel == 2 || ilevel == 3">
-                , E.iteacher AS writerIuser, E.teacher_nm AS writerName
-            </when>
-        </choose>
         FROM t_notice_board AS A
         JOIN t_kid AS B
         ON A.ikid = B.ikid
         <choose>
-            <when test="ilevel == 1">
+            <when test="iparent > 0">
                 JOIN t_parent_kid AS C
                 ON B.ikid = C.ikid
                 JOIN t_parent AS D
                 ON C.iparent = D.iparent
             </when>
-            <when test="ilevel == 2 || ilevel == 3">
+            <when test="iteacher > 0">
                 JOIN t_teacher AS E
                 ON A.iteacher = E.iteacher
             </when>

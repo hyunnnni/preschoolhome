@@ -299,16 +299,19 @@ public class NoticeService {
         whoDto.setInotice(dto.getInotice());
         NoticeWhoVo noticeParVos = mapper.selNoticeParWho(whoDto);
         NoticeWhoVo noticeTeaVos = mapper.selNoticeTeaWho(whoDto);
+
+
         SelDetailNoticeVo vo = mapper.selNoticeDetail(dto);
-        if (noticeParVos.getIparent() != 0) {
+        if (noticeParVos != null && noticeParVos.getIparent() > 0) {
+            dto.setIparent(noticeParVos.getIparent());
             vo.setIparent(noticeParVos.getIparent());
             vo.setParentNm(noticeParVos.getParentNm());
         }
-        if (noticeTeaVos.getIteacher() != 0) {
+        if (noticeTeaVos != null && noticeTeaVos.getIteacher() > 0){
+            dto.setIteacher(noticeTeaVos.getIteacher());
             vo.setIteacher(noticeTeaVos.getIteacher());
             vo.setTeacherNm(noticeTeaVos.getTeacherNm());
         }
-
 
         if (vo == null) {
             throw new RestApiException(AuthErrorCode.NO_INFORMATION);
