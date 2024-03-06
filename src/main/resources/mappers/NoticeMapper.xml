@@ -64,7 +64,8 @@
     </select>
     <!--                 알림장 수정 시 내용 조회 글                -->
     <select id="noticeEdit">
-        SELECT ikid, inotice, notice_title AS noticeTitle, notice_contents AS noticeContents
+        SELECT ikid, inotice, notice_title AS noticeTitle, notice_contents AS noticeContents,
+        notice_check AS noticeCheck
         FROM t_notice_board
         WHERE inotice = #{inotice}
         AND ikid = #{ikid}
