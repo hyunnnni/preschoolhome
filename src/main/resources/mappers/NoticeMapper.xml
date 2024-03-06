@@ -122,7 +122,7 @@
         FROM t_notice_board
         WHERE inotice = #{inotice} and
         <if test="level == 1 || level == 4">
-            iparent = #{iparent}
+            iparent = #{loginUser}
         </if>
         <if test="level == 2 || level == 3">
             iteacher = #{loginUser}
