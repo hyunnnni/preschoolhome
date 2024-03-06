@@ -227,26 +227,27 @@
         <if test="fromTo == 0">
             JOIN t_parent_kid AS C
             ON B.ikid = C.ikid
-            JOIN t_parent AS D
+            left JOIN t_parent AS D
             ON A.iparent = D.iparent
         </if>
         <if test="fromTo == 1">
-            JOIN t_teacher AS E
+            left JOIN t_teacher AS E
             ON A.iteacher = E.iteacher
         </if>
         <if test="fromTo == 3">
             JOIN t_parent_kid AS C
             ON B.ikid = C.ikid
-            JOIN t_parent AS D
+            left JOIN t_parent AS D
             ON A.iparent = D.iparent
-            JOIN t_teacher AS E
+            left JOIN t_teacher AS E
             ON A.iteacher = E.iteacher
         </if>
+        <where>
         <if test="iclass > 0">
-            WHERE B.iclass = #{iclass} and B.state = 0
+            and B.iclass = #{iclass} and B.state = 0
         </if>
         <if test="iclass == 0">
-            WHERE B.state = #{iclass}
+            and B.state = #{iclass}
         </if>
         <if test="fromTo == 0">
             <![CDATA[ AND A.iparent >= 1 ]]>
@@ -260,6 +261,7 @@
         <if test="search != null and search != '' ">
             AND B.kid_nm like concat ('%', #{search}, '%')
         </if>
+        </where>
         ORDER BY A.created_at DESC
         LIMIT #{startIdx}, #{rowCount}
     </select>

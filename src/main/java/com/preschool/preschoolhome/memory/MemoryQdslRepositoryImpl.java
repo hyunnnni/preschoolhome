@@ -61,10 +61,11 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
 
     @Override
     public MemoryEntity findAllByKidPksAndImemory(List<Integer> kidPks, int imemory) {
-         return jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
+
+        return jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
                 .from(memoryRoomEntity)
                 .join(memoryRoomEntity.memoryEntity)
-                .on(memoryRoomEntity.memoryEntity.imemory.eq(memoryEntity.imemory))
+                .on(memoryRoomEntity.memoryEntity.imemory.eq(imemory))  // imemory 조건을 where 절로 이동
                 .join(kidEntity)
                 .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
                 .join(memoryEntity.teacherEntity)
