@@ -24,4 +24,8 @@ public class SelAllNoticeVo {
     private int noticeCheck;
     @Schema(title = "알림장 업로드일")
     private String createdAt;
+    @Schema(title = "알림장 작성자 pk")
+    private int writerIuser;
+    @Schema(title = "알림장 작성자 이름")
+    private String writerNm;
 }

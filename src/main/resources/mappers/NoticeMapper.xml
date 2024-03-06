@@ -132,6 +132,14 @@
     <select id="selAllNoticeBoardPar">
         SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents, B.kid_nm AS kidNm,
         B.iclass, A.created_at AS createdAt, A.notice_check AS noticeCheck
+        <choose>
+            <when test="fromTo == 0">
+                , A.iteacher AS writerIuser, E.teacher_nm AS writerNm
+            </when>
+            <when test="fromTo == 1">
+                , A.iparent AS writerIuser, D.parent_nm AS writerNm
+            </when>
+        </choose>
         FROM t_notice_board AS A
         JOIN t_kid AS B
         ON A.ikid = B.ikid
@@ -139,6 +147,10 @@
         ON B.ikid = C.ikid
         JOIN t_parent AS D
         ON C.iparent = D.iparent
+        <if test="fromTo == 0">
+            JOIN t_teacher AS E
+            ON A.iteacher = E.iteacher
+        </if>
         WHERE D.iparent = #{loginedIuser}
         <if test="fromTo == 0">
             <![CDATA[ AND A.iteacher >= 1 ]]>
