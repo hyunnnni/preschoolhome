@@ -8,7 +8,6 @@ import lombok.Data;
 public class DelNoticeDto {
 
     private int inotice;
-    private int ikid;
     private int loginUser;
     private int level;
 }

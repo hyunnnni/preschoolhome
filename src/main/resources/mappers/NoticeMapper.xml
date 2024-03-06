@@ -108,31 +108,22 @@
         ON A.inotice = C.inotice
         WHERE A.inotice = #{inotice} and
         <if test="level == 1 || level == 4">
-            A.iparent =#{loginUser}
-        </if>
-        <if test="level == 2 || level == 3">
-            A.iteacher =#{loginUser}
-        </if>
-    </delete>
-    <select id="selNoticeKid">
-        SELECT A.ikid
-        FROM t_kid A
-        JOIN t_notice_board B
-        ON A.ikid = B.ikid
-        WHERE B.inotice = #{inotice}
-    </select>
-    <!--             알림장 글 삭제                 -->
-    <delete id="delNotice">
-        DELETE A
-        FROM t_notice_board A
-        JOIN t_kid B
-        ON A.ikid = B.ikid
-        WHERE A.inotice = #{inotice} and
-        <if test="level == 1 || level == 4">
-            B.ikid = #{ikid}
+            A.iparent = #{loginUser}
         </if>
         <if test="level == 2 || level == 3">
             A.iteacher = #{loginUser}
+        </if>
+    </delete>
+    <!--             알림장 글 삭제                 -->
+    <delete id="delNotice">
+        DELETE
+        FROM t_notice_board
+        WHERE A.inotice = #{inotice} and
+        <if test="level == 1 || level == 4">
+            iparent = #{iparent}
+        </if>
+        <if test="level == 2 || level == 3">
+            iteacher = #{loginUser}
         </if>
     </delete>
     <!--                 학부모 유저 시점 원아 알림장 전체 조회                  -->

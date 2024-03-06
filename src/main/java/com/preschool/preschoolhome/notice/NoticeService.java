@@ -235,12 +235,10 @@ public class NoticeService {
         int level = authenticationFacade.getLevelPk();
         int loginUser = authenticationFacade.getLoginUserPk();
 
-        int ikid = mapper.selNoticeKid(inotice);
 
         DelNoticeDto dto = DelNoticeDto.builder()
                 .inotice(inotice)
                 .loginUser(loginUser)
-                .ikid(ikid)
                 .level(level)
                 .build();
 
