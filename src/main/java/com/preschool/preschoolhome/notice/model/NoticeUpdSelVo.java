@@ -18,4 +18,6 @@ public class NoticeUpdSelVo {
     private String noticeContents;
     @Schema(title = "알림장 사진")
     List<NoticePicsVo> noticePics;
+    @Schema(title = "알림장 내용")
+    private int noticeCheck;
 }
