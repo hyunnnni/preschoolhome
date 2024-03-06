@@ -226,13 +226,16 @@ public class NoticeService {
 
     //-------------------------------- 알림장 삭제 --------------------------------
     @Transactional
-    public ResVo delNotice(int inotice, int loginUser) {
+    public ResVo delNotice(int inotice) {
         int level = authenticationFacade.getLevelPk();
+        int loginUser = authenticationFacade.getLoginUserPk();
 
+        int ikid = mapper.selNoticeKid(inotice);
 
         DelNoticeDto dto = DelNoticeDto.builder()
                 .inotice(inotice)
                 .loginUser(loginUser)
+                .ikid(ikid)
                 .level(level)
                 .build();
 

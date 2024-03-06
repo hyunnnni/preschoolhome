@@ -42,6 +42,7 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
         JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
                 .from(memoryRoomEntity)
                 .join(memoryRoomEntity.memoryEntity)
+                .on(memoryRoomEntity.memoryEntity.imemory.eq(memoryEntity.imemory))
                 .join(kidEntity)
                 .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
                 .join(memoryEntity.teacherEntity)
