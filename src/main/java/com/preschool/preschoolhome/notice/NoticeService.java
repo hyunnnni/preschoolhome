@@ -84,26 +84,24 @@ public class NoticeService {
 
                     if (i == 0) {
                         for (MultipartFile file : pics) {
-                            String fileNm = myFileUtils.getRandomFileNm(file);
-                            File saveFile = new File(myFileUtils.makeFolders(target), fileNm);
-                            File subFile = new File(myFileUtils.makeFolders("/notice/sub"), fileNm);
+                            String fileNm = myFileUtils.getRandomFileNm(file);//겹치지 않게 랜덤파일명 만들기
+                            File saveFile = new File(myFileUtils.makeFolders(target), fileNm);//원하는 pk로 폴더를 생성 후 해당 파일을 저장할거라는 경로
+                            File subFile = new File(myFileUtils.makeFolders("/notice/sub"), fileNm);//sub란 폴더에 해당 파일을 저장할거라는 경로
 
-                            file.transferTo(saveFile);
-                            Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                            file.transferTo(saveFile);//파일이 존재하는 체크하는 작업
+                            Files.copy(saveFile.toPath(), subFile.toPath(), StandardCopyOption.REPLACE_EXISTING);//save사진파일을 sub사진파일에 복제하는 작업
 
-                            originFile.add(subFile);
-                            picsDto.getPics().add(fileNm);
+                            originFile.add(subFile);//그리고 복제한 파일 경로를 리스트로 저장
+                            picsDto.getPics().add(fileNm);//그 후 db에 넣을 파일명을 리스트에 저장
                         }
-                    } else {
-                        String folderPath = myFileUtils.makeFolders(target);
-                        for (int j = 0; j < originFile.size(); j++) {
-                            File copyFile = new File(folderPath, originFile.get(j).getName());
-                            Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                            picsDto.getPics().add(originFile.get(j).getName());
+                    } else {//두 번째 for문부터 실행될 부분
+                        String folderPath = myFileUtils.makeFolders(target);//증가된 다른 inotice값을 이름으로 폴더 생성
+                        for (int j = 0; j < originFile.size(); j++) {//복제한 파일을 순서대로 꺼내서 다시 복제해 생성된 폴더에 저장
+                            File copyFile = new File(folderPath, originFile.get(j).getName());//생성된 폴더에 복제한 파일의 이름으로 저장할거라는 경로
+                            Files.copy(originFile.get(j).toPath(), copyFile.toPath(), StandardCopyOption.REPLACE_EXISTING);//sub폴더에 있는 파일을 copy로 복제
                         }
                     }
-                    mapper.insNoticePics(picsDto);
-                    picsDto.getPics().clear();
+                    mapper.insNoticePics(picsDto);//해당 inotice에 사진 정보 저장
                 }
                 myFileUtils.delFolderTrigger("/notice/sub");
             }
