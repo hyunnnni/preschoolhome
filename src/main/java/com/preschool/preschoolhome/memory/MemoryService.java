@@ -255,6 +255,7 @@ public class MemoryService {
 //        return memory;
 //    }
     //------------------------------------- 추억 앨범 수정시 원래 정보 불러오기 ------------------------------
+    @Transactional
     public SelMemoryVo getMemoryEdit(int imemory) {
 
         Optional<MemoryEntity> optEntity = repository.findById(imemory);
