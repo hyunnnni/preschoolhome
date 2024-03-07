@@ -272,8 +272,13 @@ public class MemoryService {
                 .collect(Collectors.toList());
         vo.setIkid(ikidList);
 
-        List<String> memoryPicList = pics.stream()
-                .map(MemoryAlbumEntity::getMemoryPic)
+        List<MemoryAlbumVo> memoryPicList = pics.stream()
+                .map(pic -> {
+                        MemoryAlbumVo memoryAlbumVo = new MemoryAlbumVo();
+                        memoryAlbumVo.setImemoryPic(pic.getImemoryPic());
+                        memoryAlbumVo.setMemoryPic(pic.getMemoryPic());
+                        return memoryAlbumVo;
+                })
                 .collect(Collectors.toList());
         vo.setMemoryPic(memoryPicList);
 
