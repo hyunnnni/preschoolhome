@@ -79,6 +79,7 @@
         , notice_contents = #{noticeContents}
         , notice_check = #{noticeCheck}
         WHERE inotice = #{inotice}
+        AND iparent is null
     </update>
     <!--                 알림장 수정 시 내용 조회 사진                  -->
     <select id="noticeEditPics">
