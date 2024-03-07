@@ -263,7 +263,7 @@
     </select>
     <!--        추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회         -->
     <select id="selTeaFirebaseParents">
-        SELECT A.pr_firebase_token AS FirebaseToken, D.ikid, D.kid_nm AS kidNm
+        SELECT A.pr_firebase_token AS firebaseToken, D.ikid, D.kid_nm AS kidNm
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent

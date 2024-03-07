@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class SelMemoryOtherTokens {
-    private String FirebaseToken;
+    private String firebaseToken;
     private int ikid;
     private String kidNm;
 }
