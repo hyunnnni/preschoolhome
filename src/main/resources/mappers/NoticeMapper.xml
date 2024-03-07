@@ -135,10 +135,10 @@
         B.iclass, A.created_at AS createdAt, A.notice_check AS noticeCheck
         <choose>
             <when test="fromTo == 0">
-                , A.iparent, D.parent_nm AS parentNm
+                , A.iteacher, E.teacher_nm AS teacherNm
             </when>
             <when test="fromTo == 1">
-                , A.iteacher, E.teacher_nm AS teacherNm
+                , A.iparent, D.parent_nm AS parentNm
             </when>
             <when test="fromTo == 3">
                 , A.iparent, D.parent_nm AS parentNm
@@ -208,7 +208,7 @@
     </select>
     <!--                 선생님 유저 시점 원아 알림장 전체 조회                  -->
     <select id="selAllNoticeBoardTea">
-        SELECT A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents,
+        SELECT distinct A.inotice, A.notice_title AS noticeTitle, A.notice_contents AS noticeContents,
         B.kid_nm AS kidNm, B.iclass, A.created_at AS createdAt, A.notice_check AS noticeCheck
         <choose>
             <when test="fromTo == 0">
