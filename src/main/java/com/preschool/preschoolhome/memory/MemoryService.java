@@ -159,7 +159,7 @@ public class MemoryService {
                     .collect(Collectors.toList());
 
             memory = repository.findAllByKidPksAndImemory(kidPks, imemory);
-            if(memory == null){
+            if (memory == null) {
                 throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
             }
             memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
@@ -275,10 +275,10 @@ public class MemoryService {
 
         List<MemoryAlbumVo> memoryPicList = pics.stream()
                 .map(pic -> {
-                        MemoryAlbumVo memoryAlbumVo = new MemoryAlbumVo();
-                        memoryAlbumVo.setImemoryPic(pic.getImemoryPic());
-                        memoryAlbumVo.setMemoryPic(pic.getMemoryPic());
-                        return memoryAlbumVo;
+                    MemoryAlbumVo memoryAlbumVo = new MemoryAlbumVo();
+                    memoryAlbumVo.setImemoryPic(pic.getImemoryPic());
+                    memoryAlbumVo.setMemoryPic(pic.getMemoryPic());
+                    return memoryAlbumVo;
                 })
                 .collect(Collectors.toList());
         vo.setMemoryPic(memoryPicList);
@@ -636,8 +636,7 @@ public class MemoryService {
 
             MemoryPicsInsDto picsDto = new MemoryPicsInsDto();
             picsDto.setImemory(dto.getImemory());
-
-            if (!pics.isEmpty()) {
+            if (pics != null) {
                 for (MultipartFile file : pics) {
                     String saveFileNm = myFileUtils.transferTo(file, target);
                     picsDto.getMemoryPics().add(saveFileNm);
@@ -667,7 +666,7 @@ public class MemoryService {
         ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        if (dto.getIkids().size() != 0) {
+        if (dto.getIkids()!=null) {
 
             List<SelMemoryOtherTokens> otherTokens = mapper.selTeaFirebaseParents(dto);
 
