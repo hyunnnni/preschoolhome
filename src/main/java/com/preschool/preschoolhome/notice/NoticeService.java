@@ -259,7 +259,7 @@ public class NoticeService {
 
         List<SelAllNoticeVo> voList = new ArrayList<>();
         int noticeCnt = 0;
-        if (dto.getIlevel() == 1) {
+        if (dto.getIlevel() == 1 || dto.getIlevel() == 4) {
             voList = mapper.selAllNoticeBoardPar(dto);
             noticeCnt = mapper.selNoticeParCnt(dto);
         }
