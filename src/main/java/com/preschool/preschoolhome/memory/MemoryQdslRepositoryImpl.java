@@ -39,19 +39,18 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     @Override
     public List<MemoryEntity> selMemoryAll(AllSelMemoryDto dto) {
 
-        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.select(memoryRoomEntity.memoryEntity)
+        JPAQuery<MemoryEntity> jpaQuery = jpaQueryFactory.selectDistinct(memoryEntity)
                 .from(memoryRoomEntity)
-                .leftJoin(memoryRoomEntity.memoryEntity)
+                .rightJoin(memoryRoomEntity.memoryEntity)
                 .on(memoryRoomEntity.memoryEntity.imemory.eq(memoryEntity.imemory))
                 .leftJoin(kidEntity)
                 .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
-                .leftJoin(memoryEntity.teacherEntity)
+                .leftJoin(teacherEntity)
                 .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
                 .where(whereClausSelMemoryAll(dto.getYear(),dto.getIclass(), dto.getIkid(), dto.getSearch()))
                 .offset(dto.getStartIdx())
-                .limit(Const.PAGE_ROWCOUNT)
+                .limit(dto.getRowCount())
                 .orderBy(memoryEntity.imemory.desc());
-
 
 // select * from memory; // 1, 5, 7
 // select * from memory_room where imemory in (1, 5, 7)
