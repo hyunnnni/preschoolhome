@@ -61,7 +61,7 @@ public class MemoryService {
 
         final List<MemoryEntity> list = repository.selMemoryAll(dto);
 
-        Long list2 = repository.selMemoryAll2(dto);
+        Long list2 = repository.selMemoryAllCnt(dto);
 
         final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
