@@ -61,6 +61,8 @@ public class MemoryService {
 
         final List<MemoryEntity> list = repository.selMemoryAll(dto);
 
+        Long list2 = repository.selMemoryAll2(dto);
+
         final List<MemoryAlbumEntity> picList = repository.selMemoryPicsAll(list);
 
         final List<MemoryCommentEntity> cmtList = repository.selMemoryCommentAll(list);
@@ -106,7 +108,7 @@ public class MemoryService {
         }).collect(Collectors.toList());
 
         vo.setList(vo1);
-        vo.setImemoryCnt(list.size());
+        vo.setImemoryCnt(list2);
         return vo;
     }
 

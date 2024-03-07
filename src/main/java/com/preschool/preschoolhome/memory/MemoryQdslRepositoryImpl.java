@@ -59,6 +59,20 @@ public class MemoryQdslRepositoryImpl implements MemoryQdslRepository {
     }
 
     @Override
+    public Long selMemoryAll2(AllSelMemoryDto dto) {
+        return jpaQueryFactory.selectDistinct(memoryEntity.count())
+                .from(memoryRoomEntity)
+                .rightJoin(memoryRoomEntity.memoryEntity)
+                .on(memoryRoomEntity.memoryEntity.imemory.eq(memoryEntity.imemory))
+                .leftJoin(kidEntity)
+                .on(kidEntity.ikid.eq(memoryRoomEntity.memoryRooms.ikid))
+                .leftJoin(teacherEntity)
+                .on(teacherEntity.iteacher.eq(memoryEntity.teacherEntity.iteacher))
+                .where(whereClausSelMemoryAll(dto.getYear(),dto.getIclass(), dto.getIkid(), dto.getSearch()))
+                .fetchOne();
+    }
+
+    @Override
     public MemoryEntity findAllByKidPksAndImemory(List<Integer> kidPks, int imemory) {
 
         return jpaQueryFactory.select(memoryRoomEntity.memoryEntity)

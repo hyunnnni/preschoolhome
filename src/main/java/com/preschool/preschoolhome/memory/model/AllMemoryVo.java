@@ -9,5 +9,5 @@ import java.util.List;
 public class AllMemoryVo {
     List<AllSelMemoryVo> list;
     @Schema(title = "추억앨범 총 개수")
-    private int imemoryCnt;
+    private Long imemoryCnt;
 }
