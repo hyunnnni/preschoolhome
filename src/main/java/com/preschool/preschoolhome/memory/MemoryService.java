@@ -266,6 +266,7 @@ public class MemoryService {
         vo.setMemoryContents(entity.getContents());
 
 
+
         List<Integer> ikidList = optEntity.map(MemoryEntity::getMemoryRoomEntityList)
                 .orElseThrow(() -> new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION))
                 .stream()
