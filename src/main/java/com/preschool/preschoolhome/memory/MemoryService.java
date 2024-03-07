@@ -56,7 +56,7 @@ public class MemoryService {
     //------------------------------------- 추억 앨범 전체 조회 ------------------------------
     @Transactional
     public AllMemoryVo getAllMemory(AllSelMemoryDto dto) {
-        int level = authenticationFacade.getLevelPk();
+        String role = authenticationFacade.getRole();
         int iuser = authenticationFacade.getLoginUserPk();
 
         final List<MemoryEntity> list = repository.selMemoryAll(dto);
@@ -159,6 +159,9 @@ public class MemoryService {
                     .collect(Collectors.toList());
 
             memory = repository.findAllByKidPksAndImemory(kidPks, imemory);
+            if(memory == null){
+                throw new RestApiException(AuthErrorCode.NOT_ENTER_ACCESS);
+            }
             memoryRoomList = memoryRoomRepository.findAllByMemoryEntity(memory);
         }
         List<String> pics = memory.getMemoryAlbumEntityList().stream()
