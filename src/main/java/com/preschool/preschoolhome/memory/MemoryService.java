@@ -658,7 +658,7 @@ public class MemoryService {
         if (invite == Const.ZERO) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-        if (kids != dto.getIkids()) {
+        if (!kids.equals(dto.getIkids())) {
             for (Integer kid : kids) {
                 dto.getIkids().removeAll(Collections.singleton(kid));
             }
