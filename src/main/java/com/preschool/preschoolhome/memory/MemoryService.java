@@ -637,7 +637,7 @@ public class MemoryService {
             MemoryPicsInsDto picsDto = new MemoryPicsInsDto();
             picsDto.setImemory(dto.getImemory());
 
-            if (pics.size() != 0) {
+            if (!pics.isEmpty()) {
                 for (MultipartFile file : pics) {
                     String saveFileNm = myFileUtils.transferTo(file, target);
                     picsDto.getMemoryPics().add(saveFileNm);
