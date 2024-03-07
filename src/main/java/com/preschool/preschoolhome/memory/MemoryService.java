@@ -658,11 +658,11 @@ public class MemoryService {
         if (invite == Const.ZERO) {
             throw new RestApiException(AuthErrorCode.FAIL);
         }
-
-        for (Integer kid : kids) {
-            dto.getIkids().removeAll(Collections.singleton(kid));
+        if (kids != dto.getIkids()) {
+            for (Integer kid : kids) {
+                dto.getIkids().removeAll(Collections.singleton(kid));
+            }
         }
-
         ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
