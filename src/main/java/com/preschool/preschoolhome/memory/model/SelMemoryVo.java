@@ -10,6 +10,6 @@ public class SelMemoryVo {
     private List<Integer> ikid;
     private String memoryTitle;
     private String memoryContents;
-    private List<String> memoryPic = new ArrayList<>(); //빈방 만들어줌
+    private List<MemoryAlbumVo> memoryPic = new ArrayList<>(); //빈방 만들어줌
 
 }
