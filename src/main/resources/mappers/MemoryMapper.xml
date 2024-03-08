@@ -245,15 +245,17 @@
     </delete>
     <!--                 추억앨범 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회                  -->
     <select id="selParFirebaseByLoginUserComment">
-        SELECT A.pr_firebase_token AS FirebaseToken
+        SELECT A.pr_firebase_token AS FirebaseToken, E.ikid, E.kid_nm AS kidNm
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
         INNER JOIN t_memory_room AS C
         ON B.ikid = C.ikid
+        JOIN t_kid AS E
+        ON C.ikid = E.ikid
         JOIN t_memory_comment as D
         ON C.imemory = D.imemory
-        WHERE D.imemory_comment = {imemoryComment}
+        WHERE D.imemory_comment = #{imemoryComment}
     </select>
     <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값 조회                  -->
     <select id="selTeaFirebaseByLoginUserComment">
