@@ -259,7 +259,7 @@
     </select>
     <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값 조회                  -->
     <select id="selTeaFirebaseByLoginUserComment">
-        SELECT A.tc_firebase_token, D.ikid, D.kid_nm
+        SELECT A.tc_firebase_token as firebaseToken, D.ikid, D.kid_nm AS kidNm
         FROM t_teacher as A
         JOIN t_memory AS B
         ON A.iteacher = B.iteacher
