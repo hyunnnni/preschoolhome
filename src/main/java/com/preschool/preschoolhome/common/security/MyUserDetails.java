@@ -22,7 +22,9 @@ public class MyUserDetails implements UserDetails {
         }
         return Collections.singleton
                 (new SimpleGrantedAuthority
-                        ("ROLE_" + this.myPrincipal.getRole()));
+                        ("ROLE_" + this.myPrincipal.getRole()));  //권한을 부여할때 ROLE_을 붙여줘야함
+        //ROLE_은 스프링 시큐리티에서 권한을 인식하기 위해 붙여줘야함
+
     }
     @Override
     public String getPassword() {

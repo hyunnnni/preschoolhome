@@ -10,14 +10,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPrincipal {//로그인 시 사용자의 pk값 외 다른 값을 받을때 유연하게 사용됨
+public class MyPrincipal {            //로그인 시 사용자의 pk값 외 다른 값을 받을때 유연하게 사용됨
     private int iuser;
+    private String role;
+    private String loginUserNm;
 
     private int ilevel;
-
-    private String loginUserNm;
-    private String role;
-
 //    @Builder.Default //빌더 패턴을 쓸때 빌더에서 안적으면 디폴트를 이것으로 쓰겠다. 지금은 뉴 어레이 리스트
 //    private List<String> roles = new ArrayList<>();
 
