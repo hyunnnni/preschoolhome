@@ -521,10 +521,7 @@ public class MemoryService {
     //---------------------------- 추억앨범 댓글등록 push기능 --------------------------------
     @Transactional
     public ResVo postMemoryComment(InsCommentDto dto) {
-        /*if ((dto.getIparent() == 0 && dto.getIteacher() == 0 )||
-                (dto.getIteacher() > 0 && dto.getIteacher() > 0)) {
-            throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-        }*/
+
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
