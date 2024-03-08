@@ -521,14 +521,15 @@ public class MemoryService {
     //---------------------------- 추억앨범 댓글등록 push기능 --------------------------------
     @Transactional
     public ResVo postMemoryComment(InsCommentDto dto) {
-        if ((dto.getIparent() == 0) && dto.getIteacher() == 0 ||
+        /*if ((dto.getIparent() == 0 && dto.getIteacher() == 0 )||
                 (dto.getIteacher() > 0 && dto.getIteacher() > 0)) {
             throw new RestApiException(AuthErrorCode.NOT_CORRECT_INFORMATION);
-        }
+        }*/
         int writerIuser = authenticationFacade.getLoginUserPk();
         int level = authenticationFacade.getLevelPk();
         String loginUserNm = authenticationFacade.getUserNm();
         dto.setIlevel(level);
+        dto.setWriterIuser(writerIuser);
 
         int result = mapper.insComment(dto);
         if (result == 0) {
@@ -539,11 +540,12 @@ public class MemoryService {
         String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
         List<SelMemoryOtherTokens> otherTokens = null;
-        if (level == Const.PARENT) {
+        if (level == Const.TEACHER || level == Const.BOSS) {
             otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getImemoryComment());
         }
-        if (level == Const.TEACHER || level == Const.BOSS) {
+        if (level == Const.PARENT) {
             otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getImemoryComment());
+
         }
         try {
             if (otherTokens != null) {

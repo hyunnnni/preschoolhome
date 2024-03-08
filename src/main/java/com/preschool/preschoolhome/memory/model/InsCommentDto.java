@@ -17,12 +17,8 @@ public class InsCommentDto {
     @Schema(title = "댓글 내용")
     @NotBlank(message = "댓글 내용을 입력해주세요")
     private String memoryComment;
-    @Schema(title = "작성자 pk (관리자 작성 시)")
-    @PositiveOrZero(message="잘못된 값입니다")
-    private int iteacher;
-    @Schema(title = "작성자 pk (학부모 작성 시)")
-    @PositiveOrZero(message="잘못된 값입니다")
-    private int iparent;
+    @JsonIgnore
+    private int writerIuser;
     @JsonIgnore
     private int ilevel;
 
