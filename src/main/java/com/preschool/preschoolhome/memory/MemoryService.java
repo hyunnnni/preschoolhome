@@ -664,13 +664,13 @@ public class MemoryService {
         }
         if (!kids.equals(dto.getIkids())) {
             for (Integer kid : kids) {
-                dto.getIkids().removeAll(Collections.singleton(kid));
+                dto.getIkids().remove(kid);
             }
         }
         ZonedDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
         String createdAt = nowInKorea.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        if (dto.getIkids()!=null) {
+        if (dto.getIkids().size() != 0) {
 
             List<SelMemoryOtherTokens> otherTokens = mapper.selTeaFirebaseParents(dto);
 
