@@ -271,7 +271,7 @@
         ON D.ikid = E.ikid
         JOIN t_memory_comment as F
         ON B.imemory = F.imemory
-        WHERE F.imemory_comment = {imemoryComment} AND E.iparent = {writerIuser}
+        WHERE F.imemory_comment = #{imemoryComment} AND E.iparent = #{writerIuser}
     </select>
     <!--        추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회         -->
     <select id="selTeaFirebaseParents">
