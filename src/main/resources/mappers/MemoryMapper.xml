@@ -222,7 +222,7 @@
     <!--                 추억 앨범 댓글 등록                 -->
     <insert id="insComment" useGeneratedKeys="true" keyProperty="imemoryComment">
         insert into t_memory_comment
-        set imemory = #{imemory}, memory_commnet = #{memoryComment},
+        set imemory = #{imemory}, memory_comment = #{memoryComment},
         iteacher = #{iteacher}, iparent = #{iparent}
     </insert>
     <!--                 추억 앨범 댓글 삭제                -->
@@ -249,17 +249,21 @@
         ON C.inotice = D.inotice
         WHERE D.inotice_comment = #{imemory}
     </select>
-    <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회                  -->
+    <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값 조회                  -->
     <select id="selTeaFirebaseByLoginUserComment">
-        SELECT tc_firebase_token AS FirebaseToken, D.ikid, D.kid_nm AS kidNm
+        SELECT A.tc_firebase_token, D.ikid, D.kid_nm
         FROM t_teacher as A
         JOIN t_memory AS B
         ON A.iteacher = B.iteacher
-        LEFT JOIN t_memory_comment as C
+        JOIN t_memory_room AS C
         ON B.imemory = C.imemory
-        JOIN t_kid as D
+        JOIN t_kid AS D
         ON C.ikid = D.ikid
-        WHERE C.t_memory_comment = #{imemory}
+        JOIN t_parent_kid AS E
+        ON D.ikid = E.ikid
+        JOIN t_memory_comment as F
+        ON B.imemory = F.imemory
+        WHERE F.imemory_comment = {imemoryComment} AND E.iparent = {writerIuser}
     </select>
     <!--        추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회         -->
     <select id="selTeaFirebaseParents">
