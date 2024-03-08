@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemoryCommentVo {
     private int imemoryComment;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String teacherNm;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String parentNm;
+    private int writerIuser;
+    private String writerNm;
     private String memoryComment;
     private String createdAt;
 }
