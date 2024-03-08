@@ -546,7 +546,7 @@ public class MemoryService {
         }
         try {
             if (otherTokens != null) {
-                otherTokens.removeAll(Collections.singletonList(null));
+
                 for (SelMemoryOtherTokens token : otherTokens) {
 
                     MemoryCommentPushVo pushVo = new MemoryCommentPushVo();
@@ -561,7 +561,7 @@ public class MemoryService {
                     String body = objMapper.writeValueAsString(pushVo);
                     log.info("body: {}", body);
                     Notification noti = Notification.builder()
-                            .setTitle("moemoryComment")
+                            .setTitle("memoryComment")
                             .setBody(body)
                             .build();
 
