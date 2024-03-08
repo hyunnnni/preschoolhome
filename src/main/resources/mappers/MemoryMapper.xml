@@ -223,7 +223,13 @@
     <insert id="insComment" useGeneratedKeys="true" keyProperty="imemoryComment">
         insert into t_memory_comment
         set imemory = #{imemory}, memory_comment = #{memoryComment},
-        iteacher = #{iteacher}, iparent = #{iparent}
+        <if test="ilevel == 2 || ilevel == 3">
+            iteacher = #{writerIuser}
+        </if>
+        <if test="ilevel == 1">
+            iparent = #{writerIuser}
+        </if>
+
     </insert>
     <!--                 추억 앨범 댓글 삭제                -->
     <delete id="delMemoryComment">
@@ -243,11 +249,11 @@
         FROM t_parent AS A
         INNER JOIN t_parent_kid AS B
         ON A.iparent = B.iparent
-        INNER JOIN t_memory AS C
+        INNER JOIN t_memory_room AS C
         ON B.ikid = C.ikid
-        LEFT JOIN t_memory_comment as D
-        ON C.inotice = D.inotice
-        WHERE D.inotice_comment = #{imemory}
+        JOIN t_memory_comment as D
+        ON C.imemory = D.imemory
+        WHERE D.imemory_comment = {imemoryComment}
     </select>
     <!--                 추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값 조회                  -->
     <select id="selTeaFirebaseByLoginUserComment">

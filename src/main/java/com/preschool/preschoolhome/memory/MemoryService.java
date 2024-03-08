@@ -541,10 +541,10 @@ public class MemoryService {
 
         List<SelMemoryOtherTokens> otherTokens = null;
         if (level == Const.TEACHER || level == Const.BOSS) {
-            otherTokens = mapper.selParFirebaseByLoginUserComment(dto.getImemoryComment());
+            otherTokens = mapper.selParFirebaseByLoginUserComment(dto);
         }
         if (level == Const.PARENT) {
-            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto.getImemoryComment());
+            otherTokens = mapper.selTeaFirebaseByLoginUserComment(dto);
 
         }
         try {

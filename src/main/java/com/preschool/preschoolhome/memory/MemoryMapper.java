@@ -52,9 +52,9 @@ public interface MemoryMapper {
     //-------------------------------- 추억 앨범 댓글 삭제  --------------------------------
     int delMemoryComment(DelMemoryCommentDto dto);
     //------------------ 추억앨범 댓글 작성 시 푸시를 받을 학부모의 토큰값과 pk값 조회 ----------------------
-    List<SelMemoryOtherTokens> selTeaFirebaseByLoginUserComment(int imemory);
+    List<SelMemoryOtherTokens> selTeaFirebaseByLoginUserComment(InsCommentDto dto);
     //-------------------추억앨범 댓글 작성 시 푸시를 받을 선생님의 토큰값과 pk값 조회  ----------------------
-    List<SelMemoryOtherTokens> selParFirebaseByLoginUserComment(int imemory);
+    List<SelMemoryOtherTokens> selParFirebaseByLoginUserComment(InsCommentDto dto);
     //------------------------------------- 추억 앨범 수정 시 푸시를 받을 추가된 아이들의 학부모 토큰값과 pk값 조회 -------------------------------------
     List<SelMemoryOtherTokens> selTeaFirebaseParents(MemoryUpdDto dto);
     //------------------------------------- 추억 앨범 글 수정 -------------------------------------
