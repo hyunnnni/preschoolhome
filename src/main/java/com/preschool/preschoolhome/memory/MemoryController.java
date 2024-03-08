@@ -80,9 +80,9 @@ public class MemoryController {
     }
 
     //-------------------------------- 추억 앨범 댓글 등록--------------------------------
-    @PutMapping("/comment")
+    @PostMapping("/comment")
     @Operation(summary = "추억앨범 댓글 등록", description = "<strong>추억앨범 댓글 등록, 푸시기능</strong><br><br>")
-    public ResVo postMemoryComment(InsCommentDto dto){
+    public ResVo postMemoryComment(@RequestBody InsCommentDto dto){
         return service.postMemoryComment(dto);
     }
 
