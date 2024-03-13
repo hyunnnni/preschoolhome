@@ -188,8 +188,8 @@ public class MemoryService {
                             .imemoryComment(cmt.getImemoryComment())
                             .createdAt(cmt.getCreatedAt().toString())
                             .memoryComment(cmt.getMemoryComment())
-                            .writerIuser(cmt.getParent() == null ? cmt.getTeacher().getIteacher(): cmt.getParent().getIparent())
                             .build();
+                    vo.setWriterIuser(cmt.getParent() == null ? cmt.getTeacher().getIteacher(): cmt.getParent().getIparent());
                     vo.setWriterNm(cmt.getParent() == null ? cmt.getTeacher().getTeacherNm() : cmt.getParent().getParentNm());
                     return vo;
                 }).collect(Collectors.toList());
