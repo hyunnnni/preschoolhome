@@ -45,9 +45,10 @@
   <br>아이추가 버튼으로 식별코드를 추가로 입력해
   <br>원아를 연결할 수 있도록 하였다.
 <br>
+
+![Untitled (2)](https://github.com/hyunnnni/preschoolhome/assets/146905671/42c607ff-7fd4-4875-9199-dc994ae28a18)
 ![Untitled (3)](https://github.com/hyunnnni/preschoolhome/assets/146905671/64726651-76ac-4fda-9f94-1705159d5eb0)
 
-![Untitled (4)](https://github.com/hyunnnni/preschoolhome/assets/146905671/c4b07d04-1fca-4aea-93ab-21eb9d747ada
 
 ### 2. 원아와 연결된 보호자들
 * 보호자의 회원가입이 진행되면 해당 식별코드를 가진 원아와 자동으로
